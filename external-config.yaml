@@ -1,0 +1,39 @@
+# supply license secret
+# kubectl create secret docker-registry --dry-run=client sf-gitlab-registry-creds \
+#   --docker-server=registry.gitlab.com \
+#   --docker-username=sf-distribution \
+#   --docker-password=<pass> -o yaml > docker-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sf-gitlab-registry-creds
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: c21hcnRmYWNlCg==
+---
+# supply license secret
+# kubectl create secret generic --dry-run=client iface-lic \
+#   --from-file=/etc/innovatrics/iengine.lic -o yaml > lic-secret.yaml
+apiVersion: v1
+data:
+  iengine.lic: c21hcnRmYWNlCg==
+kind: Secret
+metadata:
+  name: iface-lic
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "s3-config"
+data:
+# supply S3 bucket
+  name: "sf-cm-test"
+  region: "eu-central-1"
+---
+apiVersion: v1
+stringData:
+# supply pgsql server
+  cs: "Server=eu-central-1.rds.amazonaws.com;Database=smartface;Username=postgres;Password=smartface;"
+kind: Secret
+metadata:
+  name: db-cs

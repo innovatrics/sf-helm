@@ -1,0 +1,18 @@
+{{- if .Values.api.enabled }}
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: {{ .Values.api.name | quote }}
+  labels:
+    {{- toYaml $.Values.metrics.serviceDiscoveryLabels | nindent 4 }}
+spec:
+  selector:
+    app: {{ .Values.api.name | quote }}
+  ports:
+    - name: "http"
+      port: {{ .Values.api.servicePort }}
+      targetPort: {{ .Values.api.containerPort }}
+    - name: {{ .Values.metrics.portName | quote }}
+      port: {{ .Values.metrics.port }}
+  type: "NodePort"
+{{- end }}

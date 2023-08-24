@@ -1,0 +1,48 @@
+{{- if .Values.countlyPublisher.enabled }}
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: {{ .Values.countlyPublisher.name | quote }}
+  labels:
+    app: {{ .Values.countlyPublisher.name | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.countlyPublisher.name | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.countlyPublisher.name | quote }}
+    spec:
+      topologySpreadConstraints:
+        {{- include "sf-cloud-matcher.topologySpread" (dict "appLabel" .Values.countlyPublisher.name) | nindent 8 }}
+      imagePullSecrets:
+      - name: {{ .Values.image.secretName | quote }}
+      containers:
+      - name: {{ .Values.countlyPublisher.name | quote }}
+        image: "{{ .Values.image.registry }}sf-countly-publisher:{{ .Values.countlyPublisher.imageTag }}"
+        env:
+        {{- include "sf-cloud-matcher.commonEnv" . | nindent 8 }}
+        {{- include "sf-cloud-matcher.rmqConfig" . | nindent 8 }}
+        - name: "CountlyConfiguration__ServerUrl"
+          valueFrom:
+            configMapKeyRef:
+              name: countly-config
+              key: url
+        - name: "CountlyConfiguration__AppKey"
+          valueFrom:
+            secretKeyRef:
+              name: counlty-app-key
+              key: key
+        - name: "CountlyConfiguration__AdditionalSegmentations__0__Key"
+          value: "Cluster"
+        - name: "CountlyConfiguration__AdditionalSegmentations__0__Value"
+          value: {{ .Values.countlyPublisher.clusterName | quote }}
+        - name: "PrometheusConfiguration__Endpoints__0"
+          value: "http://+:{{ .Values.metrics.port }}/"
+        resources:
+          requests:
+            memory: "100M"
+            cpu: "100m"
+{{- end }}

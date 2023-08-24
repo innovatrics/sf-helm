@@ -1,0 +1,36 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: {{ .Values.extractor.name | quote }}
+  labels:
+    app: {{ .Values.extractor.name | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.extractor.name | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.extractor.name | quote }}
+    spec:
+      topologySpreadConstraints:
+        {{- include "sf-cloud-matcher.topologySpread" (dict "appLabel" .Values.extractor.name) | nindent 8 }}
+      imagePullSecrets:
+      - name: {{ .Values.image.secretName | quote }}
+      containers:
+      - name: {{ .Values.extractor.name | quote }}
+        image: "{{ .Values.image.registry }}sf-extractor:{{ .Chart.AppVersion }}"
+        env:
+        {{- include "sf-cloud-matcher.commonEnv" . | nindent 8 }}
+        {{- include "sf-cloud-matcher.rmqConfig" . | nindent 8 }}
+        resources:
+          requests:
+            memory: "500M"
+            cpu: {{ .Values.extractor.cpuRequests | quote }}
+          limits:
+            memory: "1G"
+        volumeMounts:
+        {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
+      volumes:
+        {{- include "sf-cloud-matcher.licVolume" . | nindent 8 }}

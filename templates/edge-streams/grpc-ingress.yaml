@@ -1,0 +1,35 @@
+{{- if .Values.edgeStreams.enabled }}
+apiVersion: "networking.k8s.io/v1"
+kind: "Ingress"
+metadata:
+  name: "sf-grpc-ingress"
+  annotations:
+    {{- if .Values.ingress.includeAlbAnnotations }}
+    alb.ingress.kubernetes.io/scheme: "internet-facing"
+    alb.ingress.kubernetes.io/target-type: "ip"
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+    alb.ingress.kubernetes.io/backend-protocol-version: GRPC
+    {{- if .Values.ingress.certificateArn }}
+    alb.ingress.kubernetes.io/certificate-arn: {{ .Values.ingress.certificateArn }}
+    {{- end }}
+    {{- end }}
+    {{- if .Values.ingress.annotations }}
+    {{- toYaml $.Values.ingress.annotations | nindent 4 }}
+    {{- end }}
+spec:
+  {{- if .Values.ingress.class }}
+  ingressClassName: {{ .Values.ingress.class | quote }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.accessController.dnsHost }}
+      http:
+        paths:
+        - path: "/"
+          pathType: "Prefix"
+          backend:
+            service:
+              name: {{ .Values.accessController.authServiceName | quote }}
+              port:
+                number: {{ .Values.accessController.authServicePort }}
+{{- end }}

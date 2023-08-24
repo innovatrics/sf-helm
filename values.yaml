@@ -1,0 +1,218 @@
+# Default values for sf-cloud-matcher.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  # -- registry to pull SmartFace images from
+  registry: "registry.gitlab.com/innovatrics/smartface/"
+  # -- docker secret to pull SmartFace images with
+  secretName: "sf-gitlab-registry-creds"
+
+database:
+  secretName: "db-cs"
+  connectionStringKey: "cs"
+
+s3:
+  configName: "s3-config"
+  bucketKey: "name"
+  regionKey: "region"
+
+# -- config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq
+rabbitmq:
+  # -- configure if rabbitmq subchart should be included
+  enabled: true
+  extraPlugins: "rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt"
+  # -- hostname used for MQTT service - only relevant for edge streams
+  mqttDnsHost: ""
+  configMapName: "sf-rmq-connection"
+  existingSecretName: ""
+  secretKey: "rabbitmq-password"
+  auth:
+    username: "smartface"
+    erlangCookie: ""
+    password: ""
+
+license:
+  secretName: "iface-lic"
+  volumeMountName: "license"
+  mountPath: "/etc/innovatrics"
+
+auth:
+  # -- config containing authorization configuration for APIs used when authentication is enabled
+  configName: "auth-config"
+
+stationAuth:
+  # -- config containing authorization configuration for SF Station used when authentication is enabled for SF Station
+  configName: "station-auth-config"
+  secretName: "station-client-id"
+
+api:
+  enabled: true
+  name: "sf-api"
+  servicePort: 80
+  containerPort: 80
+  dnsHost: ""
+  initMigration: true
+
+authApi:
+  enabled: false
+  name: "sf-auth-api"
+  servicePort: 8098
+  containerPort: 80
+  dnsHost: ""
+  initMigration: true
+
+graphqlApi:
+  name: "sf-graphql-api"
+  servicePort: 8097
+  containerPort: 80
+  dnsHost: ""
+  enableAuth: false
+  initMigration: false
+
+ingress:
+  # -- enable creation of ingress object
+  enabled: true
+  # -- set ingress class
+  class: ""
+  # -- supply custom ingress annotation
+  annotations:
+  # -- if enabled then the ingress will include default ALB annotations
+  includeAlbAnnotations: false
+  # -- only used if includeAlbAnnotations == true
+  certificateArn: ""
+
+detector:
+  name: "sf-detector"
+  cpuRequests: "750m"
+
+extractor:
+  name: "sf-extractor"
+  cpuRequests: "750m"
+
+matcher:
+  name: "sf-matcher"
+  cpuRequests: "750m"
+
+liveness:
+  name: "sf-liveness"
+  cpuRequests: "750m"
+
+edgeStreams:
+  name: "sf-edge-stream-processor"
+  enabled: false
+
+base:
+  name: "sf-base"
+  zmqServicePort: 2406
+  zmqContainerPort: 2406
+
+faceMatcher:
+  name: "sf-face-matcher"
+
+accessController:
+  name: "sf-access-controller"
+  authServiceName: "sf-auth-access-controller"
+  imageVersion: "v5_1.9.1"
+  dnsHost: ""
+  servicePort: 5050
+  containerPort: 80
+  authServicePort: 5051
+  authContainerPort: 5051
+
+station:
+  enabled: true
+  name: "sf-station"
+  imageVersion: "v5_1.17.0"
+  servicePort: 8000
+  containerPort: 80
+  dnsHost: ""
+
+streamDataDbWorker:
+  name: "sf-stream-data-db-worker"
+
+jaeger:
+  enabled: true
+  hostname: grafana-agent.monitoring.svc.cluster.local
+
+migration:
+  enabled: true
+
+autoscaling:
+  cron:
+    # -- enables predefined cron trigger on ScaledObjects
+    enabled: false
+    # -- see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+    timezone: "Europe/Bratislava"
+  rmq:
+    # -- enables rabbitmq triggers on ScaledObjects
+    enabled: false
+    triggerAuthName: "keda-trigger-auth-rabbitmq-conn"
+    hostSecretName: "rmq-management-uri-with-creds"
+  detector:
+    # -- enables ScaledObject for detector
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+    # -- for RMQ trigger
+    rmqRps: 15
+    # -- for cron trigger
+    workHoursReplicas: 2
+    # -- for cron trigger
+    nonWorkHoursReplicas: 1
+  extractor:
+    # -- enables ScaledObject for extractor
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+    # -- for RMQ trigger
+    rmqRps: 12
+    # -- for cron trigger
+    workHoursReplicas: 2
+    # -- for cron trigger
+    nonWorkHoursReplicas: 1
+  api:
+    # -- enables ScaledObject for rest API
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+    # -- for RMQ trigger
+    rmqRps: 17
+    # -- for cron trigger
+    workHoursReplicas: 2
+    # -- for cron trigger
+    nonWorkHoursReplicas: 1
+
+multitenancy:
+  # -- enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled
+  enabled: false
+
+# -- configuration for sf-tenant-operator subchart
+sf-tenant-operator:
+  config:
+    mapName: "operator-config"
+    fileName: "appsettings.override.json"
+    configDir: "/etc/components"
+  installCrd: false
+  image:
+    secretName: "sf-gitlab-registry-creds"
+
+countlyPublisher:
+  enabled: false
+  name: "countly-publisher"
+  clusterName: ""
+  imageTag: "31"
+
+metrics:
+  enabled: false
+  monitorDiscoveryLabel:
+    instance: primary
+  serviceDiscoveryLabels:
+    sf-metrics: "true"
+  portName: "metrics"
+  port: 4318
+
+readonlyApi:
+  enabled: false
+  authName: "readonly-auth-api"
+  noAuthName: "readonly-noauth-api"

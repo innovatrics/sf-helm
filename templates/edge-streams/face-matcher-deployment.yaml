@@ -1,0 +1,37 @@
+{{- if .Values.edgeStreams.enabled }}
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: {{ .Values.faceMatcher.name | quote }}
+  labels:
+    app: {{ .Values.faceMatcher.name | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.faceMatcher.name | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.faceMatcher.name | quote }}
+    spec:
+      topologySpreadConstraints:
+        {{- include "sf-cloud-matcher.topologySpread" (dict "appLabel" .Values.faceMatcher.name) | nindent 8 }}
+      imagePullSecrets:
+      - name: {{ .Values.image.secretName | quote }}
+      containers:
+      - name: {{ .Values.faceMatcher.name | quote }}
+        image: "{{ .Values.image.registry }}sf-face-matcher:{{ .Chart.AppVersion }}"
+        env:
+        {{- include "sf-cloud-matcher.commonEnv" . | nindent 8 }}
+        {{- include "sf-cloud-matcher.rmqConfig" . | nindent 8 }}
+        {{- include "sf-cloud-matcher.dbConfig" . | nindent 8 }}
+        resources:
+          requests:
+            memory: "100M"
+            cpu: "100m"
+        volumeMounts:
+        {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
+      volumes:
+        {{- include "sf-cloud-matcher.licVolume" . | nindent 8 }}
+{{- end }}

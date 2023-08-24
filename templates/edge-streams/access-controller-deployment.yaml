@@ -1,0 +1,45 @@
+{{- if .Values.edgeStreams.enabled }}
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: {{ .Values.accessController.name | quote }}
+  labels:
+    app: {{ .Values.accessController.name | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.accessController.name | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.accessController.name | quote }}
+    spec:
+      topologySpreadConstraints:
+        {{- include "sf-cloud-matcher.topologySpread" (dict "appLabel" .Values.accessController.name) | nindent 8 }}
+      imagePullSecrets:
+      - name: {{ .Values.image.secretName | quote }}
+      containers:
+      - name: {{ .Values.accessController.name | quote }}
+        image: "{{ .Values.image.registry }}sf-access-controller:{{ .Values.accessController.imageVersion }}"
+        env:
+        {{- include "sf-cloud-matcher.commonEnv" . | nindent 8 }}
+        {{- include "sf-cloud-matcher.rmqConfig" . | nindent 8 }}
+        {{- include "sf-cloud-matcher.authenticationConfig" . | nindent 8 }}
+        - name: "Kestrel__EndPoints__Http__Url"
+          value: "http://0.0.0.0:{{ .Values.accessController.containerPort }}"
+        - name: "Kestrel__EndPoints__Http__RequireAuthentication"
+          value: "false"
+        - name: "Kestrel__EndPoints__HttpAuth__Url"
+          value: "http://0.0.0.0:{{ .Values.accessController.authContainerPort }}"
+        - name: "Kestrel__EndPoints__HttpAuth__RequireAuthentication"
+          value: "true"
+        resources:
+          requests:
+            memory: "100M"
+            cpu: "100m"
+        volumeMounts:
+        {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
+      volumes:
+        {{- include "sf-cloud-matcher.licVolume" . | nindent 8 }}
+{{- end }}

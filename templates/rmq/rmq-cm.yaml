@@ -1,0 +1,11 @@
+{{- if .Values.rabbitmq.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.rabbitmq.configMapName | quote }}
+data:
+  hostname: "{{ .Release.Name }}-rabbitmq.{{ .Release.Namespace }}.svc.cluster.local"
+  username: {{ .Values.rabbitmq.auth.username | quote }}
+  port: "5672"
+  useSsl: "false"
+{{- end }}

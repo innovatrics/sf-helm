@@ -1,0 +1,3 @@
+{{- if not .Values.multitenancy.enabled }}
+{{- include "sf-cloud-matcher.matcherDefinition" . }}
+{{- end }}

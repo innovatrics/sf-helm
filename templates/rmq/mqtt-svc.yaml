@@ -1,0 +1,20 @@
+{{- if and .Values.edgeStreams.enabled .Values.rabbitmq.enabled }}
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "rmq-mqtt-public"
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.rabbitmq.mqttDnsHost }}
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: {{ .Values.ingress.certificateArn }}
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+spec:
+  selector:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/name: rabbitmq
+  ports:
+    - name: "mqtts"
+      port: 8883
+      targetPort: 1883
+  type: "LoadBalancer"
+  loadBalancerClass: service.k8s.aws/nlb
+{{- end }}

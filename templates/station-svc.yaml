@@ -1,0 +1,14 @@
+{{- if .Values.station.enabled }}
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: {{ .Values.station.name | quote }}
+spec:
+  selector:
+    app: {{ .Values.station.name | quote }}
+  ports:
+    - port: {{ .Values.station.servicePort }}
+      targetPort: {{ .Values.station.containerPort }}
+      protocol: "TCP"
+  type: "NodePort"
+{{- end}}

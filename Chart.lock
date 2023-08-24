@@ -1,0 +1,9 @@
+dependencies:
+- name: sf-tenant-operator
+  repository: https://nexus3.ba.innovatrics.net/repository/helm-sface
+  version: 0.1.1
+- name: rabbitmq
+  repository: oci://registry-1.docker.io/bitnamicharts
+  version: 12.0.4
+digest: sha256:8f5ee64062c5614e0c25e92c46c00b0475a1006aa9948fb554614dcb63f66f4d
+generated: "2023-07-06T16:21:45.811652+02:00"

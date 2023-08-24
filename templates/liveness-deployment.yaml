@@ -1,0 +1,34 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: {{ .Values.liveness.name | quote }}
+  labels:
+    app: {{ .Values.liveness.name | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.liveness.name | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.liveness.name | quote }}
+    spec:
+      topologySpreadConstraints:
+        {{- include "sf-cloud-matcher.topologySpread" (dict "appLabel" .Values.liveness.name) | nindent 8 }}
+      imagePullSecrets:
+      - name: {{ .Values.image.secretName | quote }}
+      containers:
+      - name: {{ .Values.liveness.name | quote }}
+        image: "{{ .Values.image.registry }}sf-liveness:{{ .Chart.AppVersion }}"
+        env:
+        {{- include "sf-cloud-matcher.commonEnv" . | nindent 8 }}
+        {{- include "sf-cloud-matcher.rmqConfig" . | nindent 8 }}
+        resources:
+          requests:
+            memory: "200M"
+            cpu: {{ .Values.liveness.cpuRequests | quote }}
+        volumeMounts:
+        {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
+      volumes:
+        {{- include "sf-cloud-matcher.licVolume" . | nindent 8 }}
