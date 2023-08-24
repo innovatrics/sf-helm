@@ -1,0 +1,27 @@
+name: Package and lint
+
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '*.*'
+    paths-ignore:
+      - "*.md"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup helm CLI
+        uses: azure/setup-helm@v3
+      - name: Build helm dependencies
+        run: |
+          helm dependency build .
+      - name: Lint helm
+        run: |
+          helm lint .
+      # we package just to validate
+      - name: package helm
+        run: |
+          helm package .
