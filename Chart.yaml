@@ -1,6 +1,6 @@
 apiVersion: v2
-name: sf-lfis
-description: SmartFace Lightweight Face Identification System (LFIS) is a lightweight, powerful, scalable, multi-platform and easy-to-deploy solution for facial biometrics use cases easily integrated to any third-party system via REST API. Available for fast cloud and on premise deployment.
+name: smartface
+description: SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
 dependencies:
   - name: sf-tenant-operator
@@ -19,7 +19,7 @@ keywords:
 - Biometrics
 
 sources:
-  # - https://github.com/innovatrics/sf-lfis-helm
+  - https://github.com/innovatrics/sf-helm
   - https://github.com/innovatrics/smartface
 
 home: https://www.innovatrics.com/face-recognition-solutions/
