@@ -33,7 +33,7 @@ data:
 apiVersion: v1
 stringData:
 # supply pgsql server
-  cs: "Server=eu-central-1.rds.amazonaws.com;Database=smartface;Username=postgres;Password=smartface;"
+  cs: "Server=<hostname>;Database=<db-name>;Username=<username>;Password=<password>;"
 kind: Secret
 metadata:
   name: db-cs

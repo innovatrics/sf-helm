@@ -66,10 +66,9 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: "sf-rmq-connection"
-  namespace: "test"
 data:
-  hostname: "b-7a837e03-0422-4bfd-aded-01faea243858.mq.eu-central-1.amazonaws.com"
-  username: "smartface"
+  hostname: "<hostname>"
+  username: "<username>"
   port: "5671"
   useSsl: "true"
 ```
@@ -79,9 +78,8 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: "rmq-pass"
-  namespace: "test"
 stringData:
-  rabbitmq-password: "smartface"
+  rabbitmq-password: "<password>"
 ```
 
 ## Values
