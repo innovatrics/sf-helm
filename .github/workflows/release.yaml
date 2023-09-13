@@ -20,10 +20,11 @@ jobs:
         run: |
           chart_version=$(yq '.version' Chart.yaml)
           chart_name=$(yq '.name' Chart.yaml)
-          echo ::set-output name=chart_version::$chart_version
-          echo ::set-output name=chart_version_with_prefix::v$chart_version
+          echo "tag_version=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+          echo "chart_version=$chart_version" >> $GITHUB_OUTPUT
+          echo "chart_version_with_prefix=v$chart_version" >> $GITHUB_OUTPUT
       - name: Version is incorrect
-        if: ${{ steps.chart_info.outputs.chart_version_with_prefix != github.ref }}
+        if: ${{ steps.chart_info.outputs.chart_version_with_prefix != steps.chart_info.outputs.tag_version }}
         run: exit 1
       - name: Setup helm CLI
         uses: azure/setup-helm@v3
