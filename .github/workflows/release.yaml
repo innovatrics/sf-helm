@@ -23,6 +23,7 @@ jobs:
           echo "tag_version=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
           echo "chart_version=$chart_version" >> $GITHUB_OUTPUT
           echo "chart_version_with_prefix=v$chart_version" >> $GITHUB_OUTPUT
+          echo "chart_name=$chart_name" >> $GITHUB_OUTPUT
       - name: Version is incorrect
         if: ${{ steps.chart_info.outputs.chart_version_with_prefix != steps.chart_info.outputs.tag_version }}
         run: exit 1
