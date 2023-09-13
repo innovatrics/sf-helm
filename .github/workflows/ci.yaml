@@ -5,9 +5,7 @@ on:
     branches:
       - '**'
     tags-ignore:
-      - '*.*'
-    paths-ignore:
-      - "*.md"
+      - 'v*'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,10 +15,6 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      # This is only needed temporarily until the tenant-operator package is public, but we will need this code for pushing
-      - name: Helm login to GHCR
-        run: |
-          echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ghcr.io --username ${{ github.repository_owner }} --password-stdin
       - name: Build helm dependencies
         run: |
           helm dependency build .
@@ -28,6 +22,6 @@ jobs:
         run: |
           helm lint .
       # we package just to validate
-      - name: package helm
+      - name: Package helm
         run: |
           helm package .
