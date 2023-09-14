@@ -26,4 +26,5 @@ jobs:
         run: |
           helm package .
       - uses: actions/setup-python@v3
+      - uses: gabe565/setup-helm-docs-action@v1
       - uses: pre-commit/action@v3.0.0
