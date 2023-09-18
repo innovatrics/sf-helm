@@ -143,6 +143,8 @@ stringData:
 | detector.name | string | `"sf-detector"` |  |
 | edgeStreams.enabled | bool | `false` |  |
 | edgeStreams.name | string | `"sf-edge-stream-processor"` |  |
+| edgeStreamsStateSync.name | string | `"sf-edge-streams-state-synchronizer"` |  |
+| edgeStreamsStateSync.runWlStreamPopulationJob | bool | `false` |  |
 | extractor.cpuRequests | string | `"750m"` |  |
 | extractor.name | string | `"sf-extractor"` |  |
 | faceMatcher.name | string | `"sf-face-matcher"` |  |
@@ -175,7 +177,7 @@ stringData:
 | metrics.serviceDiscoveryLabels.sf-metrics | string | `"true"` |  |
 | migration.enabled | bool | `true` |  |
 | multitenancy.enabled | bool | `false` | enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled |
-| rabbitmq | object | `{"auth":{"erlangCookie":"","password":"","username":"smartface"},"configMapName":"sf-rmq-connection","enabled":true,"existingSecretName":"","extraPlugins":"rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt","mqttDnsHost":"","secretKey":"rabbitmq-password"}` | config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq |
+| rabbitmq | object | `{"auth":{"erlangCookie":"","password":"","username":"smartface"},"configMapName":"sf-rmq-connection","enabled":true,"existingSecretName":"","extraPlugins":"rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt","mqttConfigMapName":"sf-mqtt-connection","mqttDnsHost":"","secretKey":"rabbitmq-password","service":{"extraPorts":[{"name":"mqtt","port":1883,"targetPort":1883},{"name":"rmqStream","port":5552,"targetPort":5552}]}}` | config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq |
 | rabbitmq.enabled | bool | `true` | configure if rabbitmq subchart should be included |
 | rabbitmq.mqttDnsHost | string | `""` | hostname used for MQTT service - only relevant for edge streams |
 | readonlyApi.authName | string | `"readonly-auth-api"` |  |

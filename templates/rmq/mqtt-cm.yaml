@@ -1,12 +1,11 @@
-{{- if .Values.rabbitmq.enabled }}
+{{- if and .Values.edgeStreams.enabled .Values.rabbitmq.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.rabbitmq.configMapName | quote }}
+  name: {{ .Values.rabbitmq.mqttConfigMapName | quote }}
 data:
   hostname: "{{ .Release.Name }}-rabbitmq.{{ .Release.Namespace }}.svc.cluster.local"
   username: {{ .Values.rabbitmq.auth.username | quote }}
-  port: "5672"
+  port: "1883"
   useSsl: "false"
-  streamsPort: "5552"
 {{- end }}

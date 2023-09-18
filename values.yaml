@@ -25,12 +25,21 @@ rabbitmq:
   # -- hostname used for MQTT service - only relevant for edge streams
   mqttDnsHost: ""
   configMapName: "sf-rmq-connection"
+  mqttConfigMapName: "sf-mqtt-connection"
   existingSecretName: ""
   secretKey: "rabbitmq-password"
   auth:
     username: "smartface"
     erlangCookie: ""
     password: ""
+  service:
+    extraPorts:
+    - name: mqtt
+      port: 1883
+      targetPort: 1883
+    - name: rmqStream
+      port: 5552
+      targetPort: 5552
 
 license:
   secretName: "iface-lic"
@@ -101,6 +110,10 @@ liveness:
 edgeStreams:
   name: "sf-edge-stream-processor"
   enabled: false
+
+edgeStreamsStateSync:
+  name: "sf-edge-streams-state-synchronizer"
+  runWlStreamPopulationJob: false
 
 base:
   name: "sf-base"

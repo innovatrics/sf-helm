@@ -1,0 +1,38 @@
+{{- if .Values.edgeStreams.enabled }}
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: {{ .Values.edgeStreamsStateSync.name | quote }}
+  labels:
+    app: {{ .Values.edgeStreamsStateSync.name | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.edgeStreamsStateSync.name | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.edgeStreamsStateSync.name | quote }}
+    spec:
+      topologySpreadConstraints:
+        {{- include "sf-cloud-matcher.topologySpread" (dict "appLabel" .Values.edgeStreamsStateSync.name) | nindent 8 }}
+      imagePullSecrets:
+      - name: {{ .Values.image.secretName | quote }}
+      containers:
+      - name: {{ .Values.edgeStreamsStateSync.name | quote }}
+        image: "{{ .Values.image.registry }}sf-edge-streams-state-synchronizer:{{ .Chart.AppVersion }}"
+        env:
+        {{- include "sf-cloud-matcher.commonEnv" . | nindent 8 }}
+        {{- include "sf-cloud-matcher.rmqConfig" . | nindent 8 }}
+        {{- include "sf-cloud-matcher.mqttConfig" . | nindent 8 }}
+        {{- include "sf-cloud-matcher.dbConfig" . | nindent 8 }}
+        resources:
+          requests:
+            memory: "100M"
+            cpu: "100m"
+        volumeMounts:
+        {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
+      volumes:
+        {{- include "sf-cloud-matcher.licVolume" . | nindent 8 }}
+{{- end }}

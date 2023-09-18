@@ -1,0 +1,37 @@
+{{- if and .Values.edgeStreams.enabled .Values.edgeStreamsStateSync.runWlStreamPopulationJob }}
+apiVersion: "batch/v1"
+kind: "Job"
+metadata:
+  name: "sf-wl-update-log-population"
+spec:
+  template:
+    spec:
+      containers:
+      - name: "sf-wl-update-log-population"
+        image: "{{ .Values.image.registry }}sf-admin:{{ .Chart.AppVersion }}"
+        # this is not multitenant, so we pass "default"
+        # maybe we should generate UUID for generation ID
+        args: [
+          "populate-wl-update-log-stream",
+          "--rmq-host", "$(RabbitMQ__Hostname)",
+          "--rmq-user", "$(RabbitMQ__Username)",
+          "--rmq-pass", "$(RabbitMQ__Password)",
+          "--rmq-port", "$(RabbitMQ__Port)",
+          "--rmq-use-ssl", "$(RabbitMQ__UseSsl)",
+          "--rmq-virtual-host", "/",
+          "--rmq-streams-port", "$(RabbitMQ__StreamsPort)",
+
+          "--generation-id", {{ uuidv4 | quote }},
+          "--tenant-id", "default"
+        ]
+        env:
+        {{- include "sf-cloud-matcher.rmqConfig" . | nindent 10 }}
+        volumeMounts:
+        {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
+      volumes:
+        {{- include "sf-cloud-matcher.licVolume" . | nindent 8 }}
+      imagePullSecrets:
+      - name: {{ .Values.image.secretName | quote }}
+      restartPolicy: "Never"
+  backoffLimit: 4
+{{- end }}

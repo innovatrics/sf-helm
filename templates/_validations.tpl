@@ -11,6 +11,7 @@ Compile all warnings into a single message, and call fail.
 {{- $messages := append $messages (trim (include "sf-cloud-matcher.validate.authConfig" .)) -}}
 {{- $messages := append $messages (trim (include "sf-cloud-matcher.validate.registryCreds" .)) -}}
 {{- $messages := append $messages (trim (include "sf-cloud-matcher.validate.rmqConfig" .)) -}}
+{{- $messages := append $messages (trim (include "sf-cloud-matcher.validate.mqttConfig" .)) -}}
 {{- $messages := without $messages "" -}}
 {{- $message := join "\n" $messages -}}
 
@@ -91,12 +92,28 @@ Validate rmq config if not managed by us
 {{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "hostname") }}
 {{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "useSsl") }}
 {{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "port") }}
+{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "streamsPort") }}
 {{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "username") }}
 {{- if not .Values.rabbitmq.existingSecretName }}
 Please provide value for `rabbitmq.existingSecretName`
 {{- else }}
 {{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.existingSecretName "Key" .Values.rabbitmq.secretKey) }}
 {{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Validate mqtt config if not managed by us
+*/}}
+{{- define "sf-cloud-matcher.validate.mqttConfig" -}}
+{{/*
+This should not be used in such combination because there would be no "shovel" between mqtt and rmq, but we can still validate
+*/}}
+{{- if and .Values.edgeStreams.enabled (not .Values.rabbitmq.enabled) -}}
+{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "hostname") }}
+{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "useSsl") }}
+{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "port") }}
+{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "username") }}
 {{- end -}}
 {{- end -}}
 

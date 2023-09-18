@@ -94,12 +94,52 @@ Template used for adding RMQ configuration to containers
     configMapKeyRef:
       name: {{ .Values.rabbitmq.configMapName | quote }}
       key: "port"
+- name: "RabbitMQ__StreamsPort"
+  valueFrom:
+    configMapKeyRef:
+      name: {{ .Values.rabbitmq.configMapName | quote }}
+      key: "streamsPort"
 - name: "RabbitMQ__Username"
   valueFrom:
     configMapKeyRef:
       name: {{ .Values.rabbitmq.configMapName | quote }}
       key: "username"
 - name: "RabbitMQ__Password"
+  valueFrom:
+    secretKeyRef:
+      {{- if .Values.rabbitmq.existingSecretName }}
+      name: {{ .Values.rabbitmq.existingSecretName | quote }}
+      {{- else }}
+      name: "{{ .Release.Name }}-rabbitmq"
+      {{- end }}
+      key: {{ .Values.rabbitmq.secretKey | quote }}
+{{- end }}
+
+{{/*
+Template used for adding MQTT configuration to containers
+*/}}
+{{- define "sf-cloud-matcher.mqttConfig" -}}
+- name: "MQTT__Hostname"
+  valueFrom:
+    configMapKeyRef:
+      name: {{ .Values.rabbitmq.mqttConfigMapName | quote }}
+      key: "hostname"
+- name: "MQTT__UseSsl"
+  valueFrom:
+    configMapKeyRef:
+      name: {{ .Values.rabbitmq.mqttConfigMapName | quote }}
+      key: "useSsl"
+- name: "MQTT__Port"
+  valueFrom:
+    configMapKeyRef:
+      name: {{ .Values.rabbitmq.mqttConfigMapName | quote }}
+      key: "port"
+- name: "MQTT__Username"
+  valueFrom:
+    configMapKeyRef:
+      name: {{ .Values.rabbitmq.mqttConfigMapName | quote }}
+      key: "username"
+- name: "MQTT__Password"
   valueFrom:
     secretKeyRef:
       {{- if .Values.rabbitmq.existingSecretName }}
