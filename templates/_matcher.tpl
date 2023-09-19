@@ -27,15 +27,15 @@ spec:
       - name: {{ .Values.matcher.name | quote }}
         image: "{{ .Values.image.registry }}sf-matcher:{{ .Chart.AppVersion }}"
         env:
-        {{- include "sf-cloud-matcher.commonEnv" . | nindent 12 }}
-        {{- include "sf-cloud-matcher.rmqConfig" . | nindent 12 }}
-        {{- include "sf-cloud-matcher.dbConfig" . | nindent 12 }}
+        {{- include "sf-cloud-matcher.commonEnv" . | nindent 8 }}
+        {{- include "sf-cloud-matcher.rmqConfig" . | nindent 8 }}
+        {{- include "sf-cloud-matcher.dbConfig" . | nindent 8 }}
         resources:
           requests:
             memory: "200M"
             cpu: {{ .Values.matcher.cpuRequests | quote }}
         volumeMounts:
-        {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 12 }}
+        {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
       volumes:
-        {{- include "sf-cloud-matcher.licVolume" . | nindent 12 }}
+        {{- include "sf-cloud-matcher.licVolume" . | nindent 8 }}
 {{- end }}
