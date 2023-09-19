@@ -198,6 +198,8 @@ Init container to perform database migration before starting the main container
           name: {{ .Values.database.secretName | quote }}
           key: {{ .Values.database.connectionStringKey | quote }}
     {{- include "sf-cloud-matcher.rmqConfig" . | nindent 4 }}
+  resources:
+    {{- toYaml .Values.migration.initContainer.resources | nindent 4 }}
   volumeMounts:
   {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 2 }}
 {{- end -}}

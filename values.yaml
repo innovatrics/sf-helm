@@ -195,6 +195,8 @@ jaeger:
 
 migration:
   enabled: true
+  initContainer:
+    resources: {}
 
 autoscaling:
   cron:
