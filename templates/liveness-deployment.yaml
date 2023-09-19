@@ -25,9 +25,7 @@ spec:
         {{- include "sf-cloud-matcher.commonEnv" . | nindent 8 }}
         {{- include "sf-cloud-matcher.rmqConfig" . | nindent 8 }}
         resources:
-          requests:
-            memory: "200M"
-            cpu: {{ .Values.liveness.cpuRequests | quote }}
+          {{- toYaml .Values.liveness.resources | nindent 10 }}
         volumeMounts:
         {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
       volumes:

@@ -35,9 +35,7 @@ spec:
         - name: "Kestrel__EndPoints__HttpAuth__RequireAuthentication"
           value: "true"
         resources:
-          requests:
-            memory: "100M"
-            cpu: "100m"
+          {{- toYaml .Values.accessController.resources | nindent 10 }}
         volumeMounts:
         {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
       volumes:

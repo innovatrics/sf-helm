@@ -29,9 +29,7 @@ spec:
         {{- include "sf-cloud-matcher.dbConfig" . | nindent 8 }}
         {{- include "sf-cloud-matcher.s3Config" . | nindent 8 }}
         resources:
-          requests:
-            memory: "100M"
-            cpu: "100m"
+          {{- toYaml .Values.base.resources | nindent 10 }}
         volumeMounts:
         {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
       volumes:

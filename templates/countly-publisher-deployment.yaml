@@ -42,7 +42,5 @@ spec:
         - name: "PrometheusConfiguration__Endpoints__0"
           value: "http://+:{{ .Values.metrics.port }}/"
         resources:
-          requests:
-            memory: "100M"
-            cpu: "100m"
+          {{- toYaml .Values.countlyPublisher.resources | nindent 10 }}
 {{- end }}

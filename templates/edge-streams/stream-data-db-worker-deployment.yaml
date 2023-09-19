@@ -28,6 +28,8 @@ spec:
         {{- include "sf-cloud-matcher.dbConfig" . | nindent 8 }}
         {{- include "sf-cloud-matcher.s3Config" . | nindent 8 }}
         {{- include "sf-cloud-matcher.rmqConfig" . | nindent 8 }}
+        resources:
+          {{- toYaml .Values.streamDataDbWorker.resources | nindent 10 }}
         volumeMounts:
         {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
       volumes:

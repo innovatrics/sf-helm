@@ -93,12 +93,17 @@ stringData:
 | accessController.dnsHost | string | `""` |  |
 | accessController.imageVersion | string | `"v5_1.9.1"` |  |
 | accessController.name | string | `"sf-access-controller"` |  |
+| accessController.resources.requests.cpu | string | `"100m"` |  |
+| accessController.resources.requests.memory | string | `"100M"` |  |
 | accessController.servicePort | int | `5050` |  |
 | api.containerPort | int | `80` |  |
 | api.dnsHost | string | `""` |  |
 | api.enabled | bool | `true` |  |
 | api.initMigration | bool | `true` |  |
 | api.name | string | `"sf-api"` |  |
+| api.resources.limits.memory | string | `"4G"` |  |
+| api.resources.requests.cpu | string | `"250m"` |  |
+| api.resources.requests.memory | string | `"300M"` |  |
 | api.servicePort | int | `80` |  |
 | auth.configName | string | `"auth-config"` | config containing authorization configuration for APIs used when authentication is enabled |
 | authApi.containerPort | int | `80` |  |
@@ -106,6 +111,9 @@ stringData:
 | authApi.enabled | bool | `false` |  |
 | authApi.initMigration | bool | `true` |  |
 | authApi.name | string | `"sf-auth-api"` |  |
+| authApi.resources.limits.memory | string | `"4G"` |  |
+| authApi.resources.requests.cpu | string | `"250m"` |  |
+| authApi.resources.requests.memory | string | `"300M"` |  |
 | authApi.servicePort | int | `8098` |  |
 | autoscaling.api.enabled | bool | `true` | enables ScaledObject for rest API |
 | autoscaling.api.maxReplicas | int | `3` |  |
@@ -131,26 +139,41 @@ stringData:
 | autoscaling.rmq.hostSecretName | string | `"rmq-management-uri-with-creds"` |  |
 | autoscaling.rmq.triggerAuthName | string | `"keda-trigger-auth-rabbitmq-conn"` |  |
 | base.name | string | `"sf-base"` |  |
+| base.resources.requests.cpu | string | `"100m"` |  |
+| base.resources.requests.memory | string | `"100M"` |  |
 | base.zmqContainerPort | int | `2406` |  |
 | base.zmqServicePort | int | `2406` |  |
 | countlyPublisher.clusterName | string | `""` |  |
 | countlyPublisher.enabled | bool | `false` |  |
 | countlyPublisher.imageTag | string | `"31"` |  |
 | countlyPublisher.name | string | `"countly-publisher"` |  |
+| countlyPublisher.resources.requests.cpu | string | `"100m"` |  |
+| countlyPublisher.resources.requests.memory | string | `"100M"` |  |
 | database.connectionStringKey | string | `"cs"` |  |
 | database.secretName | string | `"db-cs"` |  |
-| detector.cpuRequests | string | `"750m"` |  |
 | detector.name | string | `"sf-detector"` |  |
+| detector.resources.limits.memory | string | `"1500M"` |  |
+| detector.resources.requests.cpu | string | `"750m"` |  |
+| detector.resources.requests.memory | string | `"600M"` |  |
 | edgeStreams.enabled | bool | `false` |  |
 | edgeStreams.name | string | `"sf-edge-stream-processor"` |  |
-| extractor.cpuRequests | string | `"750m"` |  |
+| edgeStreams.resources.requests.cpu | string | `"100m"` |  |
+| edgeStreams.resources.requests.memory | string | `"100M"` |  |
 | extractor.name | string | `"sf-extractor"` |  |
+| extractor.resources.limits.memory | string | `"1G"` |  |
+| extractor.resources.requests.cpu | string | `"750m"` |  |
+| extractor.resources.requests.memory | string | `"500M"` |  |
 | faceMatcher.name | string | `"sf-face-matcher"` |  |
+| faceMatcher.resources.requests.cpu | string | `"100m"` |  |
+| faceMatcher.resources.requests.memory | string | `"100M"` |  |
 | graphqlApi.containerPort | int | `80` |  |
 | graphqlApi.dnsHost | string | `""` |  |
 | graphqlApi.enableAuth | bool | `false` |  |
 | graphqlApi.initMigration | bool | `false` |  |
 | graphqlApi.name | string | `"sf-graphql-api"` |  |
+| graphqlApi.resources.limits.memory | string | `"4G"` |  |
+| graphqlApi.resources.requests.cpu | string | `"250m"` |  |
+| graphqlApi.resources.requests.memory | string | `"300M"` |  |
 | graphqlApi.servicePort | int | `8097` |  |
 | image.registry | string | `"registry.gitlab.com/innovatrics/smartface/"` | registry to pull SmartFace images from |
 | image.secretName | string | `"sf-gitlab-registry-creds"` | docker secret to pull SmartFace images with |
@@ -164,10 +187,12 @@ stringData:
 | license.mountPath | string | `"/etc/innovatrics"` |  |
 | license.secretName | string | `"iface-lic"` |  |
 | license.volumeMountName | string | `"license"` |  |
-| liveness.cpuRequests | string | `"750m"` |  |
 | liveness.name | string | `"sf-liveness"` |  |
-| matcher.cpuRequests | string | `"750m"` |  |
+| liveness.resources.requests.cpu | string | `"750m"` |  |
+| liveness.resources.requests.memory | string | `"200M"` |  |
 | matcher.name | string | `"sf-matcher"` |  |
+| matcher.resources.requests.cpu | string | `"750m"` |  |
+| matcher.resources.requests.memory | string | `"200M"` |  |
 | metrics.enabled | bool | `false` |  |
 | metrics.monitorDiscoveryLabel.instance | string | `"primary"` |  |
 | metrics.port | int | `4318` |  |
@@ -190,10 +215,14 @@ stringData:
 | station.enabled | bool | `true` |  |
 | station.imageVersion | string | `"v5_1.17.0"` |  |
 | station.name | string | `"sf-station"` |  |
+| station.resources.requests.cpu | string | `"100m"` |  |
+| station.resources.requests.memory | string | `"100M"` |  |
 | station.servicePort | int | `8000` |  |
 | stationAuth.configName | string | `"station-auth-config"` | config containing authorization configuration for SF Station used when authentication is enabled for SF Station |
 | stationAuth.secretName | string | `"station-client-id"` |  |
 | streamDataDbWorker.name | string | `"sf-stream-data-db-worker"` |  |
+| streamDataDbWorker.resources.requests.cpu | string | `"100m"` |  |
+| streamDataDbWorker.resources.requests.memory | string | `"100M"` |  |
 
 ## Maintainers
 

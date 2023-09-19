@@ -88,9 +88,7 @@ spec:
               name: {{ .Values.stationAuth.secretName | quote }}
               key: "client_id"
         resources:
-          requests:
-            memory: "100M"
-            cpu: "100m"
+          {{- toYaml .Values.station.resources | nindent 10 }}
         volumeMounts:
         {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
       volumes:

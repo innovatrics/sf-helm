@@ -25,11 +25,7 @@ spec:
         {{- include "sf-cloud-matcher.commonEnv" . | nindent 8 }}
         {{- include "sf-cloud-matcher.rmqConfig" . | nindent 8 }}
         resources:
-          requests:
-            memory: "500M"
-            cpu: {{ .Values.extractor.cpuRequests | quote }}
-          limits:
-            memory: "1G"
+          {{- toYaml .Values.extractor.resources | nindent 10 }}
         volumeMounts:
         {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
       volumes:

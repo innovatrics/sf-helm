@@ -53,6 +53,12 @@ api:
   containerPort: 80
   dnsHost: ""
   initMigration: true
+  resources:
+    requests:
+      memory: "300M"
+      cpu: "250m"
+    limits:
+      memory: "4G"
 
 authApi:
   enabled: false
@@ -61,6 +67,12 @@ authApi:
   containerPort: 80
   dnsHost: ""
   initMigration: true
+  resources:
+    requests:
+      memory: "300M"
+      cpu: "250m"
+    limits:
+      memory: "4G"
 
 graphqlApi:
   name: "sf-graphql-api"
@@ -69,6 +81,12 @@ graphqlApi:
   dnsHost: ""
   enableAuth: false
   initMigration: false
+  resources:
+    requests:
+      memory: "300M"
+      cpu: "250m"
+    limits:
+      memory: "4G"
 
 ingress:
   # -- enable creation of ingress object
@@ -84,31 +102,59 @@ ingress:
 
 detector:
   name: "sf-detector"
-  cpuRequests: "750m"
+  resources:
+    requests:
+      memory: "600M"
+      cpu: "750m"
+    limits:
+      memory: "1500M"
 
 extractor:
   name: "sf-extractor"
-  cpuRequests: "750m"
+  resources:
+    requests:
+      memory: "500M"
+      cpu: "750m"
+    limits:
+      memory: "1G"
 
 matcher:
   name: "sf-matcher"
-  cpuRequests: "750m"
+  resources:
+    requests:
+      memory: "200M"
+      cpu: "750m"
 
 liveness:
   name: "sf-liveness"
-  cpuRequests: "750m"
+  resources:
+    requests:
+      memory: "200M"
+      cpu: "750m"
 
 edgeStreams:
   name: "sf-edge-stream-processor"
   enabled: false
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
 
 base:
   name: "sf-base"
   zmqServicePort: 2406
   zmqContainerPort: 2406
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
 
 faceMatcher:
   name: "sf-face-matcher"
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
 
 accessController:
   name: "sf-access-controller"
@@ -119,6 +165,10 @@ accessController:
   containerPort: 80
   authServicePort: 5051
   authContainerPort: 5051
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
 
 station:
   enabled: true
@@ -127,9 +177,17 @@ station:
   servicePort: 8000
   containerPort: 80
   dnsHost: ""
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
 
 streamDataDbWorker:
   name: "sf-stream-data-db-worker"
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
 
 jaeger:
   enabled: true
@@ -202,6 +260,10 @@ countlyPublisher:
   name: "countly-publisher"
   clusterName: ""
   imageTag: "31"
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
 
 metrics:
   enabled: false

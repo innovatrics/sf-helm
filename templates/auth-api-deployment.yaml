@@ -42,11 +42,7 @@ spec:
         - name: "Hosting__Port"
           value: {{ .Values.authApi.containerPort | quote }}
         resources:
-          requests:
-            memory: "300M"
-            cpu: "250m"
-          limits:
-            memory: "4G"
+          {{- toYaml .Values.authApi.resources | nindent 10 }}
         volumeMounts:
         {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
       {{- if and .Values.migration.enabled .Values.authApi.initMigration }}
