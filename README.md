@@ -207,6 +207,7 @@ stringData:
 | readonlyApi.authName | string | `"readonly-auth-api"` |  |
 | readonlyApi.enabled | bool | `false` |  |
 | readonlyApi.noAuthName | string | `"readonly-noauth-api"` |  |
+| readonlyApi.proxyContainer.resources | object | `{}` |  |
 | s3.bucketKey | string | `"name"` |  |
 | s3.configName | string | `"s3-config"` |  |
 | s3.regionKey | string | `"region"` |  |

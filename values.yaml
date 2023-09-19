@@ -280,3 +280,5 @@ readonlyApi:
   enabled: false
   authName: "readonly-auth-api"
   noAuthName: "readonly-noauth-api"
+  proxyContainer:
+    resources: {}
