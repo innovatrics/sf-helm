@@ -16,6 +16,9 @@ s3:
   configName: "s3-config"
   bucketKey: "name"
   regionKey: "region"
+  folderKey: "folder"
+  authTypeKey: "authType"
+  endpointTypeKey: "endpointType"
 
 # -- config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq
 rabbitmq:

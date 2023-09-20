@@ -41,6 +41,9 @@ Validate that the S3 config map exists with correct keys
 {{- define "sf-cloud-matcher.validate.s3Config" -}}
 {{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.s3.configName "Key" .Values.s3.bucketKey) }}
 {{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.s3.configName "Key" .Values.s3.regionKey) }}
+{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.s3.configName "Key" .Values.s3.folderKey) }}
+{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.s3.configName "Key" .Values.s3.authTypeKey) }}
+{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.s3.configName "Key" .Values.s3.endpointTypeKey) }}
 {{- end -}}
 
 {{/*

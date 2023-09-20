@@ -208,8 +208,11 @@ stringData:
 | readonlyApi.enabled | bool | `false` |  |
 | readonlyApi.noAuthName | string | `"readonly-noauth-api"` |  |
 | readonlyApi.proxyContainer.resources | object | `{}` |  |
+| s3.authTypeKey | string | `"authType"` |  |
 | s3.bucketKey | string | `"name"` |  |
 | s3.configName | string | `"s3-config"` |  |
+| s3.endpointTypeKey | string | `"endpointType"` |  |
+| s3.folderKey | string | `"folder"` |  |
 | s3.regionKey | string | `"region"` |  |
 | sf-tenant-operator | object | `{"config":{"configDir":"/etc/components","fileName":"appsettings.override.json","mapName":"operator-config"},"image":{"secretName":"sf-gitlab-registry-creds"},"installCrd":false}` | configuration for sf-tenant-operator subchart |
 | station.containerPort | int | `80` |  |

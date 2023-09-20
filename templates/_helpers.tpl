@@ -25,6 +25,23 @@ Template used for adding S3 configuration to containers
     configMapKeyRef:
       name: {{ .Values.s3.configName | quote }}
       key: {{ .Values.s3.regionKey | quote }}
+- name: "S3Bucket__Folder"
+  valueFrom:
+    configMapKeyRef:
+      name: {{ .Values.s3.configName | quote }}
+      key: {{ .Values.s3.folderKey | quote }}
+# AssumedRole
+- name: "S3Bucket__AuthenticationType"
+  valueFrom:
+    configMapKeyRef:
+      name: {{ .Values.s3.configName | quote }}
+      key: {{ .Values.s3.authTypeKey | quote }}
+# BucketRegion
+- name: "S3Bucket__EndpointType"
+  valueFrom:
+    configMapKeyRef:
+      name: {{ .Values.s3.configName | quote }}
+      key: {{ .Values.s3.endpointTypeKey | quote }}
 {{- end }}
 
 {{/*
