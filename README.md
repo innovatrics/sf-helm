@@ -214,6 +214,12 @@ stringData:
 | s3.endpointTypeKey | string | `"endpointType"` |  |
 | s3.folderKey | string | `"folder"` |  |
 | s3.regionKey | string | `"region"` |  |
+| serviceAccount.annotations | object | `{}` | Annotations for the service account |
+| serviceAccount.automountServiceAccountToken | bool | `true` | Set this toggle to false to opt out of automounting API credentials for the service account |
+| serviceAccount.create | bool | `true` | Specifies whether a ServiceAccount should be created |
+| serviceAccount.imagePullSecrets | list | `[]` | Image pull secrets for the service account |
+| serviceAccount.labels | object | `{}` | Labels for the service account |
+| serviceAccount.name | string | `"sf-service-account"` | The name of the ServiceAccount to use. |
 | sf-tenant-operator | object | `{"config":{"configDir":"/etc/components","fileName":"appsettings.override.json","mapName":"operator-config"},"image":{"secretName":"sf-gitlab-registry-creds"},"installCrd":false}` | configuration for sf-tenant-operator subchart |
 | station.containerPort | int | `80` |  |
 | station.dnsHost | string | `""` |  |

@@ -13,6 +13,8 @@ spec:
       labels:
         app: {{ .Values.readonlyApi.authName | quote }}
     spec:
+      serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       containers:
       - name: nginx
         image: nginx:1.25.1

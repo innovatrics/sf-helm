@@ -19,6 +19,8 @@ spec:
       labels:
         app: {{ .Values.matcher.name | quote }}
     spec:
+      serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       topologySpreadConstraints:
         {{- include "sf-cloud-matcher.topologySpread" (dict "appLabel" .Values.matcher.name) | nindent 8 }}
       imagePullSecrets:
