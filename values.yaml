@@ -62,6 +62,8 @@ api:
       cpu: "250m"
     limits:
       memory: "4G"
+  nodeSelector: {}
+  tolerations: []
 
 authApi:
   enabled: false
@@ -76,6 +78,8 @@ authApi:
       cpu: "250m"
     limits:
       memory: "4G"
+  nodeSelector: {}
+  tolerations: []
 
 graphqlApi:
   name: "sf-graphql-api"
@@ -90,6 +94,8 @@ graphqlApi:
       cpu: "250m"
     limits:
       memory: "4G"
+  nodeSelector: {}
+  tolerations: []
 
 ingress:
   # -- enable creation of ingress object
@@ -111,6 +117,8 @@ detector:
       cpu: "750m"
     limits:
       memory: "1500M"
+  nodeSelector: {}
+  tolerations: []
 
 extractor:
   name: "sf-extractor"
@@ -120,6 +128,8 @@ extractor:
       cpu: "750m"
     limits:
       memory: "1G"
+  nodeSelector: {}
+  tolerations: []
 
 matcher:
   name: "sf-matcher"
@@ -127,6 +137,8 @@ matcher:
     requests:
       memory: "200M"
       cpu: "750m"
+  nodeSelector: {}
+  tolerations: []
 
 liveness:
   name: "sf-liveness"
@@ -134,6 +146,8 @@ liveness:
     requests:
       memory: "200M"
       cpu: "750m"
+  nodeSelector: {}
+  tolerations: []
 
 edgeStreams:
   name: "sf-edge-stream-processor"
@@ -142,6 +156,8 @@ edgeStreams:
     requests:
       memory: "100M"
       cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
 
 base:
   name: "sf-base"
@@ -151,6 +167,8 @@ base:
     requests:
       memory: "100M"
       cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
 
 faceMatcher:
   name: "sf-face-matcher"
@@ -158,6 +176,8 @@ faceMatcher:
     requests:
       memory: "100M"
       cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
 
 accessController:
   name: "sf-access-controller"
@@ -172,6 +192,8 @@ accessController:
     requests:
       memory: "100M"
       cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
 
 station:
   enabled: true
@@ -184,6 +206,8 @@ station:
     requests:
       memory: "100M"
       cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
 
 streamDataDbWorker:
   name: "sf-stream-data-db-worker"
@@ -191,6 +215,8 @@ streamDataDbWorker:
     requests:
       memory: "100M"
       cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
 
 jaeger:
   enabled: true
@@ -269,6 +295,8 @@ countlyPublisher:
     requests:
       memory: "100M"
       cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
 
 metrics:
   enabled: false
@@ -285,6 +313,8 @@ readonlyApi:
   noAuthName: "readonly-noauth-api"
   proxyContainer:
     resources: {}
+  nodeSelector: {}
+  tolerations: []
 
 serviceAccount:
   # -- Specifies whether a ServiceAccount should be created

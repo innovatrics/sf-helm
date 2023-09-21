@@ -50,3 +50,11 @@ spec:
       {{- end }}
       volumes:
         {{- include "smartface.licVolume" . | nindent 8 }}
+      {{- with .Values.graphqlApi.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.graphqlApi.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

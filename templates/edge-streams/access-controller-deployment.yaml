@@ -42,4 +42,12 @@ spec:
         {{- include "smartface.licVolumeMount" . | nindent 8 }}
       volumes:
         {{- include "smartface.licVolume" . | nindent 8 }}
+      {{- with .Values.accessController.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.accessController.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
 {{- end }}
