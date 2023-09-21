@@ -22,5 +22,5 @@ data:
       }
     }
   matcher.yaml: |-
-    {{- include "sf-cloud-matcher.matcherDefinition" . | nindent 4 }}
+    {{- include "smartface.matcherDefinition" . | nindent 4 }}
 {{- end}}

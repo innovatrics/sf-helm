@@ -1,7 +1,7 @@
 {{/*
 Template used for adding database configuration to containers
 */}}
-{{- define "sf-cloud-matcher.dbConfig" -}}
+{{- define "smartface.dbConfig" -}}
 - name: "ConnectionStrings__CoreDbContext"
   valueFrom:
     secretKeyRef:
@@ -14,7 +14,7 @@ Template used for adding database configuration to containers
 {{/*
 Template used for adding S3 configuration to containers
 */}}
-{{- define "sf-cloud-matcher.s3Config" -}}
+{{- define "smartface.s3Config" -}}
 - name: "S3Bucket__BucketName"
   valueFrom:
     configMapKeyRef:
@@ -47,7 +47,7 @@ Template used for adding S3 configuration to containers
 {{/*
 Template used for configuring feature flags on APIs
 */}}
-{{- define "sf-cloud-matcher.apiFeaturesConfig" -}}
+{{- define "smartface.apiFeaturesConfig" -}}
 - name: "FeatureManagement__Full"
   value: "false"
 - name: "FeatureManagement__Watchlist"
@@ -59,7 +59,7 @@ Template used for configuring feature flags on APIs
 {{/*
 Template used for configuring Authentication on APIs
 */}}
-{{- define "sf-cloud-matcher.authenticationConfig" -}}
+{{- define "smartface.authenticationConfig" -}}
 - name: "Authentication__UseAuthentication"
   valueFrom:
     configMapKeyRef:
@@ -95,7 +95,7 @@ Template used for configuring Authentication on APIs
 {{/*
 Template used for adding RMQ configuration to containers
 */}}
-{{- define "sf-cloud-matcher.rmqConfig" -}}
+{{- define "smartface.rmqConfig" -}}
 - name: "RabbitMQ__Hostname"
   valueFrom:
     configMapKeyRef:
@@ -130,7 +130,7 @@ Template used for adding RMQ configuration to containers
 {{/*
 Template used for adding license volume to deployment definition
 */}}
-{{- define "sf-cloud-matcher.licVolume" -}}
+{{- define "smartface.licVolume" -}}
 - name: {{ .Values.license.volumeMountName | quote }}
   secret:
     secretName: {{ .Values.license.secretName | quote }}
@@ -139,7 +139,7 @@ Template used for adding license volume to deployment definition
 {{/*
 Template used for binding the license volume to containers
 */}}
-{{- define "sf-cloud-matcher.licVolumeMount" -}}
+{{- define "smartface.licVolumeMount" -}}
 - name: {{ .Values.license.volumeMountName | quote }}
   mountPath: {{ .Values.license.mountPath | quote }}
   readOnly: true
@@ -148,7 +148,7 @@ Template used for binding the license volume to containers
 {{/*
 Template used for common environment variables definition
 */}}
-{{- define "sf-cloud-matcher.commonEnv" -}}
+{{- define "smartface.commonEnv" -}}
 - name: "AppSettings__Log-RollingFile-Enabled"
   value: "false"
 - name: "AppSettings__Log_RollingFile_Enabled"
@@ -168,7 +168,7 @@ Template used for common environment variables definition
 {{/*
 Enabling statistics pulishing for countly sender
 */}}
-{{- define "sf-cloud-matcher.statisticsPublish" -}}
+{{- define "smartface.statisticsPublish" -}}
 - name: "Statistics__SendStatisticsData"
   value: {{ .Values.countlyPublisher.enabled | quote }}
 {{- end }}
@@ -176,7 +176,7 @@ Enabling statistics pulishing for countly sender
 {{/*
 Topology spread definition commonly used for most of our deployments
 */}}
-{{- define "sf-cloud-matcher.topologySpread" -}}
+{{- define "smartface.topologySpread" -}}
 - maxSkew: 1
   topologyKey: "topology.kubernetes.io/zone"
   whenUnsatisfiable: ScheduleAnyway
@@ -194,7 +194,7 @@ Topology spread definition commonly used for most of our deployments
 {{/*
 Init container to perform database migration before starting the main container
 */}}
-{{- define "sf-cloud-matcher.migrationInitContainer" -}}
+{{- define "smartface.migrationInitContainer" -}}
 - name: "sf-migration"
   image: "{{ .Values.image.registry }}sf-admin:{{ .Chart.AppVersion }}"
   args: [
@@ -214,9 +214,9 @@ Init container to perform database migration before starting the main container
         secretKeyRef:
           name: {{ .Values.database.secretName | quote }}
           key: {{ .Values.database.connectionStringKey | quote }}
-    {{- include "sf-cloud-matcher.rmqConfig" . | nindent 4 }}
+    {{- include "smartface.rmqConfig" . | nindent 4 }}
   resources:
     {{- toYaml .Values.migration.initContainer.resources | nindent 4 }}
   volumeMounts:
-  {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 2 }}
+  {{- include "smartface.licVolumeMount" . | nindent 2 }}
 {{- end -}}

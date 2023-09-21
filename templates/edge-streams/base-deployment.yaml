@@ -18,7 +18,7 @@ spec:
       serviceAccountName: {{ .Values.serviceAccount.name | quote }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       topologySpreadConstraints:
-        {{- include "sf-cloud-matcher.topologySpread" (dict "appLabel" .Values.base.name) | nindent 8 }}
+        {{- include "smartface.topologySpread" (dict "appLabel" .Values.base.name) | nindent 8 }}
       imagePullSecrets:
       - name: {{ .Values.image.secretName | quote }}
       containers:
@@ -26,14 +26,14 @@ spec:
         image: "{{ .Values.image.registry }}sf-base:{{ .Chart.AppVersion }}"
         args: ["--serviceName", "SFBase"]
         env:
-        {{- include "sf-cloud-matcher.commonEnv" . | nindent 8 }}
-        {{- include "sf-cloud-matcher.rmqConfig" . | nindent 8 }}
-        {{- include "sf-cloud-matcher.dbConfig" . | nindent 8 }}
-        {{- include "sf-cloud-matcher.s3Config" . | nindent 8 }}
+        {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.rmqConfig" . | nindent 8 }}
+        {{- include "smartface.dbConfig" . | nindent 8 }}
+        {{- include "smartface.s3Config" . | nindent 8 }}
         resources:
           {{- toYaml .Values.base.resources | nindent 10 }}
         volumeMounts:
-        {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
+        {{- include "smartface.licVolumeMount" . | nindent 8 }}
       volumes:
-        {{- include "sf-cloud-matcher.licVolume" . | nindent 8 }}
+        {{- include "smartface.licVolume" . | nindent 8 }}
 {{- end }}

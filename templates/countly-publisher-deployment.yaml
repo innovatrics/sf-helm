@@ -18,15 +18,15 @@ spec:
       serviceAccountName: {{ .Values.serviceAccount.name | quote }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       topologySpreadConstraints:
-        {{- include "sf-cloud-matcher.topologySpread" (dict "appLabel" .Values.countlyPublisher.name) | nindent 8 }}
+        {{- include "smartface.topologySpread" (dict "appLabel" .Values.countlyPublisher.name) | nindent 8 }}
       imagePullSecrets:
       - name: {{ .Values.image.secretName | quote }}
       containers:
       - name: {{ .Values.countlyPublisher.name | quote }}
         image: "{{ .Values.image.registry }}sf-countly-publisher:{{ .Values.countlyPublisher.imageTag }}"
         env:
-        {{- include "sf-cloud-matcher.commonEnv" . | nindent 8 }}
-        {{- include "sf-cloud-matcher.rmqConfig" . | nindent 8 }}
+        {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.rmqConfig" . | nindent 8 }}
         - name: "CountlyConfiguration__ServerUrl"
           valueFrom:
             configMapKeyRef:
