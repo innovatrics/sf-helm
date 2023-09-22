@@ -79,10 +79,13 @@ Validate auth config present if it will be needed
 Validate registry credentials
 */}}
 {{- define "smartface.validate.registryCreds" -}}
-{{- $error := (include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.image.secretName "Key" ".dockerconfigjson")) -}}
+{{- $releaseName := .Release.Name -}}
+{{- range .Values.imagePullSecrets -}}
+{{- $error := (include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" $releaseName "Name" .name "Key" ".dockerconfigjson")) -}}
 {{- if $error -}}
 {{ printf "%s" ($error) }}
 To create the secret follow the official documentation https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+{{- end -}}
 {{- end -}}
 {{- end -}}
 

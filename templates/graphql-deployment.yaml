@@ -18,11 +18,14 @@ spec:
       automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       topologySpreadConstraints:
         {{- include "smartface.topologySpread" (dict "appLabel" .Values.graphqlApi.name) | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-      - name: {{ .Values.image.secretName | quote }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: {{ .Values.graphqlApi.name | quote }}
-        image: "{{ .Values.image.registry }}sf-graphql-api:{{ .Chart.AppVersion }}"
+        image: {{ include "smartface.image" (dict "local" .Values.graphqlApi.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.graphqlApi.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.graphqlApi.containerPort }}
         env:

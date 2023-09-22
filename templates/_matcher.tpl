@@ -23,11 +23,14 @@ spec:
       automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       topologySpreadConstraints:
         {{- include "smartface.topologySpread" (dict "appLabel" .Values.matcher.name) | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-      - name: {{ .Values.image.secretName | quote }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: {{ .Values.matcher.name | quote }}
-        image: "{{ .Values.image.registry }}sf-matcher:{{ .Chart.AppVersion }}"
+        image: {{ include "smartface.image" (dict "local" .Values.matcher.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.matcher.image.pullPolicy }}
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}

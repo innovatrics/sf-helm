@@ -18,7 +18,7 @@ The helm chart needs certain objects to be present in the cluster before it can 
 
 1. [Registry credentials secret](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-by-providing-credentials-on-the-command-line)
     - Get the credentials from [Customer portal](https://customerportal.innovatrics.com)
-    - The secret name must match `image.secretName` value
+    - The secret name must match `imagePullSecrets` value
     - see comments in `external-config.yaml` for commands to create kubernetes manifest with credentials
 1. License file secret
     - Get the license file from [Customer portal](https://customerportal.innovatrics.com)
@@ -91,7 +91,11 @@ stringData:
 | accessController.authServicePort | int | `5051` |  |
 | accessController.containerPort | int | `80` |  |
 | accessController.dnsHost | string | `""` |  |
-| accessController.imageVersion | string | `"v5_1.9.1"` |  |
+| accessController.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| accessController.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| accessController.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| accessController.image.repository | string | `"innovatrics/smartface/sf-access-controller"` | Docker image repository |
+| accessController.image.tag | string | `"v5_1.9.1"` | Access Controller follows different versioning, so the chart app needs to be overridden |
 | accessController.name | string | `"sf-access-controller"` |  |
 | accessController.nodeSelector | object | `{}` |  |
 | accessController.resources.requests.cpu | string | `"100m"` |  |
@@ -101,6 +105,11 @@ stringData:
 | api.containerPort | int | `80` |  |
 | api.dnsHost | string | `""` |  |
 | api.enabled | bool | `true` |  |
+| api.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| api.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| api.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| api.image.repository | string | `"innovatrics/smartface/sf-api"` | Docker image repository |
+| api.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | api.initMigration | bool | `true` |  |
 | api.name | string | `"sf-api"` |  |
 | api.nodeSelector | object | `{}` |  |
@@ -113,6 +122,11 @@ stringData:
 | authApi.containerPort | int | `80` |  |
 | authApi.dnsHost | string | `""` |  |
 | authApi.enabled | bool | `false` |  |
+| authApi.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| authApi.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| authApi.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| authApi.image.repository | string | `"innovatrics/smartface/sf-api"` | Docker image repository |
+| authApi.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | authApi.initMigration | bool | `true` |  |
 | authApi.name | string | `"sf-auth-api"` |  |
 | authApi.nodeSelector | object | `{}` |  |
@@ -144,6 +158,11 @@ stringData:
 | autoscaling.rmq.enabled | bool | `false` | enables rabbitmq triggers on ScaledObjects |
 | autoscaling.rmq.hostSecretName | string | `"rmq-management-uri-with-creds"` |  |
 | autoscaling.rmq.triggerAuthName | string | `"keda-trigger-auth-rabbitmq-conn"` |  |
+| base.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| base.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| base.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| base.image.repository | string | `"innovatrics/smartface/sf-base"` | Docker image repository |
+| base.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | base.name | string | `"sf-base"` |  |
 | base.nodeSelector | object | `{}` |  |
 | base.resources.requests.cpu | string | `"100m"` |  |
@@ -153,6 +172,11 @@ stringData:
 | base.zmqServicePort | int | `2406` |  |
 | countlyPublisher.clusterName | string | `""` |  |
 | countlyPublisher.enabled | bool | `false` |  |
+| countlyPublisher.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| countlyPublisher.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| countlyPublisher.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| countlyPublisher.image.repository | string | `"innovatrics/smartface/sf-countly-publisher"` | Docker image repository |
+| countlyPublisher.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | countlyPublisher.imageTag | string | `"31"` |  |
 | countlyPublisher.name | string | `"countly-publisher"` |  |
 | countlyPublisher.nodeSelector | object | `{}` |  |
@@ -161,6 +185,11 @@ stringData:
 | countlyPublisher.tolerations | list | `[]` |  |
 | database.connectionStringKey | string | `"cs"` |  |
 | database.secretName | string | `"db-cs"` |  |
+| detector.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| detector.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| detector.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| detector.image.repository | string | `"innovatrics/smartface/sf-detector"` | Docker image repository |
+| detector.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | detector.name | string | `"sf-detector"` |  |
 | detector.nodeSelector | object | `{}` |  |
 | detector.resources.limits.memory | string | `"1500M"` |  |
@@ -168,25 +197,46 @@ stringData:
 | detector.resources.requests.memory | string | `"600M"` |  |
 | detector.tolerations | list | `[]` |  |
 | edgeStreams.enabled | bool | `false` |  |
+| edgeStreams.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| edgeStreams.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| edgeStreams.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| edgeStreams.image.repository | string | `"innovatrics/smartface/sf-edge-stream-processor"` | Docker image repository |
+| edgeStreams.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | edgeStreams.name | string | `"sf-edge-stream-processor"` |  |
 | edgeStreams.nodeSelector | object | `{}` |  |
 | edgeStreams.resources.requests.cpu | string | `"100m"` |  |
 | edgeStreams.resources.requests.memory | string | `"100M"` |  |
 | edgeStreams.tolerations | list | `[]` |  |
+| extractor.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| extractor.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| extractor.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| extractor.image.repository | string | `"innovatrics/smartface/sf-extractor"` | Docker image repository |
+| extractor.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | extractor.name | string | `"sf-extractor"` |  |
 | extractor.nodeSelector | object | `{}` |  |
 | extractor.resources.limits.memory | string | `"1G"` |  |
 | extractor.resources.requests.cpu | string | `"750m"` |  |
 | extractor.resources.requests.memory | string | `"500M"` |  |
 | extractor.tolerations | list | `[]` |  |
+| faceMatcher.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| faceMatcher.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| faceMatcher.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| faceMatcher.image.repository | string | `"innovatrics/smartface/sf-face-matcher"` | Docker image repository |
+| faceMatcher.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | faceMatcher.name | string | `"sf-face-matcher"` |  |
 | faceMatcher.nodeSelector | object | `{}` |  |
 | faceMatcher.resources.requests.cpu | string | `"100m"` |  |
 | faceMatcher.resources.requests.memory | string | `"100M"` |  |
 | faceMatcher.tolerations | list | `[]` |  |
+| global.image.registry | string | `"registry.gitlab.com"` | Overrides the Docker registry globally for all images |
 | graphqlApi.containerPort | int | `80` |  |
 | graphqlApi.dnsHost | string | `""` |  |
 | graphqlApi.enableAuth | bool | `false` |  |
+| graphqlApi.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| graphqlApi.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| graphqlApi.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| graphqlApi.image.repository | string | `"innovatrics/smartface/sf-graphql-api"` | Docker image repository |
+| graphqlApi.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | graphqlApi.initMigration | bool | `false` |  |
 | graphqlApi.name | string | `"sf-graphql-api"` |  |
 | graphqlApi.nodeSelector | object | `{}` |  |
@@ -195,8 +245,7 @@ stringData:
 | graphqlApi.resources.requests.memory | string | `"300M"` |  |
 | graphqlApi.servicePort | int | `8097` |  |
 | graphqlApi.tolerations | list | `[]` |  |
-| image.registry | string | `"registry.gitlab.com/innovatrics/smartface/"` | registry to pull SmartFace images from |
-| image.secretName | string | `"sf-gitlab-registry-creds"` | docker secret to pull SmartFace images with |
+| imagePullSecrets | list | `[{"name":"sf-gitlab-registry-creds"}]` | docker secrets used to pull images with |
 | ingress.annotations | string | `nil` | supply custom ingress annotation |
 | ingress.certificateArn | string | `""` | only used if includeAlbAnnotations == true |
 | ingress.class | string | `""` | set ingress class |
@@ -207,11 +256,21 @@ stringData:
 | license.mountPath | string | `"/etc/innovatrics"` |  |
 | license.secretName | string | `"iface-lic"` |  |
 | license.volumeMountName | string | `"license"` |  |
+| liveness.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| liveness.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| liveness.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| liveness.image.repository | string | `"innovatrics/smartface/sf-liveness"` | Docker image repository |
+| liveness.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | liveness.name | string | `"sf-liveness"` |  |
 | liveness.nodeSelector | object | `{}` |  |
 | liveness.resources.requests.cpu | string | `"750m"` |  |
 | liveness.resources.requests.memory | string | `"200M"` |  |
 | liveness.tolerations | list | `[]` |  |
+| matcher.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| matcher.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| matcher.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| matcher.image.repository | string | `"innovatrics/smartface/sf-matcher"` | Docker image repository |
+| matcher.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | matcher.name | string | `"sf-matcher"` |  |
 | matcher.nodeSelector | object | `{}` |  |
 | matcher.resources.requests.cpu | string | `"750m"` |  |
@@ -223,6 +282,11 @@ stringData:
 | metrics.portName | string | `"metrics"` |  |
 | metrics.serviceDiscoveryLabels.sf-metrics | string | `"true"` |  |
 | migration.enabled | bool | `true` |  |
+| migration.initContainer.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| migration.initContainer.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| migration.initContainer.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| migration.initContainer.image.repository | string | `"innovatrics/smartface/sf-admin"` | Docker image repository |
+| migration.initContainer.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | migration.initContainer.resources | object | `{}` |  |
 | multitenancy.enabled | bool | `false` | enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled |
 | rabbitmq | object | `{"auth":{"erlangCookie":"","password":"","username":"smartface"},"configMapName":"sf-rmq-connection","enabled":true,"existingSecretName":"","extraPlugins":"rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt","mqttDnsHost":"","secretKey":"rabbitmq-password"}` | config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq |
@@ -250,7 +314,11 @@ stringData:
 | station.containerPort | int | `80` |  |
 | station.dnsHost | string | `""` |  |
 | station.enabled | bool | `true` |  |
-| station.imageVersion | string | `"v5_1.17.0"` |  |
+| station.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| station.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| station.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| station.image.repository | string | `"innovatrics/smartface/sf-station"` | Docker image repository |
+| station.image.tag | string | `"v5_1.17.0"` | Access Controller follows different versioning, so the chart app needs to be overridden |
 | station.name | string | `"sf-station"` |  |
 | station.nodeSelector | object | `{}` |  |
 | station.resources.requests.cpu | string | `"100m"` |  |
@@ -259,6 +327,11 @@ stringData:
 | station.tolerations | list | `[]` |  |
 | stationAuth.configName | string | `"station-auth-config"` | config containing authorization configuration for SF Station used when authentication is enabled for SF Station |
 | stationAuth.secretName | string | `"station-client-id"` |  |
+| streamDataDbWorker.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| streamDataDbWorker.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| streamDataDbWorker.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| streamDataDbWorker.image.repository | string | `"innovatrics/smartface/sf-streamdatadbworker"` | Docker image repository |
+| streamDataDbWorker.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | streamDataDbWorker.name | string | `"sf-stream-data-db-worker"` |  |
 | streamDataDbWorker.nodeSelector | object | `{}` |  |
 | streamDataDbWorker.resources.requests.cpu | string | `"100m"` |  |

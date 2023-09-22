@@ -12,6 +12,20 @@ Template used for adding database configuration to containers
 {{- end }}
 
 {{/*
+Template used for resolving SF images using global/local overrides
+*/}}
+{{- define "smartface.image" }}
+{{- $registry := .global.registry | default .local.registry | default "" -}}
+{{- $repository := .local.repository | default "" -}}
+{{- $ref := ternary (printf ":%s" (.local.tag | default .defaultVersion | toString)) (printf "@%s" .local.digest) (empty .local.digest) -}}
+{{- if and $registry $repository -}}
+  {{- printf "%s/%s%s" $registry $repository $ref -}}
+{{- else -}}
+  {{- printf "%s%s%s" $registry $repository $ref -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Template used for adding S3 configuration to containers
 */}}
 {{- define "smartface.s3Config" -}}
@@ -196,7 +210,7 @@ Init container to perform database migration before starting the main container
 */}}
 {{- define "smartface.migrationInitContainer" -}}
 - name: "sf-migration"
-  image: "{{ .Values.image.registry }}sf-admin:{{ .Chart.AppVersion }}"
+  image: {{ include "smartface.image" (dict "local" .Values.migration.initContainer.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
   args: [
     "run-migration",
     "-p", "1",

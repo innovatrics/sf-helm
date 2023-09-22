@@ -19,11 +19,14 @@ spec:
       automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       topologySpreadConstraints:
         {{- include "smartface.topologySpread" (dict "appLabel" .Values.station.name) | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-      - name: {{ .Values.image.secretName | quote }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: {{ .Values.station.name | quote }}
-        image: "{{ .Values.image.registry }}sf-station:{{ .Values.station.imageVersion }}"
+        image: {{ include "smartface.image" (dict "local" .Values.station.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.station.image.pullPolicy }}
         env:
         {{- include "smartface.apiFeaturesConfig" . | nindent 8 }}
         - name: "HOST"

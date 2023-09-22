@@ -19,11 +19,14 @@ spec:
       automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       topologySpreadConstraints:
         {{- include "smartface.topologySpread" (dict "appLabel" .Values.streamDataDbWorker.name) | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-      - name: {{ .Values.image.secretName | quote }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: {{ .Values.streamDataDbWorker.name | quote }}
-        image: "{{ .Values.image.registry }}sf-streamdatadbworker:{{ .Chart.AppVersion }}"
+        image: {{ include "smartface.image" (dict "local" .Values.streamDataDbWorker.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.streamDataDbWorker.image.pullPolicy }}
         ports:
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
