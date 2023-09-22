@@ -232,6 +232,7 @@ stringData:
 | graphqlApi.containerPort | int | `80` |  |
 | graphqlApi.dnsHost | string | `""` |  |
 | graphqlApi.enableAuth | bool | `false` |  |
+| graphqlApi.enabled | bool | `true` |  |
 | graphqlApi.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | graphqlApi.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | graphqlApi.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |

@@ -5,6 +5,7 @@ Compile all warnings into a single message, and call fail.
 {{- define "smartface.validate" -}}
 {{- $messages := list -}}
 {{- $messages := append $messages (trim (include "smartface.validate.multitenantEdge" .)) -}}
+{{- $messages := append $messages (trim (include "smartface.validate.stationDeps" .)) -}}
 {{- $messages := append $messages (trim (include "smartface.validate.dbConnectionSecret" .)) -}}
 {{- $messages := append $messages (trim (include "smartface.validate.s3Config" .)) -}}
 {{- $messages := append $messages (trim (include "smartface.validate.licenseSecret" .)) -}}
@@ -25,6 +26,21 @@ Validate that users does not want multitenant edge streams
 {{- define "smartface.validate.multitenantEdge" -}}
 {{- if and .Values.multitenancy.enabled .Values.edgeStreams.enabled -}}
 Multitenancy is not supported for clusters with edge streams. Please disable one of the two features
+{{- end -}}
+{{- end -}}
+
+
+{{/*
+Validate that if station is requested then its dependencies are met
+*/}}
+{{- define "smartface.validate.stationDeps" -}}
+{{- if .Values.station.enabled -}}
+{{- if not .Values.authApi.enabled -}}
+Station requires enabled authApi to work properly
+{{- end -}}
+{{- if not .Values.graphqlApi.enabled -}}
+Station requires enabled graphqlApi to work properly
+{{- end -}}
 {{- end -}}
 {{- end -}}
 

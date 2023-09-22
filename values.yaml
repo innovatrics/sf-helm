@@ -107,6 +107,7 @@ authApi:
     pullPolicy: IfNotPresent
 
 graphqlApi:
+  enabled: true
   name: "sf-graphql-api"
   servicePort: 8097
   containerPort: 80
