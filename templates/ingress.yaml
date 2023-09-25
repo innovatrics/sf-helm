@@ -53,6 +53,7 @@ spec:
               port:
                 number: {{ .Values.authApi.servicePort }}
     {{- end }}
+    {{- if .Values.graphqlApi.enabled }}
     - host: {{ .Values.graphqlApi.dnsHost }}
       http:
         paths:
@@ -63,6 +64,7 @@ spec:
               name: {{ .Values.graphqlApi.name | quote }}
               port:
                 number: {{ .Values.graphqlApi.servicePort }}
+    {{- end }}
     {{- if .Values.station.enabled }}
     - host: {{ .Values.station.dnsHost }}
       http:

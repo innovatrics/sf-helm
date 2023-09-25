@@ -13,6 +13,8 @@ spec:
       labels:
         app: {{ .Values.readonlyApi.noAuthName | quote }}
     spec:
+      serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       containers:
       - name: nginx
         image: nginx:1.25.1
@@ -20,10 +22,12 @@ spec:
         - name: "http"
           containerPort: {{ .Values.api.containerPort }}
         volumeMounts:
-            - name: nginx-conf
-              mountPath: /etc/nginx/conf.d/default.conf
-              subPath: nginx.conf
-              readOnly: true
+        - name: nginx-conf
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: nginx.conf
+          readOnly: true
+        resources:
+          {{- toYaml .Values.readonlyApi.proxyContainer.resources | nindent 10 }}
       volumes:
       - name: nginx-conf
         configMap:

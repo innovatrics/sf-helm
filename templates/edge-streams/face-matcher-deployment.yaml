@@ -15,23 +15,34 @@ spec:
       labels:
         app: {{ .Values.faceMatcher.name | quote }}
     spec:
+      serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       topologySpreadConstraints:
-        {{- include "sf-cloud-matcher.topologySpread" (dict "appLabel" .Values.faceMatcher.name) | nindent 8 }}
+        {{- include "smartface.topologySpread" (dict "appLabel" .Values.faceMatcher.name) | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-      - name: {{ .Values.image.secretName | quote }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: {{ .Values.faceMatcher.name | quote }}
-        image: "{{ .Values.image.registry }}sf-face-matcher:{{ .Chart.AppVersion }}"
+        image: {{ include "smartface.image" (dict "local" .Values.faceMatcher.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.faceMatcher.image.pullPolicy }}
         env:
-        {{- include "sf-cloud-matcher.commonEnv" . | nindent 8 }}
-        {{- include "sf-cloud-matcher.rmqConfig" . | nindent 8 }}
-        {{- include "sf-cloud-matcher.dbConfig" . | nindent 8 }}
+        {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.rmqConfig" . | nindent 8 }}
+        {{- include "smartface.dbConfig" . | nindent 8 }}
         resources:
-          requests:
-            memory: "100M"
-            cpu: "100m"
+          {{- toYaml .Values.faceMatcher.resources | nindent 10 }}
         volumeMounts:
-        {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
+        {{- include "smartface.licVolumeMount" . | nindent 8 }}
       volumes:
-        {{- include "sf-cloud-matcher.licVolume" . | nindent 8 }}
+        {{- include "smartface.licVolume" . | nindent 8 }}
+      {{- with .Values.faceMatcher.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.faceMatcher.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
 {{- end }}

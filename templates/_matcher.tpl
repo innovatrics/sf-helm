@@ -2,7 +2,7 @@
 {{/*
 Definition of matcher deployment manifest. Will either be used by tenant operator or directly
 */}}
-{{- define "sf-cloud-matcher.matcherDefinition" -}}
+{{- define "smartface.matcherDefinition" -}}
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
@@ -19,23 +19,34 @@ spec:
       labels:
         app: {{ .Values.matcher.name | quote }}
     spec:
+      serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       topologySpreadConstraints:
-        {{- include "sf-cloud-matcher.topologySpread" (dict "appLabel" .Values.matcher.name) | nindent 8 }}
+        {{- include "smartface.topologySpread" (dict "appLabel" .Values.matcher.name) | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-      - name: {{ .Values.image.secretName | quote }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: {{ .Values.matcher.name | quote }}
-        image: "{{ .Values.image.registry }}sf-matcher:{{ .Chart.AppVersion }}"
+        image: {{ include "smartface.image" (dict "local" .Values.matcher.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.matcher.image.pullPolicy }}
         env:
-        {{- include "sf-cloud-matcher.commonEnv" . | nindent 12 }}
-        {{- include "sf-cloud-matcher.rmqConfig" . | nindent 12 }}
-        {{- include "sf-cloud-matcher.dbConfig" . | nindent 12 }}
+        {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.rmqConfig" . | nindent 8 }}
+        {{- include "smartface.dbConfig" . | nindent 8 }}
         resources:
-          requests:
-            memory: "200M"
-            cpu: {{ .Values.matcher.cpuRequests | quote }}
+          {{- toYaml .Values.matcher.resources | nindent 10 }}
         volumeMounts:
-        {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 12 }}
+        {{- include "smartface.licVolumeMount" . | nindent 8 }}
       volumes:
-        {{- include "sf-cloud-matcher.licVolume" . | nindent 12 }}
+        {{- include "smartface.licVolume" . | nindent 8 }}
+      {{- with .Values.matcher.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.matcher.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
 {{- end }}

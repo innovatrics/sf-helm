@@ -15,16 +15,21 @@ spec:
       labels:
         app: {{ .Values.countlyPublisher.name | quote }}
     spec:
+      serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       topologySpreadConstraints:
-        {{- include "sf-cloud-matcher.topologySpread" (dict "appLabel" .Values.countlyPublisher.name) | nindent 8 }}
+        {{- include "smartface.topologySpread" (dict "appLabel" .Values.countlyPublisher.name) | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-      - name: {{ .Values.image.secretName | quote }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: {{ .Values.countlyPublisher.name | quote }}
-        image: "{{ .Values.image.registry }}sf-countly-publisher:{{ .Values.countlyPublisher.imageTag }}"
+        image: {{ include "smartface.image" (dict "local" .Values.countlyPublisher.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.countlyPublisher.image.pullPolicy }}
         env:
-        {{- include "sf-cloud-matcher.commonEnv" . | nindent 8 }}
-        {{- include "sf-cloud-matcher.rmqConfig" . | nindent 8 }}
+        {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.rmqConfig" . | nindent 8 }}
         - name: "CountlyConfiguration__ServerUrl"
           valueFrom:
             configMapKeyRef:
@@ -42,7 +47,13 @@ spec:
         - name: "PrometheusConfiguration__Endpoints__0"
           value: "http://+:{{ .Values.metrics.port }}/"
         resources:
-          requests:
-            memory: "100M"
-            cpu: "100m"
+          {{- toYaml .Values.countlyPublisher.resources | nindent 10 }}
+      {{- with .Values.countlyPublisher.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.countlyPublisher.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
 {{- end }}

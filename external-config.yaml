@@ -29,6 +29,9 @@ data:
 # supply S3 bucket
   name: "sf-cm-test"
   region: "eu-central-1"
+  folder: "sface"
+  authType: "AssumedRole"
+  useBucketEndpoint: "true"
 ---
 apiVersion: v1
 stringData:

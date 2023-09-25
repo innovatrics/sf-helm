@@ -1,1 +1,1 @@
-{{- include "sf-cloud-matcher.validate" . }}
+{{- include "smartface.validate" . }}

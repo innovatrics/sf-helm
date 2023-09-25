@@ -14,23 +14,32 @@ spec:
       labels:
         app: {{ .Values.extractor.name | quote }}
     spec:
+      serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       topologySpreadConstraints:
-        {{- include "sf-cloud-matcher.topologySpread" (dict "appLabel" .Values.extractor.name) | nindent 8 }}
+        {{- include "smartface.topologySpread" (dict "appLabel" .Values.extractor.name) | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-      - name: {{ .Values.image.secretName | quote }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: {{ .Values.extractor.name | quote }}
-        image: "{{ .Values.image.registry }}sf-extractor:{{ .Chart.AppVersion }}"
+        image: {{ include "smartface.image" (dict "local" .Values.extractor.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.extractor.image.pullPolicy }}
         env:
-        {{- include "sf-cloud-matcher.commonEnv" . | nindent 8 }}
-        {{- include "sf-cloud-matcher.rmqConfig" . | nindent 8 }}
+        {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.rmqConfig" . | nindent 8 }}
         resources:
-          requests:
-            memory: "500M"
-            cpu: {{ .Values.extractor.cpuRequests | quote }}
-          limits:
-            memory: "1G"
+          {{- toYaml .Values.extractor.resources | nindent 10 }}
         volumeMounts:
-        {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
+        {{- include "smartface.licVolumeMount" . | nindent 8 }}
       volumes:
-        {{- include "sf-cloud-matcher.licVolume" . | nindent 8 }}
+        {{- include "smartface.licVolume" . | nindent 8 }}
+      {{- with .Values.extractor.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.extractor.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

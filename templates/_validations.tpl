@@ -2,15 +2,16 @@
 {{/*
 Compile all warnings into a single message, and call fail.
 */}}
-{{- define "sf-cloud-matcher.validate" -}}
+{{- define "smartface.validate" -}}
 {{- $messages := list -}}
-{{- $messages := append $messages (trim (include "sf-cloud-matcher.validate.multitenantEdge" .)) -}}
-{{- $messages := append $messages (trim (include "sf-cloud-matcher.validate.dbConnectionSecret" .)) -}}
-{{- $messages := append $messages (trim (include "sf-cloud-matcher.validate.s3Config" .)) -}}
-{{- $messages := append $messages (trim (include "sf-cloud-matcher.validate.licenseSecret" .)) -}}
-{{- $messages := append $messages (trim (include "sf-cloud-matcher.validate.authConfig" .)) -}}
-{{- $messages := append $messages (trim (include "sf-cloud-matcher.validate.registryCreds" .)) -}}
-{{- $messages := append $messages (trim (include "sf-cloud-matcher.validate.rmqConfig" .)) -}}
+{{- $messages := append $messages (trim (include "smartface.validate.multitenantEdge" .)) -}}
+{{- $messages := append $messages (trim (include "smartface.validate.stationDeps" .)) -}}
+{{- $messages := append $messages (trim (include "smartface.validate.dbConnectionSecret" .)) -}}
+{{- $messages := append $messages (trim (include "smartface.validate.s3Config" .)) -}}
+{{- $messages := append $messages (trim (include "smartface.validate.licenseSecret" .)) -}}
+{{- $messages := append $messages (trim (include "smartface.validate.authConfig" .)) -}}
+{{- $messages := append $messages (trim (include "smartface.validate.registryCreds" .)) -}}
+{{- $messages := append $messages (trim (include "smartface.validate.rmqConfig" .)) -}}
 {{- $messages := append $messages (trim (include "sf-cloud-matcher.validate.mqttConfig" .)) -}}
 {{- $messages := without $messages "" -}}
 {{- $message := join "\n" $messages -}}
@@ -23,81 +24,102 @@ Compile all warnings into a single message, and call fail.
 {{/*
 Validate that users does not want multitenant edge streams
 */}}
-{{- define "sf-cloud-matcher.validate.multitenantEdge" -}}
+{{- define "smartface.validate.multitenantEdge" -}}
 {{- if and .Values.multitenancy.enabled .Values.edgeStreams.enabled -}}
 Multitenancy is not supported for clusters with edge streams. Please disable one of the two features
+{{- end -}}
+{{- end -}}
+
+
+{{/*
+Validate that if station is requested then its dependencies are met
+*/}}
+{{- define "smartface.validate.stationDeps" -}}
+{{- if .Values.station.enabled -}}
+{{- if not .Values.authApi.enabled -}}
+Station requires enabled authApi to work properly
+{{- end -}}
+{{- if not .Values.graphqlApi.enabled -}}
+Station requires enabled graphqlApi to work properly
+{{- end -}}
 {{- end -}}
 {{- end -}}
 
 {{/*
 Validate that the Database connection string secret exists with correct key
 */}}
-{{- define "sf-cloud-matcher.validate.dbConnectionSecret" -}}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.database.secretName "Key" .Values.database.connectionStringKey) }}
+{{- define "smartface.validate.dbConnectionSecret" -}}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.database.secretName "Key" .Values.database.connectionStringKey) }}
 {{- end -}}
 
 {{/*
 Validate that the S3 config map exists with correct keys
 */}}
-{{- define "sf-cloud-matcher.validate.s3Config" -}}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.s3.configName "Key" .Values.s3.bucketKey) }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.s3.configName "Key" .Values.s3.regionKey) }}
+{{- define "smartface.validate.s3Config" -}}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.s3.configName "Key" .Values.s3.bucketKey) }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.s3.configName "Key" .Values.s3.regionKey) }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.s3.configName "Key" .Values.s3.folderKey) }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.s3.configName "Key" .Values.s3.authTypeKey) }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.s3.configName "Key" .Values.s3.useBucketEndpointKey) }}
 {{- end -}}
 
 {{/*
 Validate that the license secret exists with correct keys
 */}}
-{{- define "sf-cloud-matcher.validate.licenseSecret" -}}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.license.secretName "Key" "iengine.lic") }}
+{{- define "smartface.validate.licenseSecret" -}}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.license.secretName "Key" "iengine.lic") }}
 {{- end -}}
 
 {{/*
 Validate auth config present if it will be needed
 */}}
-{{- define "sf-cloud-matcher.validate.authConfig" -}}
+{{- define "smartface.validate.authConfig" -}}
 {{- if or .Values.authApi.enabled .Values.graphqlApi.enableAuth -}}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.auth.configName "Key" "use_auth") }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.auth.configName "Key" "authority") }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.auth.configName "Key" "audience") }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.auth.configName "Key" "oauth_token_url") }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.auth.configName "Key" "oauth_authorize_url") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.auth.configName "Key" "use_auth") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.auth.configName "Key" "authority") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.auth.configName "Key" "audience") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.auth.configName "Key" "oauth_token_url") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.auth.configName "Key" "oauth_authorize_url") }}
 {{- end -}}
 {{- if .Values.station.enabled }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.stationAuth.configName "Key" "use_auth") }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.stationAuth.configName "Key" "audience") }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.stationAuth.configName "Key" "domain") }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.stationAuth.configName "Key" "issuer") }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.stationAuth.configName "Key" "jwks_uri") }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.stationAuth.configName "Key" "auth_header") }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.stationAuth.secretName "Key" "client_id") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.stationAuth.configName "Key" "use_auth") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.stationAuth.configName "Key" "audience") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.stationAuth.configName "Key" "domain") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.stationAuth.configName "Key" "issuer") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.stationAuth.configName "Key" "jwks_uri") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.stationAuth.configName "Key" "auth_header") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.stationAuth.secretName "Key" "client_id") }}
 {{- end -}}
 {{- end -}}
 
 {{/*
 Validate registry credentials
 */}}
-{{- define "sf-cloud-matcher.validate.registryCreds" -}}
-{{- $error := (include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.image.secretName "Key" ".dockerconfigjson")) -}}
+{{- define "smartface.validate.registryCreds" -}}
+{{- $releaseName := .Release.Name -}}
+{{- range .Values.imagePullSecrets -}}
+{{- $error := (include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" $releaseName "Name" .name "Key" ".dockerconfigjson")) -}}
 {{- if $error -}}
 {{ printf "%s" ($error) }}
 To create the secret follow the official documentation https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+{{- end -}}
 {{- end -}}
 {{- end -}}
 
 {{/*
 Validate rmq config if not managed by us
 */}}
-{{- define "sf-cloud-matcher.validate.rmqConfig" -}}
+{{- define "smartface.validate.rmqConfig" -}}
 {{- if not .Values.rabbitmq.enabled -}}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "hostname") }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "useSsl") }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "port") }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "streamsPort") }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "username") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "hostname") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "useSsl") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "port") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "streamsPort") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "username") }}
 {{- if not .Values.rabbitmq.existingSecretName }}
 Please provide value for `rabbitmq.existingSecretName`
 {{- else }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.existingSecretName "Key" .Values.rabbitmq.secretKey) }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.existingSecretName "Key" .Values.rabbitmq.secretKey) }}
 {{- end -}}
 {{- end -}}
 {{- end -}}
@@ -120,7 +142,7 @@ This should not be used in such combination because there would be no "shovel" b
 {{/*
 Validate arbitrary k8s resource and presence of a field on it
 */}}
-{{- define "sf-cloud-matcher.validate.genericResourceWithKey" -}}
+{{- define "smartface.validate.genericResourceWithKey" -}}
 {{- $resource := (lookup .Version .Type .Namespace .Name).data -}}
 {{- if $resource -}}
 {{- $value := (index $resource .Key) -}}

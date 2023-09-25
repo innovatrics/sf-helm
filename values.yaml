@@ -1,12 +1,15 @@
-# Default values for sf-cloud-matcher.
+# Default values for smartface.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-image:
-  # -- registry to pull SmartFace images from
-  registry: "registry.gitlab.com/innovatrics/smartface/"
-  # -- docker secret to pull SmartFace images with
-  secretName: "sf-gitlab-registry-creds"
+global:
+  image:
+    # -- Overrides the Docker registry globally for all images
+    registry: "registry.gitlab.com"
+
+# -- docker secrets used to pull images with
+imagePullSecrets:
+  - name: "sf-gitlab-registry-creds"
 
 database:
   secretName: "db-cs"
@@ -16,6 +19,9 @@ s3:
   configName: "s3-config"
   bucketKey: "name"
   regionKey: "region"
+  folderKey: "folder"
+  authTypeKey: "authType"
+  useBucketEndpointKey: "useBucketEndpoint"
 
 # -- config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq
 rabbitmq:
@@ -62,6 +68,25 @@ api:
   containerPort: 80
   dnsHost: ""
   initMigration: true
+  resources:
+    requests:
+      memory: "300M"
+      cpu: "250m"
+    limits:
+      memory: "4G"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-api
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
 
 authApi:
   enabled: false
@@ -70,14 +95,53 @@ authApi:
   containerPort: 80
   dnsHost: ""
   initMigration: true
+  resources:
+    requests:
+      memory: "300M"
+      cpu: "250m"
+    limits:
+      memory: "4G"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-api
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
 
 graphqlApi:
+  enabled: true
   name: "sf-graphql-api"
   servicePort: 8097
   containerPort: 80
   dnsHost: ""
   enableAuth: false
   initMigration: false
+  resources:
+    requests:
+      memory: "300M"
+      cpu: "250m"
+    limits:
+      memory: "4G"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-graphql-api
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
 
 ingress:
   # -- enable creation of ingress object
@@ -93,23 +157,108 @@ ingress:
 
 detector:
   name: "sf-detector"
-  cpuRequests: "750m"
+  resources:
+    requests:
+      memory: "600M"
+      cpu: "750m"
+    limits:
+      memory: "1500M"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-detector
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
 
 extractor:
   name: "sf-extractor"
-  cpuRequests: "750m"
+  resources:
+    requests:
+      memory: "500M"
+      cpu: "750m"
+    limits:
+      memory: "1G"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-extractor
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
 
 matcher:
   name: "sf-matcher"
-  cpuRequests: "750m"
+  resources:
+    requests:
+      memory: "200M"
+      cpu: "750m"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-matcher
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
 
 liveness:
   name: "sf-liveness"
-  cpuRequests: "750m"
+  resources:
+    requests:
+      memory: "200M"
+      cpu: "750m"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-liveness
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
 
 edgeStreams:
   name: "sf-edge-stream-processor"
   enabled: false
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-edge-stream-processor
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
 
 edgeStreamsStateSync:
   name: "sf-edge-streams-state-synchronizer"
@@ -119,30 +268,113 @@ base:
   name: "sf-base"
   zmqServicePort: 2406
   zmqContainerPort: 2406
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-base
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
 
 faceMatcher:
   name: "sf-face-matcher"
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-face-matcher
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
 
 accessController:
   name: "sf-access-controller"
   authServiceName: "sf-auth-access-controller"
-  imageVersion: "v5_1.9.1"
   dnsHost: ""
   servicePort: 5050
   containerPort: 80
   authServicePort: 5051
   authContainerPort: 5051
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-access-controller
+    # -- Access Controller follows different versioning, so the chart app needs to be overridden
+    tag: "v5_1.9.1"
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
 
 station:
   enabled: true
   name: "sf-station"
-  imageVersion: "v5_1.17.0"
   servicePort: 8000
   containerPort: 80
   dnsHost: ""
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-station
+    # -- Access Controller follows different versioning, so the chart app needs to be overridden
+    tag: "v5_1.17.0"
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
 
 streamDataDbWorker:
   name: "sf-stream-data-db-worker"
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-streamdatadbworker
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
 
 jaeger:
   enabled: true
@@ -150,6 +382,19 @@ jaeger:
 
 migration:
   enabled: true
+  initContainer:
+    resources: {}
+    image:
+      # -- The Docker registry, overrides `global.image.registry`
+      registry: null
+      # -- Docker image repository
+      repository: innovatrics/smartface/sf-admin
+      # -- Overrides the image tag whose default is the chart's appVersion
+      tag: null
+      # -- Overrides the image tag with an image digest
+      digest: null
+      # -- Docker image pull policy
+      pullPolicy: IfNotPresent
 
 autoscaling:
   cron:
@@ -215,6 +460,23 @@ countlyPublisher:
   name: "countly-publisher"
   clusterName: ""
   imageTag: "31"
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-countly-publisher
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
 
 metrics:
   enabled: false
@@ -229,3 +491,21 @@ readonlyApi:
   enabled: false
   authName: "readonly-auth-api"
   noAuthName: "readonly-noauth-api"
+  proxyContainer:
+    resources: {}
+  nodeSelector: {}
+  tolerations: []
+
+serviceAccount:
+  # -- Specifies whether a ServiceAccount should be created
+  create: true
+  # -- The name of the ServiceAccount to use.
+  name: "sf-service-account"
+  # -- Image pull secrets for the service account
+  imagePullSecrets: []
+  # -- Annotations for the service account
+  annotations: {}
+  # -- Labels for the service account
+  labels: {}
+  # -- Set this toggle to false to opt out of automounting API credentials for the service account
+  automountServiceAccountToken: true

@@ -15,17 +15,22 @@ spec:
       labels:
         app: {{ .Values.accessController.name | quote }}
     spec:
+      serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       topologySpreadConstraints:
-        {{- include "sf-cloud-matcher.topologySpread" (dict "appLabel" .Values.accessController.name) | nindent 8 }}
+        {{- include "smartface.topologySpread" (dict "appLabel" .Values.accessController.name) | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-      - name: {{ .Values.image.secretName | quote }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: {{ .Values.accessController.name | quote }}
-        image: "{{ .Values.image.registry }}sf-access-controller:{{ .Values.accessController.imageVersion }}"
+        image: {{ include "smartface.image" (dict "local" .Values.accessController.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.accessController.image.pullPolicy }}
         env:
-        {{- include "sf-cloud-matcher.commonEnv" . | nindent 8 }}
-        {{- include "sf-cloud-matcher.rmqConfig" . | nindent 8 }}
-        {{- include "sf-cloud-matcher.authenticationConfig" . | nindent 8 }}
+        {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.rmqConfig" . | nindent 8 }}
+        {{- include "smartface.authenticationConfig" . | nindent 8 }}
         - name: "Kestrel__EndPoints__Http__Url"
           value: "http://0.0.0.0:{{ .Values.accessController.containerPort }}"
         - name: "Kestrel__EndPoints__Http__RequireAuthentication"
@@ -35,11 +40,17 @@ spec:
         - name: "Kestrel__EndPoints__HttpAuth__RequireAuthentication"
           value: "true"
         resources:
-          requests:
-            memory: "100M"
-            cpu: "100m"
+          {{- toYaml .Values.accessController.resources | nindent 10 }}
         volumeMounts:
-        {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
+        {{- include "smartface.licVolumeMount" . | nindent 8 }}
       volumes:
-        {{- include "sf-cloud-matcher.licVolume" . | nindent 8 }}
+        {{- include "smartface.licVolume" . | nindent 8 }}
+      {{- with .Values.accessController.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.accessController.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
 {{- end }}
