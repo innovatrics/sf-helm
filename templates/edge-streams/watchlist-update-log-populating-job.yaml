@@ -1,4 +1,4 @@
-{{- if and .Values.edgeStreams.enabled .Values.edgeStreamsStateSync.runWlStreamPopulationJob }}
+{{- if and .Values.edgeStreams.enabled .Values.edgeStreamsStateSync.wlStreamPopulationJob.enabled }}
 apiVersion: "batch/v1"
 kind: "Job"
 metadata:
@@ -6,9 +6,15 @@ metadata:
 spec:
   template:
     spec:
+      serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: "sf-wl-update-log-population"
-        image: "{{ .Values.image.registry }}sf-admin:{{ .Chart.AppVersion }}"
+        image: {{ include "smartface.image" (dict "local" .Values.edgeStreamsStateSync.wlStreamPopulationJob.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
         # this is not multitenant, so we pass "default"
         # maybe we should generate UUID for generation ID
         args: [
@@ -25,13 +31,21 @@ spec:
           "--tenant-id", "default"
         ]
         env:
-        {{- include "sf-cloud-matcher.rmqConfig" . | nindent 10 }}
+        {{- include "smartface.rmqConfig" . | nindent 8 }}
         volumeMounts:
-        {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
+        {{- include "smartface.licVolumeMount" . | nindent 8 }}
+        resources:
+          {{- toYaml .Values.api.resources | nindent 10 }}
       volumes:
-        {{- include "sf-cloud-matcher.licVolume" . | nindent 8 }}
-      imagePullSecrets:
-      - name: {{ .Values.image.secretName | quote }}
+        {{- include "smartface.licVolume" . | nindent 8 }}
+      {{- with .Values.edgeStreams.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.edgeStreams.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       restartPolicy: "Never"
   backoffLimit: 4
 {{- end }}

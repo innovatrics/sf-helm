@@ -149,7 +149,7 @@ Template used for adding RMQ configuration to containers
 {{/*
 Template used for adding MQTT configuration to containers
 */}}
-{{- define "sf-cloud-matcher.mqttConfig" -}}
+{{- define "smartface.mqttConfig" -}}
 - name: "MQTT__Hostname"
   valueFrom:
     configMapKeyRef:

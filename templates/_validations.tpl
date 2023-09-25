@@ -12,7 +12,7 @@ Compile all warnings into a single message, and call fail.
 {{- $messages := append $messages (trim (include "smartface.validate.authConfig" .)) -}}
 {{- $messages := append $messages (trim (include "smartface.validate.registryCreds" .)) -}}
 {{- $messages := append $messages (trim (include "smartface.validate.rmqConfig" .)) -}}
-{{- $messages := append $messages (trim (include "sf-cloud-matcher.validate.mqttConfig" .)) -}}
+{{- $messages := append $messages (trim (include "smartface.validate.mqttConfig" .)) -}}
 {{- $messages := without $messages "" -}}
 {{- $message := join "\n" $messages -}}
 
@@ -127,15 +127,15 @@ Please provide value for `rabbitmq.existingSecretName`
 {{/*
 Validate mqtt config if not managed by us
 */}}
-{{- define "sf-cloud-matcher.validate.mqttConfig" -}}
+{{- define "smartface.validate.mqttConfig" -}}
 {{/*
 This should not be used in such combination because there would be no "shovel" between mqtt and rmq, but we can still validate
 */}}
 {{- if and .Values.edgeStreams.enabled (not .Values.rabbitmq.enabled) -}}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "hostname") }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "useSsl") }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "port") }}
-{{ include "sf-cloud-matcher.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "username") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "hostname") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "useSsl") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "port") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "username") }}
 {{- end -}}
 {{- end -}}
 

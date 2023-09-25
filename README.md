@@ -207,8 +207,25 @@ stringData:
 | edgeStreams.resources.requests.cpu | string | `"100m"` |  |
 | edgeStreams.resources.requests.memory | string | `"100M"` |  |
 | edgeStreams.tolerations | list | `[]` |  |
+| edgeStreamsStateSync.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| edgeStreamsStateSync.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| edgeStreamsStateSync.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| edgeStreamsStateSync.image.repository | string | `"innovatrics/smartface/sf-edge-streams-state-synchronizer"` | Docker image repository |
+| edgeStreamsStateSync.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | edgeStreamsStateSync.name | string | `"sf-edge-streams-state-synchronizer"` |  |
-| edgeStreamsStateSync.runWlStreamPopulationJob | bool | `false` |  |
+| edgeStreamsStateSync.nodeSelector | object | `{}` |  |
+| edgeStreamsStateSync.resources.requests.cpu | string | `"100m"` |  |
+| edgeStreamsStateSync.resources.requests.memory | string | `"100M"` |  |
+| edgeStreamsStateSync.tolerations | list | `[]` |  |
+| edgeStreamsStateSync.wlStreamPopulationJob.enabled | bool | `false` |  |
+| edgeStreamsStateSync.wlStreamPopulationJob.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| edgeStreamsStateSync.wlStreamPopulationJob.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| edgeStreamsStateSync.wlStreamPopulationJob.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| edgeStreamsStateSync.wlStreamPopulationJob.image.repository | string | `"innovatrics/smartface/sf-admin"` | Docker image repository |
+| edgeStreamsStateSync.wlStreamPopulationJob.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
+| edgeStreamsStateSync.wlStreamPopulationJob.nodeSelector | object | `{}` |  |
+| edgeStreamsStateSync.wlStreamPopulationJob.resources | object | `{}` |  |
+| edgeStreamsStateSync.wlStreamPopulationJob.tolerations | list | `[]` |  |
 | extractor.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | extractor.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | extractor.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |

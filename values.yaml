@@ -262,7 +262,39 @@ edgeStreams:
 
 edgeStreamsStateSync:
   name: "sf-edge-streams-state-synchronizer"
-  runWlStreamPopulationJob: false
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-edge-streams-state-synchronizer
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+  wlStreamPopulationJob:
+    enabled: false
+    resources: {}
+    nodeSelector: {}
+    tolerations: []
+    image:
+      # -- The Docker registry, overrides `global.image.registry`
+      registry: null
+      # -- Docker image repository
+      repository: innovatrics/smartface/sf-admin
+      # -- Overrides the image tag whose default is the chart's appVersion
+      tag: null
+      # -- Overrides the image tag with an image digest
+      digest: null
+      # -- Docker image pull policy
+      pullPolicy: IfNotPresent
 
 base:
   name: "sf-base"

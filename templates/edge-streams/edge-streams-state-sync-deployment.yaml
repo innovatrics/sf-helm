@@ -15,24 +15,35 @@ spec:
       labels:
         app: {{ .Values.edgeStreamsStateSync.name | quote }}
     spec:
+      serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       topologySpreadConstraints:
-        {{- include "sf-cloud-matcher.topologySpread" (dict "appLabel" .Values.edgeStreamsStateSync.name) | nindent 8 }}
+        {{- include "smartface.topologySpread" (dict "appLabel" .Values.edgeStreamsStateSync.name) | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-      - name: {{ .Values.image.secretName | quote }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: {{ .Values.edgeStreamsStateSync.name | quote }}
-        image: "{{ .Values.image.registry }}sf-edge-streams-state-synchronizer:{{ .Chart.AppVersion }}"
+        image: {{ include "smartface.image" (dict "local" .Values.edgeStreamsStateSync.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.edgeStreams.image.pullPolicy }}
         env:
-        {{- include "sf-cloud-matcher.commonEnv" . | nindent 8 }}
-        {{- include "sf-cloud-matcher.rmqConfig" . | nindent 8 }}
-        {{- include "sf-cloud-matcher.mqttConfig" . | nindent 8 }}
-        {{- include "sf-cloud-matcher.dbConfig" . | nindent 8 }}
+        {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.rmqConfig" . | nindent 8 }}
+        {{- include "smartface.mqttConfig" . | nindent 8 }}
+        {{- include "smartface.dbConfig" . | nindent 8 }}
         resources:
-          requests:
-            memory: "100M"
-            cpu: "100m"
+          {{- toYaml .Values.edgeStreams.resources | nindent 10 }}
         volumeMounts:
-        {{- include "sf-cloud-matcher.licVolumeMount" . | nindent 8 }}
+        {{- include "smartface.licVolumeMount" . | nindent 8 }}
       volumes:
-        {{- include "sf-cloud-matcher.licVolume" . | nindent 8 }}
+        {{- include "smartface.licVolume" . | nindent 8 }}
+      {{- with .Values.edgeStreams.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.edgeStreams.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
 {{- end }}
