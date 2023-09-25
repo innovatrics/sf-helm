@@ -96,7 +96,7 @@ Validate auth config present if it will be needed
 Validate registry credentials
 */}}
 {{- define "smartface.validate.registryCreds" -}}
-{{- $releaseName := .Release.Name -}}
+{{- $releaseName := .Release.Namespace -}}
 {{- range .Values.imagePullSecrets -}}
 {{- $error := (include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" $releaseName "Name" .name "Key" ".dockerconfigjson")) -}}
 {{- if $error -}}

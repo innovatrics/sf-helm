@@ -309,7 +309,7 @@ stringData:
 | migration.initContainer.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | migration.initContainer.resources | object | `{}` |  |
 | multitenancy.enabled | bool | `false` | enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled |
-| rabbitmq | object | `{"auth":{"erlangCookie":"","password":"","username":"smartface"},"configMapName":"sf-rmq-connection","enabled":true,"existingSecretName":"","extraPlugins":"rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt","mqttConfigMapName":"sf-mqtt-connection","mqttDnsHost":"","secretKey":"rabbitmq-password","service":{"extraPorts":[{"name":"mqtt","port":1883,"targetPort":1883},{"name":"rmqStream","port":5552,"targetPort":5552}]}}` | config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq |
+| rabbitmq | object | `{"auth":{"erlangCookie":"","password":"","username":"smartface"},"configMapName":"sf-rmq-connection","enabled":true,"existingSecretName":"","extraPlugins":"rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt","mqttConfigMapName":"sf-mqtt-connection","mqttDnsHost":"","secretKey":"rabbitmq-password","service":{"extraPorts":[{"name":"mqtt","port":1883,"targetPort":1883},{"name":"rmq-stream","port":5552,"targetPort":5552}]}}` | config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq |
 | rabbitmq.enabled | bool | `true` | configure if rabbitmq subchart should be included |
 | rabbitmq.mqttDnsHost | string | `""` | hostname used for MQTT service - only relevant for edge streams |
 | readonlyApi.authName | string | `"readonly-auth-api"` |  |

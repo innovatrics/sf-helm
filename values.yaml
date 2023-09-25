@@ -43,7 +43,7 @@ rabbitmq:
     - name: mqtt
       port: 1883
       targetPort: 1883
-    - name: rmqStream
+    - name: rmq-stream
       port: 5552
       targetPort: 5552
 

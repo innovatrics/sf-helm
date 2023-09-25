@@ -19,6 +19,7 @@ spec:
         # maybe we should generate UUID for generation ID
         args: [
           "populate-wl-update-log-stream",
+
           "--rmq-host", "$(RabbitMQ__Hostname)",
           "--rmq-user", "$(RabbitMQ__Username)",
           "--rmq-pass", "$(RabbitMQ__Password)",
@@ -27,22 +28,30 @@ spec:
           "--rmq-virtual-host", "/",
           "--rmq-streams-port", "$(RabbitMQ__StreamsPort)",
 
+          "--connection-string", "$(db_cs)",
+          "-dbe", "PgSql",
+
           "--generation-id", {{ uuidv4 | quote }},
           "--tenant-id", "default"
         ]
         env:
+        - name: "db_cs"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.database.secretName | quote }}
+              key: {{ .Values.database.connectionStringKey | quote }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
         volumeMounts:
         {{- include "smartface.licVolumeMount" . | nindent 8 }}
         resources:
-          {{- toYaml .Values.api.resources | nindent 10 }}
+          {{- toYaml .Values.edgeStreamsStateSync.wlStreamPopulationJob.resources | nindent 10 }}
       volumes:
         {{- include "smartface.licVolume" . | nindent 8 }}
-      {{- with .Values.edgeStreams.nodeSelector }}
+      {{- with .Values.edgeStreamsStateSync.wlStreamPopulationJob.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.edgeStreams.tolerations }}
+      {{- with .Values.edgeStreamsStateSync.wlStreamPopulationJob.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
