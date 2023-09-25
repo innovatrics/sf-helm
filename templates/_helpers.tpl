@@ -51,11 +51,11 @@ Template used for adding S3 configuration to containers
       name: {{ .Values.s3.configName | quote }}
       key: {{ .Values.s3.authTypeKey | quote }}
 # BucketRegion
-- name: "S3Bucket__EndpointType"
+- name: "S3Bucket__useBucketEndpoint"
   valueFrom:
     configMapKeyRef:
       name: {{ .Values.s3.configName | quote }}
-      key: {{ .Values.s3.endpointTypeKey | quote }}
+      key: {{ .Values.s3.useBucketEndpointKey | quote }}
 {{- end }}
 
 {{/*

@@ -31,7 +31,7 @@ data:
   region: "eu-central-1"
   folder: "sface"
   authType: "AssumedRole"
-  endpointType: "BucketRegion"
+  useBucketEndpoint: "true"
 ---
 apiVersion: v1
 stringData:

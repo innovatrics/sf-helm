@@ -302,9 +302,9 @@ stringData:
 | s3.authTypeKey | string | `"authType"` |  |
 | s3.bucketKey | string | `"name"` |  |
 | s3.configName | string | `"s3-config"` |  |
-| s3.endpointTypeKey | string | `"endpointType"` |  |
 | s3.folderKey | string | `"folder"` |  |
 | s3.regionKey | string | `"region"` |  |
+| s3.useBucketEndpointKey | string | `"useBucketEndpoint"` |  |
 | serviceAccount.annotations | object | `{}` | Annotations for the service account |
 | serviceAccount.automountServiceAccountToken | bool | `true` | Set this toggle to false to opt out of automounting API credentials for the service account |
 | serviceAccount.create | bool | `true` | Specifies whether a ServiceAccount should be created |
