@@ -8,7 +8,7 @@ Compile all warnings into a single message, and call fail.
 {{- $messages := append $messages (trim (include "smartface.validate.multitenantEdge" .)) -}}
 {{- $messages := append $messages (trim (include "smartface.validate.stationDeps" .)) -}}
 
-{{- if .Values.skipLookupBasedValidations -}}
+{{- if not .Values.skipLookupBasedValidations -}}
 {{- $messages := append $messages (trim (include "smartface.validate.dbConnectionSecret" .)) -}}
 {{- $messages := append $messages (trim (include "smartface.validate.s3Config" .)) -}}
 {{- $messages := append $messages (trim (include "smartface.validate.licenseSecret" .)) -}}
