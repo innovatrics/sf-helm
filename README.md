@@ -180,7 +180,7 @@ stringData:
 | configurations.s3.configName | string | `"s3-config"` |  |
 | configurations.s3.folderKey | string | `"folder"` |  |
 | configurations.s3.regionKey | string | `"region"` |  |
-| configurations.s3.useBucketEndpointKey | string | `"useBucketEndpoint"` |  |
+| configurations.s3.useBucketRegionKey | string | `"useBucketRegion"` |  |
 | configurations.stationAuth.configName | string | `"station-auth-config"` | config containing authorization configuration for SF Station used when authentication is enabled for SF Station |
 | configurations.stationAuth.secretName | string | `"station-client-id"` |  |
 | countlyPublisher.clusterName | string | `""` |  |

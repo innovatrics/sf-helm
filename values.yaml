@@ -21,7 +21,7 @@ configurations:
     regionKey: "region"
     folderKey: "folder"
     authTypeKey: "authType"
-    useBucketEndpointKey: "useBucketEndpoint"
+    useBucketRegionKey: "useBucketRegion"
   license:
     secretName: "iface-lic"
     volumeMountName: "license"
