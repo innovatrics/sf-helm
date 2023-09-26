@@ -28,13 +28,13 @@ The helm chart needs certain objects to be present in the cluster before it can 
 1. S3 bucket
     - Create an S3 bucket
     - Create a ConfigMap - see `external-config.yaml` for example
-    - ConfigMap name must match `s3.configName` value
-    - keys in the ConfigMap must match `s3.bucketKey` and `s3.regionKey` values
+    - ConfigMap name must match `configurations.s3.configName` value
+    - keys in the ConfigMap must match `configurations.s3.*Key` values
 1. pgsql server
     - Create a PgSql server
     - Create a Secret - see `external-config.yaml` for example
-    - Secret name must match `database.secretName` value
-    - key in the Secret must match `database.connectionStringKey` value
+    - Secret name must match `configurations.database.secretName` value
+    - key in the Secret must match `configurations.database.connectionStringKey` value
 1. Optionally [KEDA](https://keda.sh/) for autoscaling
     - see `autoscaling.*` values for more info
 

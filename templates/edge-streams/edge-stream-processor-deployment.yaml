@@ -1,47 +1,47 @@
-{{- if .Values.edgeStreams.enabled }}
+{{- if .Values.features.edgeStreams.enabled }}
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
-  name: {{ .Values.edgeStreams.name | quote }}
+  name: {{ .Values.edgeStreamProcessor.name | quote }}
   labels:
-    app: {{ .Values.edgeStreams.name | quote }}
+    app: {{ .Values.edgeStreamProcessor.name | quote }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.edgeStreams.name | quote }}
+      app: {{ .Values.edgeStreamProcessor.name | quote }}
   template:
     metadata:
       labels:
-        app: {{ .Values.edgeStreams.name | quote }}
+        app: {{ .Values.edgeStreamProcessor.name | quote }}
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name | quote }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       topologySpreadConstraints:
-        {{- include "smartface.topologySpread" (dict "appLabel" .Values.edgeStreams.name) | nindent 8 }}
+        {{- include "smartface.topologySpread" (dict "appLabel" .Values.edgeStreamProcessor.name) | nindent 8 }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-      - name: {{ .Values.edgeStreams.name | quote }}
-        image: {{ include "smartface.image" (dict "local" .Values.edgeStreams.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
-        imagePullPolicy: {{ .Values.edgeStreams.image.pullPolicy }}
+      - name: {{ .Values.edgeStreamProcessor.name | quote }}
+        image: {{ include "smartface.image" (dict "local" .Values.edgeStreamProcessor.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.edgeStreamProcessor.image.pullPolicy }}
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
         {{- include "smartface.dbConfig" . | nindent 8 }}
         resources:
-          {{- toYaml .Values.edgeStreams.resources | nindent 10 }}
+          {{- toYaml .Values.edgeStreamProcessor.resources | nindent 10 }}
         volumeMounts:
         {{- include "smartface.licVolumeMount" . | nindent 8 }}
       volumes:
         {{- include "smartface.licVolume" . | nindent 8 }}
-      {{- with .Values.edgeStreams.nodeSelector }}
+      {{- with .Values.edgeStreamProcessor.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.edgeStreams.tolerations }}
+      {{- with .Values.edgeStreamProcessor.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

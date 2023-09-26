@@ -11,17 +11,35 @@ global:
 imagePullSecrets:
   - name: "sf-gitlab-registry-creds"
 
-database:
-  secretName: "db-cs"
-  connectionStringKey: "cs"
+configurations:
+  database:
+    secretName: "db-cs"
+    connectionStringKey: "cs"
+  s3:
+    configName: "s3-config"
+    bucketKey: "name"
+    regionKey: "region"
+    folderKey: "folder"
+    authTypeKey: "authType"
+    useBucketEndpointKey: "useBucketEndpoint"
+  license:
+    secretName: "iface-lic"
+    volumeMountName: "license"
+    mountPath: "/etc/innovatrics"
+  apiAuth:
+    # -- config containing authorization configuration for APIs used when authentication is enabled
+    configName: "auth-config"
+  stationAuth:
+    # -- config containing authorization configuration for SF Station used when authentication is enabled for SF Station
+    configName: "station-auth-config"
+    secretName: "station-client-id"
 
-s3:
-  configName: "s3-config"
-  bucketKey: "name"
-  regionKey: "region"
-  folderKey: "folder"
-  authTypeKey: "authType"
-  useBucketEndpointKey: "useBucketEndpoint"
+features:
+  multitenancy:
+    # -- enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled
+    enabled: false
+  edgeStreams:
+    enabled: false
 
 # -- config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq
 rabbitmq:
@@ -37,20 +55,6 @@ rabbitmq:
     username: "smartface"
     erlangCookie: ""
     password: ""
-
-license:
-  secretName: "iface-lic"
-  volumeMountName: "license"
-  mountPath: "/etc/innovatrics"
-
-auth:
-  # -- config containing authorization configuration for APIs used when authentication is enabled
-  configName: "auth-config"
-
-stationAuth:
-  # -- config containing authorization configuration for SF Station used when authentication is enabled for SF Station
-  configName: "station-auth-config"
-  secretName: "station-client-id"
 
 api:
   enabled: true
@@ -230,9 +234,8 @@ liveness:
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
 
-edgeStreams:
+edgeStreamProcessor:
   name: "sf-edge-stream-processor"
-  enabled: false
   resources:
     requests:
       memory: "100M"
@@ -363,7 +366,7 @@ streamDataDbWorker:
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
 
-jaeger:
+jaegerTracing:
   enabled: true
   hostname: grafana-agent.monitoring.svc.cluster.local
 
@@ -427,10 +430,6 @@ autoscaling:
     workHoursReplicas: 2
     # -- for cron trigger
     nonWorkHoursReplicas: 1
-
-multitenancy:
-  # -- enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled
-  enabled: false
 
 # -- configuration for sf-tenant-operator subchart
 sf-tenant-operator:

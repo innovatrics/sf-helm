@@ -6,7 +6,7 @@ dependencies:
   - name: sf-tenant-operator
     version: "0.1.1"
     repository: "oci://ghcr.io/innovatrics/sf-helm"
-    condition: multitenancy.enabled
+    condition: features.multitenancy.enabled
   - name: rabbitmq
     version: "12.0.4"
     repository: "oci://registry-1.docker.io/bitnamicharts"

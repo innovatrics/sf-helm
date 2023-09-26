@@ -41,7 +41,7 @@ spec:
         {{- include "smartface.apiFeaturesConfig" . | nindent 8 }}
         {{- include "smartface.statisticsPublish" . | nindent 8 }}
         - name: "Multitenancy__UseMultitenancy"
-          value: {{ .Values.multitenancy.enabled | quote }}
+          value: {{ .Values.features.multitenancy.enabled | quote }}
         - name: "Hosting__Host"
           value: "http://0.0.0.0"
         - name: "Hosting__Port"

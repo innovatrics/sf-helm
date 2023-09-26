@@ -27,13 +27,13 @@ The helm chart needs certain objects to be present in the cluster before it can 
 1. S3 bucket
     - Create an S3 bucket
     - Create a ConfigMap - see `external-config.yaml` for example
-    - ConfigMap name must match `s3.configName` value
-    - keys in the ConfigMap must match `s3.bucketKey` and `s3.regionKey` values
+    - ConfigMap name must match `configurations.s3.configName` value
+    - keys in the ConfigMap must match `configurations.s3.*Key` values
 1. pgsql server
     - Create a PgSql server
     - Create a Secret - see `external-config.yaml` for example
-    - Secret name must match `database.secretName` value
-    - key in the Secret must match `database.connectionStringKey` value
+    - Secret name must match `configurations.database.secretName` value
+    - key in the Secret must match `configurations.database.connectionStringKey` value
 1. Optionally [KEDA](https://keda.sh/) for autoscaling
     - see `autoscaling.*` values for more info
 
@@ -118,7 +118,6 @@ stringData:
 | api.resources.requests.memory | string | `"300M"` |  |
 | api.servicePort | int | `80` |  |
 | api.tolerations | list | `[]` |  |
-| auth.configName | string | `"auth-config"` | config containing authorization configuration for APIs used when authentication is enabled |
 | authApi.containerPort | int | `80` |  |
 | authApi.dnsHost | string | `""` |  |
 | authApi.enabled | bool | `false` |  |
@@ -170,6 +169,20 @@ stringData:
 | base.tolerations | list | `[]` |  |
 | base.zmqContainerPort | int | `2406` |  |
 | base.zmqServicePort | int | `2406` |  |
+| configurations.apiAuth.configName | string | `"auth-config"` | config containing authorization configuration for APIs used when authentication is enabled |
+| configurations.database.connectionStringKey | string | `"cs"` |  |
+| configurations.database.secretName | string | `"db-cs"` |  |
+| configurations.license.mountPath | string | `"/etc/innovatrics"` |  |
+| configurations.license.secretName | string | `"iface-lic"` |  |
+| configurations.license.volumeMountName | string | `"license"` |  |
+| configurations.s3.authTypeKey | string | `"authType"` |  |
+| configurations.s3.bucketKey | string | `"name"` |  |
+| configurations.s3.configName | string | `"s3-config"` |  |
+| configurations.s3.folderKey | string | `"folder"` |  |
+| configurations.s3.regionKey | string | `"region"` |  |
+| configurations.s3.useBucketEndpointKey | string | `"useBucketEndpoint"` |  |
+| configurations.stationAuth.configName | string | `"station-auth-config"` | config containing authorization configuration for SF Station used when authentication is enabled for SF Station |
+| configurations.stationAuth.secretName | string | `"station-client-id"` |  |
 | countlyPublisher.clusterName | string | `""` |  |
 | countlyPublisher.enabled | bool | `false` |  |
 | countlyPublisher.image.digest | string | `nil` | Overrides the image tag with an image digest |
@@ -183,8 +196,6 @@ stringData:
 | countlyPublisher.resources.requests.cpu | string | `"100m"` |  |
 | countlyPublisher.resources.requests.memory | string | `"100M"` |  |
 | countlyPublisher.tolerations | list | `[]` |  |
-| database.connectionStringKey | string | `"cs"` |  |
-| database.secretName | string | `"db-cs"` |  |
 | detector.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | detector.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | detector.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
@@ -196,17 +207,16 @@ stringData:
 | detector.resources.requests.cpu | string | `"750m"` |  |
 | detector.resources.requests.memory | string | `"600M"` |  |
 | detector.tolerations | list | `[]` |  |
-| edgeStreams.enabled | bool | `false` |  |
-| edgeStreams.image.digest | string | `nil` | Overrides the image tag with an image digest |
-| edgeStreams.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| edgeStreams.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| edgeStreams.image.repository | string | `"innovatrics/smartface/sf-edge-stream-processor"` | Docker image repository |
-| edgeStreams.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
-| edgeStreams.name | string | `"sf-edge-stream-processor"` |  |
-| edgeStreams.nodeSelector | object | `{}` |  |
-| edgeStreams.resources.requests.cpu | string | `"100m"` |  |
-| edgeStreams.resources.requests.memory | string | `"100M"` |  |
-| edgeStreams.tolerations | list | `[]` |  |
+| edgeStreamProcessor.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| edgeStreamProcessor.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| edgeStreamProcessor.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| edgeStreamProcessor.image.repository | string | `"innovatrics/smartface/sf-edge-stream-processor"` | Docker image repository |
+| edgeStreamProcessor.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
+| edgeStreamProcessor.name | string | `"sf-edge-stream-processor"` |  |
+| edgeStreamProcessor.nodeSelector | object | `{}` |  |
+| edgeStreamProcessor.resources.requests.cpu | string | `"100m"` |  |
+| edgeStreamProcessor.resources.requests.memory | string | `"100M"` |  |
+| edgeStreamProcessor.tolerations | list | `[]` |  |
 | extractor.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | extractor.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | extractor.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
@@ -228,6 +238,8 @@ stringData:
 | faceMatcher.resources.requests.cpu | string | `"100m"` |  |
 | faceMatcher.resources.requests.memory | string | `"100M"` |  |
 | faceMatcher.tolerations | list | `[]` |  |
+| features.edgeStreams.enabled | bool | `false` |  |
+| features.multitenancy.enabled | bool | `false` | enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled |
 | global.image.registry | string | `"registry.gitlab.com"` | Overrides the Docker registry globally for all images |
 | graphqlApi.containerPort | int | `80` |  |
 | graphqlApi.dnsHost | string | `""` |  |
@@ -252,11 +264,8 @@ stringData:
 | ingress.class | string | `""` | set ingress class |
 | ingress.enabled | bool | `true` | enable creation of ingress object |
 | ingress.includeAlbAnnotations | bool | `false` | if enabled then the ingress will include default ALB annotations |
-| jaeger.enabled | bool | `true` |  |
-| jaeger.hostname | string | `"grafana-agent.monitoring.svc.cluster.local"` |  |
-| license.mountPath | string | `"/etc/innovatrics"` |  |
-| license.secretName | string | `"iface-lic"` |  |
-| license.volumeMountName | string | `"license"` |  |
+| jaegerTracing.enabled | bool | `true` |  |
+| jaegerTracing.hostname | string | `"grafana-agent.monitoring.svc.cluster.local"` |  |
 | liveness.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | liveness.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | liveness.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
@@ -289,7 +298,6 @@ stringData:
 | migration.initContainer.image.repository | string | `"innovatrics/smartface/sf-admin"` | Docker image repository |
 | migration.initContainer.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | migration.initContainer.resources | object | `{}` |  |
-| multitenancy.enabled | bool | `false` | enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled |
 | rabbitmq | object | `{"auth":{"erlangCookie":"","password":"","username":"smartface"},"configMapName":"sf-rmq-connection","enabled":true,"existingSecretName":"","extraPlugins":"rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt","mqttDnsHost":"","secretKey":"rabbitmq-password"}` | config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq |
 | rabbitmq.enabled | bool | `true` | configure if rabbitmq subchart should be included |
 | rabbitmq.mqttDnsHost | string | `""` | hostname used for MQTT service - only relevant for edge streams |
@@ -299,12 +307,6 @@ stringData:
 | readonlyApi.nodeSelector | object | `{}` |  |
 | readonlyApi.proxyContainer.resources | object | `{}` |  |
 | readonlyApi.tolerations | list | `[]` |  |
-| s3.authTypeKey | string | `"authType"` |  |
-| s3.bucketKey | string | `"name"` |  |
-| s3.configName | string | `"s3-config"` |  |
-| s3.folderKey | string | `"folder"` |  |
-| s3.regionKey | string | `"region"` |  |
-| s3.useBucketEndpointKey | string | `"useBucketEndpoint"` |  |
 | serviceAccount.annotations | object | `{}` | Annotations for the service account |
 | serviceAccount.automountServiceAccountToken | bool | `true` | Set this toggle to false to opt out of automounting API credentials for the service account |
 | serviceAccount.create | bool | `true` | Specifies whether a ServiceAccount should be created |
@@ -327,8 +329,6 @@ stringData:
 | station.resources.requests.memory | string | `"100M"` |  |
 | station.servicePort | int | `8000` |  |
 | station.tolerations | list | `[]` |  |
-| stationAuth.configName | string | `"station-auth-config"` | config containing authorization configuration for SF Station used when authentication is enabled for SF Station |
-| stationAuth.secretName | string | `"station-client-id"` |  |
 | streamDataDbWorker.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | streamDataDbWorker.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | streamDataDbWorker.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
