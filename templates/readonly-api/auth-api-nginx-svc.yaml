@@ -10,5 +10,5 @@ spec:
     - name: "http"
       port: {{ .Values.authApi.servicePort }}
       targetPort: {{ .Values.authApi.containerPort }}
-  type: "NodePort"
+  type: "ClusterIP"
 {{- end }}

@@ -10,5 +10,5 @@ spec:
     - port: {{ .Values.base.zmqServicePort }}
       targetPort: {{ .Values.base.zmqContainerPort }}
       protocol: "TCP"
-  type: "NodePort"
+  type: "ClusterIP"
 {{- end }}
