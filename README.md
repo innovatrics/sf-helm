@@ -312,6 +312,7 @@ stringData:
 | serviceAccount.labels | object | `{}` | Labels for the service account |
 | serviceAccount.name | string | `"sf-service-account"` | The name of the ServiceAccount to use. |
 | sf-tenant-operator | object | `{"config":{"configDir":"/etc/components","fileName":"appsettings.override.json","mapName":"operator-config"},"image":{"secretName":"sf-gitlab-registry-creds"},"installCrd":false}` | configuration for sf-tenant-operator subchart |
+| skipLookupBasedValidations | bool | `false` | due to ArgoCD limitations this can be used to skip validations that use the `lookup` helm function - for more information see https://github.com/argoproj/argo-cd/issues/5202 |
 | station.containerPort | int | `80` |  |
 | station.dnsHost | string | `""` |  |
 | station.enabled | bool | `true` |  |
