@@ -5,7 +5,9 @@ metadata:
   labels:
     app: {{ .Values.extractor.name | quote }}
 spec:
-  replicas: 1
+  {{- if not (and (or .Values.autoscaling.cron.enabled .Values.autoscaling.rmq.enabled) .Values.autoscaling.extractor.enabled ) }}
+  replicas: {{ .Values.extractor.replicas }}
+  {{- end }}
   selector:
     matchLabels:
       app: {{ .Values.extractor.name | quote }}

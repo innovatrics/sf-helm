@@ -71,6 +71,7 @@ api:
       memory: "4G"
   nodeSelector: {}
   tolerations: []
+  replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
     registry: null
@@ -98,6 +99,8 @@ authApi:
       memory: "4G"
   nodeSelector: {}
   tolerations: []
+  # -- number of replicas to use when autoscaling is not enabled for this component
+  replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
     registry: null
@@ -126,6 +129,7 @@ graphqlApi:
       memory: "4G"
   nodeSelector: {}
   tolerations: []
+  replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
     registry: null
@@ -160,6 +164,8 @@ detector:
       memory: "1500M"
   nodeSelector: {}
   tolerations: []
+  # -- number of replicas to use when autoscaling is not enabled for this component
+  replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
     registry: null
@@ -182,6 +188,8 @@ extractor:
       memory: "1G"
   nodeSelector: {}
   tolerations: []
+  # -- number of replicas to use when autoscaling is not enabled for this component
+  replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
     registry: null
@@ -202,6 +210,7 @@ matcher:
       cpu: "750m"
   nodeSelector: {}
   tolerations: []
+  replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
     registry: null
@@ -222,6 +231,7 @@ liveness:
       cpu: "750m"
   nodeSelector: {}
   tolerations: []
+  replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
     registry: null
@@ -242,6 +252,7 @@ edgeStreamProcessor:
       cpu: "100m"
   nodeSelector: {}
   tolerations: []
+  replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
     registry: null
@@ -284,6 +295,7 @@ faceMatcher:
       cpu: "100m"
   nodeSelector: {}
   tolerations: []
+  replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
     registry: null
@@ -354,6 +366,7 @@ streamDataDbWorker:
       cpu: "100m"
   nodeSelector: {}
   tolerations: []
+  replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
     registry: null

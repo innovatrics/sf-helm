@@ -5,7 +5,7 @@ metadata:
   labels:
     app: {{ .Values.liveness.name | quote }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.liveness.replicas }}
   selector:
     matchLabels:
       app: {{ .Values.liveness.name | quote }}

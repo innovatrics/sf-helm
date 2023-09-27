@@ -6,7 +6,9 @@ metadata:
   labels:
     app: {{ .Values.authApi.name | quote }}
 spec:
-  replicas: 1
+  {{- if not (and (or .Values.autoscaling.cron.enabled .Values.autoscaling.rmq.enabled) .Values.autoscaling.api.enabled ) }}
+  replicas: {{ .Values.authApi.replicas }}
+  {{- end }}
   selector:
     matchLabels:
       app: {{ .Values.authApi.name | quote }}

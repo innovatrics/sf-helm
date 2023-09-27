@@ -10,7 +10,7 @@ metadata:
   labels:
     app: {{ .Values.matcher.name | quote }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.matcher.replicas }}
   selector:
     matchLabels:
       app: {{ .Values.matcher.name | quote }}
