@@ -5,8 +5,8 @@ Template used for adding database configuration to containers
 - name: "ConnectionStrings__CoreDbContext"
   valueFrom:
     secretKeyRef:
-      name: {{ .Values.database.secretName | quote }}
-      key: {{ .Values.database.connectionStringKey | quote }}
+      name: {{ .Values.configurations.database.secretName | quote }}
+      key: {{ .Values.configurations.database.connectionStringKey | quote }}
 - name: "Database__DbEngine"
   value: "PgSql"
 {{- end }}
@@ -32,30 +32,30 @@ Template used for adding S3 configuration to containers
 - name: "S3Bucket__BucketName"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.s3.configName | quote }}
-      key: {{ .Values.s3.bucketKey | quote }}
+      name: {{ .Values.configurations.s3.configName | quote }}
+      key: {{ .Values.configurations.s3.bucketKey | quote }}
 - name: "S3Bucket__BucketRegion"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.s3.configName | quote }}
-      key: {{ .Values.s3.regionKey | quote }}
+      name: {{ .Values.configurations.s3.configName | quote }}
+      key: {{ .Values.configurations.s3.regionKey | quote }}
 - name: "S3Bucket__Folder"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.s3.configName | quote }}
-      key: {{ .Values.s3.folderKey | quote }}
+      name: {{ .Values.configurations.s3.configName | quote }}
+      key: {{ .Values.configurations.s3.folderKey | quote }}
 # AssumedRole
 - name: "S3Bucket__AuthenticationType"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.s3.configName | quote }}
-      key: {{ .Values.s3.authTypeKey | quote }}
+      name: {{ .Values.configurations.s3.configName | quote }}
+      key: {{ .Values.configurations.s3.authTypeKey | quote }}
 # BucketRegion
-- name: "S3Bucket__useBucketEndpoint"
+- name: "S3Bucket__UseBucketRegion"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.s3.configName | quote }}
-      key: {{ .Values.s3.useBucketEndpointKey | quote }}
+      name: {{ .Values.configurations.s3.configName | quote }}
+      key: {{ .Values.configurations.s3.useBucketRegionKey | quote }}
 {{- end }}
 
 {{/*
@@ -67,7 +67,7 @@ Template used for configuring feature flags on APIs
 - name: "FeatureManagement__Watchlist"
   value: "true"
 - name: "FeatureManagement__Edge"
-  value: {{ .Values.edgeStreams.enabled | quote }}
+  value: {{ .Values.features.edgeStreams.enabled | quote }}
 {{- end }}
 
 {{/*
@@ -77,32 +77,32 @@ Template used for configuring Authentication on APIs
 - name: "Authentication__UseAuthentication"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.auth.configName | quote }}
+      name: {{ .Values.configurations.apiAuth.configName | quote }}
       key: "use_auth"
 - name: "Authentication__Authority"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.auth.configName | quote }}
+      name: {{ .Values.configurations.apiAuth.configName | quote }}
       key: "authority"
 - name: "Authentication__Audience"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.auth.configName | quote }}
+      name: {{ .Values.configurations.apiAuth.configName | quote }}
       key: "audience"
 - name: "Authentication__SwaggerAuthConfig__ClientCredsTokenUrl"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.auth.configName | quote }}
+      name: {{ .Values.configurations.apiAuth.configName | quote }}
       key: "oauth_token_url"
 - name: "Authentication__SwaggerAuthConfig__AuthCodeTokenUrl"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.auth.configName | quote }}
+      name: {{ .Values.configurations.apiAuth.configName | quote }}
       key: "oauth_token_url"
 - name: "Authentication__SwaggerAuthConfig__AuthCodeAuthorizeUrl"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.auth.configName | quote }}
+      name: {{ .Values.configurations.apiAuth.configName | quote }}
       key: "oauth_authorize_url"
 {{- end }}
 
@@ -185,17 +185,17 @@ Template used for adding MQTT configuration to containers
 Template used for adding license volume to deployment definition
 */}}
 {{- define "smartface.licVolume" -}}
-- name: {{ .Values.license.volumeMountName | quote }}
+- name: {{ .Values.configurations.license.volumeMountName | quote }}
   secret:
-    secretName: {{ .Values.license.secretName | quote }}
+    secretName: {{ .Values.configurations.license.secretName | quote }}
 {{- end }}
 
 {{/*
 Template used for binding the license volume to containers
 */}}
 {{- define "smartface.licVolumeMount" -}}
-- name: {{ .Values.license.volumeMountName | quote }}
-  mountPath: {{ .Values.license.mountPath | quote }}
+- name: {{ .Values.configurations.license.volumeMountName | quote }}
+  mountPath: {{ .Values.configurations.license.mountPath | quote }}
   readOnly: true
 {{- end }}
 
@@ -210,9 +210,9 @@ Template used for common environment variables definition
 - name: "AppSettings__Log_JsonConsole_Enabled"
   value: "true"
 - name: "AppSettings__USE_JAEGER_APP_SETTINGS"
-  value: {{ .Values.jaeger.enabled | quote }}
+  value: {{ .Values.jaegerTracing.enabled | quote }}
 - name: "JAEGER_AGENT_HOST"
-  value: {{ .Values.jaeger.hostname | quote }}
+  value: {{ .Values.jaegerTracing.hostname | quote }}
 - name: "Metrics__PROMETHEUS_METRIC_SERVER_HOSTNAME"
   value: "*"
 - name: "S3ClientLifetime__S3ClientLifetime"
@@ -266,8 +266,8 @@ Init container to perform database migration before starting the main container
     - name: "db_cs"
       valueFrom:
         secretKeyRef:
-          name: {{ .Values.database.secretName | quote }}
-          key: {{ .Values.database.connectionStringKey | quote }}
+          name: {{ .Values.configurations.database.secretName | quote }}
+          key: {{ .Values.configurations.database.connectionStringKey | quote }}
     {{- include "smartface.rmqConfig" . | nindent 4 }}
   resources:
     {{- toYaml .Values.migration.initContainer.resources | nindent 4 }}

@@ -14,5 +14,5 @@ spec:
       targetPort: {{ .Values.authApi.containerPort }}
     - name: {{ .Values.metrics.portName | quote }}
       port: {{ .Values.metrics.port }}
-  type: "NodePort"
+  type: "ClusterIP"
 {{- end }}

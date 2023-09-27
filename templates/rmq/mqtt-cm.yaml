@@ -1,4 +1,4 @@
-{{- if and .Values.edgeStreams.enabled .Values.rabbitmq.enabled }}
+{{- if and .Values.features.edgeStreams.enabled .Values.rabbitmq.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:

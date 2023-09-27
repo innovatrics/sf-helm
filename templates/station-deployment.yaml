@@ -59,38 +59,38 @@ spec:
         - name: "AUTH0_AUTHENTICATION_ENABLED"
           valueFrom:
             configMapKeyRef:
-              name: {{ .Values.stationAuth.configName | quote }}
+              name: {{ .Values.configurations.stationAuth.configName | quote }}
               key: "use_auth"
         - name: "AUTH0_AUDIENCE"
           valueFrom:
             configMapKeyRef:
-              name: {{ .Values.stationAuth.configName | quote }}
+              name: {{ .Values.configurations.stationAuth.configName | quote }}
               key: "audience"
         - name: "AUTH0_DOMAIN"
           valueFrom:
             configMapKeyRef:
-              name: {{ .Values.stationAuth.configName | quote }}
+              name: {{ .Values.configurations.stationAuth.configName | quote }}
               key: "domain"
         - name: "AUTH0_ISSUER"
           valueFrom:
             configMapKeyRef:
-              name: {{ .Values.stationAuth.configName | quote }}
+              name: {{ .Values.configurations.stationAuth.configName | quote }}
               key: "issuer"
         - name: "AUTH0_JWKS_URI"
           valueFrom:
             configMapKeyRef:
-              name: {{ .Values.stationAuth.configName | quote }}
+              name: {{ .Values.configurations.stationAuth.configName | quote }}
               key: "jwks_uri"
         - name: "AUTH_HEADER"
           valueFrom:
             configMapKeyRef:
-              name: {{ .Values.stationAuth.configName | quote }}
+              name: {{ .Values.configurations.stationAuth.configName | quote }}
               key: "auth_header"
 
         - name: "AUTH0_CLIENT_ID"
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.stationAuth.secretName | quote }}
+              name: {{ .Values.configurations.stationAuth.secretName | quote }}
               key: "client_id"
         resources:
           {{- toYaml .Values.station.resources | nindent 10 }}

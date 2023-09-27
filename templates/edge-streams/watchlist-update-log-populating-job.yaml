@@ -1,4 +1,4 @@
-{{- if and .Values.edgeStreams.enabled .Values.edgeStreamsStateSync.wlStreamPopulationJob.enabled }}
+{{- if and .Values.features.edgeStreams.enabled .Values.edgeStreamsStateSync.wlStreamPopulationJob.enabled }}
 apiVersion: "batch/v1"
 kind: "Job"
 metadata:

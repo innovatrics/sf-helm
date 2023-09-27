@@ -4,8 +4,11 @@ Compile all warnings into a single message, and call fail.
 */}}
 {{- define "smartface.validate" -}}
 {{- $messages := list -}}
+
 {{- $messages := append $messages (trim (include "smartface.validate.multitenantEdge" .)) -}}
 {{- $messages := append $messages (trim (include "smartface.validate.stationDeps" .)) -}}
+
+{{- if not .Values.skipLookupBasedValidations -}}
 {{- $messages := append $messages (trim (include "smartface.validate.dbConnectionSecret" .)) -}}
 {{- $messages := append $messages (trim (include "smartface.validate.s3Config" .)) -}}
 {{- $messages := append $messages (trim (include "smartface.validate.licenseSecret" .)) -}}
@@ -13,9 +16,10 @@ Compile all warnings into a single message, and call fail.
 {{- $messages := append $messages (trim (include "smartface.validate.registryCreds" .)) -}}
 {{- $messages := append $messages (trim (include "smartface.validate.rmqConfig" .)) -}}
 {{- $messages := append $messages (trim (include "smartface.validate.mqttConfig" .)) -}}
+{{- end -}}
+
 {{- $messages := without $messages "" -}}
 {{- $message := join "\n" $messages -}}
-
 {{- if $message -}}
 {{-   printf "\nVALIDATIONS:\n%s" $message | fail -}}
 {{- end -}}
@@ -25,7 +29,7 @@ Compile all warnings into a single message, and call fail.
 Validate that users does not want multitenant edge streams
 */}}
 {{- define "smartface.validate.multitenantEdge" -}}
-{{- if and .Values.multitenancy.enabled .Values.edgeStreams.enabled -}}
+{{- if and .Values.features.multitenancy.enabled .Values.features.edgeStreams.enabled -}}
 Multitenancy is not supported for clusters with edge streams. Please disable one of the two features
 {{- end -}}
 {{- end -}}
@@ -49,25 +53,25 @@ Station requires enabled graphqlApi to work properly
 Validate that the Database connection string secret exists with correct key
 */}}
 {{- define "smartface.validate.dbConnectionSecret" -}}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.database.secretName "Key" .Values.database.connectionStringKey) }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.configurations.database.secretName "Key" .Values.configurations.database.connectionStringKey) }}
 {{- end -}}
 
 {{/*
 Validate that the S3 config map exists with correct keys
 */}}
 {{- define "smartface.validate.s3Config" -}}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.s3.configName "Key" .Values.s3.bucketKey) }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.s3.configName "Key" .Values.s3.regionKey) }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.s3.configName "Key" .Values.s3.folderKey) }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.s3.configName "Key" .Values.s3.authTypeKey) }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.s3.configName "Key" .Values.s3.useBucketEndpointKey) }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.s3.configName "Key" .Values.configurations.s3.bucketKey) }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.s3.configName "Key" .Values.configurations.s3.regionKey) }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.s3.configName "Key" .Values.configurations.s3.folderKey) }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.s3.configName "Key" .Values.configurations.s3.authTypeKey) }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.s3.configName "Key" .Values.configurations.s3.useBucketRegionKey) }}
 {{- end -}}
 
 {{/*
 Validate that the license secret exists with correct keys
 */}}
 {{- define "smartface.validate.licenseSecret" -}}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.license.secretName "Key" "iengine.lic") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.configurations.license.secretName "Key" "iengine.lic") }}
 {{- end -}}
 
 {{/*
@@ -75,20 +79,20 @@ Validate auth config present if it will be needed
 */}}
 {{- define "smartface.validate.authConfig" -}}
 {{- if or .Values.authApi.enabled .Values.graphqlApi.enableAuth -}}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.auth.configName "Key" "use_auth") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.auth.configName "Key" "authority") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.auth.configName "Key" "audience") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.auth.configName "Key" "oauth_token_url") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.auth.configName "Key" "oauth_authorize_url") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.apiAuth.configName "Key" "use_auth") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.apiAuth.configName "Key" "authority") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.apiAuth.configName "Key" "audience") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.apiAuth.configName "Key" "oauth_token_url") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.apiAuth.configName "Key" "oauth_authorize_url") }}
 {{- end -}}
 {{- if .Values.station.enabled }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.stationAuth.configName "Key" "use_auth") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.stationAuth.configName "Key" "audience") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.stationAuth.configName "Key" "domain") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.stationAuth.configName "Key" "issuer") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.stationAuth.configName "Key" "jwks_uri") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.stationAuth.configName "Key" "auth_header") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.stationAuth.secretName "Key" "client_id") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.stationAuth.configName "Key" "use_auth") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.stationAuth.configName "Key" "audience") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.stationAuth.configName "Key" "domain") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.stationAuth.configName "Key" "issuer") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.stationAuth.configName "Key" "jwks_uri") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.stationAuth.configName "Key" "auth_header") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.configurations.stationAuth.secretName "Key" "client_id") }}
 {{- end -}}
 {{- end -}}
 
@@ -131,7 +135,7 @@ Validate mqtt config if not managed by us
 {{/*
 This should not be used in such combination because there would be no "shovel" between mqtt and rmq, but we can still validate
 */}}
-{{- if and .Values.edgeStreams.enabled (not .Values.rabbitmq.enabled) -}}
+{{- if and .Values.features.edgeStreams.enabled (not .Values.rabbitmq.enabled) -}}
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "hostname") }}
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "useSsl") }}
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "port") }}
