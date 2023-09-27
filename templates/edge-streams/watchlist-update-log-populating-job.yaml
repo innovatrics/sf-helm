@@ -38,8 +38,8 @@ spec:
         - name: "db_cs"
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.database.secretName | quote }}
-              key: {{ .Values.database.connectionStringKey | quote }}
+              name: {{ .Values.configurations.database.secretName | quote }}
+              key: {{ .Values.configurations.database.connectionStringKey | quote }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
         volumeMounts:
         {{- include "smartface.licVolumeMount" . | nindent 8 }}
