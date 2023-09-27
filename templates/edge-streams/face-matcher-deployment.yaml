@@ -6,7 +6,7 @@ metadata:
   labels:
     app: {{ .Values.faceMatcher.name | quote }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.faceMatcher.replicas }}
   selector:
     matchLabels:
       app: {{ .Values.faceMatcher.name | quote }}

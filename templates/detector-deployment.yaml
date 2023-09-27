@@ -5,7 +5,9 @@ metadata:
   labels:
     app: {{ .Values.detector.name | quote }}
 spec:
-  replicas: 1
+  {{- if not (and (or .Values.autoscaling.cron.enabled .Values.autoscaling.rmq.enabled) .Values.autoscaling.detector.enabled ) }}
+  replicas: {{ .Values.detector.replicas }}
+  {{- end }}
   selector:
     matchLabels:
       app: {{ .Values.detector.name | quote }}

@@ -113,6 +113,7 @@ stringData:
 | api.initMigration | bool | `true` |  |
 | api.name | string | `"sf-api"` |  |
 | api.nodeSelector | object | `{}` |  |
+| api.replicas | int | `1` |  |
 | api.resources.limits.memory | string | `"4G"` |  |
 | api.resources.requests.cpu | string | `"250m"` |  |
 | api.resources.requests.memory | string | `"300M"` |  |
@@ -129,6 +130,7 @@ stringData:
 | authApi.initMigration | bool | `true` |  |
 | authApi.name | string | `"sf-auth-api"` |  |
 | authApi.nodeSelector | object | `{}` |  |
+| authApi.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
 | authApi.resources.limits.memory | string | `"4G"` |  |
 | authApi.resources.requests.cpu | string | `"250m"` |  |
 | authApi.resources.requests.memory | string | `"300M"` |  |
@@ -203,6 +205,7 @@ stringData:
 | detector.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | detector.name | string | `"sf-detector"` |  |
 | detector.nodeSelector | object | `{}` |  |
+| detector.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
 | detector.resources.limits.memory | string | `"1500M"` |  |
 | detector.resources.requests.cpu | string | `"750m"` |  |
 | detector.resources.requests.memory | string | `"600M"` |  |
@@ -214,6 +217,7 @@ stringData:
 | edgeStreamProcessor.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | edgeStreamProcessor.name | string | `"sf-edge-stream-processor"` |  |
 | edgeStreamProcessor.nodeSelector | object | `{}` |  |
+| edgeStreamProcessor.replicas | int | `1` |  |
 | edgeStreamProcessor.resources.requests.cpu | string | `"100m"` |  |
 | edgeStreamProcessor.resources.requests.memory | string | `"100M"` |  |
 | edgeStreamProcessor.tolerations | list | `[]` |  |
@@ -243,6 +247,7 @@ stringData:
 | extractor.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | extractor.name | string | `"sf-extractor"` |  |
 | extractor.nodeSelector | object | `{}` |  |
+| extractor.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
 | extractor.resources.limits.memory | string | `"1G"` |  |
 | extractor.resources.requests.cpu | string | `"750m"` |  |
 | extractor.resources.requests.memory | string | `"500M"` |  |
@@ -254,6 +259,7 @@ stringData:
 | faceMatcher.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | faceMatcher.name | string | `"sf-face-matcher"` |  |
 | faceMatcher.nodeSelector | object | `{}` |  |
+| faceMatcher.replicas | int | `1` |  |
 | faceMatcher.resources.requests.cpu | string | `"100m"` |  |
 | faceMatcher.resources.requests.memory | string | `"100M"` |  |
 | faceMatcher.tolerations | list | `[]` |  |
@@ -272,6 +278,7 @@ stringData:
 | graphqlApi.initMigration | bool | `false` |  |
 | graphqlApi.name | string | `"sf-graphql-api"` |  |
 | graphqlApi.nodeSelector | object | `{}` |  |
+| graphqlApi.replicas | int | `1` |  |
 | graphqlApi.resources.limits.memory | string | `"4G"` |  |
 | graphqlApi.resources.requests.cpu | string | `"250m"` |  |
 | graphqlApi.resources.requests.memory | string | `"300M"` |  |
@@ -292,6 +299,7 @@ stringData:
 | liveness.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | liveness.name | string | `"sf-liveness"` |  |
 | liveness.nodeSelector | object | `{}` |  |
+| liveness.replicas | int | `1` |  |
 | liveness.resources.requests.cpu | string | `"750m"` |  |
 | liveness.resources.requests.memory | string | `"200M"` |  |
 | liveness.tolerations | list | `[]` |  |
@@ -302,6 +310,7 @@ stringData:
 | matcher.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | matcher.name | string | `"sf-matcher"` |  |
 | matcher.nodeSelector | object | `{}` |  |
+| matcher.replicas | int | `1` |  |
 | matcher.resources.requests.cpu | string | `"750m"` |  |
 | matcher.resources.requests.memory | string | `"200M"` |  |
 | matcher.tolerations | list | `[]` |  |
@@ -355,6 +364,7 @@ stringData:
 | streamDataDbWorker.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | streamDataDbWorker.name | string | `"sf-stream-data-db-worker"` |  |
 | streamDataDbWorker.nodeSelector | object | `{}` |  |
+| streamDataDbWorker.replicas | int | `1` |  |
 | streamDataDbWorker.resources.requests.cpu | string | `"100m"` |  |
 | streamDataDbWorker.resources.requests.memory | string | `"100M"` |  |
 | streamDataDbWorker.tolerations | list | `[]` |  |

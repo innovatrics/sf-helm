@@ -6,7 +6,7 @@ metadata:
   labels:
     app: {{ .Values.streamDataDbWorker.name | quote }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.streamDataDbWorker.replicas }}
   selector:
     matchLabels:
       app: {{ .Values.streamDataDbWorker.name | quote }}
