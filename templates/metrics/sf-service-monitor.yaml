@@ -1,0 +1,17 @@
+{{- if .Values.metrics.enabled }}
+kind: ServiceMonitor
+apiVersion: monitoring.coreos.com/v1
+metadata:
+  name: "sf-monitor"
+  labels:
+    {{- toYaml $.Values.metrics.monitorDiscoveryLabel | nindent 4 }}
+spec:
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      {{- toYaml $.Values.metrics.serviceDiscoveryLabels | nindent 6 }}
+  endpoints:
+  - port: {{ .Values.metrics.portName | quote }}
+{{- end }}

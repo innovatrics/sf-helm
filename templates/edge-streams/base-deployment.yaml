@@ -1,0 +1,50 @@
+{{- if .Values.features.edgeStreams.enabled }}
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: {{ .Values.base.name | quote }}
+  labels:
+    app: {{ .Values.base.name | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.base.name | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.base.name | quote }}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
+      topologySpreadConstraints:
+        {{- include "smartface.topologySpread" (dict "appLabel" .Values.base.name) | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ .Values.base.name | quote }}
+        image: {{ include "smartface.image" (dict "local" .Values.base.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.base.image.pullPolicy }}
+        args: ["--serviceName", "SFBase"]
+        env:
+        {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.rmqConfig" . | nindent 8 }}
+        {{- include "smartface.dbConfig" . | nindent 8 }}
+        {{- include "smartface.s3Config" . | nindent 8 }}
+        resources:
+          {{- toYaml .Values.base.resources | nindent 10 }}
+        volumeMounts:
+        {{- include "smartface.licVolumeMount" . | nindent 8 }}
+      volumes:
+        {{- include "smartface.licVolume" . | nindent 8 }}
+      {{- with .Values.base.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.base.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

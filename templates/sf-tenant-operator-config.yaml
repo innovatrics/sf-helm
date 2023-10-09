@@ -1,0 +1,26 @@
+{{- if .Values.features.multitenancy.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+# we use index bacuse of https://github.com/helm/helm/issues/2192
+  name: {{ index .Values "sf-tenant-operator" "config" "mapName" | quote }}
+data:
+  {{ index .Values "sf-tenant-operator" "config" "fileName" }}: |-
+    {
+      "LoopConfiguration": {
+        "FullFetchLoopDelay": "00:00:30"
+      },
+      "DeploymentConfiguration": {
+        "Namespace": "{{ .Release.Namespace }}",
+        "ComponentConfigurations": [
+          {
+            "ComponentName": "matcher",
+            "DeploymentTemplateFilePath": "{{ index .Values "sf-tenant-operator" "config" "configDir" }}/matcher.yaml",
+            "TenantEnvVar": "Multitenancy__TenantId"
+          }
+        ]
+      }
+    }
+  matcher.yaml: |-
+    {{- include "smartface.matcherDefinition" . | nindent 4 }}
+{{- end}}

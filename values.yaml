@@ -1,0 +1,513 @@
+# Default values for smartface.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  image:
+    # -- Overrides the Docker registry globally for all images
+    registry: "registry.gitlab.com"
+
+# -- docker secrets used to pull images with
+imagePullSecrets:
+  - name: "sf-gitlab-registry-creds"
+
+configurations:
+  database:
+    secretName: "db-cs"
+    connectionStringKey: "cs"
+  s3:
+    configName: "s3-config"
+    bucketKey: "name"
+    regionKey: "region"
+    folderKey: "folder"
+    authTypeKey: "authType"
+    useBucketRegionKey: "useBucketRegion"
+  license:
+    secretName: "iface-lic"
+    volumeMountName: "license"
+    mountPath: "/etc/innovatrics"
+  apiAuth:
+    # -- config containing authorization configuration for APIs used when authentication is enabled
+    configName: "auth-config"
+  stationAuth:
+    # -- config containing authorization configuration for SF Station used when authentication is enabled for SF Station
+    configName: "station-auth-config"
+    secretName: "station-client-id"
+
+features:
+  multitenancy:
+    # -- enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled
+    enabled: false
+  edgeStreams:
+    enabled: false
+
+# -- config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq
+rabbitmq:
+  # -- configure if rabbitmq subchart should be included
+  enabled: true
+  extraPlugins: "rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt"
+  # -- hostname used for MQTT service - only relevant for edge streams
+  mqttDnsHost: ""
+  configMapName: "sf-rmq-connection"
+  existingSecretName: ""
+  secretKey: "rabbitmq-password"
+  auth:
+    username: "smartface"
+    erlangCookie: ""
+    password: ""
+
+api:
+  enabled: true
+  name: "sf-api"
+  servicePort: 80
+  containerPort: 80
+  dnsHost: ""
+  initMigration: true
+  resources:
+    requests:
+      memory: "300M"
+      cpu: "250m"
+    limits:
+      memory: "4G"
+  nodeSelector: {}
+  tolerations: []
+  replicas: 1
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-api
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+authApi:
+  enabled: false
+  name: "sf-auth-api"
+  servicePort: 8098
+  containerPort: 80
+  dnsHost: ""
+  initMigration: true
+  resources:
+    requests:
+      memory: "300M"
+      cpu: "250m"
+    limits:
+      memory: "4G"
+  nodeSelector: {}
+  tolerations: []
+  # -- number of replicas to use when autoscaling is not enabled for this component
+  replicas: 1
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-api
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+graphqlApi:
+  enabled: true
+  name: "sf-graphql-api"
+  servicePort: 8097
+  containerPort: 80
+  dnsHost: ""
+  enableAuth: false
+  initMigration: false
+  resources:
+    requests:
+      memory: "300M"
+      cpu: "250m"
+    limits:
+      memory: "4G"
+  nodeSelector: {}
+  tolerations: []
+  replicas: 1
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-graphql-api
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+ingress:
+  # -- enable creation of ingress object
+  enabled: true
+  # -- set ingress class
+  class: ""
+  # -- supply custom ingress annotation
+  annotations:
+  # -- if enabled then the ingress will include default ALB annotations
+  includeAlbAnnotations: false
+  # -- only used if includeAlbAnnotations == true
+  certificateArn: ""
+
+detector:
+  name: "sf-detector"
+  resources:
+    requests:
+      memory: "600M"
+      cpu: "750m"
+    limits:
+      memory: "1500M"
+  nodeSelector: {}
+  tolerations: []
+  # -- number of replicas to use when autoscaling is not enabled for this component
+  replicas: 1
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-detector
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+extractor:
+  name: "sf-extractor"
+  resources:
+    requests:
+      memory: "500M"
+      cpu: "750m"
+    limits:
+      memory: "1G"
+  nodeSelector: {}
+  tolerations: []
+  # -- number of replicas to use when autoscaling is not enabled for this component
+  replicas: 1
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-extractor
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+matcher:
+  name: "sf-matcher"
+  resources:
+    requests:
+      memory: "200M"
+      cpu: "750m"
+  nodeSelector: {}
+  tolerations: []
+  replicas: 1
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-matcher
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+liveness:
+  name: "sf-liveness"
+  resources:
+    requests:
+      memory: "200M"
+      cpu: "750m"
+  nodeSelector: {}
+  tolerations: []
+  replicas: 1
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-liveness
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+edgeStreamProcessor:
+  name: "sf-edge-stream-processor"
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
+  replicas: 1
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-edge-stream-processor
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+base:
+  name: "sf-base"
+  zmqServicePort: 2406
+  zmqContainerPort: 2406
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-base
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+faceMatcher:
+  name: "sf-face-matcher"
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
+  replicas: 1
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-face-matcher
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+accessController:
+  name: "sf-access-controller"
+  authServiceName: "sf-auth-access-controller"
+  dnsHost: ""
+  servicePort: 5050
+  containerPort: 80
+  authServicePort: 5051
+  authContainerPort: 5051
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-access-controller
+    # -- Access Controller follows different versioning, so the chart app needs to be overridden
+    tag: "v5_1.9.1"
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+station:
+  enabled: true
+  name: "sf-station"
+  servicePort: 8000
+  containerPort: 80
+  dnsHost: ""
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-station
+    # -- Access Controller follows different versioning, so the chart app needs to be overridden
+    tag: "v5_1.17.0"
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+streamDataDbWorker:
+  name: "sf-stream-data-db-worker"
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
+  replicas: 1
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-streamdatadbworker
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+jaegerTracing:
+  enabled: true
+  hostname: grafana-agent.monitoring.svc.cluster.local
+
+migration:
+  enabled: true
+  initContainer:
+    resources: {}
+    image:
+      # -- The Docker registry, overrides `global.image.registry`
+      registry: null
+      # -- Docker image repository
+      repository: innovatrics/smartface/sf-admin
+      # -- Overrides the image tag whose default is the chart's appVersion
+      tag: null
+      # -- Overrides the image tag with an image digest
+      digest: null
+      # -- Docker image pull policy
+      pullPolicy: IfNotPresent
+
+autoscaling:
+  cron:
+    # -- enables predefined cron trigger on ScaledObjects
+    enabled: false
+    # -- see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+    timezone: "Europe/Bratislava"
+  rmq:
+    # -- enables rabbitmq triggers on ScaledObjects
+    enabled: false
+    triggerAuthName: "keda-trigger-auth-rabbitmq-conn"
+    hostSecretName: "rmq-management-uri-with-creds"
+  detector:
+    # -- enables ScaledObject for detector
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+    # -- for RMQ trigger
+    rmqRps: 15
+    # -- for cron trigger
+    workHoursReplicas: 2
+    # -- for cron trigger
+    nonWorkHoursReplicas: 1
+  extractor:
+    # -- enables ScaledObject for extractor
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+    # -- for RMQ trigger
+    rmqRps: 12
+    # -- for cron trigger
+    workHoursReplicas: 2
+    # -- for cron trigger
+    nonWorkHoursReplicas: 1
+  api:
+    # -- enables ScaledObject for rest API
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+    # -- for RMQ trigger
+    rmqRps: 17
+    # -- for cron trigger
+    workHoursReplicas: 2
+    # -- for cron trigger
+    nonWorkHoursReplicas: 1
+
+# -- configuration for sf-tenant-operator subchart
+sf-tenant-operator:
+  config:
+    mapName: "operator-config"
+    fileName: "appsettings.override.json"
+    configDir: "/etc/components"
+  installCrd: false
+  image:
+    secretName: "sf-gitlab-registry-creds"
+
+countlyPublisher:
+  enabled: false
+  name: "countly-publisher"
+  clusterName: ""
+  imageTag: "31"
+  resources:
+    requests:
+      memory: "100M"
+      cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-countly-publisher
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+metrics:
+  enabled: false
+  monitorDiscoveryLabel:
+    instance: primary
+  serviceDiscoveryLabels:
+    sf-metrics: "true"
+  portName: "metrics"
+  port: 4318
+
+readonlyApi:
+  enabled: false
+  authName: "readonly-auth-api"
+  noAuthName: "readonly-noauth-api"
+  proxyContainer:
+    resources: {}
+  nodeSelector: {}
+  tolerations: []
+
+serviceAccount:
+  # -- Specifies whether a ServiceAccount should be created
+  create: true
+  # -- The name of the ServiceAccount to use.
+  name: "sf-service-account"
+  # -- Image pull secrets for the service account
+  imagePullSecrets: []
+  # -- Annotations for the service account
+  annotations: {}
+  # -- Labels for the service account
+  labels: {}
+  # -- Set this toggle to false to opt out of automounting API credentials for the service account
+  automountServiceAccountToken: true
+
+# -- due to ArgoCD limitations this can be used to skip validations that use the `lookup` helm function - for more information see https://github.com/argoproj/argo-cd/issues/5202
+skipLookupBasedValidations: false

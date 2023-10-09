@@ -1,0 +1,47 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: {{ .Values.detector.name | quote }}
+  labels:
+    app: {{ .Values.detector.name | quote }}
+spec:
+  {{- if not (and (or .Values.autoscaling.cron.enabled .Values.autoscaling.rmq.enabled) .Values.autoscaling.detector.enabled ) }}
+  replicas: {{ .Values.detector.replicas }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .Values.detector.name | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.detector.name | quote }}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
+      topologySpreadConstraints:
+        {{- include "smartface.topologySpread" (dict "appLabel" .Values.detector.name) | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ .Values.detector.name | quote }}
+        image: {{ include "smartface.image" (dict "local" .Values.detector.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.detector.image.pullPolicy }}
+        env:
+        {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.rmqConfig" . | nindent 8 }}
+        resources:
+          {{- toYaml .Values.detector.resources | nindent 10 }}
+        volumeMounts:
+        {{- include "smartface.licVolumeMount" . | nindent 8 }}
+      volumes:
+        {{- include "smartface.licVolume" . | nindent 8 }}
+      {{- with .Values.detector.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.detector.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

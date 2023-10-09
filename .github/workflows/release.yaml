@@ -1,0 +1,68 @@
+name: Release helm chart
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      HELM_REGISTRY: "oci://ghcr.io/innovatrics/sf-helm"
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install yq
+        run: |
+          sudo snap install yq
+      - name: Check tag against helm chart version
+        id: chart_info
+        run: |
+          chart_version=$(yq '.version' Chart.yaml)
+          chart_name=$(yq '.name' Chart.yaml)
+          echo "tag_version=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+          echo "chart_version=$chart_version" >> $GITHUB_OUTPUT
+          echo "chart_version_with_prefix=v$chart_version" >> $GITHUB_OUTPUT
+          echo "chart_name=$chart_name" >> $GITHUB_OUTPUT
+      - name: Version is incorrect
+        if: ${{ steps.chart_info.outputs.chart_version_with_prefix != steps.chart_info.outputs.tag_version }}
+        run: exit 1
+      - name: Setup helm CLI
+        uses: azure/setup-helm@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Helm login to GHCR
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ghcr.io --username ${{ github.repository_owner }} --password-stdin
+      - name: Build helm dependencies
+        run: |
+          helm dependency build .
+      - name: Lint helm
+        run: |
+          helm lint .
+      - name: Package chart
+        run: |
+          helm package .
+      - name: Helm | Push
+        run: helm push ${{ steps.chart_info.outputs.chart_name }}-${{ steps.chart_info.outputs.chart_version }}.tgz $HELM_REGISTRY
+      - name: release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: true
+          prerelease: false
+          release_name: Smartface Helm ${{ steps.chart_info.outputs.chart_version }}
+          tag_name: ${{ github.ref }}
+          # TODO somehow parse only changes relevant to current version
+          body_path: CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Chart package as release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.chart_info.outputs.chart_name }}-${{ steps.chart_info.outputs.chart_version }}.tgz
+          asset_name: ${{ steps.chart_info.outputs.chart_name }}-${{ steps.chart_info.outputs.chart_version }}.tgz
+          asset_content_type: application/gzip

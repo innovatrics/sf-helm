@@ -1,0 +1,14 @@
+{{- if and .Values.readonlyApi.enabled .Values.api.enabled  }}
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: {{ .Values.readonlyApi.noAuthName | quote }}
+spec:
+  selector:
+    app: {{ .Values.readonlyApi.noAuthName | quote }}
+  ports:
+    - name: "http"
+      port: {{ .Values.api.servicePort }}
+      targetPort: {{ .Values.api.containerPort }}
+  type: "ClusterIP"
+{{- end }}

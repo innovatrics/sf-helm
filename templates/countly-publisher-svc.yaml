@@ -1,0 +1,15 @@
+{{- if .Values.countlyPublisher.enabled }}
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: {{ .Values.countlyPublisher.name | quote }}
+  labels:
+    {{- toYaml $.Values.metrics.serviceDiscoveryLabels | nindent 4 }}
+spec:
+  selector:
+    app: {{ .Values.countlyPublisher.name | quote }}
+  ports:
+    - name: {{ .Values.metrics.portName | quote }}
+      port: {{ .Values.metrics.port }}
+  type: "ClusterIP"
+{{- end }}

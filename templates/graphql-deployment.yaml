@@ -1,0 +1,65 @@
+{{- if .Values.graphqlApi.enabled }}
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: {{ .Values.graphqlApi.name | quote }}
+  labels:
+    app: {{ .Values.graphqlApi.name | quote }}
+spec:
+  replicas: {{ .Values.graphqlApi.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.graphqlApi.name | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.graphqlApi.name | quote }}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
+      topologySpreadConstraints:
+        {{- include "smartface.topologySpread" (dict "appLabel" .Values.graphqlApi.name) | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ .Values.graphqlApi.name | quote }}
+        image: {{ include "smartface.image" (dict "local" .Values.graphqlApi.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.graphqlApi.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.graphqlApi.containerPort }}
+        env:
+        {{- if .Values.graphqlApi.enableAuth }}
+        {{- include "smartface.authenticationConfig" . | nindent 8 }}
+        {{- end }}
+        {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.dbConfig" . | nindent 8 }}
+        {{- include "smartface.s3Config" . | nindent 8 }}
+        {{- include "smartface.rmqConfig" . | nindent 8 }}
+        {{- include "smartface.apiFeaturesConfig" . | nindent 8 }}
+        - name: "Multitenancy__UseMultitenancy"
+          value: {{ .Values.features.multitenancy.enabled | quote }}
+        - name: "Hosting__Host"
+          value: "http://0.0.0.0"
+        - name: "Hosting__Port"
+          value: {{ .Values.graphqlApi.containerPort | quote }}
+        resources:
+          {{- toYaml .Values.graphqlApi.resources | nindent 10 }}
+        volumeMounts:
+        {{- include "smartface.licVolumeMount" . | nindent 8 }}
+      {{- if and .Values.migration.enabled .Values.graphqlApi.initMigration }}
+      initContainers:
+      {{- include "smartface.migrationInitContainer" . | nindent 6 }}
+      {{- end }}
+      volumes:
+        {{- include "smartface.licVolume" . | nindent 8 }}
+      {{- with .Values.graphqlApi.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.graphqlApi.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

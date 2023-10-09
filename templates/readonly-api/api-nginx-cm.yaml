@@ -1,0 +1,41 @@
+{{- if and .Values.readonlyApi.enabled .Values.api.enabled  }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.readonlyApi.noAuthName | quote }}
+data:
+  nginx.conf: |
+    server {
+        listen {{ .Values.api.containerPort }};
+        server_name localhost;
+
+        location / {
+            if ($request_method != GET ) {
+                return 403;
+            }
+            proxy_pass "http://{{ .Values.api.name }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.api.servicePort }}";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        location /api/v1/Watchlists/Search {
+            proxy_pass "http://{{ .Values.api.name }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.api.servicePort }}";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+        location /api/v1/Faces/SpoofCheck {
+            proxy_pass "http://{{ .Values.api.name }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.api.servicePort }}";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+        location /api/v1/Faces/Verify {
+            proxy_pass "http://{{ .Values.api.name }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.api.servicePort }}";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+    }
+{{- end }}

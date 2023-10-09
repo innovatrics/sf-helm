@@ -1,0 +1,3 @@
+{{- if not .Values.features.multitenancy.enabled }}
+{{- include "smartface.matcherDefinition" . }}
+{{- end }}

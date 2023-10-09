@@ -1,0 +1,11 @@
+{{- if .Values.autoscaling.rmq.enabled }}
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: {{ .Values.autoscaling.rmq.triggerAuthName | quote }}
+spec:
+  secretTargetRef:
+    - parameter: "host"
+      name: {{ .Values.autoscaling.rmq.hostSecretName | quote }}
+      key: "host"
+{{- end }}

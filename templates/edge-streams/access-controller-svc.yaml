@@ -1,0 +1,27 @@
+{{- if .Values.features.edgeStreams.enabled }}
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: {{ .Values.accessController.name | quote }}
+spec:
+  selector:
+    app: {{ .Values.accessController.name | quote }}
+  ports:
+    - port: {{ .Values.accessController.servicePort }}
+      targetPort: {{ .Values.accessController.containerPort }}
+      protocol: "TCP"
+  type: "ClusterIP"
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: {{ .Values.accessController.authServiceName | quote }}
+spec:
+  selector:
+    app: {{ .Values.accessController.name | quote }}
+  ports:
+    - port: {{ .Values.accessController.authServicePort }}
+      targetPort: {{ .Values.accessController.authContainerPort }}
+      protocol: "TCP"
+  type: "ClusterIP"
+{{- end }}

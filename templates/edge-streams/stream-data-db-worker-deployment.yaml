@@ -1,0 +1,50 @@
+{{- if .Values.features.edgeStreams.enabled }}
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: {{ .Values.streamDataDbWorker.name | quote }}
+  labels:
+    app: {{ .Values.streamDataDbWorker.name | quote }}
+spec:
+  replicas: {{ .Values.streamDataDbWorker.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.streamDataDbWorker.name | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.streamDataDbWorker.name | quote }}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
+      topologySpreadConstraints:
+        {{- include "smartface.topologySpread" (dict "appLabel" .Values.streamDataDbWorker.name) | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ .Values.streamDataDbWorker.name | quote }}
+        image: {{ include "smartface.image" (dict "local" .Values.streamDataDbWorker.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.streamDataDbWorker.image.pullPolicy }}
+        ports:
+        env:
+        {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.dbConfig" . | nindent 8 }}
+        {{- include "smartface.s3Config" . | nindent 8 }}
+        {{- include "smartface.rmqConfig" . | nindent 8 }}
+        resources:
+          {{- toYaml .Values.streamDataDbWorker.resources | nindent 10 }}
+        volumeMounts:
+        {{- include "smartface.licVolumeMount" . | nindent 8 }}
+      volumes:
+        {{- include "smartface.licVolume" . | nindent 8 }}
+      {{- with .Values.streamDataDbWorker.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.streamDataDbWorker.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

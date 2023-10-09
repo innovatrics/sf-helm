@@ -1,0 +1,18 @@
+{{- if .Values.authApi.enabled }}
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: {{ .Values.authApi.name | quote }}
+  labels:
+    {{- toYaml $.Values.metrics.serviceDiscoveryLabels | nindent 4 }}
+spec:
+  selector:
+    app: {{ .Values.authApi.name | quote }}
+  ports:
+    - name: "http"
+      port: {{ .Values.authApi.servicePort }}
+      targetPort: {{ .Values.authApi.containerPort }}
+    - name: {{ .Values.metrics.portName | quote }}
+      port: {{ .Values.metrics.port }}
+  type: "ClusterIP"
+{{- end }}

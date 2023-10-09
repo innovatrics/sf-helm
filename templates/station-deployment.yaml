@@ -1,0 +1,109 @@
+{{- if .Values.station.enabled }}
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: {{ .Values.station.name | quote }}
+  labels:
+    app: {{ .Values.station.name | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.station.name | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.station.name | quote }}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
+      topologySpreadConstraints:
+        {{- include "smartface.topologySpread" (dict "appLabel" .Values.station.name) | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ .Values.station.name | quote }}
+        image: {{ include "smartface.image" (dict "local" .Values.station.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.station.image.pullPolicy }}
+        env:
+        {{- include "smartface.apiFeaturesConfig" . | nindent 8 }}
+        - name: "HOST"
+          value: "0.0.0.0"
+        - name: "PORT"
+          value: {{ .Values.station.containerPort | quote }}
+        - name: "CORE_API_ROOT"
+          {{- if .Values.readonlyApi.enabled }}
+          value: "http://{{ .Values.readonlyApi.authName }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.authApi.servicePort }}/api/v1"
+          {{- else }}
+          value: "http://{{ .Values.authApi.name }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.authApi.servicePort }}/api/v1"
+          {{- end }}
+        - name: "ZERO_MQ_HOST"
+          value: "{{ .Values.base.name }}.{{ .Release.Namespace }}.svc.cluster.local"
+        - name: "ZERO_MQ_PORT"
+          value: "{{ .Values.base.zmqServicePort }}"
+        - name: "GRAPHQL_ROOT"
+          value: "http://{{ .Values.graphqlApi.name }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.graphqlApi.servicePort }}/graphql"
+        - name: "ACCESS_CONTROLLER_ADDRESS"
+          value: "{{ .Values.accessController.name }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.accessController.servicePort }}"
+        - name: "BLACKLIST_WATCHLIST_IDS"
+          value: ""
+        - name: "KEYCLOAK_ADMIN_URL"
+          value: ""
+        - name: "DOT_FACE_CAMERA_ENABLED"
+          value: "true"
+        - name: "IDENTIFICATION_ENABLED"
+          value: "true"
+
+        - name: "AUTH0_AUTHENTICATION_ENABLED"
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.configurations.stationAuth.configName | quote }}
+              key: "use_auth"
+        - name: "AUTH0_AUDIENCE"
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.configurations.stationAuth.configName | quote }}
+              key: "audience"
+        - name: "AUTH0_DOMAIN"
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.configurations.stationAuth.configName | quote }}
+              key: "domain"
+        - name: "AUTH0_ISSUER"
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.configurations.stationAuth.configName | quote }}
+              key: "issuer"
+        - name: "AUTH0_JWKS_URI"
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.configurations.stationAuth.configName | quote }}
+              key: "jwks_uri"
+        - name: "AUTH_HEADER"
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.configurations.stationAuth.configName | quote }}
+              key: "auth_header"
+
+        - name: "AUTH0_CLIENT_ID"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.configurations.stationAuth.secretName | quote }}
+              key: "client_id"
+        resources:
+          {{- toYaml .Values.station.resources | nindent 10 }}
+        volumeMounts:
+        {{- include "smartface.licVolumeMount" . | nindent 8 }}
+      volumes:
+        {{- include "smartface.licVolume" . | nindent 8 }}
+      {{- with .Values.station.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.station.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end}}
