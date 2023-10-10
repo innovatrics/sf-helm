@@ -350,7 +350,7 @@ stringData:
 | station.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | station.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | station.image.repository | string | `"innovatrics/smartface/sf-station"` | Docker image repository |
-| station.image.tag | string | `"v5_1.17.0"` | Access Controller follows different versioning, so the chart app needs to be overridden |
+| station.image.tag | string | `"v5_1.20.0"` | Access Controller follows different versioning, so the chart app needs to be overridden |
 | station.name | string | `"sf-station"` |  |
 | station.nodeSelector | object | `{}` |  |
 | station.resources.requests.cpu | string | `"100m"` |  |
