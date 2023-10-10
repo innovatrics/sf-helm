@@ -217,6 +217,8 @@ stringData:
 | edgeStreamProcessor.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | edgeStreamProcessor.name | string | `"sf-edge-stream-processor"` |  |
 | edgeStreamProcessor.nodeSelector | object | `{}` |  |
+| edgeStreamProcessor.operationMode.livenessDataStrategy | string | `"ServerOnly"` | Possible values are `EdgeStreamOnly` or `ServerOnly` |
+| edgeStreamProcessor.operationMode.matchingDataStrategy | string | `"ServerOnly"` | Possible values are `EdgeStreamOnly` or `ServerOnly` |
 | edgeStreamProcessor.replicas | int | `1` |  |
 | edgeStreamProcessor.resources.requests.cpu | string | `"100m"` |  |
 | edgeStreamProcessor.resources.requests.memory | string | `"100M"` |  |
