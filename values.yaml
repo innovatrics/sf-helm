@@ -396,7 +396,7 @@ station:
     registry: null
     # -- Docker image repository
     repository: innovatrics/smartface/sf-station
-    # -- Access Controller follows different versioning, so the chart app needs to be overridden
+    # -- Smartface Station follows different versioning, so the chart app needs to be overridden
     tag: "v5_1.20.0"
     # -- Overrides the image tag with an image digest
     digest: null
