@@ -1,0 +1,49 @@
+{{- if .Values.features.edgeStreams.enabled }}
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: {{ .Values.edgeStreamsStateSync.name | quote }}
+  labels:
+    app: {{ .Values.edgeStreamsStateSync.name | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.edgeStreamsStateSync.name | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.edgeStreamsStateSync.name | quote }}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
+      topologySpreadConstraints:
+        {{- include "smartface.topologySpread" (dict "appLabel" .Values.edgeStreamsStateSync.name) | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ .Values.edgeStreamsStateSync.name | quote }}
+        image: {{ include "smartface.image" (dict "local" .Values.edgeStreamsStateSync.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.edgeStreamsStateSync.image.pullPolicy }}
+        env:
+        {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.rmqConfig" . | nindent 8 }}
+        {{- include "smartface.mqttConfig" . | nindent 8 }}
+        {{- include "smartface.dbConfig" . | nindent 8 }}
+        resources:
+          {{- toYaml .Values.edgeStreamsStateSync.resources | nindent 10 }}
+        volumeMounts:
+        {{- include "smartface.licVolumeMount" . | nindent 8 }}
+      volumes:
+        {{- include "smartface.licVolume" . | nindent 8 }}
+      {{- with .Values.edgeStreamsStateSync.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.edgeStreamsStateSync.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

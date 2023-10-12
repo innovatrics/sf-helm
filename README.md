@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.21.0](https://img.shields.io/badge/AppVersion-v5_4.21.0-informational?style=flat-square)
+![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.22.0](https://img.shields.io/badge/AppVersion-v5_4.22.0-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -217,10 +217,31 @@ stringData:
 | edgeStreamProcessor.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | edgeStreamProcessor.name | string | `"sf-edge-stream-processor"` |  |
 | edgeStreamProcessor.nodeSelector | object | `{}` |  |
+| edgeStreamProcessor.operationMode.livenessDataStrategy | string | `"ServerOnly"` | Possible values are `EdgeStreamOnly` or `ServerOnly` |
+| edgeStreamProcessor.operationMode.matchingDataStrategy | string | `"ServerOnly"` | Possible values are `EdgeStreamOnly` or `ServerOnly` |
 | edgeStreamProcessor.replicas | int | `1` |  |
 | edgeStreamProcessor.resources.requests.cpu | string | `"100m"` |  |
 | edgeStreamProcessor.resources.requests.memory | string | `"100M"` |  |
 | edgeStreamProcessor.tolerations | list | `[]` |  |
+| edgeStreamsStateSync.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| edgeStreamsStateSync.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| edgeStreamsStateSync.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| edgeStreamsStateSync.image.repository | string | `"innovatrics/smartface/sf-edge-streams-state-synchronizer"` | Docker image repository |
+| edgeStreamsStateSync.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
+| edgeStreamsStateSync.name | string | `"sf-edge-streams-state-synchronizer"` |  |
+| edgeStreamsStateSync.nodeSelector | object | `{}` |  |
+| edgeStreamsStateSync.resources.requests.cpu | string | `"100m"` |  |
+| edgeStreamsStateSync.resources.requests.memory | string | `"100M"` |  |
+| edgeStreamsStateSync.tolerations | list | `[]` |  |
+| edgeStreamsStateSync.wlStreamPopulationJob.enabled | bool | `false` |  |
+| edgeStreamsStateSync.wlStreamPopulationJob.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| edgeStreamsStateSync.wlStreamPopulationJob.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| edgeStreamsStateSync.wlStreamPopulationJob.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| edgeStreamsStateSync.wlStreamPopulationJob.image.repository | string | `"innovatrics/smartface/sf-admin"` | Docker image repository |
+| edgeStreamsStateSync.wlStreamPopulationJob.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
+| edgeStreamsStateSync.wlStreamPopulationJob.nodeSelector | object | `{}` |  |
+| edgeStreamsStateSync.wlStreamPopulationJob.resources | object | `{}` |  |
+| edgeStreamsStateSync.wlStreamPopulationJob.tolerations | list | `[]` |  |
 | extractor.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | extractor.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | extractor.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
@@ -307,7 +328,7 @@ stringData:
 | migration.initContainer.image.repository | string | `"innovatrics/smartface/sf-admin"` | Docker image repository |
 | migration.initContainer.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | migration.initContainer.resources | object | `{}` |  |
-| rabbitmq | object | `{"auth":{"erlangCookie":"","password":"","username":"smartface"},"configMapName":"sf-rmq-connection","enabled":true,"existingSecretName":"","extraPlugins":"rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt","mqttDnsHost":"","secretKey":"rabbitmq-password"}` | config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq |
+| rabbitmq | object | `{"auth":{"erlangCookie":"","password":"","username":"smartface"},"configMapName":"sf-rmq-connection","enabled":true,"existingSecretName":"","extraPlugins":"rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt","mqttConfigMapName":"sf-mqtt-connection","mqttDnsHost":"","secretKey":"rabbitmq-password","service":{"extraPorts":[{"name":"mqtt","port":1883,"targetPort":1883},{"name":"rmq-stream","port":5552,"targetPort":5552}]}}` | config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq |
 | rabbitmq.enabled | bool | `true` | configure if rabbitmq subchart should be included |
 | rabbitmq.mqttDnsHost | string | `""` | hostname used for MQTT service - only relevant for edge streams |
 | readonlyApi.authName | string | `"readonly-auth-api"` |  |
@@ -331,7 +352,7 @@ stringData:
 | station.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | station.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | station.image.repository | string | `"innovatrics/smartface/sf-station"` | Docker image repository |
-| station.image.tag | string | `"v5_1.17.0"` | Access Controller follows different versioning, so the chart app needs to be overridden |
+| station.image.tag | string | `"v5_1.20.0"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
 | station.name | string | `"sf-station"` |  |
 | station.nodeSelector | object | `{}` |  |
 | station.resources.requests.cpu | string | `"100m"` |  |

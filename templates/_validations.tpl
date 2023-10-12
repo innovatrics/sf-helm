@@ -15,6 +15,7 @@ Compile all warnings into a single message, and call fail.
 {{- $messages := append $messages (trim (include "smartface.validate.authConfig" .)) -}}
 {{- $messages := append $messages (trim (include "smartface.validate.registryCreds" .)) -}}
 {{- $messages := append $messages (trim (include "smartface.validate.rmqConfig" .)) -}}
+{{- $messages := append $messages (trim (include "smartface.validate.mqttConfig" .)) -}}
 {{- end -}}
 
 {{- $messages := without $messages "" -}}
@@ -99,7 +100,7 @@ Validate auth config present if it will be needed
 Validate registry credentials
 */}}
 {{- define "smartface.validate.registryCreds" -}}
-{{- $releaseName := .Release.Name -}}
+{{- $releaseName := .Release.Namespace -}}
 {{- range .Values.imagePullSecrets -}}
 {{- $error := (include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" $releaseName "Name" .name "Key" ".dockerconfigjson")) -}}
 {{- if $error -}}
@@ -117,12 +118,28 @@ Validate rmq config if not managed by us
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "hostname") }}
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "useSsl") }}
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "port") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "streamsPort") }}
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "username") }}
 {{- if not .Values.rabbitmq.existingSecretName }}
 Please provide value for `rabbitmq.existingSecretName`
 {{- else }}
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.existingSecretName "Key" .Values.rabbitmq.secretKey) }}
 {{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Validate mqtt config if not managed by us
+*/}}
+{{- define "smartface.validate.mqttConfig" -}}
+{{/*
+This should not be used in such combination because there would be no "shovel" between mqtt and rmq, but we can still validate
+*/}}
+{{- if and .Values.features.edgeStreams.enabled (not .Values.rabbitmq.enabled) -}}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "hostname") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "useSsl") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "port") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "username") }}
 {{- end -}}
 {{- end -}}
 
