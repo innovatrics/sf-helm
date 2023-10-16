@@ -255,6 +255,11 @@ liveness:
 
 edgeStreamProcessor:
   name: "sf-edge-stream-processor"
+  operationMode:
+    # -- Possible values are `EdgeStreamOnly` or `ServerOnly`
+    matchingDataStrategy: "ServerOnly"
+    # -- Possible values are `EdgeStreamOnly` or `ServerOnly`
+    livenessDataStrategy: "ServerOnly"
   resources:
     requests:
       memory: "100M"
