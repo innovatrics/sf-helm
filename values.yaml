@@ -503,7 +503,6 @@ countlyPublisher:
   enabled: false
   name: "countly-publisher"
   clusterName: ""
-  imageTag: "31"
   resources:
     requests:
       memory: "100M"
@@ -515,8 +514,8 @@ countlyPublisher:
     registry: null
     # -- Docker image repository
     repository: innovatrics/smartface/sf-countly-publisher
-    # -- Overrides the image tag whose default is the chart's appVersion
-    tag: null
+    # -- Countly publisher follows different versioning, so the chart app needs to be overridden
+    tag: "31"
     # -- Overrides the image tag with an image digest
     digest: null
     # -- Docker image pull policy

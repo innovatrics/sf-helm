@@ -191,8 +191,7 @@ stringData:
 | countlyPublisher.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | countlyPublisher.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | countlyPublisher.image.repository | string | `"innovatrics/smartface/sf-countly-publisher"` | Docker image repository |
-| countlyPublisher.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
-| countlyPublisher.imageTag | string | `"31"` |  |
+| countlyPublisher.image.tag | string | `"31"` | Countly publisher follows different versioning, so the chart app needs to be overridden |
 | countlyPublisher.name | string | `"countly-publisher"` |  |
 | countlyPublisher.nodeSelector | object | `{}` |  |
 | countlyPublisher.resources.requests.cpu | string | `"100m"` |  |
