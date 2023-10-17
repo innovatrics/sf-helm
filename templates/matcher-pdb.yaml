@@ -1,0 +1,18 @@
+{{- if and (not .Values.features.multitenancy.enabled) .Values.matcher.pdb.create }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "smartface.matcher.name" . | quote }}
+  labels:
+    {{- include "smartface.matcher.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.matcher.pdb.minAvailable }}
+  minAvailable: {{ .Values.matcher.pdb.minAvailable }}
+  {{- end }}
+  {{- if .Values.matcher.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.matcher.pdb.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "smartface.matcher.selectorLabels" . | nindent 4 }}
+{{- end }}

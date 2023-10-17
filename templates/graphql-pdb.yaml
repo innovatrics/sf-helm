@@ -1,0 +1,18 @@
+{{- if and .Values.graphqlApi.pdb.create .Values.graphqlApi.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "smartface.graphqlApi.name" . | quote }}
+  labels:
+    {{- include "smartface.graphqlApi.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.graphqlApi.pdb.minAvailable }}
+  minAvailable: {{ .Values.graphqlApi.pdb.minAvailable }}
+  {{- end }}
+  {{- if .Values.graphqlApi.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.graphqlApi.pdb.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "smartface.graphqlApi.selectorLabels" . | nindent 4 }}
+{{- end }}

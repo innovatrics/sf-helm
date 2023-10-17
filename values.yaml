@@ -96,6 +96,11 @@ api:
     annotations: {}
     # -- Additional labels for api Service
     labels: {}
+  pdb:
+    # -- create PodDisruptionBudget for api component
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
   resources:
     requests:
       memory: "300M"
@@ -135,6 +140,11 @@ authApi:
     annotations: {}
     # -- Additional labels for authApi Service
     labels: {}
+  pdb:
+    # -- create PodDisruptionBudget for authApi component
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
   resources:
     requests:
       memory: "300M"
@@ -176,6 +186,11 @@ graphqlApi:
     annotations: {}
     # -- Additional labels for graphqlApi Service
     labels: {}
+  pdb:
+    # -- create PodDisruptionBudget for graphqlApi component
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
   resources:
     requests:
       memory: "300M"
@@ -217,6 +232,11 @@ detector:
   podAnnotations: {}
   # -- Additional labels for each detector pod
   podLabels: {}
+  pdb:
+    # -- create PodDisruptionBudget for detector component
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
   resources:
     requests:
       memory: "600M"
@@ -247,6 +267,11 @@ extractor:
   podAnnotations: {}
   # -- Additional labels for each extractor pod
   podLabels: {}
+  pdb:
+    # -- create PodDisruptionBudget for extractor component
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
   resources:
     requests:
       memory: "500M"
@@ -277,6 +302,11 @@ matcher:
   podAnnotations: {}
   # -- Additional labels for each matcher pod
   podLabels: {}
+  pdb:
+    # -- create PodDisruptionBudget for matcher component. Only works when `features.multitenancy` is disabled as PDB is not compatible with tenant operator
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
   resources:
     requests:
       memory: "200M"
@@ -304,6 +334,11 @@ liveness:
   podAnnotations: {}
   # -- Additional labels for each liveness pod
   podLabels: {}
+  pdb:
+    # -- create PodDisruptionBudget for liveness component
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
   resources:
     requests:
       memory: "200M"
@@ -336,6 +371,11 @@ edgeStreamProcessor:
   podAnnotations: {}
   # -- Additional labels for each edgeStreamProcessor pod
   podLabels: {}
+  pdb:
+    # -- create PodDisruptionBudget for edgeStreamProcessor component
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
   resources:
     requests:
       memory: "100M"
@@ -437,6 +477,12 @@ faceMatcher:
   # -- Annotations for faceMatcher pods
   podAnnotations: {}
   # -- Additional labels for each faceMatcher pod
+  podLabels: {}
+  pdb:
+    # -- create PodDisruptionBudget for faceMatcher component
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
   resources:
     requests:
       memory: "100M"
@@ -536,6 +582,11 @@ streamDataDbWorker:
   podAnnotations: {}
   # -- Additional labels for each streamDataDbWorker pod
   podLabels: {}
+  pdb:
+    # -- create PodDisruptionBudget for streamDataDbWorker component
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
   resources:
     requests:
       memory: "100M"

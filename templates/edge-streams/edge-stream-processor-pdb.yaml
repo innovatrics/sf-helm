@@ -1,0 +1,18 @@
+{{- if and .Values.edgeStreamProcessor.pdb.create .Values.features.edgeStreams.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "smartface.edgeStreamProcessor.name" . | quote }}
+  labels:
+    {{- include "smartface.edgeStreamProcessor.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.edgeStreamProcessor.pdb.minAvailable }}
+  minAvailable: {{ .Values.edgeStreamProcessor.pdb.minAvailable }}
+  {{- end }}
+  {{- if .Values.edgeStreamProcessor.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.edgeStreamProcessor.pdb.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "smartface.edgeStreamProcessor.selectorLabels" . | nindent 4 }}
+{{- end }}

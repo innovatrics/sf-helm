@@ -120,6 +120,9 @@ stringData:
 | api.initMigration | bool | `true` |  |
 | api.name | string | `"api"` |  |
 | api.nodeSelector | object | `{}` |  |
+| api.pdb.create | bool | `false` | create PodDisruptionBudget for api component |
+| api.pdb.maxUnavailable | string | `""` |  |
+| api.pdb.minAvailable | int | `1` |  |
 | api.podAnnotations | object | `{}` | Annotations for api pods |
 | api.podLabels | object | `{}` | Additional labels for each api pod |
 | api.replicas | int | `1` |  |
@@ -142,6 +145,9 @@ stringData:
 | authApi.initMigration | bool | `true` |  |
 | authApi.name | string | `"auth-api"` |  |
 | authApi.nodeSelector | object | `{}` |  |
+| authApi.pdb.create | bool | `false` | create PodDisruptionBudget for authApi component |
+| authApi.pdb.maxUnavailable | string | `""` |  |
+| authApi.pdb.minAvailable | int | `1` |  |
 | authApi.podAnnotations | object | `{}` | Annotations for authApi pods |
 | authApi.podLabels | object | `{}` | Additional labels for each authApi pod |
 | authApi.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
@@ -231,6 +237,9 @@ stringData:
 | detector.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | detector.name | string | `"detector"` |  |
 | detector.nodeSelector | object | `{}` |  |
+| detector.pdb.create | bool | `false` | create PodDisruptionBudget for detector component |
+| detector.pdb.maxUnavailable | string | `""` |  |
+| detector.pdb.minAvailable | int | `1` |  |
 | detector.podAnnotations | object | `{}` | Annotations for detector pods |
 | detector.podLabels | object | `{}` | Additional labels for each detector pod |
 | detector.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
@@ -248,6 +257,9 @@ stringData:
 | edgeStreamProcessor.nodeSelector | object | `{}` |  |
 | edgeStreamProcessor.operationMode.livenessDataStrategy | string | `"ServerOnly"` | Possible values are `EdgeStreamOnly` or `ServerOnly` |
 | edgeStreamProcessor.operationMode.matchingDataStrategy | string | `"ServerOnly"` | Possible values are `EdgeStreamOnly` or `ServerOnly` |
+| edgeStreamProcessor.pdb.create | bool | `false` | create PodDisruptionBudget for edgeStreamProcessor component |
+| edgeStreamProcessor.pdb.maxUnavailable | string | `""` |  |
+| edgeStreamProcessor.pdb.minAvailable | int | `1` |  |
 | edgeStreamProcessor.podAnnotations | object | `{}` | Annotations for edgeStreamProcessor pods |
 | edgeStreamProcessor.podLabels | object | `{}` | Additional labels for each edgeStreamProcessor pod |
 | edgeStreamProcessor.replicas | int | `1` |  |
@@ -284,6 +296,9 @@ stringData:
 | extractor.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | extractor.name | string | `"extractor"` |  |
 | extractor.nodeSelector | object | `{}` |  |
+| extractor.pdb.create | bool | `false` | create PodDisruptionBudget for extractor component |
+| extractor.pdb.maxUnavailable | string | `""` |  |
+| extractor.pdb.minAvailable | int | `1` |  |
 | extractor.podAnnotations | object | `{}` | Annotations for extractor pods |
 | extractor.podLabels | object | `{}` | Additional labels for each extractor pod |
 | extractor.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
@@ -299,9 +314,14 @@ stringData:
 | faceMatcher.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | faceMatcher.name | string | `"face-matcher"` |  |
 | faceMatcher.nodeSelector | object | `{}` |  |
+| faceMatcher.pdb.create | bool | `false` | create PodDisruptionBudget for faceMatcher component |
+| faceMatcher.pdb.maxUnavailable | string | `""` |  |
+| faceMatcher.pdb.minAvailable | int | `1` |  |
 | faceMatcher.podAnnotations | object | `{}` | Annotations for faceMatcher pods |
+| faceMatcher.podLabels | object | `{}` | Additional labels for each faceMatcher pod |
 | faceMatcher.replicas | int | `1` |  |
-| faceMatcher.resources | object | `{"requests":{"cpu":"100m","memory":"100M"}}` | Additional labels for each faceMatcher pod |
+| faceMatcher.resources.requests.cpu | string | `"100m"` |  |
+| faceMatcher.resources.requests.memory | string | `"100M"` |  |
 | faceMatcher.tolerations | list | `[]` |  |
 | features.edgeStreams.enabled | bool | `false` |  |
 | features.multitenancy.enabled | bool | `false` | enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled |
@@ -319,6 +339,9 @@ stringData:
 | graphqlApi.initMigration | bool | `false` |  |
 | graphqlApi.name | string | `"graphql-api"` |  |
 | graphqlApi.nodeSelector | object | `{}` |  |
+| graphqlApi.pdb.create | bool | `false` | create PodDisruptionBudget for graphqlApi component |
+| graphqlApi.pdb.maxUnavailable | string | `""` |  |
+| graphqlApi.pdb.minAvailable | int | `1` |  |
 | graphqlApi.podAnnotations | object | `{}` | Annotations for graphqlApi pods |
 | graphqlApi.podLabels | object | `{}` | Additional labels for each graphqlApi pod |
 | graphqlApi.replicas | int | `1` |  |
@@ -345,6 +368,9 @@ stringData:
 | liveness.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | liveness.name | string | `"liveness"` |  |
 | liveness.nodeSelector | object | `{}` |  |
+| liveness.pdb.create | bool | `false` | create PodDisruptionBudget for liveness component |
+| liveness.pdb.maxUnavailable | string | `""` |  |
+| liveness.pdb.minAvailable | int | `1` |  |
 | liveness.podAnnotations | object | `{}` | Annotations for liveness pods |
 | liveness.podLabels | object | `{}` | Additional labels for each liveness pod |
 | liveness.replicas | int | `1` |  |
@@ -359,6 +385,9 @@ stringData:
 | matcher.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | matcher.name | string | `"matcher"` |  |
 | matcher.nodeSelector | object | `{}` |  |
+| matcher.pdb.create | bool | `false` | create PodDisruptionBudget for matcher component. Only works when `features.multitenancy` is disabled as PDB is not compatible with tenant operator |
+| matcher.pdb.maxUnavailable | string | `""` |  |
+| matcher.pdb.minAvailable | int | `1` |  |
 | matcher.podAnnotations | object | `{}` | Annotations for matcher pods |
 | matcher.podLabels | object | `{}` | Additional labels for each matcher pod |
 | matcher.replicas | int | `1` |  |
@@ -426,6 +455,9 @@ stringData:
 | streamDataDbWorker.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | streamDataDbWorker.name | string | `"stream-data-db-worker"` |  |
 | streamDataDbWorker.nodeSelector | object | `{}` |  |
+| streamDataDbWorker.pdb.create | bool | `false` | create PodDisruptionBudget for streamDataDbWorker component |
+| streamDataDbWorker.pdb.maxUnavailable | string | `""` |  |
+| streamDataDbWorker.pdb.minAvailable | int | `1` |  |
 | streamDataDbWorker.podAnnotations | object | `{}` | Annotations for streamDataDbWorker pods |
 | streamDataDbWorker.podLabels | object | `{}` | Additional labels for each streamDataDbWorker pod |
 | streamDataDbWorker.replicas | int | `1` |  |

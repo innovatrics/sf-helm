@@ -1,0 +1,18 @@
+{{- if and .Values.authApi.pdb.create .Values.authApi.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "smartface.authApi.name" . | quote }}
+  labels:
+    {{- include "smartface.authApi.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.authApi.pdb.minAvailable }}
+  minAvailable: {{ .Values.authApi.pdb.minAvailable }}
+  {{- end }}
+  {{- if .Values.authApi.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.authApi.pdb.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "smartface.authApi.selectorLabels" . | nindent 4 }}
+{{- end }}
