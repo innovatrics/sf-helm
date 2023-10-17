@@ -1,4 +1,6 @@
-{{- if and .Values.autoscaling.extractor.enabled (or .Values.autoscaling.rmq.enabled .Values.autoscaling.cron.enabled) }}
+{{- $predefinedTriggerUsed := (or .Values.autoscaling.rmq.enabled .Values.autoscaling.cron.enabled) -}}
+{{- $customTriggerUsed := .Values.autoscaling.extractor.triggers -}}
+{{- if and .Values.autoscaling.extractor.enabled (or $predefinedTriggerUsed $customTriggerUsed) }}
 {{- $name := include "smartface.extractor.name" . -}}
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
@@ -17,7 +19,7 @@ spec:
     metadata:
       queueName: "rpc\\.face\\.extract.*"
       mode: "MessageRate"
-      value: {{ .Values.autoscaling.extractor.rmqRps | quote }}
+      value: {{ .Values.autoscaling.rmq.extractor.requestsPerSecond | quote }}
       useRegex: "true"
     authenticationRef:
       name: {{ .Values.autoscaling.rmq.triggerAuthName | quote }}
@@ -29,20 +31,23 @@ spec:
       timezone: {{ .Values.autoscaling.cron.timezone | quote }}
       start: "0 8 * * 1-5"
       end: "0 17 * * 1-5"
-      desiredReplicas: {{ .Values.autoscaling.extractor.workHoursReplicas | quote }}
+      desiredReplicas: {{ .Values.autoscaling.cron.extractor.workHoursReplicas | quote }}
 #   outside work hours
   - type: "cron"
     metadata:
       timezone: {{ .Values.autoscaling.cron.timezone | quote }}
       start: "0 17 * * 1-5"
       end: "0 8 * * 1-5"
-      desiredReplicas: {{ .Values.autoscaling.extractor.nonWorkHoursReplicas | quote }}
+      desiredReplicas: {{ .Values.autoscaling.cron.extractor.nonWorkHoursReplicas | quote }}
 #   during weekend
   - type: "cron"
     metadata:
       timezone: {{ .Values.autoscaling.cron.timezone | quote }}
       start: "0 0 * * 0,6"
       end: "0 0 * * 1-5"
-      desiredReplicas: {{ .Values.autoscaling.extractor.nonWorkHoursReplicas | quote }}
+      desiredReplicas: {{ .Values.autoscaling.cron.extractor.nonWorkHoursReplicas | quote }}
+  {{- end }}
+  {{- with .Values.autoscaling.extractor.triggers }}
+    {{- toYaml . | nindent 4 }}
   {{- end }}
 {{- end }}

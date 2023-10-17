@@ -628,48 +628,51 @@ migration:
 
 autoscaling:
   cron:
-    # -- enables predefined cron trigger on ScaledObjects
+    # -- enables predefined workhours-based cron triggers on ScaledObjects
     enabled: false
     # -- see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
     timezone: "Europe/Bratislava"
+    detector:
+      workHoursReplicas: 2
+      nonWorkHoursReplicas: 1
+    extractor:
+      workHoursReplicas: 2
+      nonWorkHoursReplicas: 1
+    api:
+      workHoursReplicas: 2
+      nonWorkHoursReplicas: 1
   rmq:
-    # -- enables rabbitmq triggers on ScaledObjects
+    # -- enables predefined rabbitmq triggers based on requests per second on ScaledObjects
     enabled: false
     triggerAuthName: "keda-trigger-auth-rabbitmq-conn"
     hostSecretName: "rmq-management-uri-with-creds"
+    detector:
+      requestsPerSecond: 15
+    extractor:
+      requestsPerSecond: 12
+    api:
+      requestsPerSecond: 17
   detector:
     # -- enables ScaledObject for detector
     enabled: true
     minReplicas: 1
     maxReplicas: 3
-    # -- for RMQ trigger
-    rmqRps: 15
-    # -- for cron trigger
-    workHoursReplicas: 2
-    # -- for cron trigger
-    nonWorkHoursReplicas: 1
+    # -- provide additional triggers - see https://keda.sh/docs/2.12/concepts/scaling-deployments/#triggers
+    triggers: []
   extractor:
     # -- enables ScaledObject for extractor
     enabled: true
     minReplicas: 1
     maxReplicas: 3
-    # -- for RMQ trigger
-    rmqRps: 12
-    # -- for cron trigger
-    workHoursReplicas: 2
-    # -- for cron trigger
-    nonWorkHoursReplicas: 1
+    # -- provide additional triggers - see https://keda.sh/docs/2.12/concepts/scaling-deployments/#triggers
+    triggers: []
   api:
     # -- enables ScaledObject for rest API
     enabled: true
     minReplicas: 1
     maxReplicas: 3
-    # -- for RMQ trigger
-    rmqRps: 17
-    # -- for cron trigger
-    workHoursReplicas: 2
-    # -- for cron trigger
-    nonWorkHoursReplicas: 1
+    # -- provide additional triggers - see https://keda.sh/docs/2.12/concepts/scaling-deployments/#triggers
+    triggers: []
 
 # -- configuration for sf-tenant-operator subchart
 sf-tenant-operator:

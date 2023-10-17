@@ -12,3 +12,4 @@
 - Support for pushing watchlist data to edge streams via EdgeStreamsStateSynchronizer
 - Common labels with option to specify custom labels/annotation for objects
 - PodDisruptionBudgets for deployments that can be scaled
+- Support for custom KEDA triggers

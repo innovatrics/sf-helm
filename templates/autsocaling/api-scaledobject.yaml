@@ -1,9 +1,10 @@
-{{- if and .Values.autoscaling.api.enabled (or .Values.autoscaling.rmq.enabled .Values.autoscaling.cron.enabled) }}
+{{- $predefinedTriggerUsed := (or .Values.autoscaling.rmq.enabled .Values.autoscaling.cron.enabled) -}}
+{{- $customTriggerUsed := .Values.autoscaling.api.triggers -}}
+{{- if and .Values.autoscaling.api.enabled (or $predefinedTriggerUsed $customTriggerUsed) }}
 {{- $name := include "smartface.authApi.name" . -}}
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
-# TODO these as well
   name: {{ $name | quote }}
 spec:
   scaleTargetRef:
@@ -18,7 +19,7 @@ spec:
     metadata:
       queueName: "rpc\\.face\\.detect.*"
       mode: "MessageRate"
-      value: {{ .Values.autoscaling.api.rmqRps | quote }}
+      value: {{ .Values.autoscaling.rmq.api.requestsPerSecond | quote }}
       useRegex: "true"
     authenticationRef:
       name: {{ .Values.autoscaling.rmq.triggerAuthName | quote }}
@@ -30,20 +31,23 @@ spec:
       timezone: {{ .Values.autoscaling.cron.timezone | quote }}
       start: "0 8 * * 1-5"
       end: "0 17 * * 1-5"
-      desiredReplicas: {{ .Values.autoscaling.api.workHoursReplicas | quote }}
+      desiredReplicas: {{ .Values.autoscaling.cron.api.workHoursReplicas | quote }}
 #   outside work hours
   - type: "cron"
     metadata:
       timezone: {{ .Values.autoscaling.cron.timezone | quote }}
       start: "0 17 * * 1-5"
       end: "0 8 * * 1-5"
-      desiredReplicas: {{ .Values.autoscaling.api.nonWorkHoursReplicas | quote }}
+      desiredReplicas: {{ .Values.autoscaling.cron.api.nonWorkHoursReplicas | quote }}
 #   during weekend
   - type: "cron"
     metadata:
       timezone: {{ .Values.autoscaling.cron.timezone | quote }}
       start: "0 0 * * 0,6"
       end: "0 0 * * 1-5"
-      desiredReplicas: {{ .Values.autoscaling.api.nonWorkHoursReplicas | quote }}
+      desiredReplicas: {{ .Values.autoscaling.cron.api.nonWorkHoursReplicas | quote }}
+  {{- end }}
+  {{- with .Values.autoscaling.api.triggers }}
+    {{- toYaml . | nindent 4 }}
   {{- end }}
 {{- end }}

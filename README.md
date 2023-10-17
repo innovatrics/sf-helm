@@ -161,24 +161,27 @@ stringData:
 | autoscaling.api.enabled | bool | `true` | enables ScaledObject for rest API |
 | autoscaling.api.maxReplicas | int | `3` |  |
 | autoscaling.api.minReplicas | int | `1` |  |
-| autoscaling.api.nonWorkHoursReplicas | int | `1` | for cron trigger |
-| autoscaling.api.rmqRps | int | `17` | for RMQ trigger |
-| autoscaling.api.workHoursReplicas | int | `2` | for cron trigger |
-| autoscaling.cron.enabled | bool | `false` | enables predefined cron trigger on ScaledObjects |
+| autoscaling.api.triggers | list | `[]` | provide additional triggers - see https://keda.sh/docs/2.12/concepts/scaling-deployments/#triggers |
+| autoscaling.cron.api.nonWorkHoursReplicas | int | `1` |  |
+| autoscaling.cron.api.workHoursReplicas | int | `2` |  |
+| autoscaling.cron.detector.nonWorkHoursReplicas | int | `1` |  |
+| autoscaling.cron.detector.workHoursReplicas | int | `2` |  |
+| autoscaling.cron.enabled | bool | `false` | enables predefined workhours-based cron triggers on ScaledObjects |
+| autoscaling.cron.extractor.nonWorkHoursReplicas | int | `1` |  |
+| autoscaling.cron.extractor.workHoursReplicas | int | `2` |  |
 | autoscaling.cron.timezone | string | `"Europe/Bratislava"` | see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones |
 | autoscaling.detector.enabled | bool | `true` | enables ScaledObject for detector |
 | autoscaling.detector.maxReplicas | int | `3` |  |
 | autoscaling.detector.minReplicas | int | `1` |  |
-| autoscaling.detector.nonWorkHoursReplicas | int | `1` | for cron trigger |
-| autoscaling.detector.rmqRps | int | `15` | for RMQ trigger |
-| autoscaling.detector.workHoursReplicas | int | `2` | for cron trigger |
+| autoscaling.detector.triggers | list | `[]` | provide additional triggers - see https://keda.sh/docs/2.12/concepts/scaling-deployments/#triggers |
 | autoscaling.extractor.enabled | bool | `true` | enables ScaledObject for extractor |
 | autoscaling.extractor.maxReplicas | int | `3` |  |
 | autoscaling.extractor.minReplicas | int | `1` |  |
-| autoscaling.extractor.nonWorkHoursReplicas | int | `1` | for cron trigger |
-| autoscaling.extractor.rmqRps | int | `12` | for RMQ trigger |
-| autoscaling.extractor.workHoursReplicas | int | `2` | for cron trigger |
-| autoscaling.rmq.enabled | bool | `false` | enables rabbitmq triggers on ScaledObjects |
+| autoscaling.extractor.triggers | list | `[]` | provide additional triggers - see https://keda.sh/docs/2.12/concepts/scaling-deployments/#triggers |
+| autoscaling.rmq.api.requestsPerSecond | int | `17` |  |
+| autoscaling.rmq.detector.requestsPerSecond | int | `15` |  |
+| autoscaling.rmq.enabled | bool | `false` | enables predefined rabbitmq triggers based on requests per second on ScaledObjects |
+| autoscaling.rmq.extractor.requestsPerSecond | int | `12` |  |
 | autoscaling.rmq.hostSecretName | string | `"rmq-management-uri-with-creds"` |  |
 | autoscaling.rmq.triggerAuthName | string | `"keda-trigger-auth-rabbitmq-conn"` |  |
 | base.annotations | object | `{}` | Annotations for base deployment |
