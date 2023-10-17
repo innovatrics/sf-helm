@@ -2,10 +2,25 @@
 apiVersion: "v1"
 kind: "Service"
 metadata:
-  name: {{ .Values.base.name | quote }}
+  name: {{ include "smartface.base.name" . | quote }}
+  labels:
+    {{- include "smartface.base.labels" . | nindent 4 }}
+    {{- with .Values.serviceLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.base.service.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  annotations:
+    {{- with .Values.serviceAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.base.service.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   selector:
-    app: {{ .Values.base.name | quote }}
+    {{- include "smartface.api.selectorLabels" . | nindent 4 }}
   ports:
     - port: {{ .Values.base.zmqServicePort }}
       targetPort: {{ .Values.base.zmqContainerPort }}

@@ -1,13 +1,14 @@
 {{- if and .Values.autoscaling.extractor.enabled (or .Values.autoscaling.rmq.enabled .Values.autoscaling.cron.enabled) }}
+{{- $name := include "smartface.extractor.name" . -}}
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
-  name: {{ .Values.extractor.name | quote }}
+  name: {{ $name | quote }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ .Values.extractor.name | quote }}
+    name: {{ $name | quote }}
   minReplicaCount: {{ .Values.autoscaling.extractor.minReplicas }}
   maxReplicaCount: {{ .Values.autoscaling.extractor.maxReplicas }}
   triggers:

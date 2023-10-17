@@ -1,30 +1,52 @@
 {{- if .Values.countlyPublisher.enabled }}
+{{- $name := include "smartface.countlyPublisher.name" . -}}
+{{- $selectorLabels := include "smartface.countlyPublisher.selectorLabels" . -}}
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
-  name: {{ .Values.countlyPublisher.name | quote }}
+  name: {{ $name | quote }}
   labels:
-    app: {{ .Values.countlyPublisher.name | quote }}
+    {{- include "smartface.countlyPublisher.labels" . | nindent 4 }}
+  annotations:
+    {{- with .Values.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.countlyPublisher.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.countlyPublisher.name | quote }}
+      {{- $selectorLabels | nindent 6 }}
   template:
     metadata:
+      annotations:
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.authApi.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       labels:
-        app: {{ .Values.countlyPublisher.name | quote }}
+        {{- $selectorLabels | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.authApi.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name | quote }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       topologySpreadConstraints:
-        {{- include "smartface.topologySpread" (dict "appLabel" .Values.countlyPublisher.name) | nindent 8 }}
+        {{- include "smartface.topologySpread" (dict "selectorLabels" $selectorLabels ) | nindent 8 }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-      - name: {{ .Values.countlyPublisher.name | quote }}
+      - name: {{ $name | quote }}
         image: {{ include "smartface.image" (dict "local" .Values.countlyPublisher.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
         imagePullPolicy: {{ .Values.countlyPublisher.image.pullPolicy }}
         env:

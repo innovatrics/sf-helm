@@ -1,4 +1,6 @@
-{{- if and .Values.readonlyApi.enabled .Values.api.enabled  }}
+{{- if and .Values.readonlyApi.enabled .Values.api.enabled }}
+{{- $targetServiceName := include "smartface.api.name" . -}}
+{{- $targetUrl := "http://{{ $targetServiceName }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.api.servicePort }}" -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -13,26 +15,26 @@ data:
             if ($request_method != GET ) {
                 return 403;
             }
-            proxy_pass "http://{{ .Values.api.name }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.api.servicePort }}";
+            proxy_pass "{{ $targetUrl }}";
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-Proto $scheme;
         }
 
         location /api/v1/Watchlists/Search {
-            proxy_pass "http://{{ .Values.api.name }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.api.servicePort }}";
+            proxy_pass "{{ $targetUrl }}";
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-Proto $scheme;
         }
         location /api/v1/Faces/SpoofCheck {
-            proxy_pass "http://{{ .Values.api.name }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.api.servicePort }}";
+            proxy_pass "{{ $targetUrl }}";
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-Proto $scheme;
         }
         location /api/v1/Faces/Verify {
-            proxy_pass "http://{{ .Values.api.name }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.api.servicePort }}";
+            proxy_pass "{{ $targetUrl }}";
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-Proto $scheme;

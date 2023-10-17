@@ -3,26 +3,48 @@
 Definition of matcher deployment manifest. Will either be used by tenant operator or directly
 */}}
 {{- define "smartface.matcherDefinition" -}}
+{{- $name := include "smartface.matcher.name" . -}}
+{{- $selectorLabels := include "smartface.matcher.selectorLabels" . -}}
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
-  name: {{ .Values.matcher.name | quote }}
+  name: {{ $name | quote }}
   labels:
-    app: {{ .Values.matcher.name | quote }}
+    {{- include "smartface.matcher.labels" . | nindent 4 }}
+  annotations:
+    {{- with .Values.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.matcher.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   replicas: {{ .Values.matcher.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.matcher.name | quote }}
+      {{- $selectorLabels | nindent 6 }}
   template:
     metadata:
+      annotations:
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.matcher.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       labels:
-        app: {{ .Values.matcher.name | quote }}
+        {{- $selectorLabels | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.matcher.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name | quote }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       topologySpreadConstraints:
-        {{- include "smartface.topologySpread" (dict "appLabel" .Values.matcher.name) | nindent 8 }}
+        {{- include "smartface.topologySpread" (dict "selectorLabels" $selectorLabels ) | nindent 8 }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}

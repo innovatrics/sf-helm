@@ -86,8 +86,9 @@ stringData:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| accessController.annotations | object | `{}` | Annotations for accessController deployment |
 | accessController.authContainerPort | int | `5051` |  |
-| accessController.authServiceName | string | `"sf-auth-access-controller"` |  |
+| accessController.authServiceName | string | `"auth-access-controller"` |  |
 | accessController.authServicePort | int | `5051` |  |
 | accessController.containerPort | int | `80` |  |
 | accessController.dnsHost | string | `""` |  |
@@ -96,12 +97,18 @@ stringData:
 | accessController.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | accessController.image.repository | string | `"innovatrics/smartface/sf-access-controller"` | Docker image repository |
 | accessController.image.tag | string | `"v5_1.9.1"` | Access Controller follows different versioning, so the chart app needs to be overridden |
-| accessController.name | string | `"sf-access-controller"` |  |
+| accessController.name | string | `"access-controller"` |  |
 | accessController.nodeSelector | object | `{}` |  |
+| accessController.podAnnotations | object | `{}` | Annotations for accessController pods |
+| accessController.podLabels | object | `{}` | Additional labels for each accessController pod |
 | accessController.resources.requests.cpu | string | `"100m"` |  |
 | accessController.resources.requests.memory | string | `"100M"` |  |
+| accessController.service.annotations | object | `{}` | Annotations for accessController Service |
+| accessController.service.labels | object | `{}` | Additional labels for accessController Service |
 | accessController.servicePort | int | `5050` |  |
 | accessController.tolerations | list | `[]` |  |
+| annotations | object | `{}` | Common annotations for all deployments/StatefulSets |
+| api.annotations | object | `{}` | Annotations for api deployment |
 | api.containerPort | int | `80` |  |
 | api.dnsHost | string | `""` |  |
 | api.enabled | bool | `true` |  |
@@ -111,14 +118,19 @@ stringData:
 | api.image.repository | string | `"innovatrics/smartface/sf-api"` | Docker image repository |
 | api.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | api.initMigration | bool | `true` |  |
-| api.name | string | `"sf-api"` |  |
+| api.name | string | `"api"` |  |
 | api.nodeSelector | object | `{}` |  |
+| api.podAnnotations | object | `{}` | Annotations for api pods |
+| api.podLabels | object | `{}` | Additional labels for each api pod |
 | api.replicas | int | `1` |  |
 | api.resources.limits.memory | string | `"4G"` |  |
 | api.resources.requests.cpu | string | `"250m"` |  |
 | api.resources.requests.memory | string | `"300M"` |  |
+| api.service.annotations | object | `{}` | Annotations for api Service |
+| api.service.labels | object | `{}` | Additional labels for api Service |
 | api.servicePort | int | `80` |  |
 | api.tolerations | list | `[]` |  |
+| authApi.annotations | object | `{}` | Annotations for authApi deployment |
 | authApi.containerPort | int | `80` |  |
 | authApi.dnsHost | string | `""` |  |
 | authApi.enabled | bool | `false` |  |
@@ -128,12 +140,16 @@ stringData:
 | authApi.image.repository | string | `"innovatrics/smartface/sf-api"` | Docker image repository |
 | authApi.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | authApi.initMigration | bool | `true` |  |
-| authApi.name | string | `"sf-auth-api"` |  |
+| authApi.name | string | `"auth-api"` |  |
 | authApi.nodeSelector | object | `{}` |  |
+| authApi.podAnnotations | object | `{}` | Annotations for authApi pods |
+| authApi.podLabels | object | `{}` | Additional labels for each authApi pod |
 | authApi.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
 | authApi.resources.limits.memory | string | `"4G"` |  |
 | authApi.resources.requests.cpu | string | `"250m"` |  |
 | authApi.resources.requests.memory | string | `"300M"` |  |
+| authApi.service.annotations | object | `{}` | Annotations for authApi Service |
+| authApi.service.labels | object | `{}` | Additional labels for authApi Service |
 | authApi.servicePort | int | `8098` |  |
 | authApi.tolerations | list | `[]` |  |
 | autoscaling.api.enabled | bool | `true` | enables ScaledObject for rest API |
@@ -159,15 +175,20 @@ stringData:
 | autoscaling.rmq.enabled | bool | `false` | enables rabbitmq triggers on ScaledObjects |
 | autoscaling.rmq.hostSecretName | string | `"rmq-management-uri-with-creds"` |  |
 | autoscaling.rmq.triggerAuthName | string | `"keda-trigger-auth-rabbitmq-conn"` |  |
+| base.annotations | object | `{}` | Annotations for base deployment |
 | base.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | base.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | base.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | base.image.repository | string | `"innovatrics/smartface/sf-base"` | Docker image repository |
 | base.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
-| base.name | string | `"sf-base"` |  |
+| base.name | string | `"base"` |  |
 | base.nodeSelector | object | `{}` |  |
+| base.podAnnotations | object | `{}` | Annotations for base pods |
+| base.podLabels | object | `{}` | Additional labels for each base pod |
 | base.resources.requests.cpu | string | `"100m"` |  |
 | base.resources.requests.memory | string | `"100M"` |  |
+| base.service.annotations | object | `{}` | Annotations for base Service |
+| base.service.labels | object | `{}` | Additional labels for base Service |
 | base.tolerations | list | `[]` |  |
 | base.zmqContainerPort | int | `2406` |  |
 | base.zmqServicePort | int | `2406` |  |
@@ -185,6 +206,7 @@ stringData:
 | configurations.s3.useBucketRegionKey | string | `"useBucketRegion"` |  |
 | configurations.stationAuth.configName | string | `"station-auth-config"` | config containing authorization configuration for SF Station used when authentication is enabled for SF Station |
 | configurations.stationAuth.secretName | string | `"station-client-id"` |  |
+| countlyPublisher.annotations | object | `{}` | Annotations for countlyPublisher deployment |
 | countlyPublisher.clusterName | string | `""` |  |
 | countlyPublisher.enabled | bool | `false` |  |
 | countlyPublisher.image.digest | string | `nil` | Overrides the image tag with an image digest |
@@ -194,41 +216,54 @@ stringData:
 | countlyPublisher.image.tag | string | `"31"` | Countly publisher follows different versioning, so the chart app needs to be overridden |
 | countlyPublisher.name | string | `"countly-publisher"` |  |
 | countlyPublisher.nodeSelector | object | `{}` |  |
+| countlyPublisher.podAnnotations | object | `{}` | Annotations for countlyPublisher pods |
+| countlyPublisher.podLabels | object | `{}` | Additional labels for each countlyPublisher pod |
 | countlyPublisher.resources.requests.cpu | string | `"100m"` |  |
 | countlyPublisher.resources.requests.memory | string | `"100M"` |  |
+| countlyPublisher.service.annotations | object | `{}` | Annotations for countlyPublisher Service |
+| countlyPublisher.service.labels | object | `{}` | Additional labels for countlyPublisher Service |
 | countlyPublisher.tolerations | list | `[]` |  |
+| detector.annotations | object | `{}` | Annotations for detector deployment |
 | detector.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | detector.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | detector.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | detector.image.repository | string | `"innovatrics/smartface/sf-detector"` | Docker image repository |
 | detector.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
-| detector.name | string | `"sf-detector"` |  |
+| detector.name | string | `"detector"` |  |
 | detector.nodeSelector | object | `{}` |  |
+| detector.podAnnotations | object | `{}` | Annotations for detector pods |
+| detector.podLabels | object | `{}` | Additional labels for each detector pod |
 | detector.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
 | detector.resources.limits.memory | string | `"1500M"` |  |
 | detector.resources.requests.cpu | string | `"750m"` |  |
 | detector.resources.requests.memory | string | `"600M"` |  |
 | detector.tolerations | list | `[]` |  |
+| edgeStreamProcessor.annotations | object | `{}` | Annotations for edgeStreamProcessor deployment |
 | edgeStreamProcessor.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | edgeStreamProcessor.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | edgeStreamProcessor.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | edgeStreamProcessor.image.repository | string | `"innovatrics/smartface/sf-edge-stream-processor"` | Docker image repository |
 | edgeStreamProcessor.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
-| edgeStreamProcessor.name | string | `"sf-edge-stream-processor"` |  |
+| edgeStreamProcessor.name | string | `"edge-stream-processor"` |  |
 | edgeStreamProcessor.nodeSelector | object | `{}` |  |
 | edgeStreamProcessor.operationMode.livenessDataStrategy | string | `"ServerOnly"` | Possible values are `EdgeStreamOnly` or `ServerOnly` |
 | edgeStreamProcessor.operationMode.matchingDataStrategy | string | `"ServerOnly"` | Possible values are `EdgeStreamOnly` or `ServerOnly` |
+| edgeStreamProcessor.podAnnotations | object | `{}` | Annotations for edgeStreamProcessor pods |
+| edgeStreamProcessor.podLabels | object | `{}` | Additional labels for each edgeStreamProcessor pod |
 | edgeStreamProcessor.replicas | int | `1` |  |
 | edgeStreamProcessor.resources.requests.cpu | string | `"100m"` |  |
 | edgeStreamProcessor.resources.requests.memory | string | `"100M"` |  |
 | edgeStreamProcessor.tolerations | list | `[]` |  |
+| edgeStreamsStateSync.annotations | object | `{}` | Annotations for edgeStreamsStateSync deployment |
 | edgeStreamsStateSync.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | edgeStreamsStateSync.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | edgeStreamsStateSync.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | edgeStreamsStateSync.image.repository | string | `"innovatrics/smartface/sf-edge-streams-state-synchronizer"` | Docker image repository |
 | edgeStreamsStateSync.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
-| edgeStreamsStateSync.name | string | `"sf-edge-streams-state-synchronizer"` |  |
+| edgeStreamsStateSync.name | string | `"edge-streams-state-synchronizer"` |  |
 | edgeStreamsStateSync.nodeSelector | object | `{}` |  |
+| edgeStreamsStateSync.podAnnotations | object | `{}` | Annotations for edgeStreamsStateSync pods |
+| edgeStreamsStateSync.podLabels | object | `{}` | Additional labels for each edgeStreamsStateSync pod |
 | edgeStreamsStateSync.resources.requests.cpu | string | `"100m"` |  |
 | edgeStreamsStateSync.resources.requests.memory | string | `"100M"` |  |
 | edgeStreamsStateSync.tolerations | list | `[]` |  |
@@ -241,32 +276,37 @@ stringData:
 | edgeStreamsStateSync.wlStreamPopulationJob.nodeSelector | object | `{}` |  |
 | edgeStreamsStateSync.wlStreamPopulationJob.resources | object | `{}` |  |
 | edgeStreamsStateSync.wlStreamPopulationJob.tolerations | list | `[]` |  |
+| extractor.annotations | object | `{}` | Annotations for extractor deployment |
 | extractor.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | extractor.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | extractor.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | extractor.image.repository | string | `"innovatrics/smartface/sf-extractor"` | Docker image repository |
 | extractor.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
-| extractor.name | string | `"sf-extractor"` |  |
+| extractor.name | string | `"extractor"` |  |
 | extractor.nodeSelector | object | `{}` |  |
+| extractor.podAnnotations | object | `{}` | Annotations for extractor pods |
+| extractor.podLabels | object | `{}` | Additional labels for each extractor pod |
 | extractor.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
 | extractor.resources.limits.memory | string | `"1G"` |  |
 | extractor.resources.requests.cpu | string | `"750m"` |  |
 | extractor.resources.requests.memory | string | `"500M"` |  |
 | extractor.tolerations | list | `[]` |  |
+| faceMatcher.annotations | object | `{}` | Annotations for faceMatcher deployment |
 | faceMatcher.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | faceMatcher.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | faceMatcher.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | faceMatcher.image.repository | string | `"innovatrics/smartface/sf-face-matcher"` | Docker image repository |
 | faceMatcher.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
-| faceMatcher.name | string | `"sf-face-matcher"` |  |
+| faceMatcher.name | string | `"face-matcher"` |  |
 | faceMatcher.nodeSelector | object | `{}` |  |
+| faceMatcher.podAnnotations | object | `{}` | Annotations for faceMatcher pods |
 | faceMatcher.replicas | int | `1` |  |
-| faceMatcher.resources.requests.cpu | string | `"100m"` |  |
-| faceMatcher.resources.requests.memory | string | `"100M"` |  |
+| faceMatcher.resources | object | `{"requests":{"cpu":"100m","memory":"100M"}}` | Additional labels for each faceMatcher pod |
 | faceMatcher.tolerations | list | `[]` |  |
 | features.edgeStreams.enabled | bool | `false` |  |
 | features.multitenancy.enabled | bool | `false` | enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled |
 | global.image.registry | string | `"registry.gitlab.com"` | Overrides the Docker registry globally for all images |
+| graphqlApi.annotations | object | `{}` | Annotations for graphqlApi deployment |
 | graphqlApi.containerPort | int | `80` |  |
 | graphqlApi.dnsHost | string | `""` |  |
 | graphqlApi.enableAuth | bool | `false` |  |
@@ -277,12 +317,16 @@ stringData:
 | graphqlApi.image.repository | string | `"innovatrics/smartface/sf-graphql-api"` | Docker image repository |
 | graphqlApi.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | graphqlApi.initMigration | bool | `false` |  |
-| graphqlApi.name | string | `"sf-graphql-api"` |  |
+| graphqlApi.name | string | `"graphql-api"` |  |
 | graphqlApi.nodeSelector | object | `{}` |  |
+| graphqlApi.podAnnotations | object | `{}` | Annotations for graphqlApi pods |
+| graphqlApi.podLabels | object | `{}` | Additional labels for each graphqlApi pod |
 | graphqlApi.replicas | int | `1` |  |
 | graphqlApi.resources.limits.memory | string | `"4G"` |  |
 | graphqlApi.resources.requests.cpu | string | `"250m"` |  |
 | graphqlApi.resources.requests.memory | string | `"300M"` |  |
+| graphqlApi.service.annotations | object | `{}` | Annotations for graphqlApi Service |
+| graphqlApi.service.labels | object | `{}` | Additional labels for graphqlApi Service |
 | graphqlApi.servicePort | int | `8097` |  |
 | graphqlApi.tolerations | list | `[]` |  |
 | imagePullSecrets | list | `[{"name":"sf-gitlab-registry-creds"}]` | docker secrets used to pull images with |
@@ -293,24 +337,30 @@ stringData:
 | ingress.includeAlbAnnotations | bool | `false` | if enabled then the ingress will include default ALB annotations |
 | jaegerTracing.enabled | bool | `true` |  |
 | jaegerTracing.hostname | string | `"grafana-agent.monitoring.svc.cluster.local"` |  |
+| liveness.annotations | object | `{}` | Annotations for liveness deployment |
 | liveness.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | liveness.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | liveness.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | liveness.image.repository | string | `"innovatrics/smartface/sf-liveness"` | Docker image repository |
 | liveness.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
-| liveness.name | string | `"sf-liveness"` |  |
+| liveness.name | string | `"liveness"` |  |
 | liveness.nodeSelector | object | `{}` |  |
+| liveness.podAnnotations | object | `{}` | Annotations for liveness pods |
+| liveness.podLabels | object | `{}` | Additional labels for each liveness pod |
 | liveness.replicas | int | `1` |  |
 | liveness.resources.requests.cpu | string | `"750m"` |  |
 | liveness.resources.requests.memory | string | `"200M"` |  |
 | liveness.tolerations | list | `[]` |  |
+| matcher.annotations | object | `{}` | Annotations for matcher deployment |
 | matcher.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | matcher.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | matcher.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | matcher.image.repository | string | `"innovatrics/smartface/sf-matcher"` | Docker image repository |
 | matcher.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
-| matcher.name | string | `"sf-matcher"` |  |
+| matcher.name | string | `"matcher"` |  |
 | matcher.nodeSelector | object | `{}` |  |
+| matcher.podAnnotations | object | `{}` | Annotations for matcher pods |
+| matcher.podLabels | object | `{}` | Additional labels for each matcher pod |
 | matcher.replicas | int | `1` |  |
 | matcher.resources.requests.cpu | string | `"750m"` |  |
 | matcher.resources.requests.memory | string | `"200M"` |  |
@@ -327,6 +377,9 @@ stringData:
 | migration.initContainer.image.repository | string | `"innovatrics/smartface/sf-admin"` | Docker image repository |
 | migration.initContainer.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | migration.initContainer.resources | object | `{}` |  |
+| nameOverride | string | `nil` | Overrides the chart's name |
+| podAnnotations | object | `{}` | Common annotations for all pods |
+| podLabels | object | `{}` | Common labels for all pods |
 | rabbitmq | object | `{"auth":{"erlangCookie":"","password":"","username":"smartface"},"configMapName":"sf-rmq-connection","enabled":true,"existingSecretName":"","extraPlugins":"rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt","mqttConfigMapName":"sf-mqtt-connection","mqttDnsHost":"","secretKey":"rabbitmq-password","service":{"extraPorts":[{"name":"mqtt","port":1883,"targetPort":1883},{"name":"rmq-stream","port":5552,"targetPort":5552}]}}` | config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq |
 | rabbitmq.enabled | bool | `true` | configure if rabbitmq subchart should be included |
 | rabbitmq.mqttDnsHost | string | `""` | hostname used for MQTT service - only relevant for edge streams |
@@ -342,8 +395,11 @@ stringData:
 | serviceAccount.imagePullSecrets | list | `[]` | Image pull secrets for the service account |
 | serviceAccount.labels | object | `{}` | Labels for the service account |
 | serviceAccount.name | string | `"sf-service-account"` | The name of the ServiceAccount to use. |
+| serviceAnnotations | object | `{}` | Common annotations for all services |
+| serviceLabels | object | `{}` | Common labels for all services |
 | sf-tenant-operator | object | `{"config":{"configDir":"/etc/components","fileName":"appsettings.override.json","mapName":"operator-config"},"image":{"secretName":"sf-gitlab-registry-creds"},"installCrd":false}` | configuration for sf-tenant-operator subchart |
 | skipLookupBasedValidations | bool | `false` | due to ArgoCD limitations this can be used to skip validations that use the `lookup` helm function - for more information see https://github.com/argoproj/argo-cd/issues/5202 |
+| station.annotations | object | `{}` | Annotations for station deployment |
 | station.containerPort | int | `80` |  |
 | station.dnsHost | string | `""` |  |
 | station.enabled | bool | `true` |  |
@@ -352,19 +408,26 @@ stringData:
 | station.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | station.image.repository | string | `"innovatrics/smartface/sf-station"` | Docker image repository |
 | station.image.tag | string | `"v5_1.20.0"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
-| station.name | string | `"sf-station"` |  |
+| station.name | string | `"station"` |  |
 | station.nodeSelector | object | `{}` |  |
+| station.podAnnotations | object | `{}` | Annotations for station pods |
+| station.podLabels | object | `{}` | Additional labels for each station pod |
 | station.resources.requests.cpu | string | `"100m"` |  |
 | station.resources.requests.memory | string | `"100M"` |  |
+| station.service.annotations | object | `{}` | Annotations for station Service |
+| station.service.labels | object | `{}` | Additional labels for station Service |
 | station.servicePort | int | `8000` |  |
 | station.tolerations | list | `[]` |  |
+| streamDataDbWorker.annotations | object | `{}` | Annotations for streamDataDbWorker deployment |
 | streamDataDbWorker.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | streamDataDbWorker.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | streamDataDbWorker.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | streamDataDbWorker.image.repository | string | `"innovatrics/smartface/sf-streamdatadbworker"` | Docker image repository |
 | streamDataDbWorker.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
-| streamDataDbWorker.name | string | `"sf-stream-data-db-worker"` |  |
+| streamDataDbWorker.name | string | `"stream-data-db-worker"` |  |
 | streamDataDbWorker.nodeSelector | object | `{}` |  |
+| streamDataDbWorker.podAnnotations | object | `{}` | Annotations for streamDataDbWorker pods |
+| streamDataDbWorker.podLabels | object | `{}` | Additional labels for each streamDataDbWorker pod |
 | streamDataDbWorker.replicas | int | `1` |  |
 | streamDataDbWorker.resources.requests.cpu | string | `"100m"` |  |
 | streamDataDbWorker.resources.requests.memory | string | `"100M"` |  |

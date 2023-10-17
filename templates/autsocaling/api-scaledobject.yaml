@@ -1,13 +1,15 @@
 {{- if and .Values.autoscaling.api.enabled (or .Values.autoscaling.rmq.enabled .Values.autoscaling.cron.enabled) }}
+{{- $name := include "smartface.authApi.name" . -}}
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
-  name: {{ .Values.authApi.name | quote }}
+# TODO these as well
+  name: {{ $name | quote }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ .Values.authApi.name | quote }}
+    name: {{ $name | quote }}
   minReplicaCount: {{ .Values.autoscaling.api.minReplicas }}
   maxReplicaCount: {{ .Values.autoscaling.api.maxReplicas }}
   triggers:

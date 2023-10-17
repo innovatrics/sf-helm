@@ -7,6 +7,19 @@ global:
     # -- Overrides the Docker registry globally for all images
     registry: "registry.gitlab.com"
 
+# -- Overrides the chart's name
+nameOverride: null
+# -- Common annotations for all deployments/StatefulSets
+annotations: {}
+# -- Common annotations for all pods
+podAnnotations: {}
+# -- Common labels for all pods
+podLabels: {}
+# -- Common annotations for all services
+serviceAnnotations: {}
+# -- Common labels for all services
+serviceLabels: {}
+
 # -- docker secrets used to pull images with
 imagePullSecrets:
   - name: "sf-gitlab-registry-creds"
@@ -67,11 +80,22 @@ rabbitmq:
 
 api:
   enabled: true
-  name: "sf-api"
+  name: "api"
   servicePort: 80
   containerPort: 80
   dnsHost: ""
   initMigration: true
+  # -- Annotations for api deployment
+  annotations: {}
+  # -- Annotations for api pods
+  podAnnotations: {}
+  # -- Additional labels for each api pod
+  podLabels: {}
+  service:
+    # -- Annotations for api Service
+    annotations: {}
+    # -- Additional labels for api Service
+    labels: {}
   resources:
     requests:
       memory: "300M"
@@ -95,11 +119,22 @@ api:
 
 authApi:
   enabled: false
-  name: "sf-auth-api"
+  name: "auth-api"
   servicePort: 8098
   containerPort: 80
   dnsHost: ""
   initMigration: true
+  # -- Annotations for authApi deployment
+  annotations: {}
+  # -- Annotations for authApi pods
+  podAnnotations: {}
+  # -- Additional labels for each authApi pod
+  podLabels: {}
+  service:
+    # -- Annotations for authApi Service
+    annotations: {}
+    # -- Additional labels for authApi Service
+    labels: {}
   resources:
     requests:
       memory: "300M"
@@ -124,12 +159,23 @@ authApi:
 
 graphqlApi:
   enabled: true
-  name: "sf-graphql-api"
+  name: "graphql-api"
   servicePort: 8097
   containerPort: 80
   dnsHost: ""
   enableAuth: false
   initMigration: false
+  # -- Annotations for graphqlApi deployment
+  annotations: {}
+  # -- Annotations for graphqlApi pods
+  podAnnotations: {}
+  # -- Additional labels for each graphqlApi pod
+  podLabels: {}
+  service:
+    # -- Annotations for graphqlApi Service
+    annotations: {}
+    # -- Additional labels for graphqlApi Service
+    labels: {}
   resources:
     requests:
       memory: "300M"
@@ -164,7 +210,13 @@ ingress:
   certificateArn: ""
 
 detector:
-  name: "sf-detector"
+  name: "detector"
+  # -- Annotations for detector deployment
+  annotations: {}
+  # -- Annotations for detector pods
+  podAnnotations: {}
+  # -- Additional labels for each detector pod
+  podLabels: {}
   resources:
     requests:
       memory: "600M"
@@ -188,7 +240,13 @@ detector:
     pullPolicy: IfNotPresent
 
 extractor:
-  name: "sf-extractor"
+  name: "extractor"
+  # -- Annotations for extractor deployment
+  annotations: {}
+  # -- Annotations for extractor pods
+  podAnnotations: {}
+  # -- Additional labels for each extractor pod
+  podLabels: {}
   resources:
     requests:
       memory: "500M"
@@ -212,7 +270,13 @@ extractor:
     pullPolicy: IfNotPresent
 
 matcher:
-  name: "sf-matcher"
+  name: "matcher"
+  # -- Annotations for matcher deployment
+  annotations: {}
+  # -- Annotations for matcher pods
+  podAnnotations: {}
+  # -- Additional labels for each matcher pod
+  podLabels: {}
   resources:
     requests:
       memory: "200M"
@@ -233,7 +297,13 @@ matcher:
     pullPolicy: IfNotPresent
 
 liveness:
-  name: "sf-liveness"
+  name: "liveness"
+  # -- Annotations for liveness deployment
+  annotations: {}
+  # -- Annotations for liveness pods
+  podAnnotations: {}
+  # -- Additional labels for each liveness pod
+  podLabels: {}
   resources:
     requests:
       memory: "200M"
@@ -254,12 +324,18 @@ liveness:
     pullPolicy: IfNotPresent
 
 edgeStreamProcessor:
-  name: "sf-edge-stream-processor"
+  name: "edge-stream-processor"
   operationMode:
     # -- Possible values are `EdgeStreamOnly` or `ServerOnly`
     matchingDataStrategy: "ServerOnly"
     # -- Possible values are `EdgeStreamOnly` or `ServerOnly`
     livenessDataStrategy: "ServerOnly"
+  # -- Annotations for edgeStreamProcessor deployment
+  annotations: {}
+  # -- Annotations for edgeStreamProcessor pods
+  podAnnotations: {}
+  # -- Additional labels for each edgeStreamProcessor pod
+  podLabels: {}
   resources:
     requests:
       memory: "100M"
@@ -280,7 +356,13 @@ edgeStreamProcessor:
     pullPolicy: IfNotPresent
 
 edgeStreamsStateSync:
-  name: "sf-edge-streams-state-synchronizer"
+  name: "edge-streams-state-synchronizer"
+  # -- Annotations for edgeStreamsStateSync deployment
+  annotations: {}
+  # -- Annotations for edgeStreamsStateSync pods
+  podAnnotations: {}
+  # -- Additional labels for each edgeStreamsStateSync pod
+  podLabels: {}
   resources:
     requests:
       memory: "100M"
@@ -316,9 +398,20 @@ edgeStreamsStateSync:
       pullPolicy: IfNotPresent
 
 base:
-  name: "sf-base"
+  name: "base"
   zmqServicePort: 2406
   zmqContainerPort: 2406
+  # -- Annotations for base deployment
+  annotations: {}
+  # -- Annotations for base pods
+  podAnnotations: {}
+  # -- Additional labels for each base pod
+  podLabels: {}
+  service:
+    # -- Annotations for base Service
+    annotations: {}
+    # -- Additional labels for base Service
+    labels: {}
   resources:
     requests:
       memory: "100M"
@@ -338,7 +431,12 @@ base:
     pullPolicy: IfNotPresent
 
 faceMatcher:
-  name: "sf-face-matcher"
+  name: "face-matcher"
+  # -- Annotations for faceMatcher deployment
+  annotations: {}
+  # -- Annotations for faceMatcher pods
+  podAnnotations: {}
+  # -- Additional labels for each faceMatcher pod
   resources:
     requests:
       memory: "100M"
@@ -359,13 +457,24 @@ faceMatcher:
     pullPolicy: IfNotPresent
 
 accessController:
-  name: "sf-access-controller"
-  authServiceName: "sf-auth-access-controller"
+  name: "access-controller"
+  authServiceName: "auth-access-controller"
   dnsHost: ""
   servicePort: 5050
   containerPort: 80
   authServicePort: 5051
   authContainerPort: 5051
+  # -- Annotations for accessController deployment
+  annotations: {}
+  # -- Annotations for accessController pods
+  podAnnotations: {}
+  # -- Additional labels for each accessController pod
+  podLabels: {}
+  service:
+    # -- Annotations for accessController Service
+    annotations: {}
+    # -- Additional labels for accessController Service
+    labels: {}
   resources:
     requests:
       memory: "100M"
@@ -386,10 +495,21 @@ accessController:
 
 station:
   enabled: true
-  name: "sf-station"
+  name: "station"
   servicePort: 8000
   containerPort: 80
   dnsHost: ""
+  # -- Annotations for station deployment
+  annotations: {}
+  # -- Annotations for station pods
+  podAnnotations: {}
+  # -- Additional labels for each station pod
+  podLabels: {}
+  service:
+    # -- Annotations for station Service
+    annotations: {}
+    # -- Additional labels for station Service
+    labels: {}
   resources:
     requests:
       memory: "100M"
@@ -409,7 +529,13 @@ station:
     pullPolicy: IfNotPresent
 
 streamDataDbWorker:
-  name: "sf-stream-data-db-worker"
+  name: "stream-data-db-worker"
+  # -- Annotations for streamDataDbWorker deployment
+  annotations: {}
+  # -- Annotations for streamDataDbWorker pods
+  podAnnotations: {}
+  # -- Additional labels for each streamDataDbWorker pod
+  podLabels: {}
   resources:
     requests:
       memory: "100M"
@@ -508,6 +634,17 @@ countlyPublisher:
   enabled: false
   name: "countly-publisher"
   clusterName: ""
+  # -- Annotations for countlyPublisher deployment
+  annotations: {}
+  # -- Annotations for countlyPublisher pods
+  podAnnotations: {}
+  # -- Additional labels for each countlyPublisher pod
+  podLabels: {}
+  service:
+    # -- Annotations for countlyPublisher Service
+    annotations: {}
+    # -- Additional labels for countlyPublisher Service
+    labels: {}
   resources:
     requests:
       memory: "100M"
