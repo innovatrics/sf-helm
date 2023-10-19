@@ -14,5 +14,5 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "smartface.authApi.selectorLabels" . | nindent 4 }}
+      {{- include "smartface.authApi.selectorLabels" . | nindent 6 }}
 {{- end }}

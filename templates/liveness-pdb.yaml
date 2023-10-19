@@ -14,5 +14,5 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "smartface.liveness.selectorLabels" . | nindent 4 }}
+      {{- include "smartface.liveness.selectorLabels" . | nindent 6 }}
 {{- end }}

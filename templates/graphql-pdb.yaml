@@ -14,5 +14,5 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "smartface.graphqlApi.selectorLabels" . | nindent 4 }}
+      {{- include "smartface.graphqlApi.selectorLabels" . | nindent 6 }}
 {{- end }}
