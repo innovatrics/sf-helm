@@ -45,7 +45,7 @@ By default an ingress object is created with the helm chart. To configure the in
 
 | Repository | Name | Version |
 |------------|------|---------|
-| oci://ghcr.io/innovatrics/sf-helm | sf-tenant-operator | 0.1.1 |
+| oci://ghcr.io/innovatrics/sf-helm | sf-tenant-operator | 0.2.0 |
 | oci://registry-1.docker.io/bitnamicharts | rabbitmq | 12.0.4 |
 
 All chart dependencies are optional and can be disabled and supplemented with other (for example cloud-based) alternatives
