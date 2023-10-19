@@ -116,6 +116,7 @@ Template used for adding RMQ configuration to containers
     configMapKeyRef:
       name: {{ .Values.rabbitmq.configMapName | quote }}
       key: "streamsPort"
+      optional: true
 - name: "RabbitMQ__Username"
   valueFrom:
     configMapKeyRef:
