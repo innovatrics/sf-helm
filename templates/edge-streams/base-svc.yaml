@@ -20,7 +20,7 @@ metadata:
     {{- end }}
 spec:
   selector:
-    {{- include "smartface.api.selectorLabels" . | nindent 4 }}
+    {{- include "smartface.base.selectorLabels" . | nindent 4 }}
   ports:
     - port: {{ .Values.base.zmqServicePort }}
       targetPort: {{ .Values.base.zmqContainerPort }}

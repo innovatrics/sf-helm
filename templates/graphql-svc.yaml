@@ -20,7 +20,7 @@ metadata:
     {{- end }}
 spec:
   selector:
-    {{- include "smartface.api.selectorLabels" . | nindent 4 }}
+    {{- include "smartface.graphqlApi.selectorLabels" . | nindent 4 }}
   ports:
     - port: {{ .Values.graphqlApi.servicePort }}
       targetPort: {{ .Values.graphqlApi.containerPort }}

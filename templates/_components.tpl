@@ -319,6 +319,19 @@ Template used for resolving SF accessController name
 {{- end -}}
 
 {{/*
+accessController auth
+*/}}
+{{/*
+Template used for resolving SF accessController name
+*/}}
+{{- define "smartface.accessController.authServiceName" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := .Values.accessController.authServiceName -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}
+
+
+{{/*
 Template used for resolving labels for accessController component
 */}}
 {{- define "smartface.accessController.labels" }}

@@ -29,7 +29,7 @@ spec:
           pathType: "Prefix"
           backend:
             service:
-              name: {{ .Values.accessController.authServiceName | quote }}
+              name: {{ include "smartface.accessController.authServiceName" . | quote }}
               port:
                 number: {{ .Values.accessController.authServicePort }}
 {{- end }}

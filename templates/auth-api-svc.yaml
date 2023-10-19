@@ -23,7 +23,7 @@ metadata:
     {{- end }}
 spec:
   selector:
-    {{- include "smartface.api.selectorLabels" . | nindent 4 }}
+    {{- include "smartface.authApi.selectorLabels" . | nindent 4 }}
   ports:
     - name: "http"
       port: {{ .Values.authApi.servicePort }}
