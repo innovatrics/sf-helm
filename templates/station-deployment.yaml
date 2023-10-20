@@ -6,7 +6,7 @@ kind: "Deployment"
 metadata:
   name: {{ $name | quote }}
   labels:
-    {{- include "smartface.api.labels" . | nindent 4 }}
+    {{- include "smartface.station.labels" . | nindent 4 }}
   annotations:
     {{- with .Values.annotations }}
     {{- toYaml . | nindent 4 }}

@@ -23,7 +23,7 @@ metadata:
     {{- end }}
 spec:
   selector:
-    {{- include "smartface.api.selectorLabels" . | nindent 4 }}
+    {{- include "smartface.countlyPublisher.selectorLabels" . | nindent 4 }}
   ports:
     - name: {{ .Values.metrics.portName | quote }}
       port: {{ .Values.metrics.port }}
