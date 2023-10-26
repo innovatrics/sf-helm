@@ -6,8 +6,11 @@
 - Common labels with option to specify custom labels/annotation for objects
 - PodDisruptionBudgets for deployments that can be scaled
 - Support for custom KEDA triggers
+- Existing configmap for rabbitMQ and S3 is no longer necessary and the chart can create them from provided values, which is also the new default behavior for S3
 
 ### Breaking change
+- Changed default behavior for creating S3 configuration. If you like to continue managing the previously created S3 config map please use the `configurations.s3.existingConfigMapName` field. Otherwise the ConfigMap will be managed by the helm chart using the values provided in `configurations.s3`
+  - The ConfigMap keys for existing config map are no longer configurable, so if you want to keep using the ConfigMap not managed by this chart then please make sure that the key match what the helm chart expects
 - TODO Deployments and service use more standard pod selectors - this should be a breaking change because deployment selectors are immutable
 
 ## [v0.3.0]

@@ -27,9 +27,7 @@ The helm chart needs certain objects to be present in the cluster before it can 
   - see comments in `external-config.yaml` for commands to create kubernetes manifest with license file
 1. S3 bucket
   - Create an S3 bucket
-  - Create a ConfigMap - see `external-config.yaml` for example
-  - ConfigMap name must match `configurations.s3.configName` value
-  - keys in the ConfigMap must match `configurations.s3.*Key` values
+  - Configure details of S3 bucket by supplying values to object `configurations.s3`
 1. pgsql server
   - Create a PgSql server
   - Create a Secret - see `external-config.yaml` for example
@@ -49,8 +47,9 @@ All chart dependencies are optional and can be disabled and supplemented with ot
 ### RabbitMQ
 To use non-chart managed rabbitmq:
 - set `rabbitmq.enabled=false`
-- create ConfigMap with rabbitmq connection details
-  - ConfigMap name must match `rabbitmq.configMapName` value
+- provide rabbitmq configuration via:
+  - supplying values to `rabbitmq.rmqConfiguration` object
+  - or creating ConfigMap and setting `rabbitmq.rmqConfiguration.existingConfigMapName`
   - see Sample objects for example
 - create Secret with rabbitmq password
   - supply `rabbitmq.existingSecretName` value with name of existing secret
@@ -67,6 +66,7 @@ data:
   username: "<username>"
   port: "5671"
   useSsl: "true"
+  streamsPort: "5552"
 ```
 
 ```
@@ -86,4 +86,7 @@ stringData:
 
 ## Breaking changes
 
-Upgrade guide to future major version will be here
+### [v0.4.0]
+- Changed default behavior for creating S3 configuration. If you like to continue managing the previously created S3 config map please use the `configurations.s3.existingConfigMapName` field. Otherwise the ConfigMap will be managed by the helm chart using the values provided in `configurations.s3`
+  - The ConfigMap keys for existing config map are no longer configurable, so if you want to keep using the ConfigMap not managed by this chart then please make sure that the key match what the helm chart expects
+- TODO Deployments and service use more standard pod selectors - this should be a breaking change because deployment selectors are immutable
