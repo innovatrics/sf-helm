@@ -1,0 +1,12 @@
+{{- if not .Values.configurations.s3.existingConfigMapName }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "smartface.s3.name" . | quote }}
+data:
+  name: {{ .Values.configurations.s3.bucketName | quote }}
+  region: {{ .Values.configurations.s3.bucketRegion | quote }}
+  folder: {{ .Values.configurations.s3.bucketFolder | quote }}
+  authType: {{ .Values.configurations.s3.authType | quote }}
+  useBucketRegion: {{ .Values.configurations.s3.useBucketRegion | quote }}
+{{- end }}

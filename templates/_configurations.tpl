@@ -15,33 +15,34 @@ Template used for adding database configuration to containers
 Template used for adding S3 configuration to containers
 */}}
 {{- define "smartface.s3Config" -}}
+{{- $configName := ( .Values.configurations.s3.existingConfigMapName | default (include "smartface.s3.name" . )) -}}
 - name: "S3Bucket__BucketName"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.configurations.s3.configName | quote }}
-      key: {{ .Values.configurations.s3.bucketKey | quote }}
+      name: {{ $configName | quote }}
+      key: "name"
 - name: "S3Bucket__BucketRegion"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.configurations.s3.configName | quote }}
-      key: {{ .Values.configurations.s3.regionKey | quote }}
+      name: {{ $configName | quote }}
+      key: "region"
 - name: "S3Bucket__Folder"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.configurations.s3.configName | quote }}
-      key: {{ .Values.configurations.s3.folderKey | quote }}
+      name: {{ $configName | quote }}
+      key: "folder"
 # AssumedRole
 - name: "S3Bucket__AuthenticationType"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.configurations.s3.configName | quote }}
-      key: {{ .Values.configurations.s3.authTypeKey | quote }}
+      name: {{ $configName | quote }}
+      key: "authType"
 # BucketRegion
 - name: "S3Bucket__UseBucketRegion"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.configurations.s3.configName | quote }}
-      key: {{ .Values.configurations.s3.useBucketRegionKey | quote }}
+      name: {{ $configName | quote }}
+      key: "useBucketRegion"
 {{- end }}
 
 {{/*

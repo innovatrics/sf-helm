@@ -59,11 +59,14 @@ Validate that the Database connection string secret exists with correct key
 Validate that the S3 config map exists with correct keys
 */}}
 {{- define "smartface.validate.s3Config" -}}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.s3.configName "Key" .Values.configurations.s3.bucketKey) }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.s3.configName "Key" .Values.configurations.s3.regionKey) }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.s3.configName "Key" .Values.configurations.s3.folderKey) }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.s3.configName "Key" .Values.configurations.s3.authTypeKey) }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.s3.configName "Key" .Values.configurations.s3.useBucketRegionKey) }}
+{{- $existingConfigMap := .Values.configurations.s3.existingConfigMapName -}}
+{{- if $existingConfigMap -}}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "name") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "region") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "folder") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "authType") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "useBucketRegion") }}
+{{- end -}}
 {{- end -}}
 
 {{/*

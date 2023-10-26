@@ -31,12 +31,18 @@ configurations:
     # -- key within the existing secret which contains the connection string, see https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/connection-strings
     connectionStringKey: "cs"
   s3:
-    configName: "s3-config"
-    bucketKey: "name"
-    regionKey: "region"
-    folderKey: "folder"
-    authTypeKey: "authType"
-    useBucketRegionKey: "useBucketRegion"
+    # -- supply to bring your own configmap. the configmap needs following keys: `name`, `region`, `folder`, `authType` and `useBucketRegion`
+    existingConfigMapName: ""
+    # -- name of S3 bucket
+    bucketName: ""
+    # -- system name of AWS region of S3 bucket e.g. `eu-central-1`
+    bucketRegion: ""
+    # -- prefix (folder) used for S3 objects
+    bucketFolder: ""
+    # -- type of authentication to be used. Currently `AssumedRole` and `InstanceProfile` are usable
+    authType: "AssumedRole"
+    # -- mechanism to resolve bucket endpoint - if `true` then connection is made based on bucket region. If `false` then bucket endpoint needs to be set manually
+    useBucketRegion: true
   license:
     secretName: "iface-lic"
     volumeMountName: "license"

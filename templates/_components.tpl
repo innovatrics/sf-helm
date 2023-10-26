@@ -452,3 +452,16 @@ Template used for resolving RabbitMQ config map name
 {{- $suffix := "mqtt" -}}
 {{- printf "%s-%s" $prefix $suffix -}}
 {{- end -}}
+
+{{/*
+S3
+*/}}
+
+{{/*
+Template used for resolving S3 config map name
+*/}}
+{{- define "smartface.s3.name" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := "s3" -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}

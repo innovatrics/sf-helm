@@ -207,12 +207,12 @@ stringData:
 | configurations.license.mountPath | string | `"/etc/innovatrics"` |  |
 | configurations.license.secretName | string | `"iface-lic"` |  |
 | configurations.license.volumeMountName | string | `"license"` |  |
-| configurations.s3.authTypeKey | string | `"authType"` |  |
-| configurations.s3.bucketKey | string | `"name"` |  |
-| configurations.s3.configName | string | `"s3-config"` |  |
-| configurations.s3.folderKey | string | `"folder"` |  |
-| configurations.s3.regionKey | string | `"region"` |  |
-| configurations.s3.useBucketRegionKey | string | `"useBucketRegion"` |  |
+| configurations.s3.authType | string | `"AssumedRole"` | type of authentication to be used. Currently `AssumedRole` and `InstanceProfile` are usable |
+| configurations.s3.bucketFolder | string | `""` | prefix (folder) used for S3 objects |
+| configurations.s3.bucketName | string | `""` | name of S3 bucket |
+| configurations.s3.bucketRegion | string | `""` | system name of AWS region of S3 bucket e.g. `eu-central-1` |
+| configurations.s3.existingConfigMapName | string | `""` | supply to bring your own configmap. the configmap needs following keys: `name`, `region`, `folder`, `authType` and `useBucketRegion` |
+| configurations.s3.useBucketRegion | bool | `true` | mechanism to resolve bucket endpoint - if `true` then connection is made based on bucket region. If `false` then bucket endpoint needs to be set manually |
 | configurations.stationAuth.configName | string | `"station-auth-config"` | config containing authorization configuration for SF Station used when authentication is enabled for SF Station |
 | configurations.stationAuth.secretName | string | `"station-client-id"` |  |
 | countlyPublisher.annotations | object | `{}` | Annotations for countlyPublisher deployment |
