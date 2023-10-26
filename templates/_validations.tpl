@@ -66,6 +66,13 @@ Validate that the S3 config map exists with correct keys
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "folder") }}
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "authType") }}
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "useBucketRegion") }}
+{{- else }}
+{{- if not .Values.configurations.s3.bucketName }}
+Please provide value for `configurations.s3.bucketName`
+{{- end }}
+{{- if not .Values.configurations.s3.bucketRegion }}
+Please provide value for `configurations.s3.bucketRegion`
+{{- end -}}
 {{- end -}}
 {{- end -}}
 
