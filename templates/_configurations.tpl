@@ -5,7 +5,7 @@ Template used for adding database configuration to containers
 - name: "ConnectionStrings__CoreDbContext"
   valueFrom:
     secretKeyRef:
-      name: {{ .Values.configurations.database.secretName | quote }}
+      name: {{ .Values.configurations.database.existingSecretName | quote }}
       key: {{ .Values.configurations.database.connectionStringKey | quote }}
 - name: "Database__DbEngine"
   value: "PgSql"
@@ -96,76 +96,78 @@ Template used for configuring Authentication on APIs
 Template used for adding RMQ configuration to containers
 */}}
 {{- define "smartface.rmqConfig" -}}
+{{- $configName := (.Values.rabbitmq.rmqConfiguration.existingConfigMapName | default (include "smartface.rabbitmq.name" . )) -}}
 - name: "RabbitMQ__Hostname"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.rabbitmq.configMapName | quote }}
+      name: {{ $configName | quote }}
       key: "hostname"
 - name: "RabbitMQ__UseSsl"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.rabbitmq.configMapName | quote }}
+      name: {{ $configName | quote }}
       key: "useSsl"
 - name: "RabbitMQ__Port"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.rabbitmq.configMapName | quote }}
+      name: {{ $configName | quote }}
       key: "port"
 - name: "RabbitMQ__StreamsPort"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.rabbitmq.configMapName | quote }}
+      name: {{ $configName | quote }}
       key: "streamsPort"
       optional: true
 - name: "RabbitMQ__Username"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.rabbitmq.configMapName | quote }}
+      name: {{ $configName | quote }}
       key: "username"
 - name: "RabbitMQ__Password"
   valueFrom:
     secretKeyRef:
-      {{- if .Values.rabbitmq.existingSecretName }}
-      name: {{ .Values.rabbitmq.existingSecretName | quote }}
+      {{- if .Values.rabbitmq.auth.existingSecretName }}
+      name: {{ .Values.rabbitmq.auth.existingSecretName | quote }}
       {{- else }}
       name: "{{ .Release.Name }}-rabbitmq"
       {{- end }}
-      key: {{ .Values.rabbitmq.secretKey | quote }}
+      key: {{ .Values.rabbitmq.auth.secretKey | quote }}
 {{- end }}
 
 {{/*
 Template used for adding MQTT configuration to containers
 */}}
 {{- define "smartface.mqttConfig" -}}
+{{- $configName := (.Values.rabbitmq.rmqConfiguration.existingConfigMapName | default (include "smartface.rabbitmq.mqttName" . )) -}}
 - name: "MQTT__Hostname"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.rabbitmq.mqttConfigMapName | quote }}
+      name: {{ $configName | quote }}
       key: "hostname"
 - name: "MQTT__UseSsl"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.rabbitmq.mqttConfigMapName | quote }}
+      name: {{ $configName | quote }}
       key: "useSsl"
 - name: "MQTT__Port"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.rabbitmq.mqttConfigMapName | quote }}
+      name: {{ $configName | quote }}
       key: "port"
 - name: "MQTT__Username"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.rabbitmq.mqttConfigMapName | quote }}
+      name: {{ $configName | quote }}
       key: "username"
 - name: "MQTT__Password"
   valueFrom:
     secretKeyRef:
-      {{- if .Values.rabbitmq.existingSecretName }}
-      name: {{ .Values.rabbitmq.existingSecretName | quote }}
+      {{- if .Values.rabbitmq.auth.existingSecretName }}
+      name: {{ .Values.rabbitmq.auth.existingSecretName | quote }}
       {{- else }}
       name: "{{ .Release.Name }}-rabbitmq"
       {{- end }}
-      key: {{ .Values.rabbitmq.secretKey | quote }}
+      key: {{ .Values.rabbitmq.auth.secretKey | quote }}
 {{- end }}
 
 {{/*

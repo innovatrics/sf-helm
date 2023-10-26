@@ -202,8 +202,8 @@ stringData:
 | base.zmqContainerPort | int | `2406` |  |
 | base.zmqServicePort | int | `2406` |  |
 | configurations.apiAuth.configName | string | `"auth-config"` | config containing authorization configuration for APIs used when authentication is enabled |
-| configurations.database.connectionStringKey | string | `"cs"` |  |
-| configurations.database.secretName | string | `"db-cs"` |  |
+| configurations.database.connectionStringKey | string | `"cs"` | key within the existing secret which contains the connection string, see https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/connection-strings |
+| configurations.database.existingSecretName | string | `"db-cs"` | connection string needs to be provided as a dependency of the chart |
 | configurations.license.mountPath | string | `"/etc/innovatrics"` |  |
 | configurations.license.secretName | string | `"iface-lic"` |  |
 | configurations.license.volumeMountName | string | `"license"` |  |
@@ -412,9 +412,27 @@ stringData:
 | nameOverride | string | `nil` | Overrides the chart's name |
 | podAnnotations | object | `{}` | Common annotations for all pods |
 | podLabels | object | `{}` | Common labels for all pods |
-| rabbitmq | object | `{"auth":{"erlangCookie":"","password":"","username":"smartface"},"configMapName":"sf-rmq-connection","enabled":true,"existingSecretName":"","extraPlugins":"rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt","mqttConfigMapName":"sf-mqtt-connection","mqttDnsHost":"","secretKey":"rabbitmq-password","service":{"extraPorts":[{"name":"mqtt","port":1883,"targetPort":1883},{"name":"rmq-stream","port":5552,"targetPort":5552}]}}` | config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq |
+| rabbitmq | object | `{"auth":{"erlangCookie":"","existingSecretName":"","password":"","secretKey":"rabbitmq-password","username":"smartface"},"enabled":true,"extraPlugins":"rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt","mqttConfiguration":{"existingConfigMapName":"","hostname":"","port":1883,"useSsl":false,"username":""},"mqttPublicService":{"enabled":false,"mqttDnsHost":""},"rmqConfiguration":{"existingConfigMapName":"","hostname":"","port":5672,"streamsPort":5552,"useSsl":false,"username":""},"service":{"extraPorts":[{"name":"mqtt","port":1883,"targetPort":1883},{"name":"rmq-stream","port":5552,"targetPort":5552}]}}` | config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq |
+| rabbitmq.auth.erlangCookie | string | `""` | used by subchart |
+| rabbitmq.auth.existingSecretName | string | `""` | supply to bring you own secret. The secret needs to contain rabbitmq password under the key with name defined in `rabbitmq.auth.secretKey` |
+| rabbitmq.auth.password | string | `""` | used by subchart |
+| rabbitmq.auth.secretKey | string | `"rabbitmq-password"` | define key of rabbitmq password in existing/provisioned secret |
+| rabbitmq.auth.username | string | `"smartface"` | username of created user in case that `rabbitmq.enabled` is `true` |
 | rabbitmq.enabled | bool | `true` | configure if rabbitmq subchart should be included |
-| rabbitmq.mqttDnsHost | string | `""` | hostname used for MQTT service - only relevant for edge streams |
+| rabbitmq.mqttConfiguration | object | `{"existingConfigMapName":"","hostname":"","port":1883,"useSsl":false,"username":""}` | if rabbitmq subchart is not included, then we need user-supplied configuration to satisfy SmartFace dependency on MQTT broker when `features.edgeStreams.enabled` is `true` |
+| rabbitmq.mqttConfiguration.existingConfigMapName | string | `""` | supply to bring your own configmap. The configmap needs following keys: `hostname`, `username`, `port`, and `useSsl`. Other configuration is not used if You provide existing config map. |
+| rabbitmq.mqttConfiguration.hostname | string | `""` | hostname of existing MQTT broker |
+| rabbitmq.mqttConfiguration.port | int | `1883` | port of existing MQTT broker |
+| rabbitmq.mqttConfiguration.useSsl | bool | `false` | set to `true` if existing MQTT broker uses TLS |
+| rabbitmq.mqttConfiguration.username | string | `""` | username for existing RabbitMQ instance |
+| rabbitmq.mqttPublicService | object | `{"enabled":false,"mqttDnsHost":""}` | service to publicly expose mqtt interface to be used by edge streams. Currently requires ALB controller https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.6/ |
+| rabbitmq.rmqConfiguration | object | `{"existingConfigMapName":"","hostname":"","port":5672,"streamsPort":5552,"useSsl":false,"username":""}` | if rabbitmq subchart is not included, then we need user-supplied configuration to satisfy SmartFace dependency on rabbitmq |
+| rabbitmq.rmqConfiguration.existingConfigMapName | string | `""` | supply to bring your own configmap. The configmap needs following keys: `hostname`, `username`, `port`, `useSsl`, and optionally `streamsPort` when `features.edgeStreams.enabled` is `true`. Other configuration is not used if You provide existing config map. |
+| rabbitmq.rmqConfiguration.hostname | string | `""` | hostname of existing RabbitMQ instance |
+| rabbitmq.rmqConfiguration.port | int | `5672` | port of existing RabbitMQ instance |
+| rabbitmq.rmqConfiguration.streamsPort | int | `5552` | port for RabbitMQ streams protocol used only when `features.edgeStreams.enabled` is `true` |
+| rabbitmq.rmqConfiguration.useSsl | bool | `false` | set to `true` if existing RabbitMQ instance uses TLS |
+| rabbitmq.rmqConfiguration.username | string | `""` | username for existing RabbitMQ instance |
 | readonlyApi.authName | string | `"readonly-auth-api"` |  |
 | readonlyApi.enabled | bool | `false` |  |
 | readonlyApi.noAuthName | string | `"readonly-noauth-api"` |  |

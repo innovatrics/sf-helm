@@ -26,7 +26,9 @@ imagePullSecrets:
 
 configurations:
   database:
-    secretName: "db-cs"
+    # -- connection string needs to be provided as a dependency of the chart
+    existingSecretName: "db-cs"
+    # -- key within the existing secret which contains the connection string, see https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/connection-strings
     connectionStringKey: "cs"
   s3:
     configName: "s3-config"
@@ -59,15 +61,46 @@ rabbitmq:
   # -- configure if rabbitmq subchart should be included
   enabled: true
   extraPlugins: "rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt"
-  # -- hostname used for MQTT service - only relevant for edge streams
-  mqttDnsHost: ""
-  configMapName: "sf-rmq-connection"
-  mqttConfigMapName: "sf-mqtt-connection"
-  existingSecretName: ""
-  secretKey: "rabbitmq-password"
+  # -- service to publicly expose mqtt interface to be used by edge streams. Currently requires ALB controller https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.6/
+  mqttPublicService:
+    enabled: false
+    mqttDnsHost: ""
+  # -- if rabbitmq subchart is not included, then we need user-supplied configuration to satisfy SmartFace dependency on rabbitmq
+  rmqConfiguration:
+    # -- supply to bring your own configmap. The configmap needs following keys: `hostname`, `username`, `port`, `useSsl`, and optionally `streamsPort` when `features.edgeStreams.enabled` is `true`. Other configuration is not used if You provide existing config map.
+    existingConfigMapName: ""
+    # -- username for existing RabbitMQ instance
+    username: ""
+    # -- hostname of existing RabbitMQ instance
+    hostname: ""
+    # -- port of existing RabbitMQ instance
+    port: 5672
+    # -- set to `true` if existing RabbitMQ instance uses TLS
+    useSsl: false
+    # -- port for RabbitMQ streams protocol used only when `features.edgeStreams.enabled` is `true`
+    streamsPort: 5552
+  # -- if rabbitmq subchart is not included, then we need user-supplied configuration to satisfy SmartFace dependency on MQTT broker when `features.edgeStreams.enabled` is `true`
+  mqttConfiguration:
+    # -- supply to bring your own configmap. The configmap needs following keys: `hostname`, `username`, `port`, and `useSsl`. Other configuration is not used if You provide existing config map.
+    existingConfigMapName: ""
+    # -- username for existing RabbitMQ instance
+    username: ""
+    # -- hostname of existing MQTT broker
+    hostname: ""
+    # -- port of existing MQTT broker
+    port: 1883
+    # -- set to `true` if existing MQTT broker uses TLS
+    useSsl: false
   auth:
+    # -- supply to bring you own secret. The secret needs to contain rabbitmq password under the key with name defined in `rabbitmq.auth.secretKey`
+    existingSecretName: ""
+    # -- define key of rabbitmq password in existing/provisioned secret
+    secretKey: "rabbitmq-password"
+    # -- username of created user in case that `rabbitmq.enabled` is `true`
     username: "smartface"
+    # -- used by subchart
     erlangCookie: ""
+    # -- used by subchart
     password: ""
   service:
     extraPorts:

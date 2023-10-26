@@ -430,3 +430,25 @@ Template used for resolving selector labels for countlyPublisher component
 {{- include "smartface.selectorLabels" . }}
 app.kubernetes.io/component: "countlyPublisher"
 {{- end -}}
+
+{{/*
+RabbitMq
+*/}}
+
+{{/*
+Template used for resolving RabbitMQ config map name
+*/}}
+{{- define "smartface.rabbitmq.name" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := "rabbitmq" -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}
+
+{{/*
+Template used for resolving RabbitMQ config map name
+*/}}
+{{- define "smartface.rabbitmq.mqttName" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := "mqtt" -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}

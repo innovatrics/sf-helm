@@ -34,7 +34,6 @@ Multitenancy is not supported for clusters with edge streams. Please disable one
 {{- end -}}
 {{- end -}}
 
-
 {{/*
 Validate that if station is requested then its dependencies are met
 */}}
@@ -53,7 +52,7 @@ Station requires enabled graphqlApi to work properly
 Validate that the Database connection string secret exists with correct key
 */}}
 {{- define "smartface.validate.dbConnectionSecret" -}}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.configurations.database.secretName "Key" .Values.configurations.database.connectionStringKey) }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.configurations.database.existingSecretName "Key" .Values.configurations.database.connectionStringKey) }}
 {{- end -}}
 
 {{/*
@@ -114,16 +113,22 @@ To create the secret follow the official documentation https://kubernetes.io/doc
 Validate rmq config if not managed by us
 */}}
 {{- define "smartface.validate.rmqConfig" -}}
-{{- if not .Values.rabbitmq.enabled -}}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "hostname") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "useSsl") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "port") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "streamsPort") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.configMapName "Key" "username") }}
-{{- if not .Values.rabbitmq.existingSecretName }}
-Please provide value for `rabbitmq.existingSecretName`
+{{- $existingConfigMap := .Values.rabbitmq.rmqConfiguration.existingConfigMapName -}}
+{{- if .Values.rabbitmq.enabled -}}
+{{- if $existingConfigMap }}
+Cannot deploy rabbitmq and use existing ConfigMap. Either disable rabbitmq deployment by setting `rabbitmq.enabled` to `false` or don't provide value for `rabbitmq.rmqConfiguration.existingConfigMapName`
+{{- end }}
 {{- else }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.existingSecretName "Key" .Values.rabbitmq.secretKey) }}
+{{- if $existingConfigMap }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "hostname") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "useSsl") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "port") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "username") }}
+{{- end }}
+{{- if not .Values.rabbitmq.auth.existingSecretName }}
+Please provide value for `rabbitmq.auth.existingSecretName`
+{{- else }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.existingSecretName "Key" .Values.rabbitmq.auth.secretKey) }}
 {{- end -}}
 {{- end -}}
 {{- end -}}
@@ -135,11 +140,20 @@ Validate mqtt config if not managed by us
 {{/*
 This should not be used in such combination because there would be no "shovel" between mqtt and rmq, but we can still validate
 */}}
-{{- if and .Values.features.edgeStreams.enabled (not .Values.rabbitmq.enabled) -}}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "hostname") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "useSsl") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "port") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.rabbitmq.mqttConfigMapName "Key" "username") }}
+{{- if .Values.features.edgeStreams.enabled -}}
+{{- $existingConfigMap := .Values.rabbitmq.mqttConfiguration.existingConfigMapName -}}
+{{- if .Values.rabbitmq.enabled -}}
+{{- if $existingConfigMap }}
+Cannot deploy rabbitmq and use existing ConfigMap for MQTT. Either disable rabbitmq deployment by setting `rabbitmq.enabled` to `false` or don't provide value for `rabbitmq.mqttConfiguration.existingConfigMapName`
+{{- end }}
+{{- else }}
+{{- if $existingConfigMap }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "hostname") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "useSsl") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "port") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "username") }}
+{{- end -}}
+{{- end -}}
 {{- end -}}
 {{- end -}}
 

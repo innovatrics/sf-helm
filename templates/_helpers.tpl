@@ -83,7 +83,7 @@ Init container to perform database migration before starting the main container
     - name: "db_cs"
       valueFrom:
         secretKeyRef:
-          name: {{ .Values.configurations.database.secretName | quote }}
+          name: {{ .Values.configurations.database.existingSecretName | quote }}
           key: {{ .Values.configurations.database.connectionStringKey | quote }}
     {{- include "smartface.rmqConfig" . | nindent 4 }}
   resources:

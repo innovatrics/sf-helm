@@ -1,12 +1,22 @@
-{{- if .Values.rabbitmq.enabled }}
+{{- if or .Values.rabbitmq.enabled (not .Values.rabbitmq.rmqConfiguration.existingConfigMapName) }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.rabbitmq.configMapName | quote }}
+  name: {{ include "smartface.rabbitmq.name" . | quote }}
 data:
+  {{- if .Values.rabbitmq.enabled }}
+  {{/* If we deploy rmq, then values in cofig need to match the deployed rmq, thus are not configurable */}}
   hostname: "{{ .Release.Name }}-rabbitmq.{{ .Release.Namespace }}.svc.cluster.local"
   username: {{ .Values.rabbitmq.auth.username | quote }}
   port: "5672"
   useSsl: "false"
   streamsPort: "5552"
+  {{- else }}
+  {{/* If the RMQ is provided externally, but user does not bring his own configmap, we need to use values */}}
+  hostname:  {{ .Values.rabbitmq.rmqConfiguration.hostname | quote }}
+  username: {{ .Values.rabbitmq.rmqConfiguration.username | quote }}
+  port: {{ .Values.rabbitmq.rmqConfiguration.port | quote }}
+  useSsl: {{ .Values.rabbitmq.rmqConfiguration.useSsl | quote }}
+  streamsPort: {{ .Values.rabbitmq.rmqConfiguration.streamsPort | quote }}
+  {{- end }}
 {{- end }}

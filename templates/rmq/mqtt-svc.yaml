@@ -1,10 +1,10 @@
-{{- if and .Values.features.edgeStreams.enabled .Values.rabbitmq.enabled }}
+{{- if and .Values.features.edgeStreams.enabled (and .Values.rabbitmq.enabled .Values.rabbitmq.mqttPublicService.enabled) }}
 apiVersion: "v1"
 kind: "Service"
 metadata:
-  name: "rmq-mqtt-public"
+  name: {{ include "smartface.rabbitmq.mqttName" . | quote }}
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: {{ .Values.rabbitmq.mqttDnsHost }}
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.rabbitmq.mqttPublicService.mqttDnsHost }}
     service.beta.kubernetes.io/aws-load-balancer-ssl-cert: {{ .Values.ingress.certificateArn }}
     service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
 spec:
