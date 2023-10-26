@@ -17,25 +17,25 @@ helm install smartface oci://ghcr.io/innovatrics/sf-helm/smartface
 The helm chart needs certain objects to be present in the cluster before it can be installed. Refer to `external-config.yaml` for examples for the required objects:
 
 1. [Registry credentials secret](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-by-providing-credentials-on-the-command-line)
-    - Get the credentials from [Customer portal](https://customerportal.innovatrics.com)
-    - The secret name must match `imagePullSecrets` value
-    - see comments in `external-config.yaml` for commands to create kubernetes manifest with credentials
+  - Get the credentials from [Customer portal](https://customerportal.innovatrics.com)
+  - The secret name must match `imagePullSecrets` value
+  - see comments in `external-config.yaml` for commands to create kubernetes manifest with credentials
 1. License file secret
-    - Get the license file from [Customer portal](https://customerportal.innovatrics.com)
-    - The secret name must match `license.secretName` value
-    - see comments in `external-config.yaml` for commands to create kubernetes manifest with license file
+  - Get the license file from [Customer portal](https://customerportal.innovatrics.com)
+  - The secret name must match `license.secretName` value
+  - see comments in `external-config.yaml` for commands to create kubernetes manifest with license file
 1. S3 bucket
-    - Create an S3 bucket
-    - Create a ConfigMap - see `external-config.yaml` for example
-    - ConfigMap name must match `configurations.s3.configName` value
-    - keys in the ConfigMap must match `configurations.s3.*Key` values
+  - Create an S3 bucket
+  - Create a ConfigMap - see `external-config.yaml` for example
+  - ConfigMap name must match `configurations.s3.configName` value
+  - keys in the ConfigMap must match `configurations.s3.*Key` values
 1. pgsql server
-    - Create a PgSql server
-    - Create a Secret - see `external-config.yaml` for example
-    - Secret name must match `configurations.database.secretName` value
-    - key in the Secret must match `configurations.database.connectionStringKey` value
+  - Create a PgSql server
+  - Create a Secret - see `external-config.yaml` for example
+  - Secret name must match `configurations.database.secretName` value
+  - key in the Secret must match `configurations.database.connectionStringKey` value
 1. Optionally [KEDA](https://keda.sh/) for autoscaling
-    - see `autoscaling.*` values for more info
+  - see `autoscaling.*` values for more info
 
 ## Ingress
 
@@ -54,11 +54,11 @@ All chart dependencies are optional and can be disabled and supplemented with ot
 To use non-chart managed rabbitmq:
 - set `rabbitmq.enabled=false`
 - create ConfigMap with rabbitmq connection details
-    - ConfigMap name must match `rabbitmq.configMapName` value
-    - see Sample objects for example
+  - ConfigMap name must match `rabbitmq.configMapName` value
+  - see Sample objects for example
 - create Secret with rabbitmq password
-    - supply `rabbitmq.existingSecretName` value with name of existing secret
-    - see Sample objects for example
+  - supply `rabbitmq.existingSecretName` value with name of existing secret
+  - see Sample objects for example
 
 #### Sample objects
 ```
