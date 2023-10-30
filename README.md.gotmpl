@@ -89,4 +89,11 @@ stringData:
 ### [v0.4.0]
 - Changed default behavior for creating S3 configuration. If you like to continue managing the previously created S3 config map please use the `configurations.s3.existingConfigMapName` field. Otherwise the ConfigMap will be managed by the helm chart using the values provided in `configurations.s3`
   - The ConfigMap keys for existing config map are no longer configurable, so if you want to keep using the ConfigMap not managed by this chart then please make sure that the key match what the helm chart expects
-- TODO Deployments and service use more standard pod selectors - this should be a breaking change because deployment selectors are immutable
+- Some values have had their keys changed or moved around:
+  - database secret -> value key changed from `configurations.database.secretName` to `configurations.database.existingSecretName`
+  - rmq secret values moved to auth parent object -> from `rabbitmq.existingSecretName` to `rabbitmq.auth.existingSecretName` and `rabbitmq.secretKey` to `rabbitmq.auth.secretKey`
+  - rmq configuration reworked -> value key `rabbitmq.configMapName` and `rabbitmq.mqttConfigMapName` replaced with `existingConfigMapName` key in `rabbitmq.rmqConfiguration` and `rabbitmq.mqttConfiguration` objects respectively
+  - mqtt dns host configuration changed -> value key `rabbitmq.mqttDnsHost` replaced with object with key `rabbitmq.mqttPublicService` that can be disabled
+  - deployment selectors changed
+  - autoscaling configuration reworked -> moved rmq and cron configuration related to services their respective sub-objects e.g. for detector from `autoscaling.detector` to `autoscaling.cron.detector` and `autoscaling.rmq.detector`
+- Deployment label selectors and pod labels were modified to use a more standardized approach. Unfortunately since label selector are immutable and thus the helm release cannot be upgraded. Please first use `helm uninstall` and a fresh `helm install` for upgrading. For more information see the [official documentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#label-selector-updates)
