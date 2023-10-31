@@ -1,30 +1,52 @@
 {{- if .Values.features.edgeStreams.enabled }}
+{{- $name := include "smartface.base.name" . -}}
+{{- $selectorLabels := include "smartface.base.selectorLabels" . -}}
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
-  name: {{ .Values.base.name | quote }}
+  name: {{ $name | quote }}
   labels:
-    app: {{ .Values.base.name | quote }}
+    {{- include "smartface.base.labels" . | nindent 4 }}
+  annotations:
+    {{- with .Values.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.base.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.base.name | quote }}
+      {{- $selectorLabels | nindent 6 }}
   template:
     metadata:
+      annotations:
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.base.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       labels:
-        app: {{ .Values.base.name | quote }}
+        {{- $selectorLabels | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.base.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name | quote }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       topologySpreadConstraints:
-        {{- include "smartface.topologySpread" (dict "appLabel" .Values.base.name) | nindent 8 }}
+        {{- include "smartface.topologySpread" (dict "selectorLabels" $selectorLabels ) | nindent 8 }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-      - name: {{ .Values.base.name | quote }}
+      - name: {{ $name | quote }}
         image: {{ include "smartface.image" (dict "local" .Values.base.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
         imagePullPolicy: {{ .Values.base.image.pullPolicy }}
         args: ["--serviceName", "SFBase"]

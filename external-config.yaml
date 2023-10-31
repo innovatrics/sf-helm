@@ -22,18 +22,6 @@ metadata:
   name: iface-lic
 ---
 apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: "s3-config"
-data:
-# supply S3 bucket
-  name: "sf-cm-test"
-  region: "eu-central-1"
-  folder: "sface"
-  authType: "AssumedRole"
-  useBucketRegion: "true"
----
-apiVersion: v1
 stringData:
 # supply pgsql server
   cs: "Server=<hostname>;Database=<db-name>;Username=<username>;Password=<password>;"

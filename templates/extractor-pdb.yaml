@@ -1,0 +1,18 @@
+{{- if .Values.extractor.pdb.create }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "smartface.extractor.name" . | quote }}
+  labels:
+    {{- include "smartface.extractor.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.extractor.pdb.minAvailable }}
+  minAvailable: {{ .Values.extractor.pdb.minAvailable }}
+  {{- end }}
+  {{- if .Values.extractor.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.extractor.pdb.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "smartface.extractor.selectorLabels" . | nindent 6 }}
+{{- end }}

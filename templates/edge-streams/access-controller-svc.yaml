@@ -2,10 +2,25 @@
 apiVersion: "v1"
 kind: "Service"
 metadata:
-  name: {{ .Values.accessController.name | quote }}
+  name: {{ include "smartface.accessController.name" . | quote }}
+  labels:
+    {{- include "smartface.accessController.labels" . | nindent 4 }}
+    {{- with .Values.serviceLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.accessController.service.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  annotations:
+    {{- with .Values.serviceAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.accessController.service.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   selector:
-    app: {{ .Values.accessController.name | quote }}
+    {{- include "smartface.accessController.selectorLabels" . | nindent 4 }}
   ports:
     - port: {{ .Values.accessController.servicePort }}
       targetPort: {{ .Values.accessController.containerPort }}
@@ -15,10 +30,25 @@ spec:
 apiVersion: "v1"
 kind: "Service"
 metadata:
-  name: {{ .Values.accessController.authServiceName | quote }}
+  name: {{ include "smartface.accessController.authServiceName" . | quote }}
+  labels:
+    {{- include "smartface.accessController.labels" . | nindent 4 }}
+    {{- with .Values.serviceLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.accessController.service.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  annotations:
+    {{- with .Values.serviceAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.accessController.service.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   selector:
-    app: {{ .Values.accessController.name | quote }}
+    {{- include "smartface.accessController.selectorLabels" . | nindent 4 }}
   ports:
     - port: {{ .Values.accessController.authServicePort }}
       targetPort: {{ .Values.accessController.authContainerPort }}

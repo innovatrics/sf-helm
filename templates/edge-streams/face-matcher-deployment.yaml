@@ -1,30 +1,52 @@
 {{- if .Values.features.edgeStreams.enabled }}
+{{- $name := include "smartface.faceMatcher.name" . -}}
+{{- $selectorLabels := include "smartface.faceMatcher.selectorLabels" . -}}
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
-  name: {{ .Values.faceMatcher.name | quote }}
+  name: {{ $name | quote }}
   labels:
-    app: {{ .Values.faceMatcher.name | quote }}
+    {{- include "smartface.faceMatcher.labels" . | nindent 4 }}
+  annotations:
+    {{- with .Values.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.faceMatcher.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   replicas: {{ .Values.faceMatcher.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.faceMatcher.name | quote }}
+      {{- $selectorLabels | nindent 6 }}
   template:
     metadata:
+      annotations:
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.faceMatcher.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       labels:
-        app: {{ .Values.faceMatcher.name | quote }}
+        {{- $selectorLabels | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.faceMatcher.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name | quote }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       topologySpreadConstraints:
-        {{- include "smartface.topologySpread" (dict "appLabel" .Values.faceMatcher.name) | nindent 8 }}
+        {{- include "smartface.topologySpread" (dict "selectorLabels" $selectorLabels ) | nindent 8 }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-      - name: {{ .Values.faceMatcher.name | quote }}
+      - name: {{ $name | quote }}
         image: {{ include "smartface.image" (dict "local" .Values.faceMatcher.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
         imagePullPolicy: {{ .Values.faceMatcher.image.pullPolicy }}
         env:

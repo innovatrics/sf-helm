@@ -18,25 +18,23 @@ helm install smartface oci://ghcr.io/innovatrics/sf-helm/smartface
 The helm chart needs certain objects to be present in the cluster before it can be installed. Refer to `external-config.yaml` for examples for the required objects:
 
 1. [Registry credentials secret](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-by-providing-credentials-on-the-command-line)
-    - Get the credentials from [Customer portal](https://customerportal.innovatrics.com)
-    - The secret name must match `imagePullSecrets` value
-    - see comments in `external-config.yaml` for commands to create kubernetes manifest with credentials
+  - Get the credentials from [Customer portal](https://customerportal.innovatrics.com)
+  - The secret name must match `imagePullSecrets` value
+  - see comments in `external-config.yaml` for commands to create kubernetes manifest with credentials
 1. License file secret
-    - Get the license file from [Customer portal](https://customerportal.innovatrics.com)
-    - The secret name must match `license.secretName` value
-    - see comments in `external-config.yaml` for commands to create kubernetes manifest with license file
+  - Get the license file from [Customer portal](https://customerportal.innovatrics.com)
+  - The secret name must match `license.secretName` value
+  - see comments in `external-config.yaml` for commands to create kubernetes manifest with license file
 1. S3 bucket
-    - Create an S3 bucket
-    - Create a ConfigMap - see `external-config.yaml` for example
-    - ConfigMap name must match `configurations.s3.configName` value
-    - keys in the ConfigMap must match `configurations.s3.*Key` values
+  - Create an S3 bucket
+  - Configure details of S3 bucket by supplying values to object `configurations.s3`
 1. pgsql server
-    - Create a PgSql server
-    - Create a Secret - see `external-config.yaml` for example
-    - Secret name must match `configurations.database.secretName` value
-    - key in the Secret must match `configurations.database.connectionStringKey` value
+  - Create a PgSql server
+  - Create a Secret - see `external-config.yaml` for example
+  - Secret name must match `configurations.database.secretName` value
+  - key in the Secret must match `configurations.database.connectionStringKey` value
 1. Optionally [KEDA](https://keda.sh/) for autoscaling
-    - see `autoscaling.*` values for more info
+  - see `autoscaling.*` values for more info
 
 ## Ingress
 
@@ -49,12 +47,13 @@ All chart dependencies are optional and can be disabled and supplemented with ot
 ### RabbitMQ
 To use non-chart managed rabbitmq:
 - set `rabbitmq.enabled=false`
-- create ConfigMap with rabbitmq connection details
-    - ConfigMap name must match `rabbitmq.configMapName` value
-    - see Sample objects for example
+- provide rabbitmq configuration via:
+  - supplying values to `rabbitmq.rmqConfiguration` object
+  - or creating ConfigMap and setting `rabbitmq.rmqConfiguration.existingConfigMapName`
+  - see Sample objects for example
 - create Secret with rabbitmq password
-    - supply `rabbitmq.existingSecretName` value with name of existing secret
-    - see Sample objects for example
+  - supply `rabbitmq.existingSecretName` value with name of existing secret
+  - see Sample objects for example
 
 #### Sample objects
 ```
@@ -67,6 +66,7 @@ data:
   username: "<username>"
   port: "5671"
   useSsl: "true"
+  streamsPort: "5552"
 ```
 
 ```
@@ -86,4 +86,14 @@ stringData:
 
 ## Breaking changes
 
-Upgrade guide to future major version will be here
+### [v0.4.0]
+- Changed default behavior for creating S3 configuration. If you like to continue managing the previously created S3 config map please use the `configurations.s3.existingConfigMapName` field. Otherwise the ConfigMap will be managed by the helm chart using the values provided in `configurations.s3`
+  - The ConfigMap keys for existing config map are no longer configurable, so if you want to keep using the ConfigMap not managed by this chart then please make sure that the key match what the helm chart expects
+- Some values have had their keys changed or moved around:
+  - database secret -> value key changed from `configurations.database.secretName` to `configurations.database.existingSecretName`
+  - rmq secret values moved to auth parent object -> from `rabbitmq.existingSecretName` to `rabbitmq.auth.existingSecretName` and `rabbitmq.secretKey` to `rabbitmq.auth.secretKey`
+  - rmq configuration reworked -> value key `rabbitmq.configMapName` and `rabbitmq.mqttConfigMapName` replaced with `existingConfigMapName` key in `rabbitmq.rmqConfiguration` and `rabbitmq.mqttConfiguration` objects respectively
+  - mqtt dns host configuration changed -> value key `rabbitmq.mqttDnsHost` replaced with object with key `rabbitmq.mqttPublicService` that can be disabled
+  - deployment selectors changed
+  - autoscaling configuration reworked -> moved rmq and cron configuration related to services their respective sub-objects e.g. for detector from `autoscaling.detector` to `autoscaling.cron.detector` and `autoscaling.rmq.detector`
+- Deployment label selectors and pod labels were modified to use a more standardized approach. Unfortunately since label selector are immutable and thus the helm release cannot be upgraded. Please first use `helm uninstall` and a fresh `helm install` for upgrading. For more information see the [official documentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#label-selector-updates)

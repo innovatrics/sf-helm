@@ -2,12 +2,28 @@
 apiVersion: "v1"
 kind: "Service"
 metadata:
-  name: {{ .Values.api.name | quote }}
+  name: {{ include "smartface.api.name" . | quote }}
   labels:
-    {{- toYaml $.Values.metrics.serviceDiscoveryLabels | nindent 4 }}
+    {{- include "smartface.api.labels" . | nindent 4 }}
+    {{- with .Values.serviceLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.api.service.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.metrics.serviceDiscoveryLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  annotations:
+    {{- with .Values.serviceAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.api.service.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   selector:
-    app: {{ .Values.api.name | quote }}
+    {{- include "smartface.api.selectorLabels" . | nindent 4 }}
   ports:
     - name: "http"
       port: {{ .Values.api.servicePort }}

@@ -1,11 +1,18 @@
-{{- if and .Values.features.edgeStreams.enabled .Values.rabbitmq.enabled }}
+{{- if and .Values.features.edgeStreams.enabled (or .Values.rabbitmq.enabled (not .Values.rabbitmq.mqttConfiguration.existingConfigMapName)) }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.rabbitmq.mqttConfigMapName | quote }}
+  name: {{ include "smartface.rabbitmq.mqttName" . | quote }}
 data:
+  {{- if .Values.rabbitmq.enabled }}
   hostname: "{{ .Release.Name }}-rabbitmq.{{ .Release.Namespace }}.svc.cluster.local"
   username: {{ .Values.rabbitmq.auth.username | quote }}
   port: "1883"
   useSsl: "false"
+  {{- else }}
+  hostname:  {{ .Values.rabbitmq.mqttConfiguration.hostname | quote }}
+  username: {{ .Values.rabbitmq.mqttConfiguration.username | quote }}
+  port: {{ .Values.rabbitmq.mqttConfiguration.port | quote }}
+  useSsl: {{ .Values.rabbitmq.mqttConfiguration.useSsl | quote }}
+  {{- end }}
 {{- end }}

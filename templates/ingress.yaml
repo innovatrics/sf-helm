@@ -32,7 +32,7 @@ spec:
               {{- if .Values.readonlyApi.enabled }}
               name: {{ .Values.readonlyApi.noAuthName | quote }}
               {{- else }}
-              name: {{ .Values.api.name | quote }}
+              name: {{ include "smartface.api.name" . | quote }}
               {{- end }}
               port:
                 number: {{ .Values.api.servicePort }}
@@ -48,7 +48,7 @@ spec:
               {{- if .Values.readonlyApi.enabled }}
               name: {{ .Values.readonlyApi.authName | quote }}
               {{- else }}
-              name: {{ .Values.authApi.name | quote }}
+              name: {{ include "smartface.authApi.name" . | quote }}
               {{- end }}
               port:
                 number: {{ .Values.authApi.servicePort }}
@@ -61,7 +61,7 @@ spec:
           pathType: "Prefix"
           backend:
             service:
-              name: {{ .Values.graphqlApi.name | quote }}
+              name: {{ include "smartface.graphqlApi.name" . | quote }}
               port:
                 number: {{ .Values.graphqlApi.servicePort }}
     {{- end }}
@@ -73,7 +73,7 @@ spec:
           pathType: "Prefix"
           backend:
             service:
-              name: {{ .Values.station.name | quote }}
+              name: {{ include "smartface.station.name" . | quote }}
               port:
                 number: {{ .Values.station.servicePort }}
     {{- end }}

@@ -1,13 +1,16 @@
-{{- if and .Values.autoscaling.detector.enabled (or .Values.autoscaling.rmq.enabled .Values.autoscaling.cron.enabled) }}
+{{- $predefinedTriggerUsed := (or .Values.autoscaling.rmq.enabled .Values.autoscaling.cron.enabled) -}}
+{{- $customTriggerUsed := .Values.autoscaling.detector.triggers -}}
+{{- if and .Values.autoscaling.detector.enabled (or $predefinedTriggerUsed $customTriggerUsed) }}
+{{- $name := include "smartface.detector.name" . -}}
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
-  name: {{ .Values.detector.name | quote }}
+  name: {{ $name | quote }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ .Values.detector.name | quote }}
+    name: {{ $name | quote }}
   minReplicaCount: {{ .Values.autoscaling.detector.minReplicas }}
   maxReplicaCount: {{ .Values.autoscaling.detector.maxReplicas }}
   triggers:
@@ -16,7 +19,7 @@ spec:
     metadata:
       queueName: "rpc\\.face\\.detect.*"
       mode: "MessageRate"
-      value: {{ .Values.autoscaling.detector.rmqRps | quote }}
+      value: {{ .Values.autoscaling.rmq.detector.requestsPerSecond | quote }}
       useRegex: "true"
     authenticationRef:
       name: {{ .Values.autoscaling.rmq.triggerAuthName | quote }}
@@ -28,20 +31,23 @@ spec:
       timezone: {{ .Values.autoscaling.cron.timezone | quote }}
       start: "0 8 * * 1-5"
       end: "0 17 * * 1-5"
-      desiredReplicas: {{ .Values.autoscaling.detector.workHoursReplicas | quote }}
+      desiredReplicas: {{ .Values.autoscaling.cron.detector.workHoursReplicas | quote }}
 #   outside work hours
   - type: "cron"
     metadata:
       timezone: {{ .Values.autoscaling.cron.timezone | quote }}
       start: "0 17 * * 1-5"
       end: "0 8 * * 1-5"
-      desiredReplicas: {{ .Values.autoscaling.detector.nonWorkHoursReplicas | quote }}
+      desiredReplicas: {{ .Values.autoscaling.cron.detector.nonWorkHoursReplicas | quote }}
 #   during weekend
   - type: "cron"
     metadata:
       timezone: {{ .Values.autoscaling.cron.timezone | quote }}
       start: "0 0 * * 0,6"
       end: "0 0 * * 1-5"
-      desiredReplicas: {{ .Values.autoscaling.detector.nonWorkHoursReplicas | quote }}
+      desiredReplicas: {{ .Values.autoscaling.cron.detector.nonWorkHoursReplicas | quote }}
+  {{- end }}
+  {{- with .Values.autoscaling.detector.triggers }}
+    {{- toYaml . | nindent 4 }}
   {{- end }}
 {{- end }}

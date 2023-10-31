@@ -1,0 +1,18 @@
+{{- if .Values.liveness.pdb.create }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "smartface.liveness.name" . | quote }}
+  labels:
+    {{- include "smartface.liveness.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.liveness.pdb.minAvailable }}
+  minAvailable: {{ .Values.liveness.pdb.minAvailable }}
+  {{- end }}
+  {{- if .Values.liveness.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.liveness.pdb.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "smartface.liveness.selectorLabels" . | nindent 6 }}
+{{- end }}

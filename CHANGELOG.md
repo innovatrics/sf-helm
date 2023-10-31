@@ -1,12 +1,35 @@
 # Changelog
 
-## [v1.0.0] - TBD
+## [v0.4.0]
 
 ### Added
+- Common labels with option to specify custom labels/annotation for objects
+- PodDisruptionBudgets for deployments that can be scaled
+- Support for custom KEDA triggers
+- Existing configmap for rabbitMQ and S3 is no longer necessary and the chart can create them from provided values, which is also the new default behavior for S3
 
+### Breaking change
+- Changed default behavior for creating S3 configuration. If you like to continue managing the previously created S3 config map please use the `configurations.s3.existingConfigMapName` field. Otherwise the ConfigMap will be managed by the helm chart using the values provided in `configurations.s3`
+  - The ConfigMap keys for existing config map are no longer configurable, so if you want to keep using the ConfigMap not managed by this chart then please make sure that the key match what the helm chart expects
+- Some values have had their keys changed or moved around:
+  - database secret -> value key changed from `configurations.database.secretName` to `configurations.database.existingSecretName`
+  - rmq secret values moved to auth parent object -> from `rabbitmq.existingSecretName` to `rabbitmq.auth.existingSecretName` and `rabbitmq.secretKey` to `rabbitmq.auth.secretKey`
+  - rmq configuration reworked -> value key `rabbitmq.configMapName` and `rabbitmq.mqttConfigMapName` replaced with `existingConfigMapName` key in `rabbitmq.rmqConfiguration` and `rabbitmq.mqttConfiguration` objects respectively
+  - mqtt dns host configuration changed -> value key `rabbitmq.mqttDnsHost` replaced with object with key `rabbitmq.mqttPublicService` that can be disabled
+  - deployment selectors changed
+  - autoscaling configuration reworked -> moved rmq and cron configuration related to services their respective sub-objects e.g. for detector from `autoscaling.detector` to `autoscaling.cron.detector` and `autoscaling.rmq.detector`
+- Deployment label selectors and pod labels were modified to use a more standardized approach. Unfortunately since label selector are immutable and thus the helm release cannot be upgraded. Please first use `helm uninstall` and a fresh `helm install` for upgrading. For more information see the [official documentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#label-selector-updates)
+
+## [v0.3.0]
+
+### Added
+- Support for pushing watchlist data to edge streams via EdgeStreamsStateSynchronizer
+
+## [v0.2.0]
+
+### Added
 - Initial implementation
 - Chart can be configured to support following scenarios:
-    - Lightweight Face Identification System (LFIS) - single-tenant and multi-tenant
-    - Edge stream processing - single tenant only
+  - Lightweight Face Identification System (LFIS) - single-tenant and multi-tenant
+  - Edge stream processing - single tenant only
 - Chart can be configured to use externally-managed rabbitmq (e.g. [AmazonMQ](https://aws.amazon.com/amazon-mq/)) or deploy a rabbitmq [subchart](https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq)
-- Support for pushing watchlist data to edge streams via EdgeStreamsStateSynchronizer

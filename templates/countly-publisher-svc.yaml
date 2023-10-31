@@ -2,12 +2,28 @@
 apiVersion: "v1"
 kind: "Service"
 metadata:
-  name: {{ .Values.countlyPublisher.name | quote }}
+  name: {{ include "smartface.countlyPublisher.name" . | quote }}
   labels:
-    {{- toYaml $.Values.metrics.serviceDiscoveryLabels | nindent 4 }}
+    {{- include "smartface.countlyPublisher.labels" . | nindent 4 }}
+    {{- with .Values.serviceLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.countlyPublisher.service.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.metrics.serviceDiscoveryLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  annotations:
+    {{- with .Values.serviceAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.countlyPublisher.service.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   selector:
-    app: {{ .Values.countlyPublisher.name | quote }}
+    {{- include "smartface.countlyPublisher.selectorLabels" . | nindent 4 }}
   ports:
     - name: {{ .Values.metrics.portName | quote }}
       port: {{ .Values.metrics.port }}

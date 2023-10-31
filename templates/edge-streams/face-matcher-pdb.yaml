@@ -1,0 +1,18 @@
+{{- if and .Values.faceMatcher.pdb.create .Values.features.edgeStreams.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "smartface.faceMatcher.name" . | quote }}
+  labels:
+    {{- include "smartface.faceMatcher.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.faceMatcher.pdb.minAvailable }}
+  minAvailable: {{ .Values.faceMatcher.pdb.minAvailable }}
+  {{- end }}
+  {{- if .Values.faceMatcher.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.faceMatcher.pdb.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "smartface.faceMatcher.selectorLabels" . | nindent 6 }}
+{{- end }}

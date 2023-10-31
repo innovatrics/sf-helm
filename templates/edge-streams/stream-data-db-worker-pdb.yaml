@@ -1,0 +1,18 @@
+{{- if and .Values.streamDataDbWorker.pdb.create .Values.features.edgeStreams.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "smartface.streamDataDbWorker.name" . | quote }}
+  labels:
+    {{- include "smartface.streamDataDbWorker.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.streamDataDbWorker.pdb.minAvailable }}
+  minAvailable: {{ .Values.streamDataDbWorker.pdb.minAvailable }}
+  {{- end }}
+  {{- if .Values.streamDataDbWorker.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.streamDataDbWorker.pdb.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "smartface.streamDataDbWorker.selectorLabels" . | nindent 6 }}
+{{- end }}
