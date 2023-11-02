@@ -5,20 +5,20 @@ Compile all warnings into a single message, and call fail.
 {{- define "smartface.validate" -}}
 {{- $messages := list -}}
 
-{{- $messages := append $messages (trim (include "smartface.validate.multitenantEdge" .)) -}}
-{{- $messages := append $messages (trim (include "smartface.validate.stationDeps" .)) -}}
+{{- $messages = append $messages (trim (include "smartface.validate.multitenantEdge" .)) -}}
+{{- $messages = append $messages (trim (include "smartface.validate.stationDeps" .)) -}}
 
 {{- if not .Values.skipLookupBasedValidations -}}
-{{- $messages := append $messages (trim (include "smartface.validate.dbConnectionSecret" .)) -}}
-{{- $messages := append $messages (trim (include "smartface.validate.s3Config" .)) -}}
-{{- $messages := append $messages (trim (include "smartface.validate.licenseSecret" .)) -}}
-{{- $messages := append $messages (trim (include "smartface.validate.authConfig" .)) -}}
-{{- $messages := append $messages (trim (include "smartface.validate.registryCreds" .)) -}}
-{{- $messages := append $messages (trim (include "smartface.validate.rmqConfig" .)) -}}
-{{- $messages := append $messages (trim (include "smartface.validate.mqttConfig" .)) -}}
+{{- $messages = append $messages (trim (include "smartface.validate.dbConnectionSecret" .)) -}}
+{{- $messages = append $messages (trim (include "smartface.validate.s3Config" .)) -}}
+{{- $messages = append $messages (trim (include "smartface.validate.licenseSecret" .)) -}}
+{{- $messages = append $messages (trim (include "smartface.validate.authConfig" .)) -}}
+{{- $messages = append $messages (trim (include "smartface.validate.registryCreds" .)) -}}
+{{- $messages = append $messages (trim (include "smartface.validate.rmqConfig" .)) -}}
+{{- $messages = append $messages (trim (include "smartface.validate.mqttConfig" .)) -}}
 {{- end -}}
 
-{{- $messages := without $messages "" -}}
+{{- $messages = without $messages "" -}}
 {{- $message := join "\n" $messages -}}
 {{- if $message -}}
 {{-   printf "\nVALIDATIONS:\n%s" $message | fail -}}
