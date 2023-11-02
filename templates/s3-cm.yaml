@@ -1,12 +1,21 @@
-{{- if not .Values.configurations.s3.existingConfigMapName }}
+{{- if or .Values.minio.enabled (not .Values.configurations.s3.existingConfigMapName) }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "smartface.s3.name" . | quote }}
 data:
+  {{- if .Values.minio.enabled }}
+  {{/* If we deploy minio, then values in cofig need to match the deployed minio, thus are not configurable */}}
+  name: "smartface"
+  endpoint: "http://{{ .Release.Name }}-minio.{{ .Release.Namespace }}.svc.cluster.local:9000"
+  authType: "AccessKeyAndSecret"
+  useBucketRegion: "false"
+  {{- else }}
+  {{/* If the S3 bucket is provided externally, but user does not bring his own configmap, we need to use values */}}
   name: {{ .Values.configurations.s3.bucketName | quote }}
   region: {{ .Values.configurations.s3.bucketRegion | quote }}
   folder: {{ .Values.configurations.s3.bucketFolder | quote }}
   authType: {{ .Values.configurations.s3.authType | quote }}
   useBucketRegion: {{ .Values.configurations.s3.useBucketRegion | quote }}
+  {{- end }}
 {{- end }}

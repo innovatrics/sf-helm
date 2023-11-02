@@ -60,6 +60,11 @@ Validate that the S3 config map exists with correct keys
 */}}
 {{- define "smartface.validate.s3Config" -}}
 {{- $existingConfigMap := .Values.configurations.s3.existingConfigMapName -}}
+{{- if .Values.minio.enabled -}}
+{{- if $existingConfigMap }}
+Cannot deploy minio and use existing ConfigMap. Either disable minio deployment by setting `minio.enabled` to `false` or don't provide value for `configurations.s3.existingConfigMapName`
+{{- end }}
+{{- else}}
 {{- if $existingConfigMap -}}
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "name") }}
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "region") }}
@@ -72,6 +77,7 @@ Please provide value for `configurations.s3.bucketName`
 {{- end }}
 {{- if not .Values.configurations.s3.bucketRegion }}
 Please provide value for `configurations.s3.bucketRegion`
+{{- end -}}
 {{- end -}}
 {{- end -}}
 {{- end -}}

@@ -26,23 +26,41 @@ Template used for adding S3 configuration to containers
     configMapKeyRef:
       name: {{ $configName | quote }}
       key: "region"
+      optional: true
 - name: "S3Bucket__Folder"
   valueFrom:
     configMapKeyRef:
       name: {{ $configName | quote }}
       key: "folder"
-# AssumedRole
+      optional: true
 - name: "S3Bucket__AuthenticationType"
   valueFrom:
     configMapKeyRef:
       name: {{ $configName | quote }}
       key: "authType"
-# BucketRegion
 - name: "S3Bucket__UseBucketRegion"
   valueFrom:
     configMapKeyRef:
       name: {{ $configName | quote }}
       key: "useBucketRegion"
+{{- if .Values.minio.enabled }}
+- name: "S3Bucket__Endpoint"
+  valueFrom:
+    configMapKeyRef:
+      name: {{ $configName | quote }}
+      key: "endpoint"
+      optional: true
+- name: "S3Bucket__AccessKey"
+  valueFrom:
+    secretKeyRef:
+      name: "{{ .Release.Name }}-minio"
+      key: "root-user"
+- name: "S3Bucket__SecretKey"
+  valueFrom:
+    secretKeyRef:
+      name: "{{ .Release.Name }}-minio"
+      key: "root-password"
+{{- end }}
 {{- end }}
 
 {{/*

@@ -5,5 +5,8 @@ dependencies:
 - name: rabbitmq
   repository: oci://registry-1.docker.io/bitnamicharts
   version: 12.0.4
-digest: sha256:15d5ba64f57411a0eebebdd610f019a86846d03d23278beb2c1765daf8137442
-generated: "2023-10-19T16:46:51.767222+02:00"
+- name: minio
+  repository: oci://registry-1.docker.io/bitnamicharts
+  version: 12.8.15
+digest: sha256:377f0abfb50bbc8665ab4176a9a24747d5bedc8604f4a867ab82006e8e3d2805
+generated: "2023-11-02T13:06:27.794117+01:00"

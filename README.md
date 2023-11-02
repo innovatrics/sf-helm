@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.4.0](https://img.shields.io/badge/Version-0.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.22.0](https://img.shields.io/badge/AppVersion-v5_4.22.0-informational?style=flat-square)
+![Version: 0.5.0](https://img.shields.io/badge/Version-0.5.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.22.0](https://img.shields.io/badge/AppVersion-v5_4.22.0-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -44,6 +44,7 @@ By default an ingress object is created with the helm chart. To configure the in
 | Repository | Name | Version |
 |------------|------|---------|
 | oci://ghcr.io/innovatrics/sf-helm | sf-tenant-operator | 0.2.0 |
+| oci://registry-1.docker.io/bitnamicharts | minio | 12.8.15 |
 | oci://registry-1.docker.io/bitnamicharts | rabbitmq | 12.0.4 |
 
 All chart dependencies are optional and can be disabled and supplemented with other (for example cloud-based) alternatives
@@ -80,6 +81,31 @@ metadata:
   name: "rmq-pass"
 stringData:
   rabbitmq-password: "<password>"
+```
+
+### S3
+To use S3 bucket managed by AWS:
+- set `minio.enabled=false`
+- provide s3 configuration via:
+  - supplying values to `configurations.s3` object
+  - or creating ConfigMap and setting `configurations.s3.existingConfigMapName`
+  - see Sample objects for example
+- When using S3 bucket and running in AWS the authentication can be performed using could-native mechanisms:
+  - to authenticate using EC2 instance profile set `configurations.s3.authType` to `InstanceProfile`
+  - to authenticate using AssumedRole set `configurations.s3.authType` to `AssumedRole` (useful for example when using [EKS IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html))
+
+#### Sample objects
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "sf-s3-connection"
+data:
+  name: "smartface"
+  region: "eu-central-1"
+  folder: "sface"
+  authType: "AssumedRole"
+  useBucketRegion: "true"
 ```
 
 ## Values
@@ -409,6 +435,7 @@ stringData:
 | migration.initContainer.image.repository | string | `"innovatrics/smartface/sf-admin"` | Docker image repository |
 | migration.initContainer.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | migration.initContainer.resources | object | `{}` |  |
+| minio | object | `{"defaultBuckets":"smartface","enabled":true}` | config for minio subchart, see https://github.com/bitnami/charts/tree/main/bitnami/minio |
 | nameOverride | string | `nil` | Overrides the chart's name |
 | podAnnotations | object | `{}` | Common annotations for all pods |
 | podLabels | object | `{}` | Common labels for all pods |
@@ -498,6 +525,9 @@ stringData:
 * <https://github.com/innovatrics/smartface>
 
 ## Breaking changes
+
+### [v0.5.0]
+- MinIO subchart is enabled and used by default. To keep using S3 bucket managed outside of this helm chart please set the `minio.enabled` value to `false` and provide configuration details via `configurations.s3`
 
 ### [v0.4.0]
 - Changed default behavior for creating S3 configuration. If you like to continue managing the previously created S3 config map please use the `configurations.s3.existingConfigMapName` field. Otherwise the ConfigMap will be managed by the helm chart using the values provided in `configurations.s3`
