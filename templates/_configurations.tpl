@@ -49,7 +49,6 @@ Template used for adding S3 configuration to containers
     configMapKeyRef:
       name: {{ $configName | quote }}
       key: "endpoint"
-      optional: true
 - name: "S3Bucket__AccessKey"
   valueFrom:
     secretKeyRef:
