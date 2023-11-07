@@ -17,15 +17,17 @@ helm install smartface oci://ghcr.io/innovatrics/sf-helm/smartface
 The helm chart needs certain objects to be present in the cluster before it can be installed. Refer to `external-config.yaml` for examples for the required objects:
 
 1. [Registry credentials secret](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-by-providing-credentials-on-the-command-line)
-  - Get the credentials from [Customer portal](https://customerportal.innovatrics.com)
-  - The secret name must match `imagePullSecrets` value
-  - see comments in `external-config.yaml` for commands to create kubernetes manifest with credentials
+    - Get the credentials from [Customer portal](https://customerportal.innovatrics.com)
+    - The secret name must match `imagePullSecrets` value
+    - see comments in `external-config.yaml` for commands to create kubernetes manifest with credentials
+
 1. License file secret
-  - Get the license file from [Customer portal](https://customerportal.innovatrics.com)
-  - The secret name must match `license.secretName` value
-  - see comments in `external-config.yaml` for commands to create kubernetes manifest with license file
+    - Get the license file from [Customer portal](https://customerportal.innovatrics.com)
+    - The secret name must match `license.secretName` value
+    - see comments in `external-config.yaml` for commands to create kubernetes manifest with license file
+
 1. Optionally [KEDA](https://keda.sh/) for autoscaling
-  - see `autoscaling.*` values for more info
+    - see `autoscaling.*` values for more info
 
 ## Ingress
 
