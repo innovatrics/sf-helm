@@ -2,11 +2,27 @@
 Template used for adding database configuration to containers
 */}}
 {{- define "smartface.dbConfig" -}}
+{{- if .Values.postgresql.enabled }}
+- name: "DB_HOST"
+  value: "{{ .Release.Name }}-postgresql.{{ .Release.Namespace }}.svc.cluster.local"
+- name: "DB_USER"
+  value: "postgres"
+- name: "DB_DATABASE"
+  value: "smartface"
+- name: "DB_PASSWORD"
+  valueFrom:
+    secretKeyRef:
+      name: "{{ .Release.Name }}-postgresql"
+      key: "postgres-password"
+- name: "ConnectionStrings__CoreDbContext"
+  value: "Server=$(DB_HOST);Database=$(DB_DATABASE);Username=$(DB_USER);Password=$(DB_PASSWORD);"
+{{- else }}
 - name: "ConnectionStrings__CoreDbContext"
   valueFrom:
     secretKeyRef:
       name: {{ .Values.configurations.database.existingSecretName | quote }}
       key: {{ .Values.configurations.database.connectionStringKey | quote }}
+{{- end }}
 - name: "Database__DbEngine"
   value: "PgSql"
 {{- end }}

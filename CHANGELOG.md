@@ -5,9 +5,12 @@
 ### Added
 - Support for using [minio subchart](https://github.com/bitnami/charts/tree/main/bitnami/minio) in place of S3 bucket
   - This is now default behavior of the helm chart
+- Support for using [postgresql subchart](https://github.com/bitnami/charts/tree/main/bitnami/postgresql) in place of externally managed PgSQL instance
+  - This is now default behavior of the helm chart
 
 ### Breaking change
 - MinIO subchart is enabled and used by default. To keep using S3 bucket managed outside of this helm chart please set the `minio.enabled` value to `false` and provide configuration details via `configurations.s3`
+- Postgresql subchart is enabled and used by default. To keep using PgSQL instance managed outside of this helm chart please set the `postgresql.enabled` value to `false` and provide configuration details via `configurations.database`
 
 ## [v0.4.0]
 

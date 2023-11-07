@@ -15,6 +15,10 @@ dependencies:
     version: "12.8.15"
     repository: "oci://registry-1.docker.io/bitnamicharts"
     condition: minio.enabled
+  - name: postgresql
+    version: "13.2.1"
+    repository: "oci://registry-1.docker.io/bitnamicharts"
+    condition: postgresql.enabled
 
 type: application
 

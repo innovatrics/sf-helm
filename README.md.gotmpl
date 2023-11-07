@@ -25,14 +25,6 @@ The helm chart needs certain objects to be present in the cluster before it can 
   - Get the license file from [Customer portal](https://customerportal.innovatrics.com)
   - The secret name must match `license.secretName` value
   - see comments in `external-config.yaml` for commands to create kubernetes manifest with license file
-1. S3 bucket
-  - Create an S3 bucket
-  - Configure details of S3 bucket by supplying values to object `configurations.s3`
-1. pgsql server
-  - Create a PgSql server
-  - Create a Secret - see `external-config.yaml` for example
-  - Secret name must match `configurations.database.secretName` value
-  - key in the Secret must match `configurations.database.connectionStringKey` value
 1. Optionally [KEDA](https://keda.sh/) for autoscaling
   - see `autoscaling.*` values for more info
 
@@ -103,6 +95,26 @@ data:
   useBucketRegion: "true"
 ```
 
+### Postgresql
+To use externally managed PgSQL instance:
+- set `postgresql.enabled=false`
+- provide databse configuration:
+  - create a Secret - see `external-config.yaml` for example
+  - secret name must match `configurations.database.secretName` value
+  - key in the Secret must match `configurations.database.connectionStringKey` value
+  - see Sample objects for example
+
+#### Sample objects
+```
+apiVersion: v1
+stringData:
+  # supply pgsql server connection string - https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/connection-strings
+  cs: "Server=<hostname>;Database=<db-name>;Username=<username>;Password=<password>;"
+kind: Secret
+metadata:
+  name: db-cs
+```
+
 {{ template "chart.valuesSection" . }}
 
 {{ template "chart.maintainersSection" . }}
@@ -113,6 +125,7 @@ data:
 
 ### [v0.5.0]
 - MinIO subchart is enabled and used by default. To keep using S3 bucket managed outside of this helm chart please set the `minio.enabled` value to `false` and provide configuration details via `configurations.s3`
+- Postgresql subchart is enabled and used by default. To keep using PgSQL instance managed outside of this helm chart please set the `postgresql.enabled` value to `false` and provide configuration details via `configurations.database`
 
 ### [v0.4.0]
 - Changed default behavior for creating S3 configuration. If you like to continue managing the previously created S3 config map please use the `configurations.s3.existingConfigMapName` field. Otherwise the ConfigMap will be managed by the helm chart using the values provided in `configurations.s3`

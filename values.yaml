@@ -122,6 +122,14 @@ minio:
   enabled: true
   defaultBuckets: "smartface"
 
+# -- config for postgresql subchart, see https://github.com/bitnami/charts/tree/main/bitnami/postgresql
+postgresql:
+  enabled: true
+  primary:
+    initdb:
+      scripts:
+        create-database.sql: "CREATE DATABASE smartface"
+
 api:
   enabled: true
   name: "api"
