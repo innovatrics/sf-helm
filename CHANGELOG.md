@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.5.0]
+
+### Added
+- Support for using [minio subchart](https://github.com/bitnami/charts/tree/main/bitnami/minio) in place of S3 bucket
+  - This is now default behavior of the helm chart
+
+### Breaking change
+- MinIO subchart is enabled and used by default. To keep using S3 bucket managed outside of this helm chart please set the `minio.enabled` value to `false` and provide configuration details via `configurations.s3`
+
 ## [v0.4.0]
 
 ### Added

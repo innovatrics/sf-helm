@@ -117,6 +117,11 @@ rabbitmq:
       port: 5552
       targetPort: 5552
 
+# -- config for minio subchart, see https://github.com/bitnami/charts/tree/main/bitnami/minio
+minio:
+  enabled: true
+  defaultBuckets: "smartface"
+
 api:
   enabled: true
   name: "api"

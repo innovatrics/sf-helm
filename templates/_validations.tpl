@@ -5,20 +5,20 @@ Compile all warnings into a single message, and call fail.
 {{- define "smartface.validate" -}}
 {{- $messages := list -}}
 
-{{- $messages := append $messages (trim (include "smartface.validate.multitenantEdge" .)) -}}
-{{- $messages := append $messages (trim (include "smartface.validate.stationDeps" .)) -}}
+{{- $messages = append $messages (trim (include "smartface.validate.multitenantEdge" .)) -}}
+{{- $messages = append $messages (trim (include "smartface.validate.stationDeps" .)) -}}
 
 {{- if not .Values.skipLookupBasedValidations -}}
-{{- $messages := append $messages (trim (include "smartface.validate.dbConnectionSecret" .)) -}}
-{{- $messages := append $messages (trim (include "smartface.validate.s3Config" .)) -}}
-{{- $messages := append $messages (trim (include "smartface.validate.licenseSecret" .)) -}}
-{{- $messages := append $messages (trim (include "smartface.validate.authConfig" .)) -}}
-{{- $messages := append $messages (trim (include "smartface.validate.registryCreds" .)) -}}
-{{- $messages := append $messages (trim (include "smartface.validate.rmqConfig" .)) -}}
-{{- $messages := append $messages (trim (include "smartface.validate.mqttConfig" .)) -}}
+{{- $messages = append $messages (trim (include "smartface.validate.dbConnectionSecret" .)) -}}
+{{- $messages = append $messages (trim (include "smartface.validate.s3Config" .)) -}}
+{{- $messages = append $messages (trim (include "smartface.validate.licenseSecret" .)) -}}
+{{- $messages = append $messages (trim (include "smartface.validate.authConfig" .)) -}}
+{{- $messages = append $messages (trim (include "smartface.validate.registryCreds" .)) -}}
+{{- $messages = append $messages (trim (include "smartface.validate.rmqConfig" .)) -}}
+{{- $messages = append $messages (trim (include "smartface.validate.mqttConfig" .)) -}}
 {{- end -}}
 
-{{- $messages := without $messages "" -}}
+{{- $messages = without $messages "" -}}
 {{- $message := join "\n" $messages -}}
 {{- if $message -}}
 {{-   printf "\nVALIDATIONS:\n%s" $message | fail -}}
@@ -60,6 +60,11 @@ Validate that the S3 config map exists with correct keys
 */}}
 {{- define "smartface.validate.s3Config" -}}
 {{- $existingConfigMap := .Values.configurations.s3.existingConfigMapName -}}
+{{- if .Values.minio.enabled -}}
+{{- if $existingConfigMap }}
+Cannot deploy minio and use existing ConfigMap. Either disable minio deployment by setting `minio.enabled` to `false` or don't provide value for `configurations.s3.existingConfigMapName`
+{{- end }}
+{{- else}}
 {{- if $existingConfigMap -}}
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "name") }}
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "region") }}
@@ -72,6 +77,7 @@ Please provide value for `configurations.s3.bucketName`
 {{- end }}
 {{- if not .Values.configurations.s3.bucketRegion }}
 Please provide value for `configurations.s3.bucketRegion`
+{{- end -}}
 {{- end -}}
 {{- end -}}
 {{- end -}}
