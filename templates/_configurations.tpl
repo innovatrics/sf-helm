@@ -15,7 +15,7 @@ Template used for adding database configuration to containers
       name: "{{ .Release.Name }}-postgresql"
       key: "postgres-password"
 - name: "ConnectionStrings__CoreDbContext"
-  value: "Server=$(DB_HOST);Database=$(DB_DATABASE);Username=$(DB_USER);Password=$(DB_PASSWORD);"
+  value: "Server=$(DB_HOST);Database=$(DB_DATABASE);Username=$(DB_USER);Password='$(DB_PASSWORD)';"
 {{- else }}
 - name: "ConnectionStrings__CoreDbContext"
   valueFrom:
