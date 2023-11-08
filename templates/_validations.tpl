@@ -52,7 +52,9 @@ Station requires enabled graphqlApi to work properly
 Validate that the Database connection string secret exists with correct key
 */}}
 {{- define "smartface.validate.dbConnectionSecret" -}}
+{{- if not .Values.postgresql.enabled -}}
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" .Release.Namespace "Name" .Values.configurations.database.existingSecretName "Key" .Values.configurations.database.connectionStringKey) }}
+{{- end -}}
 {{- end -}}
 
 {{/*

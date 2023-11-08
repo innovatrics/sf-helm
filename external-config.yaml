@@ -21,10 +21,3 @@ kind: Secret
 metadata:
   name: iface-lic
 ---
-apiVersion: v1
-stringData:
-# supply pgsql server
-  cs: "Server=<hostname>;Database=<db-name>;Username=<username>;Password=<password>;"
-kind: Secret
-metadata:
-  name: db-cs

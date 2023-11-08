@@ -71,8 +71,8 @@ Init container to perform database migration before starting the main container
   args: [
     "run-migration",
     "-p", "1",
-    "-c", "$(db_cs)",
-    "-dbe", "PgSql",
+    "-c", "$(ConnectionStrings__CoreDbContext)",
+    "-dbe", "$(Database__DbEngine)",
     "--rmq-host", "$(RabbitMQ__Hostname)",
     "--rmq-user", "$(RabbitMQ__Username)",
     "--rmq-pass", "$(RabbitMQ__Password)",
@@ -80,11 +80,7 @@ Init container to perform database migration before starting the main container
     "--rmq-use-ssl", "$(RabbitMQ__UseSsl)",
     "--rmq-virtual-host", "/"]
   env:
-    - name: "db_cs"
-      valueFrom:
-        secretKeyRef:
-          name: {{ .Values.configurations.database.existingSecretName | quote }}
-          key: {{ .Values.configurations.database.connectionStringKey | quote }}
+    {{- include "smartface.dbConfig" . | nindent 4 }}
     {{- include "smartface.rmqConfig" . | nindent 4 }}
   resources:
     {{- toYaml .Values.migration.initContainer.resources | nindent 4 }}

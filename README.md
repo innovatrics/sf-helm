@@ -17,23 +17,17 @@ helm install smartface oci://ghcr.io/innovatrics/sf-helm/smartface
 The helm chart needs certain objects to be present in the cluster before it can be installed. Refer to `external-config.yaml` for examples for the required objects:
 
 1. [Registry credentials secret](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-by-providing-credentials-on-the-command-line)
-  - Get the credentials from [Customer portal](https://customerportal.innovatrics.com)
-  - The secret name must match `imagePullSecrets` value
-  - see comments in `external-config.yaml` for commands to create kubernetes manifest with credentials
+    - Get the credentials from [Customer portal](https://customerportal.innovatrics.com)
+    - The secret name must match `imagePullSecrets` value
+    - see comments in `external-config.yaml` for commands to create kubernetes manifest with credentials
+
 1. License file secret
-  - Get the license file from [Customer portal](https://customerportal.innovatrics.com)
-  - The secret name must match `license.secretName` value
-  - see comments in `external-config.yaml` for commands to create kubernetes manifest with license file
-1. S3 bucket
-  - Create an S3 bucket
-  - Configure details of S3 bucket by supplying values to object `configurations.s3`
-1. pgsql server
-  - Create a PgSql server
-  - Create a Secret - see `external-config.yaml` for example
-  - Secret name must match `configurations.database.secretName` value
-  - key in the Secret must match `configurations.database.connectionStringKey` value
+    - Get the license file from [Customer portal](https://customerportal.innovatrics.com)
+    - The secret name must match `license.secretName` value
+    - see comments in `external-config.yaml` for commands to create kubernetes manifest with license file
+
 1. Optionally [KEDA](https://keda.sh/) for autoscaling
-  - see `autoscaling.*` values for more info
+    - see `autoscaling.*` values for more info
 
 ## Ingress
 
@@ -45,6 +39,7 @@ By default an ingress object is created with the helm chart. To configure the in
 |------------|------|---------|
 | oci://ghcr.io/innovatrics/sf-helm | sf-tenant-operator | 0.2.0 |
 | oci://registry-1.docker.io/bitnamicharts | minio | 12.8.15 |
+| oci://registry-1.docker.io/bitnamicharts | postgresql | 13.2.1 |
 | oci://registry-1.docker.io/bitnamicharts | rabbitmq | 12.0.4 |
 
 All chart dependencies are optional and can be disabled and supplemented with other (for example cloud-based) alternatives
@@ -106,6 +101,26 @@ data:
   folder: "sface"
   authType: "AssumedRole"
   useBucketRegion: "true"
+```
+
+### Postgresql
+To use externally managed PgSQL instance:
+- set `postgresql.enabled=false`
+- provide databse configuration:
+  - create a Secret - see `external-config.yaml` for example
+  - secret name must match `configurations.database.secretName` value
+  - key in the Secret must match `configurations.database.connectionStringKey` value
+  - see Sample objects for example
+
+#### Sample objects
+```
+apiVersion: v1
+stringData:
+  # supply pgsql server connection string - https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/connection-strings
+  cs: "Server=<hostname>;Database=<db-name>;Username=<username>;Password=<password>;"
+kind: Secret
+metadata:
+  name: db-cs
 ```
 
 ## Values
@@ -439,6 +454,7 @@ data:
 | nameOverride | string | `nil` | Overrides the chart's name |
 | podAnnotations | object | `{}` | Common annotations for all pods |
 | podLabels | object | `{}` | Common labels for all pods |
+| postgresql | object | `{"enabled":true,"primary":{"initdb":{"scripts":{"create-database.sql":"CREATE DATABASE smartface"}}}}` | config for postgresql subchart, see https://github.com/bitnami/charts/tree/main/bitnami/postgresql |
 | rabbitmq | object | `{"auth":{"erlangCookie":"","existingSecretName":"","password":"","secretKey":"rabbitmq-password","username":"smartface"},"enabled":true,"extraPlugins":"rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt","mqttConfiguration":{"existingConfigMapName":"","hostname":"","port":1883,"useSsl":false,"username":""},"mqttPublicService":{"enabled":false,"mqttDnsHost":""},"rmqConfiguration":{"existingConfigMapName":"","hostname":"","port":5672,"streamsPort":5552,"useSsl":false,"username":""},"service":{"extraPorts":[{"name":"mqtt","port":1883,"targetPort":1883},{"name":"rmq-stream","port":5552,"targetPort":5552}]}}` | config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq |
 | rabbitmq.auth.erlangCookie | string | `""` | used by subchart |
 | rabbitmq.auth.existingSecretName | string | `""` | supply to bring you own secret. The secret needs to contain rabbitmq password under the key with name defined in `rabbitmq.auth.secretKey` |
@@ -528,6 +544,7 @@ data:
 
 ### [v0.5.0]
 - MinIO subchart is enabled and used by default. To keep using S3 bucket managed outside of this helm chart please set the `minio.enabled` value to `false` and provide configuration details via `configurations.s3`
+- Postgresql subchart is enabled and used by default. To keep using PgSQL instance managed outside of this helm chart please set the `postgresql.enabled` value to `false` and provide configuration details via `configurations.database`
 
 ### [v0.4.0]
 - Changed default behavior for creating S3 configuration. If you like to continue managing the previously created S3 config map please use the `configurations.s3.existingConfigMapName` field. Otherwise the ConfigMap will be managed by the helm chart using the values provided in `configurations.s3`
