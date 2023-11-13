@@ -51,6 +51,7 @@ jobs:
       - name: Install helm chart
         run: |
           helm install smartface .
+          kubectl rollout status deployment sf-api --timeout=300s
       - name: Test helm chart
         run: |
           helm test smartface
