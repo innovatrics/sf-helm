@@ -50,9 +50,12 @@ jobs:
           kubectl apply -f lic-secret.yaml
       - name: Install helm chart
         run: |
+          kubectl get storageclass
           helm install smartface .
-          kubectl rollout status deployment sf-api --timeout=600s || true
+          kubectl rollout status deployment sf-api --timeout=60s || true
           kubectl describe deployment sf-api
+          kubectl logs deployment sf-api
+          kubectl describe statefulset smartface-rabbitmq
       - name: Test helm chart
         run: |
           helm test smartface
