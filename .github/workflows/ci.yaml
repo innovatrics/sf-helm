@@ -51,10 +51,9 @@ jobs:
       - name: Install helm chart
         run: |
           kubectl get storageclass
-          helm install smartface .
+          helm install smartface . --set rabbitmq.persistence.enabled=false --set postgresql.primary.persistence.enabled=false --set minio.persistence.enabled=false
           kubectl rollout status deployment sf-api --timeout=60s || true
           kubectl describe deployment sf-api
-          kubectl logs deployment sf-api
           kubectl describe statefulset smartface-rabbitmq
       - name: Test helm chart
         run: |
