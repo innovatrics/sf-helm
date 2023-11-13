@@ -42,8 +42,8 @@ jobs:
           kubectl create secret docker-registry --dry-run=client sf-gitlab-registry-creds \
             --docker-server=registry.gitlab.com \
             --docker-username=sf-distribution \
-            --docker-password=$(REGISTRY_PASS) -o yaml > docker-secret.yaml
-          echo $(LICENSE_BASE64) | base64 -d > iengine.lic
+            --docker-password=${REGISTRY_PASS} -o yaml > docker-secret.yaml
+          echo ${LICENSE_BASE64} | base64 -d > iengine.lic
           kubectl create secret generic --dry-run=client iface-lic \
             --from-file=iengine.lic -o yaml > lic-secret.yaml
           kubectl apply -f docker-secret.yaml
