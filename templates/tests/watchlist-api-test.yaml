@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "wl-test"
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: test
+      image: registry.gitlab.com/innovatrics/smartface/sf-cloud-func-test:2
+      args: ['--filter', 'SkipOnPlatform!=Cloud']
+      env:
+      - name: "SF_TEST_API_URL"
+        value: "http://{{ include "smartface.api.name" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.api.servicePort }}"
+  restartPolicy: Never
+  {{- with .Values.imagePullSecrets }}
+  imagePullSecrets:
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
