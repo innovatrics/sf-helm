@@ -1,0 +1,25 @@
+rabbitmq:
+  persistence:
+    enabled: false
+postgresql:
+  primary:
+    persistence:
+      enabled: false
+minio:
+  persistence:
+    enabled: false
+
+api:
+  resources: {}
+authApi:
+  resources: {}
+graphqlApi:
+  resources: {}
+detector:
+  resources: {}
+extractor:
+  resources: {}
+matcher:
+  resources: {}
+liveness:
+  resources: {}
