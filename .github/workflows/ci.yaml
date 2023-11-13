@@ -51,7 +51,7 @@ jobs:
       - name: Install helm chart
         run: |
           helm install -f ci-values.yaml smartface .
-          kubectl rollout status deployment sf-api --timeout=60s || true
+          kubectl rollout status deployment sf-api --timeout=600s || true
           kubectl cluster-info dump > cluster-info.txt
       - name: Archive cluster-info
         uses: actions/upload-artifact@v3
