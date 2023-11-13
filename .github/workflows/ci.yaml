@@ -50,13 +50,15 @@ jobs:
           kubectl apply -f lic-secret.yaml
       - name: Install helm chart
         run: |
-          kubectl get storageclass
-          kubectl get nodes
-          kubectl describe node
           helm install -f ci-values.yaml smartface .
           kubectl rollout status deployment sf-api --timeout=60s || true
-          kubectl describe deployment sf-api
-          kubectl describe statefulset smartface-rabbitmq
+          kubectl cluster-info dump > cluster-info.txt
+      - name: Archive cluster-info
+        uses: actions/upload-artifact@v3
+        with:
+          name: cluster-info
+          path: |
+            cluster-info.txt
       - name: Test helm chart
         run: |
           helm test smartface
