@@ -10,16 +10,16 @@ minio:
     enabled: false
 
 api:
-  resources: {}
+  resources: null
 authApi:
-  resources: {}
+  resources: null
 graphqlApi:
-  resources: {}
+  resources: null
 detector:
-  resources: {}
+  resources: null
 extractor:
-  resources: {}
+  resources: null
 matcher:
-  resources: {}
+  resources: null
 liveness:
-  resources: {}
+  resources: null
