@@ -495,7 +495,7 @@ metadata:
 | station.annotations | object | `{}` | Annotations for station deployment |
 | station.containerPort | int | `80` |  |
 | station.dnsHost | string | `""` |  |
-| station.enabled | bool | `true` |  |
+| station.enabled | bool | `false` |  |
 | station.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | station.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | station.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |

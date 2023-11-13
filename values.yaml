@@ -592,7 +592,7 @@ accessController:
     pullPolicy: IfNotPresent
 
 station:
-  enabled: true
+  enabled: false
   name: "station"
   servicePort: 8000
   containerPort: 80
