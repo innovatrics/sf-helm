@@ -769,6 +769,25 @@ countlyPublisher:
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
 
+tests:
+  # -- Annotations for test pods
+  podAnnotations: {}
+  # -- Additional labels for test pods
+  podLabels: {}
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-cloud-func-tests
+    # -- Countly publisher follows different versioning, so the chart app needs to be overridden
+    tag: "v5_4.22.0.5164-dev"
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
 metrics:
   enabled: false
   monitorDiscoveryLabel:

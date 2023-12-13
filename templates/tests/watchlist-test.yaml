@@ -1,0 +1,52 @@
+{{- if .Values.api.enabled }}
+{{- $name := include "smartface.watchlistTests.name" . -}}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ $name | quote }}
+  annotations:
+    "helm.sh/hook": test
+    {{- with .Values.podAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.tests.podAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  labels:
+    {{- with .Values.podLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.tests.podLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+  automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
+  {{- with .Values.imagePullSecrets }}
+  imagePullSecrets:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  containers:
+  - name: {{ $name | quote }}
+    image: {{ include "smartface.image" (dict "local" .Values.tests.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+    imagePullPolicy: {{ .Values.tests.image.pullPolicy }}
+    args: ['--filter', 'Category=Watchlists&SkipOnPlatform!=Cloud']
+    env:
+    - name: "SF_TEST_API_URL"
+      value: "http://{{ include "smartface.api.name" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.api.servicePort }}"
+      # .Values.api.enabled
+      # .Values.graphqlApi.enableAuth
+    volumeMounts:
+    {{- include "smartface.licVolumeMount" . | nindent 4 }}
+  volumes:
+    {{- include "smartface.licVolume" . | nindent 4 }}
+  {{- with .Values.tests.nodeSelector }}
+  nodeSelector:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.tests.tolerations }}
+  tolerations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  restartPolicy: Never
+{{- end }}

@@ -33,6 +33,18 @@ The helm chart needs certain objects to be present in the cluster before it can 
 
 By default an ingress object is created with the helm chart. To configure the ingress please see the `ingress.*` values
 
+## Tests
+
+[Helm chart tests](https://helm.sh/docs/topics/chart_tests/) are included and can be run using `helm test` command. The aim of these tests is to touch most of the deployments to check wether SmartFace components deployed successfully and are working. Their successful completion is not a guarantee that the application is fully functional.
+
+Based on the configured functionality of the helm chart (values) some tests might not be run as they might require functionality which is not deployed. Please see the test pod templates to see the impact of configured values to test pods which are run in the helm chart tests.
+
+In case the tests fail please refer to the output of the test pod to identify the issue.
+
+### Test data
+
+During the tests some data (Watchlists / EdgeStreams) will be created in the deployed smartface. The tests will try to cleanup all data they created without touching any other data present in the system, but the note that the cleanup might fail for various reasons, resulting in test data being left behind in the system.
+
 ## Requirements
 
 | Repository | Name | Version |
@@ -528,6 +540,15 @@ metadata:
 | streamDataDbWorker.resources.requests.cpu | string | `"100m"` |  |
 | streamDataDbWorker.resources.requests.memory | string | `"100M"` |  |
 | streamDataDbWorker.tolerations | list | `[]` |  |
+| tests.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| tests.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| tests.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| tests.image.repository | string | `"innovatrics/smartface/sf-cloud-func-tests"` | Docker image repository |
+| tests.image.tag | string | `"v5_4.22.0.5164-dev"` | Countly publisher follows different versioning, so the chart app needs to be overridden |
+| tests.nodeSelector | object | `{}` |  |
+| tests.podAnnotations | object | `{}` | Annotations for test pods |
+| tests.podLabels | object | `{}` | Additional labels for test pods |
+| tests.tolerations | list | `[]` |  |
 
 ## Maintainers
 

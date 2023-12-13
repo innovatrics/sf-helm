@@ -1,0 +1,66 @@
+{{- if (and .Values.features.edgeStreams.enabled .Values.api.enabled .Values.graphqlApi.enabled (not .Values.graphqlApi.enableAuth) (eq .Values.edgeStreamProcessor.operationMode.matchingDataStrategy "ServerOnly")) }}
+{{- $name := include "smartface.edgeStreamTests.name" . -}}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ $name | quote }}
+  annotations:
+    "helm.sh/hook": test
+    {{- with .Values.podAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.tests.podAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  labels:
+    {{- with .Values.podLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.tests.podLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+  automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
+  {{- with .Values.imagePullSecrets }}
+  imagePullSecrets:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  containers:
+  - name: {{ $name | quote }}
+    image: {{ include "smartface.image" (dict "local" .Values.tests.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+    imagePullPolicy: {{ .Values.tests.image.pullPolicy }}
+    args: ['--filter', 'Category=EdgeStreams']
+    env:
+    - name: "SF_TEST_API_URL"
+      value: "http://{{ include "smartface.api.name" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.api.servicePort }}"
+    - name: "SF_TEST_GQL_API_URL"
+      value: "http://{{ include "smartface.graphqlApi.name" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.graphqlApi.servicePort }}"
+    - name: "SF_ZMQ_HOST"
+      value: "{{ include "smartface.base.name" . }}.{{ .Release.Namespace }}.svc.cluster.local"
+    - name: "SF_ZMQ_PORT"
+      value: "{{ .Values.base.zmqServicePort }}"
+
+    {{- include "smartface.mqttConfig" . | nindent 4 }}
+    - name: "SF_MQTT_HOST"
+      value: "$(MQTT__Hostname)"
+    - name: "SF_MQTT_PORT"
+      value: "$(MQTT__Port)"
+    - name: "SF_MQTT_USER"
+      value: "$(MQTT__Username)"
+    - name: "SF_MQTT_PASS"
+      value: "$(MQTT__Password)"
+    volumeMounts:
+    {{- include "smartface.licVolumeMount" . | nindent 4 }}
+  volumes:
+    {{- include "smartface.licVolume" . | nindent 4 }}
+  {{- with .Values.tests.nodeSelector }}
+  nodeSelector:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.tests.tolerations }}
+  tolerations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  restartPolicy: Never
+{{- end }}
