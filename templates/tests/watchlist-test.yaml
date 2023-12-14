@@ -34,8 +34,6 @@ spec:
     env:
     - name: "SF_TEST_API_URL"
       value: "http://{{ include "smartface.api.name" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.api.servicePort }}"
-      # .Values.api.enabled
-      # .Values.graphqlApi.enableAuth
     volumeMounts:
     {{- include "smartface.licVolumeMount" . | nindent 4 }}
   volumes:
