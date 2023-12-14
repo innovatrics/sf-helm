@@ -28,18 +28,14 @@ spec:
           "--rmq-virtual-host", "/",
           "--rmq-streams-port", "$(RabbitMQ__StreamsPort)",
 
-          "--connection-string", "$(db_cs)",
-          "-dbe", "PgSql",
+          "--connection-string", "$(ConnectionStrings__CoreDbContext)",
+          "-dbe", "$(Database__DbEngine)",
 
           "--generation-id", {{ uuidv4 | quote }},
           "--tenant-id", "default"
         ]
         env:
-        - name: "db_cs"
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.configurations.database.existingSecretName | quote }}
-              key: {{ .Values.configurations.database.connectionStringKey | quote }}
+        {{- include "smartface.dbConfig" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
         volumeMounts:
         {{- include "smartface.licVolumeMount" . | nindent 8 }}

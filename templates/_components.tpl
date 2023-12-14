@@ -465,3 +465,34 @@ Template used for resolving S3 config map name
 {{- $suffix := "s3" -}}
 {{- printf "%s-%s" $prefix $suffix -}}
 {{- end -}}
+
+{{/*
+Tests
+*/}}
+
+{{/*
+Template used for resolving Watchlist tests name
+*/}}
+{{- define "smartface.watchlistTests.name" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := "watchlist-tests" -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}
+
+{{/*
+Template used for resolving Edge Stream tests name
+*/}}
+{{- define "smartface.edgeStreamTests.name" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := "edge-stream-tests" -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}
+
+{{/*
+Template used for resolving GraphQL tests name
+*/}}
+{{- define "smartface.graphQlTests.name" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := "graphql-tests" -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}
