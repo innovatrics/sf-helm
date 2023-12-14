@@ -1,9 +1,6 @@
 # Changelog
 
 ## [v0.6.0]
-<!-- tests -->
-<!-- breaking change station disabled -->
-<!-- breaking change station disabled -->
 
 ### Added
 - Added test pods supporting `helm test` command
