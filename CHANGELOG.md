@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.5.1]
+
+### Changed
+- Bumped version of SmartFace Platform and SmartFace Station
+
 ## [v0.5.0]
 
 ### Added
