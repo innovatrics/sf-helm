@@ -480,6 +480,15 @@ Template used for resolving Watchlist tests name
 {{- end -}}
 
 {{/*
+Template used for resolving Watchlist tests with authentication name
+*/}}
+{{- define "smartface.authWatchlistTests.name" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := "watchlist-auth-tests" -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}
+
+{{/*
 Template used for resolving Edge Stream tests name
 */}}
 {{- define "smartface.edgeStreamTests.name" }}

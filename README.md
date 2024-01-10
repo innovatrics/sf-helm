@@ -540,11 +540,13 @@ metadata:
 | streamDataDbWorker.resources.requests.cpu | string | `"100m"` |  |
 | streamDataDbWorker.resources.requests.memory | string | `"100M"` |  |
 | streamDataDbWorker.tolerations | list | `[]` |  |
+| tests.authentication.tenant1.clientId | string | `""` |  |
+| tests.authentication.tenant1.clientSecret | string | `""` |  |
 | tests.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | tests.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tests.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | tests.image.repository | string | `"innovatrics/smartface/sf-cloud-func-tests"` | Docker image repository |
-| tests.image.tag | string | `"v5_4.22.0.5164-dev"` | Countly publisher follows different versioning, so the chart app needs to be overridden |
+| tests.image.tag | string | `"v5_4.23.0.5379-dev"` | Countly publisher follows different versioning, so the chart app needs to be overridden |
 | tests.nodeSelector | object | `{}` |  |
 | tests.podAnnotations | object | `{}` | Annotations for test pods |
 | tests.podLabels | object | `{}` | Additional labels for test pods |

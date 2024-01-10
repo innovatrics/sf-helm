@@ -770,6 +770,10 @@ countlyPublisher:
     pullPolicy: IfNotPresent
 
 tests:
+  authentication:
+    tenant1:
+      clientId: ""
+      clientSecret: ""
   # -- Annotations for test pods
   podAnnotations: {}
   # -- Additional labels for test pods
@@ -782,7 +786,7 @@ tests:
     # -- Docker image repository
     repository: innovatrics/smartface/sf-cloud-func-tests
     # -- Countly publisher follows different versioning, so the chart app needs to be overridden
-    tag: "v5_4.22.0.5164-dev"
+    tag: "v5_4.23.0.5379-dev"
     # -- Overrides the image tag with an image digest
     digest: null
     # -- Docker image pull policy

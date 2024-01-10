@@ -1,12 +1,6 @@
-{{- if (and .Values.features.edgeStreams.enabled .Values.graphqlApi.enabled (eq .Values.edgeStreamProcessor.operationMode.matchingDataStrategy "ServerOnly")) }}
-{{- $name := include "smartface.edgeStreamTests.name" . -}}
-{{- $useAuth := (or .Values.graphqlApi.enableAuth .Values.authApi.enabled) -}}
-{{- $apiUrl := "" -}}
-{{- if $useAuth -}}
-{{- $apiUrl = printf "http://%s.%s.svc.cluster.local:%d" (include "smartface.authApi.name" .) .Release.Namespace (.Values.authApi.servicePort | int) -}}
-{{- else -}}
-{{- $apiUrl = printf "http://%s.%s.svc.cluster.local:%d" (include "smartface.api.name" .) .Release.Namespace (.Values.api.servicePort | int) -}}
-{{- end -}}
+{{- if .Values.authApi.enabled -}}
+{{- $name := include "smartface.authWatchlistTests.name" . -}}
+{{- $apiUrl := printf "http://%s.%s.svc.cluster.local:%d" (include "smartface.authApi.name" .) .Release.Namespace (.Values.authApi.servicePort | int) -}}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -37,27 +31,10 @@ spec:
   - name: {{ $name | quote }}
     image: {{ include "smartface.image" (dict "local" .Values.tests.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
     imagePullPolicy: {{ .Values.tests.image.pullPolicy }}
-    args: ['--filter', 'Category=EdgeStreams']
+    args: ['--filter', 'Category=Watchlists&SkipOnPlatform!=Cloud']
     env:
     - name: "SF_TEST_API_URL"
       value: {{ $apiUrl | quote }}
-    - name: "SF_TEST_GQL_API_URL"
-      value: "http://{{ include "smartface.graphqlApi.name" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.graphqlApi.servicePort }}"
-    - name: "SF_ZMQ_HOST"
-      value: "{{ include "smartface.base.name" . }}.{{ .Release.Namespace }}.svc.cluster.local"
-    - name: "SF_ZMQ_PORT"
-      value: "{{ .Values.base.zmqServicePort }}"
-
-    {{- include "smartface.mqttConfig" . | nindent 4 }}
-    - name: "SF_MQTT_HOST"
-      value: "$(MQTT__Hostname)"
-    - name: "SF_MQTT_PORT"
-      value: "$(MQTT__Port)"
-    - name: "SF_MQTT_USER"
-      value: "$(MQTT__Username)"
-    - name: "SF_MQTT_PASS"
-      value: "$(MQTT__Password)"
-    {{- if $useAuth }}
     - name: "SF_TENANT_1_ID"
       value: {{ .Values.tests.authentication.tenant1.clientId }}
     - name: "SF_TENANT_1_SECRET"
@@ -74,7 +51,6 @@ spec:
         configMapKeyRef:
           name: {{ .Values.configurations.apiAuth.configName | quote }}
           key: "oauth_token_url"
-    {{- end }}
     volumeMounts:
     {{- include "smartface.licVolumeMount" . | nindent 4 }}
   volumes:
