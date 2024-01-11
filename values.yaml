@@ -49,7 +49,7 @@ configurations:
     mountPath: "/etc/innovatrics"
   apiAuth:
     # -- supply to bring your own configmap. the configmap needs following keys: `authority`, `audience`, `oauth_token_url` and `oauth_authorize_url`
-    existingConfigMapName: "auth-config"
+    existingConfigMapName: ""
     # -- issuer of JWT which the API will trust
     authority: ""
     # -- audience representing the API

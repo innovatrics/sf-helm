@@ -256,7 +256,7 @@ metadata:
 | base.zmqServicePort | int | `2406` |  |
 | configurations.apiAuth.audience | string | `""` | audience representing the API |
 | configurations.apiAuth.authority | string | `""` | issuer of JWT which the API will trust |
-| configurations.apiAuth.existingConfigMapName | string | `"auth-config"` | supply to bring your own configmap. the configmap needs following keys: `authority`, `audience`, `oauth_token_url` and `oauth_authorize_url` |
+| configurations.apiAuth.existingConfigMapName | string | `""` | supply to bring your own configmap. the configmap needs following keys: `authority`, `audience`, `oauth_token_url` and `oauth_authorize_url` |
 | configurations.apiAuth.oauthAuthorizeUrl | string | `""` | used only for enabling OAuth flows in swagger UI |
 | configurations.apiAuth.oauthTokenUrl | string | `""` | used only for enabling OAuth flows in swagger UI |
 | configurations.database.connectionStringKey | string | `"cs"` | key within the existing secret which contains the connection string, see https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/connection-strings |
