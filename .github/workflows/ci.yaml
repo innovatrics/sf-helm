@@ -38,6 +38,8 @@ jobs:
         env:
           REGISTRY_PASS: ${{ secrets.REGISTRY_PASS }}
           LICENSE_BASE64: ${{ secrets.LICENSE_BASE64 }}
+          TENANT_1_ID: ${{ secrets.TENANT_1_ID }}
+          TENANT_1_SECRET: ${{ secrets.TENANT_1_SECRET }}
         run: |
           kubectl create secret docker-registry --dry-run=client sf-gitlab-registry-creds \
             --docker-server=registry.gitlab.com \
@@ -50,7 +52,7 @@ jobs:
           kubectl apply -f lic-secret.yaml
       - name: Install helm chart
         run: |
-          helm install -f ci-values.yaml smartface .
+          helm install -f ci-values.yaml --set tests.authentication.tenant1.clientId ${TENANT_1_ID} --set tests.authentication.tenant1.clientSecret ${TENANT_1_SECRET} smartface .
           kubectl rollout status deployment sf-api --timeout=300s
           kubectl wait --for=condition=complete job/sf-wl-update-log-population --timeout=300s
       - name: Test helm chart

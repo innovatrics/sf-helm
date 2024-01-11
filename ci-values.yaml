@@ -15,11 +15,17 @@ features:
   edgeStreams:
     enabled: true
 
+configurations:
+  apiAuth:
+    authority: "https://smartface-test.eu.auth0.com"
+    audience: "https://api.ghaction.smartfacecloud.com"
 api:
   resources: null
 authApi:
+  enabled: true
   resources: null
 graphqlApi:
+  enableAuth: true
   resources: null
 detector:
   resources: null

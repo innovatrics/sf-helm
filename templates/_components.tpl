@@ -467,6 +467,15 @@ Template used for resolving S3 config map name
 {{- end -}}
 
 {{/*
+Template used for resolving Auth config map name
+*/}}
+{{- define "smartface.auth.name" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := "auth" -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}
+
+{{/*
 Tests
 */}}
 

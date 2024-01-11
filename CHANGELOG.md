@@ -8,6 +8,8 @@
 ### Breaking change
 - deployment of SmartFace Station is now disabled by default. To reenable previous behavior with deploying SmartFace Station please set the `station.enabled` value to `true`.
   - previous behavior with enabled SmartFace Station caused the installation of helm chart with default values to fail on validation because SmartFace Station is currently dependant on SmartFace API with enabled authentication, which in turn requires the existence of external authentication provider and correct configuration of relevant SmartFace services
+- Changed default behavior for creating Authentication configuration. If you like to continue managing the previously created Authentication config map please use the `configurations.apiAuth.existingConfigMapName` field. Otherwise the ConfigMap will be managed by the helm chart using the values provided in `configurations.apiAuth`
+  - This change also includes renaming previous field `configurations.apiAuth.configName` -> `configurations.apiAuth.existingConfigMapName`
 
 ## [v0.5.1]
 
