@@ -3,7 +3,7 @@
 ## [v0.5.2]
 
 ### Changed
-- Bumped version of SmartFace Platform 4.24
+- Bumped version of SmartFace Platform to 4.24
 
 ## [v0.5.1]
 
