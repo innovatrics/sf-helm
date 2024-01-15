@@ -1,6 +1,7 @@
 {{- if .Values.authApi.enabled -}}
 {{- $name := include "smartface.authWatchlistTests.name" . -}}
 {{- $apiUrl := printf "http://%s.%s.svc.cluster.local:%d" (include "smartface.authApi.name" .) .Release.Namespace (.Values.authApi.servicePort | int) -}}
+{{- $configName := ( .Values.configurations.apiAuth.existingConfigMapName | default (include "smartface.auth.name" . )) }}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -44,12 +45,12 @@ spec:
     - name: "SF_AUTH_AUDIENCE"
       valueFrom:
         configMapKeyRef:
-          name: {{ .Values.configurations.apiAuth.configName | quote }}
+          name: {{ $configName }}
           key: "audience"
     - name: "SF_OAUTH_TOKEN_URL"
       valueFrom:
         configMapKeyRef:
-          name: {{ .Values.configurations.apiAuth.configName | quote }}
+          name: {{ $configName }}
           key: "oauth_token_url"
     volumeMounts:
     {{- include "smartface.licVolumeMount" . | nindent 4 }}
