@@ -19,6 +19,7 @@ configurations:
   apiAuth:
     authority: "https://smartface-test.eu.auth0.com"
     audience: "https://api.ghaction.smartfacecloud.com"
+    oauth_token_url: "https://smartface-test.eu.auth0.com/oauth/token"
 api:
   resources: null
 authApi:

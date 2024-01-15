@@ -112,16 +112,19 @@ Template used for configuring Authentication on APIs
     configMapKeyRef:
       name: {{ $configName }}
       key: "oauth_token_url"
+      optional: true
 - name: "Authentication__SwaggerAuthConfig__AuthCodeTokenUrl"
   valueFrom:
     configMapKeyRef:
       name: {{ $configName }}
       key: "oauth_token_url"
+      optional: true
 - name: "Authentication__SwaggerAuthConfig__AuthCodeAuthorizeUrl"
   valueFrom:
     configMapKeyRef:
       name: {{ $configName }}
       key: "oauth_authorize_url"
+      optional: true
 {{- end }}
 
 {{/*
