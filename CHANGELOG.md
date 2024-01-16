@@ -11,6 +11,11 @@
 - Changed default behavior for creating Authentication configuration. If you like to continue managing the previously created Authentication config map please use the `configurations.apiAuth.existingConfigMapName` field. Otherwise the ConfigMap will be managed by the helm chart using the values provided in `configurations.apiAuth`
   - This change also includes renaming previous field `configurations.apiAuth.configName` -> `configurations.apiAuth.existingConfigMapName`
 
+## [v0.5.2]
+
+### Changed
+- Bumped version of SmartFace Platform to 4.24
+
 ## [v0.5.1]
 
 ### Changed

@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.5.1](https://img.shields.io/badge/Version-0.5.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.23.0](https://img.shields.io/badge/AppVersion-v5_4.23.0-informational?style=flat-square)
+![Version: 0.5.2](https://img.shields.io/badge/Version-0.5.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.24.0](https://img.shields.io/badge/AppVersion-v5_4.24.0-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -550,7 +550,7 @@ metadata:
 | tests.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tests.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | tests.image.repository | string | `"innovatrics/smartface/sf-cloud-func-tests"` | Docker image repository |
-| tests.image.tag | string | `"v5_4.23.0.5379-dev"` | Countly publisher follows different versioning, so the chart app needs to be overridden |
+| tests.image.tag | string | `nil` | Countly publisher follows different versioning, so the chart app needs to be overridden |
 | tests.nodeSelector | object | `{}` |  |
 | tests.podAnnotations | object | `{}` | Annotations for test pods |
 | tests.podLabels | object | `{}` | Additional labels for test pods |
