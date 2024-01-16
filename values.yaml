@@ -592,7 +592,7 @@ accessController:
     pullPolicy: IfNotPresent
 
 station:
-  enabled: true
+  enabled: false
   name: "station"
   servicePort: 8000
   containerPort: 80
@@ -764,6 +764,25 @@ countlyPublisher:
     repository: innovatrics/smartface/sf-countly-publisher
     # -- Countly publisher follows different versioning, so the chart app needs to be overridden
     tag: "31"
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+tests:
+  # -- Annotations for test pods
+  podAnnotations: {}
+  # -- Additional labels for test pods
+  podLabels: {}
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-cloud-func-tests
+    # -- Countly publisher follows different versioning, so the chart app needs to be overridden
+    tag: null
     # -- Overrides the image tag with an image digest
     digest: null
     # -- Docker image pull policy

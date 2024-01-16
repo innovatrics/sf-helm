@@ -1,0 +1,46 @@
+# we don't need persistence since the kind cluster will be deleted after the tests anyway
+rabbitmq:
+  persistence:
+    enabled: false
+postgresql:
+  primary:
+    persistence:
+      enabled: false
+minio:
+  persistence:
+    enabled: false
+
+# We enabled edge streams so we can run all of the tests in one go with all features enabled
+features:
+  edgeStreams:
+    enabled: true
+
+api:
+  resources: null
+authApi:
+  resources: null
+graphqlApi:
+  resources: null
+detector:
+  resources: null
+extractor:
+  resources: null
+matcher:
+  resources: null
+liveness:
+  resources: null
+edgeStreamProcessor:
+  resources: null
+# edge stream tests test WL sync, which requires the population job to be run
+edgeStreamsStateSync:
+  resources: null
+  wlStreamPopulationJob:
+    enabled: true
+base:
+  resources: null
+faceMatcher:
+  resources: null
+accessController:
+  resources: null
+streamDataDbWorker:
+  resources: null

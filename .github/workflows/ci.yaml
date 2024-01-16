@@ -17,6 +17,8 @@ jobs:
           # this is needed only temporarily - see https://github.com/helm/helm/issues/12423
           version: 3.12.3
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v3
       - name: Build helm dependencies
         run: |
           helm dependency build .
@@ -30,3 +32,38 @@ jobs:
       - uses: actions/setup-python@v3
       - uses: gabe565/setup-helm-docs-action@v1
       - uses: pre-commit/action@v3.0.0
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.8.0
+      - name: Install chart prerequisites
+        env:
+          REGISTRY_PASS: ${{ secrets.REGISTRY_PASS }}
+          LICENSE_BASE64: ${{ secrets.LICENSE_BASE64 }}
+        run: |
+          kubectl create secret docker-registry --dry-run=client sf-gitlab-registry-creds \
+            --docker-server=registry.gitlab.com \
+            --docker-username=sf-distribution \
+            --docker-password=${REGISTRY_PASS} -o yaml > docker-secret.yaml
+          echo ${LICENSE_BASE64} | base64 -d > iengine.lic
+          kubectl create secret generic --dry-run=client iface-lic \
+            --from-file=iengine.lic -o yaml > lic-secret.yaml
+          kubectl apply -f docker-secret.yaml
+          kubectl apply -f lic-secret.yaml
+      - name: Install helm chart
+        run: |
+          helm install -f ci-values.yaml smartface .
+          kubectl rollout status deployment sf-api --timeout=300s
+          kubectl wait --for=condition=complete job/sf-wl-update-log-population --timeout=300s
+      - name: Test helm chart
+        run: |
+          helm test smartface
+      - name: Dump cluster info
+        if: ${{ always() }}
+        run: |
+          kubectl cluster-info dump > cluster-info.txt
+      - name: Upload cluster-info
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: cluster-info
+          path: |
+            cluster-info.txt
