@@ -58,23 +58,7 @@ spec:
     - name: "SF_MQTT_PASS"
       value: "$(MQTT__Password)"
     {{- if $useAuth }}
-    {{- $configName := ( .Values.configurations.apiAuth.existingConfigMapName | default (include "smartface.auth.name" . )) }}
-    - name: "SF_TENANT_1_ID"
-      value: {{ .Values.tests.authentication.tenant1.clientId }}
-    - name: "SF_TENANT_1_SECRET"
-      value: {{ .Values.tests.authentication.tenant1.clientSecret }}
-    - name: "SF_USE_AUTH"
-      value: "true"
-    - name: "SF_AUTH_AUDIENCE"
-      valueFrom:
-        configMapKeyRef:
-          name: {{ $configName }}
-          key: "audience"
-    - name: "SF_OAUTH_TOKEN_URL"
-      valueFrom:
-        configMapKeyRef:
-          name: {{ $configName }}
-          key: "oauth_token_url"
+    {{- include "smartface.testsAuthConfig" . | nindent 4 }}
     {{- end }}
     volumeMounts:
     {{- include "smartface.licVolumeMount" . | nindent 4 }}

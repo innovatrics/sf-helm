@@ -780,6 +780,11 @@ countlyPublisher:
 tests:
   authentication:
     tenant1:
+      name: ""
+      clientId: ""
+      clientSecret: ""
+    tenant2:
+      name: ""
       clientId: ""
       clientSecret: ""
   # -- Annotations for test pods

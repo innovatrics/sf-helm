@@ -546,6 +546,10 @@ metadata:
 | streamDataDbWorker.tolerations | list | `[]` |  |
 | tests.authentication.tenant1.clientId | string | `""` |  |
 | tests.authentication.tenant1.clientSecret | string | `""` |  |
+| tests.authentication.tenant1.name | string | `""` |  |
+| tests.authentication.tenant2.clientId | string | `""` |  |
+| tests.authentication.tenant2.clientSecret | string | `""` |  |
+| tests.authentication.tenant2.name | string | `""` |  |
 | tests.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | tests.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tests.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |

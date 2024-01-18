@@ -1,6 +1,8 @@
-{{- if .Values.authApi.enabled -}}
-{{- $name := include "smartface.authWatchlistTests.name" . -}}
+
+{{- if and .Values.authApi.enabled .Values.graphqlApi.enableAuth .Values.features.multitenancy -}}
+{{- $name := include "smartface.multitenantTests.name" . -}}
 {{- $apiUrl := printf "http://%s.%s.svc.cluster.local:%d" (include "smartface.authApi.name" .) .Release.Namespace (.Values.authApi.servicePort | int) -}}
+{{- $apiMetricsUrl := printf "http://%s.%s.svc.cluster.local:%d" (include "smartface.authApi.name" .) .Release.Namespace (.Values.metrics.port | int) -}}
 {{- $configName := ( .Values.configurations.apiAuth.existingConfigMapName | default (include "smartface.auth.name" . )) }}
 apiVersion: v1
 kind: Pod
@@ -32,10 +34,14 @@ spec:
   - name: {{ $name | quote }}
     image: {{ include "smartface.image" (dict "local" .Values.tests.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
     imagePullPolicy: {{ .Values.tests.image.pullPolicy }}
-    args: ['--filter', 'Category=Watchlists&SkipOnPlatform!=Cloud']
+    args: ['--filter', 'Category=Multitenant']
     env:
     - name: "SF_TEST_API_URL"
       value: {{ $apiUrl | quote }}
+    - name: "SF_TEST_GQL_API_URL"
+      value: "http://{{ include "smartface.graphqlApi.name" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.graphqlApi.servicePort }}"
+    - name: "SF_API_METRICS_URL"
+      value: {{ $apiMetricsUrl | quote }}
     {{- include "smartface.testsAuthConfig" . | nindent 4 }}
     volumeMounts:
     {{- include "smartface.licVolumeMount" . | nindent 4 }}
