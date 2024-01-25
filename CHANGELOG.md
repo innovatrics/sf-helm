@@ -4,6 +4,7 @@
 
 ### Added
 - Added test pods supporting `helm test` command
+  - There are multiple test pods, some of which run based on what is possible to test in the selected chart configuration
 
 ### Breaking change
 - deployment of SmartFace Station is now disabled by default. To reenable previous behavior with deploying SmartFace Station please set the `station.enabled` value to `true`.

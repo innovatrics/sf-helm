@@ -2,7 +2,7 @@
 {{- if and .Values.authApi.enabled .Values.graphqlApi.enableAuth .Values.features.multitenancy -}}
 {{- $name := include "smartface.multitenantTests.name" . -}}
 {{- $apiUrl := printf "http://%s.%s.svc.cluster.local:%d" (include "smartface.authApi.name" .) .Release.Namespace (.Values.authApi.servicePort | int) -}}
-{{- $apiMetricsUrl := printf "http://%s.%s.svc.cluster.local:%d" (include "smartface.authApi.name" .) .Release.Namespace (.Values.metrics.port | int) -}}
+{{- $apiMetricsUrl := printf "http://%s.%s.svc.cluster.local:%d/metrics" (include "smartface.authApi.name" .) .Release.Namespace (.Values.metrics.port | int) -}}
 {{- $configName := ( .Values.configurations.apiAuth.existingConfigMapName | default (include "smartface.auth.name" . )) }}
 apiVersion: v1
 kind: Pod

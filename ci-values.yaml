@@ -20,6 +20,14 @@ configurations:
     authority: "https://smartface-test.eu.auth0.com"
     audience: "https://api.ghaction.smartfacecloud.com"
     oauthTokenUrl: "https://smartface-test.eu.auth0.com/oauth/token"
+tests:
+  authentication:
+    tenant1:
+      name: "tenant-1"
+      clientId: "ZwZ71smcNTpCLHdqJNkMeLy2kM6cDwQY"
+    tenant2:
+      name: "tenant-2"
+      clientId: "guwK5NNDOj8hzYXfnJFVq4ZtuLx8RUTZ"
 api:
   resources: null
 authApi:

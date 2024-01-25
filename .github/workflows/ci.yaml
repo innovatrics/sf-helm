@@ -1,5 +1,4 @@
-name: Package and lint
-
+name: Test helm chart
 on:
   push:
     branches:
@@ -7,8 +6,11 @@ on:
     tags-ignore:
       - 'v*'
 jobs:
-  ci:
+  package-lint:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        variant-values: ['ci-multitenant-values.yaml', 'ci-edge-values.yaml']
     steps:
       - uses: actions/checkout@v3
       - name: Setup helm CLI
@@ -32,7 +34,21 @@ jobs:
       - uses: actions/setup-python@v3
       - uses: gabe565/setup-helm-docs-action@v1
       - uses: pre-commit/action@v3.0.0
-      - name: Create kind cluster
+  test-cluster:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup helm CLI
+        uses: azure/setup-helm@v3
+        with:
+          # this is needed only temporarily - see https://github.com/helm/helm/issues/12423
+          version: 3.12.3
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v3
+      - name: Build helm dependencies
+        run: |
+          helm dependency build .- name: Create kind cluster
         uses: helm/kind-action@v1.8.0
       - name: Install chart prerequisites
         env:
@@ -50,10 +66,10 @@ jobs:
           kubectl apply -f lic-secret.yaml
       - name: Install helm chart
         env:
-          TENANT_1_ID: ${{ secrets.TENANT_1_ID }}
           TENANT_1_SECRET: ${{ secrets.TENANT_1_SECRET }}
+          TENANT_2_SECRET: ${{ secrets.TENANT_2_SECRET }}
         run: |
-          helm install smartface . -f ci-values.yaml --set tests.authentication.tenant1.clientId="$TENANT_1_ID" --set tests.authentication.tenant1.clientSecret="$TENANT_1_SECRET"
+          helm install smartface . -f ci-values.yaml --set tests.authentication.tenant1.clientSecret="$TENANT_1_SECRET" --set tests.authentication.tenant2.clientSecret="$TENANT_2_SECRET" -f ${{ matrix.variant-values }}
           kubectl rollout status deployment sf-api --timeout=300s
           kubectl wait --for=condition=complete job/sf-wl-update-log-population --timeout=300s
       - name: Test helm chart
