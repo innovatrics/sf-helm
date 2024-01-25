@@ -1,3 +1,6 @@
 features:
   multitenancy:
     enabled: true
+
+sf-tenant-operator:
+  installCrd: true

@@ -75,9 +75,16 @@ jobs:
         run: |
           helm install smartface . -f ci/test-values.yaml --set tests.authentication.tenant1.clientSecret="$TENANT_1_SECRET" --set tests.authentication.tenant2.clientSecret="$TENANT_2_SECRET" -f ci/${{ matrix.variant }}-values.yaml
           kubectl rollout status deployment sf-api --timeout=300s
-          if helm get values smartface -a | yq -e '.edgeStreamsStateSync.wlStreamPopulationJob.enabled'; then
-            kubectl wait --for=condition=complete job/sf-wl-update-log-population --timeout=300s
-          fi
+      - name: Apply tenant manifests
+        if: ${{ matrix.variant == 'multitenant' }}
+        run: |
+          kubectl apply -f ci/tenants.yaml
+          kubectl rollout status deployment sf-matcher-tenant-1 --timeout=300s
+          kubectl rollout status deployment sf-matcher-tenant-2 --timeout=300s
+      - name: Wait for stream log population job
+        if: ${{ matrix.variant == 'edge' }}
+        run: |
+          kubectl wait --for=condition=complete job/sf-wl-update-log-population --timeout=300s
       - name: Test helm chart
         run: |
           helm test smartface
