@@ -48,7 +48,8 @@ jobs:
         uses: azure/setup-kubectl@v3
       - name: Build helm dependencies
         run: |
-          helm dependency build .- name: Create kind cluster
+          helm dependency build .
+      - name: Create kind cluster
         uses: helm/kind-action@v1.8.0
       - name: Install chart prerequisites
         env:
