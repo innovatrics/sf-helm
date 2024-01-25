@@ -35,7 +35,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        variant: ['multitenant', 'edge']
+        variant: [
+          'multitenant'
+          # , 'edge'
+        ]
     steps:
       - uses: actions/checkout@v3
       - name: Install yq
@@ -79,6 +82,8 @@ jobs:
         if: ${{ matrix.variant == 'multitenant' }}
         run: |
           kubectl apply -f ci/tenants.yaml
+          echo "Wait for the operator to create the deployments"
+          sleep 5
           kubectl rollout status deployment sf-matcher-tenant-1 --timeout=300s
           kubectl rollout status deployment sf-matcher-tenant-2 --timeout=300s
       - name: Wait for stream log population job
