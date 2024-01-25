@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        variant-values: ['ci/multitenant-values.yaml', 'ci/edge-values.yaml']
+        variant: ['multitenant', 'edge']
     steps:
       - uses: actions/checkout@v3
       - name: Install yq
@@ -73,7 +73,7 @@ jobs:
           TENANT_1_SECRET: ${{ secrets.TENANT_1_SECRET }}
           TENANT_2_SECRET: ${{ secrets.TENANT_2_SECRET }}
         run: |
-          helm install smartface . -f ci/test-values.yaml --set tests.authentication.tenant1.clientSecret="$TENANT_1_SECRET" --set tests.authentication.tenant2.clientSecret="$TENANT_2_SECRET" -f ${{ matrix.variant-values }}
+          helm install smartface . -f ci/test-values.yaml --set tests.authentication.tenant1.clientSecret="$TENANT_1_SECRET" --set tests.authentication.tenant2.clientSecret="$TENANT_2_SECRET" -f ci/${{ matrix.variant }}-values.yaml
           kubectl rollout status deployment sf-api --timeout=300s
           if helm get values smartface -a | yq -e '.edgeStreamsStateSync.wlStreamPopulationJob.enabled'; then
             kubectl wait --for=condition=complete job/sf-wl-update-log-population --timeout=300s
@@ -84,11 +84,11 @@ jobs:
       - name: Dump cluster info
         if: ${{ always() }}
         run: |
-          kubectl cluster-info dump > cluster-info.txt
+          kubectl cluster-info dump > cluster-info-${{ matrix.variant }}.txt
       - name: Upload cluster-info
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: cluster-info
           path: |
-            cluster-info.txt
+            cluster-info-${{ matrix.variant }}.txt
