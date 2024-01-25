@@ -38,6 +38,9 @@ jobs:
         variant-values: ['ci/multitenant-values.yaml', 'ci/edge-values.yaml']
     steps:
       - uses: actions/checkout@v3
+      - name: Install yq
+        run: |
+          sudo snap install yq
       - name: Setup helm CLI
         uses: azure/setup-helm@v3
         with:
@@ -72,7 +75,9 @@ jobs:
         run: |
           helm install smartface . -f ci/test-values.yaml --set tests.authentication.tenant1.clientSecret="$TENANT_1_SECRET" --set tests.authentication.tenant2.clientSecret="$TENANT_2_SECRET" -f ${{ matrix.variant-values }}
           kubectl rollout status deployment sf-api --timeout=300s
-          kubectl wait --for=condition=complete job/sf-wl-update-log-population --timeout=300s
+          if helm get values smartface -a | yq -e '.edgeStreamsStateSync.wlStreamPopulationJob.enabled'; then
+            kubectl wait --for=condition=complete job/sf-wl-update-log-population --timeout=300s
+          fi
       - name: Test helm chart
         run: |
           helm test smartface

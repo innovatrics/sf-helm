@@ -41,11 +41,6 @@ liveness:
   resources: null
 edgeStreamProcessor:
   resources: null
-# edge stream tests test WL sync, which requires the population job to be run
-edgeStreamsStateSync:
-  resources: null
-  wlStreamPopulationJob:
-    enabled: true
 base:
   resources: null
 faceMatcher:
