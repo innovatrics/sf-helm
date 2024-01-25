@@ -10,11 +10,6 @@ minio:
   persistence:
     enabled: false
 
-# We enabled edge streams so we can run all of the tests in one go with all features enabled
-features:
-  edgeStreams:
-    enabled: true
-
 configurations:
   apiAuth:
     authority: "https://smartface-test.eu.auth0.com"

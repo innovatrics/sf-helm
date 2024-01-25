@@ -8,9 +8,6 @@ on:
 jobs:
   package-lint:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        variant-values: ['ci-multitenant-values.yaml', 'ci-edge-values.yaml']
     steps:
       - uses: actions/checkout@v3
       - name: Setup helm CLI
@@ -36,6 +33,9 @@ jobs:
       - uses: pre-commit/action@v3.0.0
   test-cluster:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        variant-values: ['ci/multitenant-values.yaml', 'ci/edge-values.yaml']
     steps:
       - uses: actions/checkout@v3
       - name: Setup helm CLI
@@ -70,7 +70,7 @@ jobs:
           TENANT_1_SECRET: ${{ secrets.TENANT_1_SECRET }}
           TENANT_2_SECRET: ${{ secrets.TENANT_2_SECRET }}
         run: |
-          helm install smartface . -f ci-values.yaml --set tests.authentication.tenant1.clientSecret="$TENANT_1_SECRET" --set tests.authentication.tenant2.clientSecret="$TENANT_2_SECRET" -f ${{ matrix.variant-values }}
+          helm install smartface . -f ci/test-values.yaml --set tests.authentication.tenant1.clientSecret="$TENANT_1_SECRET" --set tests.authentication.tenant2.clientSecret="$TENANT_2_SECRET" -f ${{ matrix.variant-values }}
           kubectl rollout status deployment sf-api --timeout=300s
           kubectl wait --for=condition=complete job/sf-wl-update-log-population --timeout=300s
       - name: Test helm chart
