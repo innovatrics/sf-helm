@@ -11,7 +11,7 @@ jobs:
     env:
       HELM_REGISTRY: "oci://ghcr.io/innovatrics/sf-helm"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install yq
         run: |
           sudo snap install yq

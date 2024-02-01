@@ -9,7 +9,7 @@ jobs:
   package-lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup helm CLI
         uses: azure/setup-helm@v3
         with:
@@ -26,7 +26,7 @@ jobs:
       - name: Package helm
         run: |
           helm package .
-      - uses: actions/setup-python@v3
+      - uses: actions/setup-python@v5
       - uses: gabe565/setup-helm-docs-action@v1
       - uses: pre-commit/action@v3.0.0
   test-cluster:
@@ -38,7 +38,7 @@ jobs:
           'edge'
         ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install yq
         run: |
           sudo snap install yq
@@ -95,7 +95,7 @@ jobs:
           kubectl cluster-info dump > cluster-info-${{ matrix.variant }}.txt
       - name: Upload cluster-info
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cluster-info
           path: |
