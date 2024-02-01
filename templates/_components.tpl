@@ -514,3 +514,12 @@ Template used for resolving GraphQL tests name
 {{- $suffix := "graphql-tests" -}}
 {{- printf "%s-%s" $prefix $suffix -}}
 {{- end -}}
+
+{{/*
+Template used for resolving Multitenant tests name
+*/}}
+{{- define "smartface.multitenantTests.name" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := "multitenant-tests" -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}

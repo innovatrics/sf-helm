@@ -1,0 +1,9 @@
+features:
+  multitenancy:
+    enabled: true
+
+api:
+  enabled: false
+
+sf-tenant-operator:
+  installCrd: true
