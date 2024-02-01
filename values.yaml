@@ -799,7 +799,7 @@ tests:
     # -- Docker image repository
     repository: innovatrics/smartface/sf-cloud-func-tests
     # -- Overrides the image tag whose default is the chart's appVersion
-    tag: v5_4.24.0.5447-dev
+    tag: v5_4.24.0.5509-dev
     # -- Overrides the image tag with an image digest
     digest: null
     # -- Docker image pull policy

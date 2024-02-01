@@ -554,7 +554,7 @@ metadata:
 | tests.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tests.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | tests.image.repository | string | `"innovatrics/smartface/sf-cloud-func-tests"` | Docker image repository |
-| tests.image.tag | string | `"v5_4.24.0.5447-dev"` | Overrides the image tag whose default is the chart's appVersion |
+| tests.image.tag | string | `"v5_4.24.0.5509-dev"` | Overrides the image tag whose default is the chart's appVersion |
 | tests.nodeSelector | object | `{}` |  |
 | tests.podAnnotations | object | `{}` | Annotations for test pods |
 | tests.podLabels | object | `{}` | Additional labels for test pods |
