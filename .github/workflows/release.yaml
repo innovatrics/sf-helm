@@ -30,8 +30,6 @@ jobs:
       - name: Setup helm CLI
         uses: azure/setup-helm@v3
         with:
-          # this is needed only temporarily - see https://github.com/helm/helm/issues/12423
-          version: 3.12.3
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Helm login to GHCR
         run: |
