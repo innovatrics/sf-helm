@@ -1,5 +1,4 @@
-
-{{- if and .Values.authApi.enabled .Values.graphqlApi.enableAuth .Values.features.multitenancy -}}
+{{- if and .Values.authApi.enabled .Values.graphqlApi.enableAuth .Values.features.multitenancy.enabled -}}
 {{- $name := include "smartface.multitenantTests.name" . -}}
 {{- $apiUrl := printf "http://%s.%s.svc.cluster.local:%d" (include "smartface.authApi.name" .) .Release.Namespace (.Values.authApi.servicePort | int) -}}
 {{- $apiMetricsUrl := printf "http://%s.%s.svc.cluster.local:%d/metrics" (include "smartface.authApi.name" .) .Release.Namespace (.Values.metrics.port | int) -}}

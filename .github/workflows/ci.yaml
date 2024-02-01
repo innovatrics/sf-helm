@@ -97,6 +97,6 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
-          name: cluster-info
+          name: cluster-info-${{ matrix.variant }}
           path: |
             cluster-info-${{ matrix.variant }}.txt
