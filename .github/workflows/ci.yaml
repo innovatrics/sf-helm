@@ -36,8 +36,8 @@ jobs:
     strategy:
       matrix:
         variant: [
-          'multitenant'
-          # , 'edge'
+          'multitenant',
+          'edge'
         ]
     steps:
       - uses: actions/checkout@v3
