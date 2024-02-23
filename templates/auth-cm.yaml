@@ -1,0 +1,11 @@
+{{- if not .Values.configurations.apiAuth.existingConfigMapName }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "smartface.auth.name" . | quote }}
+data:
+  authority: {{ .Values.configurations.apiAuth.authority | quote }}
+  audience: {{ .Values.configurations.apiAuth.audience | quote }}
+  oauth_token_url: {{ .Values.configurations.apiAuth.oauthTokenUrl | quote }}
+  oauth_authorize_url: {{ .Values.configurations.apiAuth.oauthAuthorizeUrl | quote }}
+{{- end }}

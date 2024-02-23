@@ -467,6 +467,15 @@ Template used for resolving S3 config map name
 {{- end -}}
 
 {{/*
+Template used for resolving Auth config map name
+*/}}
+{{- define "smartface.auth.name" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := "auth" -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}
+
+{{/*
 Tests
 */}}
 
@@ -476,6 +485,15 @@ Template used for resolving Watchlist tests name
 {{- define "smartface.watchlistTests.name" }}
 {{- $prefix := include "smartface.name" . -}}
 {{- $suffix := "watchlist-tests" -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}
+
+{{/*
+Template used for resolving Watchlist tests with authentication name
+*/}}
+{{- define "smartface.authWatchlistTests.name" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := "watchlist-auth-tests" -}}
 {{- printf "%s-%s" $prefix $suffix -}}
 {{- end -}}
 

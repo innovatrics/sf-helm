@@ -254,7 +254,11 @@ metadata:
 | base.tolerations | list | `[]` |  |
 | base.zmqContainerPort | int | `2406` |  |
 | base.zmqServicePort | int | `2406` |  |
-| configurations.apiAuth.configName | string | `"auth-config"` | config containing authorization configuration for APIs used when authentication is enabled |
+| configurations.apiAuth.audience | string | `""` | audience representing the API |
+| configurations.apiAuth.authority | string | `""` | issuer of JWT which the API will trust |
+| configurations.apiAuth.existingConfigMapName | string | `""` | supply to bring your own configmap. the configmap needs following keys: `authority`, `audience`, `oauth_token_url` and `oauth_authorize_url` |
+| configurations.apiAuth.oauthAuthorizeUrl | string | `""` | used only for enabling OAuth flows in swagger UI |
+| configurations.apiAuth.oauthTokenUrl | string | `""` | used only for enabling OAuth flows in swagger UI |
 | configurations.database.connectionStringKey | string | `"cs"` | key within the existing secret which contains the connection string, see https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/connection-strings |
 | configurations.database.existingSecretName | string | `"db-cs"` | connection string needs to be provided as a dependency of the chart |
 | configurations.license.mountPath | string | `"/etc/innovatrics"` |  |
@@ -540,11 +544,13 @@ metadata:
 | streamDataDbWorker.resources.requests.cpu | string | `"100m"` |  |
 | streamDataDbWorker.resources.requests.memory | string | `"100M"` |  |
 | streamDataDbWorker.tolerations | list | `[]` |  |
+| tests.authentication.tenant1.clientId | string | `""` |  |
+| tests.authentication.tenant1.clientSecret | string | `""` |  |
 | tests.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | tests.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tests.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | tests.image.repository | string | `"innovatrics/smartface/sf-cloud-func-tests"` | Docker image repository |
-| tests.image.tag | string | `nil` | Countly publisher follows different versioning, so the chart app needs to be overridden |
+| tests.image.tag | string | `"v5_4.24.0.5415-dev"` | Countly publisher follows different versioning, so the chart app needs to be overridden |
 | tests.nodeSelector | object | `{}` |  |
 | tests.podAnnotations | object | `{}` | Annotations for test pods |
 | tests.podLabels | object | `{}` | Additional labels for test pods |
@@ -566,6 +572,8 @@ metadata:
 ### [v0.6.0]
 - deployment of SmartFace Station is now disabled by default. To reenable previous behavior with deploying SmartFace Station please set the `station.enabled` value to `true`.
   - previous behavior with enabled SmartFace Station caused the installation of helm chart with default values to fail on validation because SmartFace Station is currently dependant on SmartFace API with enabled authentication, which in turn requires the existence of external authentication provider and correct configuration of relevant SmartFace services
+- Changed default behavior for creating Authentication configuration. If you like to continue managing the previously created Authentication config map please use the `configurations.apiAuth.existingConfigMapName` field. Otherwise the ConfigMap will be managed by the helm chart using the values provided in `configurations.apiAuth`
+  - This change also includes renaming previous field `configurations.apiAuth.configName` -> `configurations.apiAuth.existingConfigMapName`
 
 ### [v0.5.0]
 - MinIO subchart is enabled and used by default. To keep using S3 bucket managed outside of this helm chart please set the `minio.enabled` value to `false` and provide configuration details via `configurations.s3`
