@@ -1,21 +1,21 @@
-{{- if .Values.graphqlApi.enabled }}
-{{- $name := include "smartface.graphqlApi.name" . -}}
-{{- $selectorLabels := include "smartface.graphqlApi.selectorLabels" . -}}
+{{- if .Values.dbSynchronizationLeader.enabled }}
+{{- $name := include "smartface.dbSynchronizationLeader.name" . -}}
+{{- $selectorLabels := include "smartface.dbSynchronizationLeader.selectorLabels" . -}}
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
   name: {{ $name | quote }}
   labels:
-    {{- include "smartface.graphqlApi.labels" . | nindent 4 }}
+    {{- include "smartface.dbSynchronizationLeader.labels" . | nindent 4 }}
   annotations:
     {{- with .Values.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
-    {{- with .Values.graphqlApi.annotations }}
+    {{- with .Values.dbSynchronizationLeader.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
-  replicas: {{ .Values.graphqlApi.replicas }}
+  replicas: {{ .Values.dbSynchronizationLeader.replicas }}
   selector:
     matchLabels:
       {{- $selectorLabels | nindent 6 }}
@@ -25,7 +25,7 @@ spec:
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-        {{- with .Values.graphqlApi.podAnnotations }}
+        {{- with .Values.dbSynchronizationLeader.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
@@ -33,7 +33,7 @@ spec:
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-        {{- with .Values.graphqlApi.podLabels }}
+        {{- with .Values.dbSynchronizationLeader.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
@@ -47,12 +47,12 @@ spec:
       {{- end }}
       containers:
       - name: {{ $name | quote }}
-        image: {{ include "smartface.image" (dict "local" .Values.graphqlApi.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
-        imagePullPolicy: {{ .Values.graphqlApi.image.pullPolicy }}
+        image: {{ include "smartface.image" (dict "local" .Values.dbSynchronizationLeader.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.dbSynchronizationLeader.image.pullPolicy }}
         ports:
-        - containerPort: {{ .Values.graphqlApi.containerPort }}
+        - containerPort: {{ .Values.dbSynchronizationLeader.containerPort }}
         env:
-        {{- if .Values.graphqlApi.enableAuth }}
+        {{- if .Values.dbSynchronizationLeader.enableAuth }}
         {{- include "smartface.authenticationConfig" . | nindent 8 }}
         {{- end }}
         {{- include "smartface.commonEnv" . | nindent 8 }}
@@ -64,22 +64,18 @@ spec:
         - name: "Hosting__Host"
           value: "http://0.0.0.0"
         - name: "Hosting__Port"
-          value: {{ .Values.graphqlApi.containerPort | quote }}
+          value: {{ .Values.dbSynchronizationLeader.containerPort | quote }}
         resources:
-          {{- toYaml .Values.graphqlApi.resources | nindent 10 }}
+          {{- toYaml .Values.dbSynchronizationLeader.resources | nindent 10 }}
         volumeMounts:
         {{- include "smartface.licVolumeMount" . | nindent 8 }}
-      {{- if and .Values.migration.enabled .Values.graphqlApi.initMigration }}
-      initContainers:
-      {{- include "smartface.migrationInitContainer" . | nindent 6 }}
-      {{- end }}
       volumes:
         {{- include "smartface.licVolume" . | nindent 8 }}
-      {{- with .Values.graphqlApi.nodeSelector }}
+      {{- with .Values.dbSynchronizationLeader.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.graphqlApi.tolerations }}
+      {{- with .Values.dbSynchronizationLeader.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

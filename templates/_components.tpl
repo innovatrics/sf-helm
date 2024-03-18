@@ -83,6 +83,34 @@ app.kubernetes.io/component: "graphqlApi"
 {{- end -}}
 
 {{/*
+dbSynchronizationLeader
+*/}}
+{{/*
+Template used for resolving SF dbSynchronizationLeader name
+*/}}
+{{- define "smartface.dbSynchronizationLeader.name" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := .Values.dbSynchronizationLeader.name -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}
+
+{{/*
+Template used for resolving labels for graphqlApi component
+*/}}
+{{- define "smartface.dbSynchronizationLeader.labels" }}
+{{- include "smartface.labels" . }}
+app.kubernetes.io/component: "dbSynchronizationLeader"
+{{- end -}}
+
+{{/*
+Template used for resolving selector labels for graphqlApi component
+*/}}
+{{- define "smartface.dbSynchronizationLeader.selectorLabels" }}
+{{- include "smartface.selectorLabels" . }}
+app.kubernetes.io/component: "dbSynchronizationLeader"
+{{- end -}}
+
+{{/*
 detector
 */}}
 {{/*

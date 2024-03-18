@@ -110,12 +110,12 @@ rabbitmq:
     password: ""
   service:
     extraPorts:
-    - name: mqtt
-      port: 1883
-      targetPort: 1883
-    - name: rmq-stream
-      port: 5552
-      targetPort: 5552
+      - name: mqtt
+        port: 1883
+        targetPort: 1883
+      - name: rmq-stream
+        port: 5552
+        targetPort: 5552
 
 # -- config for minio subchart, see https://github.com/bitnami/charts/tree/main/bitnami/minio
 minio:
@@ -212,6 +212,50 @@ authApi:
     registry: null
     # -- Docker image repository
     repository: innovatrics/smartface/sf-api
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+dbSynchronizationLeader:
+  enabled: true
+  name: "db-synchronization-leader"
+  servicePort: 8100
+  containerPort: 80
+  dnsHost: ""
+  enableAuth: false
+  # -- Annotations for graphqlApi deployment
+  annotations: {}
+  # -- Annotations for graphqlApi pods
+  podAnnotations: {}
+  # -- Additional labels for each graphqlApi pod
+  podLabels: {}
+  service:
+    # -- Annotations for graphqlApi Service
+    annotations: {}
+    # -- Additional labels for graphqlApi Service
+    labels: {}
+  pdb:
+    # -- create PodDisruptionBudget for graphqlApi component
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
+  resources:
+    requests:
+      memory: "300M"
+      cpu: "250m"
+    limits:
+      memory: "4G"
+  nodeSelector: {}
+  tolerations: []
+  replicas: 1
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-db-synchronization-leader
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
