@@ -1,4 +1,4 @@
-{{- if and .Values.dbSynchronizationLeader.pdb.create .Values.dbSynchronizationLeader.enabled }}
+{{- if and .Values.dbSynchronizationLeader.pdb.create .Values.dbSynchronizationLeader.enabled .Values.features.multitenancy }}
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:

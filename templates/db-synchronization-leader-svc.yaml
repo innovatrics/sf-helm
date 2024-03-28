@@ -1,4 +1,4 @@
-{{- if .Values.dbSynchronizationLeader.enabled }}
+{{- if and .Values.dbSynchronizationLeader.enabled .Values.features.multitenancy }}
 apiVersion: "v1"
 kind: "Service"
 metadata:

@@ -60,6 +60,7 @@ features:
     # -- enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled
     enabled: false
   edgeStreams:
+    # -- features.multitenancy needs to be enabled since tenant operator is responsible for populating wlStream 
     enabled: false
 
 # -- config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq
@@ -220,25 +221,26 @@ authApi:
     pullPolicy: IfNotPresent
 
 dbSynchronizationLeader:
+  # -- features.multitenancy needs to be enabled since tenant operator is responsible for populating wlStream 
   enabled: true
   name: "db-synchronization-leader"
   servicePort: 8100
   containerPort: 80
   dnsHost: ""
   enableAuth: false
-  # -- Annotations for graphqlApi deployment
+  # -- Annotations for dbSynchronizationLeader deployment
   annotations: {}
-  # -- Annotations for graphqlApi pods
+  # -- Annotations for dbSynchronizationLeader pods
   podAnnotations: {}
-  # -- Additional labels for each graphqlApi pod
+  # -- Additional labels for each dbSynchronizationLeader pod
   podLabels: {}
   service:
-    # -- Annotations for graphqlApi Service
+    # -- Annotations for dbSynchronizationLeader Service
     annotations: {}
-    # -- Additional labels for graphqlApi Service
+    # -- Additional labels for dbSynchronizationLeader Service
     labels: {}
   pdb:
-    # -- create PodDisruptionBudget for graphqlApi component
+    # -- create PodDisruptionBudget for dbSynchronizationLeader component
     create: false
     minAvailable: 1
     maxUnavailable: ""
@@ -516,22 +518,23 @@ edgeStreamsStateSync:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
-  wlStreamPopulationJob:
-    enabled: false
-    resources: {}
-    nodeSelector: {}
-    tolerations: []
-    image:
-      # -- The Docker registry, overrides `global.image.registry`
-      registry: null
-      # -- Docker image repository
-      repository: innovatrics/smartface/sf-admin
-      # -- Overrides the image tag whose default is the chart's appVersion
-      tag: null
-      # -- Overrides the image tag with an image digest
-      digest: null
-      # -- Docker image pull policy
-      pullPolicy: IfNotPresent
+    
+wlStreamPopulationJob:
+  enabled: false
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-admin
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
 
 base:
   name: "base"

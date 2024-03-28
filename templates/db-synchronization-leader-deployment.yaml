@@ -1,4 +1,4 @@
-{{- if .Values.dbSynchronizationLeader.enabled }}
+{{- if and .Values.dbSynchronizationLeader.enabled .Values.features.multitenancy }}
 {{- $name := include "smartface.dbSynchronizationLeader.name" . -}}
 {{- $selectorLabels := include "smartface.dbSynchronizationLeader.selectorLabels" . -}}
 apiVersion: "apps/v1"
