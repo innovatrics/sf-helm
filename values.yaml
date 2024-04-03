@@ -222,7 +222,7 @@ authApi:
 
 dbSynchronizationLeader:
   # -- features.multitenancy needs to be enabled since tenant operator is responsible for populating wlStream 
-  enabled: true
+  enabled: false 
   name: "db-synchronization-leader"
   servicePort: 8100
   containerPort: 80

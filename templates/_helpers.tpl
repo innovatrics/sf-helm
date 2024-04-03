@@ -78,6 +78,7 @@ Init container to perform database migration before starting the main container
     "--rmq-pass", "$(RabbitMQ__Password)",
     "--rmq-port", "$(RabbitMQ__Port)",
     "--rmq-use-ssl", "$(RabbitMQ__UseSsl)",
+    "--rmq-streams-port", "$(RabbitMQ__StreamsPort)",
     "--rmq-virtual-host", "/"]
   env:
     {{- include "smartface.dbConfig" . | nindent 4 }}
