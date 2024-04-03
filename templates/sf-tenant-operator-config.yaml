@@ -20,15 +20,15 @@ data:
           }
         ],
         "Jobs": [
-          {
             {{- if or .Values.features.edgeStreams.enabled .Values.dbSynchronizationLeader.enabled }}
+          {
             "Name": "wl_stream_population_job",
             "TemplateFilePath": "{{ index .Values "sf-tenant-operator" "config" "configDir" }}/wlStreamPopulationJob.yaml",
             "SubmittedAnnotationName": "WlStreamSubmitted",
             "TenantEnvVar": "Multitenancy__TenantId",
             "JobIdEnvVar": "GENERATION_ID"
-            {{- end}}
           }
+            {{- end}}
         ]
       }
     }
