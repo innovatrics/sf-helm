@@ -95,7 +95,7 @@ Template used for resolving SF dbSynchronizationLeader name
 {{- end -}}
 
 {{/*
-Template used for resolving labels for graphqlApi component
+Template used for resolving labels for dbSynchronizationLeader component
 */}}
 {{- define "smartface.dbSynchronizationLeader.labels" }}
 {{- include "smartface.labels" . }}
@@ -103,7 +103,7 @@ app.kubernetes.io/component: "dbSynchronizationLeader"
 {{- end -}}
 
 {{/*
-Template used for resolving selector labels for graphqlApi component
+Template used for resolving selector labels for dbSynchronizationLeader component
 */}}
 {{- define "smartface.dbSynchronizationLeader.selectorLabels" }}
 {{- include "smartface.selectorLabels" . }}

@@ -56,7 +56,6 @@ spec:
         {{- include "smartface.authenticationConfig" . | nindent 8 }}
         {{- end }}
         {{- include "smartface.commonEnv" . | nindent 8 }}
-        {{- include "smartface.dbConfig" . | nindent 8 }}
         {{- include "smartface.s3Config" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
         - name: "Multitenancy__UseMultitenancy"
@@ -67,10 +66,6 @@ spec:
           value: {{ .Values.dbSynchronizationLeader.containerPort | quote }}
         resources:
           {{- toYaml .Values.dbSynchronizationLeader.resources | nindent 10 }}
-        volumeMounts:
-        {{- include "smartface.licVolumeMount" . | nindent 8 }}
-      volumes:
-        {{- include "smartface.licVolume" . | nindent 8 }}
       {{- with .Values.dbSynchronizationLeader.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
