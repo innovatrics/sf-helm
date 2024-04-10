@@ -5,6 +5,7 @@ Compile all warnings into a single message, and call fail.
 {{- define "smartface.validate" -}}
 {{- $messages := list -}}
 
+{{- $messages = append $messages (trim (include "smartface.validate.tenantOperator" .)) -}}
 {{- $messages = append $messages (trim (include "smartface.validate.multitenantEdge" .)) -}}
 {{- $messages = append $messages (trim (include "smartface.validate.stationDeps" .)) -}}
 
@@ -22,6 +23,16 @@ Compile all warnings into a single message, and call fail.
 {{- $message := join "\n" $messages -}}
 {{- if $message -}}
 {{-   printf "\nVALIDATIONS:\n%s" $message | fail -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Validate that tenant operator will be deployed only in allowed combination of features
+*/}}
+{{- define "smartface.validate.tenantOperator" -}}
+{{- $tenantOperatorEnabled := index .Values "sf-tenant-operator" "enabled" -}}
+{{- if not (eq $tenantOperatorEnabled (or .Values.features.edgeStreams.enabled .Values.features.multitenancy.enabled .Values.dbSynchronizationLeader.enabled)) -}}
+Tenant operator have to be deplyed when edgeStream dbSychronization, edge streams or multitenancy is enabled
 {{- end -}}
 {{- end -}}
 

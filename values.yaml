@@ -775,6 +775,8 @@ autoscaling:
 
 # -- configuration for sf-tenant-operator subchart
 sf-tenant-operator:
+  # -- configure if sf-tenant-operator subchart should be included
+  enabled: false
   config:
     mapName: "operator-config"
     fileName: "appsettings.override.json"

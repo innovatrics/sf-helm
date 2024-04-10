@@ -1,4 +1,5 @@
-{{- if .Values.features.multitenancy.enabled }}
+{{- if index .Values "sf-tenant-operator" "enabled" }}
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -13,14 +14,16 @@ data:
       "ReconciliationConfiguration": {
         "Namespace": "{{ .Release.Namespace }}",
         "Deployments": [
+  {{- if .Values.features.multitenancy.enabled}}
           {
             "ComponentName": "matcher",
             "DeploymentTemplateFilePath": "{{ index .Values "sf-tenant-operator" "config" "configDir" }}/matcher.yaml",
             "TenantEnvVar": "Multitenancy__TenantId"
           }
+  {{- end}}
         ],
         "Jobs": [
-            {{- if or .Values.features.edgeStreams.enabled .Values.dbSynchronizationLeader.enabled }}
+  {{- if or .Values.features.edgeStreams.enabled .Values.dbSynchronizationLeader.enabled}}
           {
             "Name": "wl_stream_population_job",
             "TemplateFilePath": "{{ index .Values "sf-tenant-operator" "config" "configDir" }}/wlStreamPopulationJob.yaml",
@@ -28,7 +31,7 @@ data:
             "TenantEnvVar": "Multitenancy__TenantId",
             "JobIdEnvVar": "GENERATION_ID"
           }
-            {{- end}}
+  {{- end}}
         ]
       }
     }
