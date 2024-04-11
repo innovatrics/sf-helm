@@ -32,7 +32,7 @@ Validate that tenant operator will be deployed only in allowed combination of fe
 {{- define "smartface.validate.tenantOperator" -}}
 {{- $tenantOperatorEnabled := index .Values "sf-tenant-operator" "enabled" -}}
 {{- if not (eq $tenantOperatorEnabled (or .Values.features.edgeStreams.enabled .Values.features.multitenancy.enabled .Values.dbSynchronizationLeader.enabled)) -}}
-Tenant operator have to be deplyed when edgeStream dbSychronization, edge streams or multitenancy is enabled
+Tenant operator has to be deplyed when edgeStream dbSychronization, edge streams or multitenancy is enabled
 {{- end -}}
 {{- end -}}
 
