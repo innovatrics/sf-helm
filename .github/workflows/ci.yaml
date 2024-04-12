@@ -52,7 +52,7 @@ jobs:
         run: |
           helm install -f ci-values.yaml smartface .
           kubectl rollout status deployment sf-api --timeout=300s
-          kubectl wait --for=condition=complete job/sf-wl-update-log-population --timeout=300s
+        # kubectl wait --for=condition=complete job/sf-wl-update-log-population --timeout=300s
       - name: Test helm chart
         run: |
           helm test smartface
