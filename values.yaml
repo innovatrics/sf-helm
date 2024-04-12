@@ -60,7 +60,7 @@ features:
     # -- enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled
     enabled: false
   edgeStreams:
-    # -- features.multitenancy needs to be enabled since tenant operator is responsible for populating wlStream 
+    # -- features.multitenancy needs to be enabled since tenant operator is responsible for populating wlStream
     enabled: false
 
 # -- config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq
@@ -221,8 +221,8 @@ authApi:
     pullPolicy: IfNotPresent
 
 dbSynchronizationLeader:
-  # -- features.multitenancy needs to be enabled since tenant operator is responsible for populating wlStream 
-  enabled: false 
+  # -- features.multitenancy needs to be enabled since tenant operator is responsible for populating wlStream
+  enabled: false
   name: "db-synchronization-leader"
   servicePort: 8100
   containerPort: 80
@@ -518,7 +518,7 @@ edgeStreamsStateSync:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
-    
+
 wlStreamPopulationJob:
   enabled: false
   resources: {}

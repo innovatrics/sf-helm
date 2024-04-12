@@ -289,7 +289,7 @@ metadata:
 | dbSynchronizationLeader.containerPort | int | `80` |  |
 | dbSynchronizationLeader.dnsHost | string | `""` |  |
 | dbSynchronizationLeader.enableAuth | bool | `false` |  |
-| dbSynchronizationLeader.enabled | bool | `false` | features.multitenancy needs to be enabled since tenant operator is responsible for populating wlStream  |
+| dbSynchronizationLeader.enabled | bool | `false` | features.multitenancy needs to be enabled since tenant operator is responsible for populating wlStream |
 | dbSynchronizationLeader.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | dbSynchronizationLeader.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | dbSynchronizationLeader.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
@@ -395,7 +395,7 @@ metadata:
 | faceMatcher.resources.requests.cpu | string | `"100m"` |  |
 | faceMatcher.resources.requests.memory | string | `"100M"` |  |
 | faceMatcher.tolerations | list | `[]` |  |
-| features.edgeStreams.enabled | bool | `false` | features.multitenancy needs to be enabled since tenant operator is responsible for populating wlStream  |
+| features.edgeStreams.enabled | bool | `false` | features.multitenancy needs to be enabled since tenant operator is responsible for populating wlStream |
 | features.multitenancy.enabled | bool | `false` | enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled |
 | global.image.registry | string | `"registry.gitlab.com"` | Overrides the Docker registry globally for all images |
 | graphqlApi.annotations | object | `{}` | Annotations for graphqlApi deployment |
