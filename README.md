@@ -336,8 +336,6 @@ metadata:
 | edgeStreamProcessor.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | edgeStreamProcessor.name | string | `"edge-stream-processor"` |  |
 | edgeStreamProcessor.nodeSelector | object | `{}` |  |
-| edgeStreamProcessor.operationMode.livenessDataStrategy | string | `"ServerOnly"` | Possible values are `EdgeStreamOnly` or `ServerOnly` |
-| edgeStreamProcessor.operationMode.matchingDataStrategy | string | `"ServerOnly"` | Possible values are `EdgeStreamOnly` or `ServerOnly` |
 | edgeStreamProcessor.pdb.create | bool | `false` | create PodDisruptionBudget for edgeStreamProcessor component |
 | edgeStreamProcessor.pdb.maxUnavailable | string | `""` |  |
 | edgeStreamProcessor.pdb.minAvailable | int | `1` |  |

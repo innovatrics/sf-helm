@@ -458,11 +458,6 @@ liveness:
 
 edgeStreamProcessor:
   name: "edge-stream-processor"
-  operationMode:
-    # -- Possible values are `EdgeStreamOnly` or `ServerOnly`
-    matchingDataStrategy: "ServerOnly"
-    # -- Possible values are `EdgeStreamOnly` or `ServerOnly`
-    livenessDataStrategy: "ServerOnly"
   # -- Annotations for edgeStreamProcessor deployment
   annotations: {}
   # -- Annotations for edgeStreamProcessor pods
