@@ -16,6 +16,7 @@ features:
     enabled: true
 sf-tenant-operator:
   enabled: true
+  installCrd: true
 
 api:
   resources: null
