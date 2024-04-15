@@ -473,7 +473,7 @@ Template used for resolving RabbitMQ config map name
 {{- end -}}
 
 {{/*
-Template used for resolving RabbitMQ config map name
+Template used for resolving mqtt config map name
 */}}
 {{- define "smartface.rabbitmq.mqttName" }}
 {{- $prefix := include "smartface.name" . -}}
