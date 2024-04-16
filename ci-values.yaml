@@ -14,7 +14,7 @@ minio:
 features:
   edgeStreams:
     enabled: true
-sf-tenant-operator:
+sf-tenant-management:
   enabled: true
   installCrd: true
 

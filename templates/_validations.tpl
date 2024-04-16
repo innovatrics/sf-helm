@@ -30,9 +30,9 @@ Compile all warnings into a single message, and call fail.
 Validate that tenant operator will be deployed only in allowed combination of features
 */}}
 {{- define "smartface.validate.tenantOperator" -}}
-{{- $tenantOperatorEnabled := index .Values "sf-tenant-operator" "enabled" -}}
+{{- $tenantOperatorEnabled := index .Values "sf-tenant-management" "enabled" -}}
 {{- if not (eq $tenantOperatorEnabled (or .Values.features.edgeStreams.enabled .Values.features.multitenancy.enabled .Values.dbSynchronizationLeader.enabled)) -}}
-Tenant operator has to be deplyed when edgeStream dbSychronization, edge streams or multitenancy is enabled
+Tenant management has to be deplyed when edgeStream dbSychronization, edge streams or multitenancy is enabled
 {{- end -}}
 {{- end -}}
 

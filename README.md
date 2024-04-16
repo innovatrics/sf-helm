@@ -49,7 +49,7 @@ During the tests some data (Watchlists / EdgeStreams) will be created in the dep
 
 | Repository | Name | Version |
 |------------|------|---------|
-| oci://ghcr.io/innovatrics/sf-helm | sf-tenant-operator | 0.3.0 |
+| oci://ghcr.io/innovatrics/sf-helm | sf-tenant-management | 0.4.1 |
 | oci://registry-1.docker.io/bitnamicharts | minio | 12.8.15 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 13.2.1 |
 | oci://registry-1.docker.io/bitnamicharts | rabbitmq | 12.0.4 |
@@ -394,7 +394,7 @@ metadata:
 | faceMatcher.resources.requests.memory | string | `"100M"` |  |
 | faceMatcher.tolerations | list | `[]` |  |
 | features.edgeStreams.enabled | bool | `false` | features.multitenancy needs to be enabled since tenant operator is responsible for populating wlStream |
-| features.multitenancy.enabled | bool | `false` | enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled |
+| features.multitenancy.enabled | bool | `false` | enabled for multitenant deployment |
 | global.image.registry | string | `"registry.gitlab.com"` | Overrides the Docker registry globally for all images |
 | graphqlApi.annotations | object | `{}` | Annotations for graphqlApi deployment |
 | graphqlApi.containerPort | int | `80` |  |
@@ -516,8 +516,8 @@ metadata:
 | serviceAccount.name | string | `"sf-service-account"` | The name of the ServiceAccount to use. |
 | serviceAnnotations | object | `{}` | Common annotations for all services |
 | serviceLabels | object | `{}` | Common labels for all services |
-| sf-tenant-operator | object | `{"config":{"configDir":"/etc/components","fileName":"appsettings.override.json","mapName":"operator-config"},"enabled":false,"image":{"secretName":"sf-gitlab-registry-creds"},"installCrd":false}` | configuration for sf-tenant-operator subchart |
-| sf-tenant-operator.enabled | bool | `false` | configure if sf-tenant-operator subchart should be included |
+| sf-tenant-management | object | `{"api":{"name":"sf-tenant-api","servicePort":80},"apiDnsHost":"","config":{"configDir":"/etc/components","fileName":"appsettings.override.json","mapName":"operator-config"},"enabled":false,"imagePullSecrets":[{"name":"sf-gitlab-registry-creds"}],"installCrd":false}` | configuration for sf-tenant-management subchart |
+| sf-tenant-management.enabled | bool | `false` | configure if sf-tenant-management subchart should be included |
 | skipLookupBasedValidations | bool | `false` | due to ArgoCD limitations this can be used to skip validations that use the `lookup` helm function - for more information see https://github.com/argoproj/argo-cd/issues/5202 |
 | station.annotations | object | `{}` | Annotations for station deployment |
 | station.containerPort | int | `80` |  |
