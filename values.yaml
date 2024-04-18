@@ -60,7 +60,7 @@ features:
     # -- enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled
     enabled: false
   edgeStreams:
-    # -- features.multitenancy needs to be enabled since tenant operator is responsible for populating wlStream
+    # -- sf-tenant-operator.enabled needs to be enabled since tenant operator is responsible for populating wlStream
     enabled: false
 
 # -- config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq

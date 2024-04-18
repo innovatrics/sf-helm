@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.7.0](https://img.shields.io/badge/Version-0.7.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.25.2](https://img.shields.io/badge/AppVersion-v5_4.25.2-informational?style=flat-square)
+![Version: 0.7.1](https://img.shields.io/badge/Version-0.7.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.25.2](https://img.shields.io/badge/AppVersion-v5_4.25.2-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -393,7 +393,7 @@ metadata:
 | faceMatcher.resources.requests.cpu | string | `"100m"` |  |
 | faceMatcher.resources.requests.memory | string | `"100M"` |  |
 | faceMatcher.tolerations | list | `[]` |  |
-| features.edgeStreams.enabled | bool | `false` | features.multitenancy needs to be enabled since tenant operator is responsible for populating wlStream |
+| features.edgeStreams.enabled | bool | `false` | sf-tenant-operator.enabled needs to be enabled since tenant operator is responsible for populating wlStream |
 | features.multitenancy.enabled | bool | `false` | enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled |
 | global.image.registry | string | `"registry.gitlab.com"` | Overrides the Docker registry globally for all images |
 | graphqlApi.annotations | object | `{}` | Annotations for graphqlApi deployment |
