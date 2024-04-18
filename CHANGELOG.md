@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.7.1]
+
+### Changed
+
+- Fixed condition for DbSynchronizationLeader deployment
+
 ## [v0.7.0]
 
 ### Added
