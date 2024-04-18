@@ -53,10 +53,6 @@ spec:
         {{- include "smartface.commonEnv" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
         {{- include "smartface.dbConfig" . | nindent 8 }}
-        - name: "OperationMode__MatchingDataStrategy"
-          value: {{ .Values.edgeStreamProcessor.operationMode.matchingDataStrategy | quote }}
-        - name: "OperationMode__LivenessDataStrategy"
-          value: {{ .Values.edgeStreamProcessor.operationMode.livenessDataStrategy | quote }}
         resources:
           {{- toYaml .Values.edgeStreamProcessor.resources | nindent 10 }}
         volumeMounts:

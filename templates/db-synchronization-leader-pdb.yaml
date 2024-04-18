@@ -1,0 +1,18 @@
+{{- if and .Values.dbSynchronizationLeader.pdb.create .Values.dbSynchronizationLeader.enabled .Values.features.multitenancy }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "smartface.dbSynchronizationLeader.name" . | quote }}
+  labels:
+    {{- include "smartface.dbSynchronizationLeader.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.dbSynchronizationLeader.pdb.minAvailable }}
+  minAvailable: {{ .Values.dbSynchronizationLeader.pdb.minAvailable }}
+  {{- end }}
+  {{- if .Values.dbSynchronizationLeader.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.dbSynchronizationLeader.pdb.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "smartface.dbSynchronizationLeader.selectorLabels" . | nindent 6 }}
+{{- end }}

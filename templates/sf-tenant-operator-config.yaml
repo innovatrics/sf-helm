@@ -1,4 +1,5 @@
-{{- if .Values.features.multitenancy.enabled }}
+{{- if index .Values "sf-tenant-operator" "enabled" }}
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -10,17 +11,32 @@ data:
       "LoopConfiguration": {
         "FullFetchLoopDelay": "00:00:30"
       },
-      "DeploymentConfiguration": {
+      "ReconciliationConfiguration": {
         "Namespace": "{{ .Release.Namespace }}",
-        "ComponentConfigurations": [
+        "Deployments": [
+  {{- if .Values.features.multitenancy.enabled}}
           {
             "ComponentName": "matcher",
             "DeploymentTemplateFilePath": "{{ index .Values "sf-tenant-operator" "config" "configDir" }}/matcher.yaml",
             "TenantEnvVar": "Multitenancy__TenantId"
           }
+  {{- end}}
+        ],
+        "Jobs": [
+  {{- if or .Values.features.edgeStreams.enabled .Values.dbSynchronizationLeader.enabled}}
+          {
+            "Name": "wl_stream_population_job",
+            "TemplateFilePath": "{{ index .Values "sf-tenant-operator" "config" "configDir" }}/wlStreamPopulationJob.yaml",
+            "SubmittedAnnotationName": "WlStreamSubmitted",
+            "TenantEnvVar": "Multitenancy__TenantId",
+            "JobIdEnvVar": "GENERATION_ID"
+          }
+  {{- end}}
         ]
       }
     }
   matcher.yaml: |-
     {{- include "smartface.matcherDefinition" . | nindent 4 }}
+  wlStreamPopulationJob.yaml: |-
+    {{- include "smartface.wlStreamPopulationJob" . | nindent 4}}
 {{- end}}
