@@ -75,9 +75,8 @@ jobs:
           helm install smartface . -f ci/test-values.yaml --set tests.authentication.tenant1.clientSecret="$TENANT_1_SECRET" --set tests.authentication.tenant2.clientSecret="$TENANT_2_SECRET" -f ci/${{ matrix.variant }}-values.yaml
           kubectl rollout status deployment sf-auth-api --timeout=300s
       - name: Apply tenant manifests
-        if: ${{ matrix.variant == 'multitenant' }}
         run: |
-          kubectl apply -f ci/tenants.yaml
+          kubectl apply -f ci/${{ matrix.variant }}-tenants.yaml
           echo "Wait for the operator to create the deployments"
           sleep 5
       - name: Wait for tenant operator edge
