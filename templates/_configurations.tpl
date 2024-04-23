@@ -94,36 +94,37 @@ Template used for configuring feature flags on APIs
 Template used for configuring Authentication on APIs
 */}}
 {{- define "smartface.authenticationConfig" -}}
+{{- $configName := ( .Values.configurations.apiAuth.existingConfigMapName | default (include "smartface.auth.name" . )) -}}
 - name: "Authentication__UseAuthentication"
-  valueFrom:
-    configMapKeyRef:
-      name: {{ .Values.configurations.apiAuth.configName | quote }}
-      key: "use_auth"
+  value: "true"
 - name: "Authentication__Authority"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.configurations.apiAuth.configName | quote }}
+      name: {{ $configName }}
       key: "authority"
 - name: "Authentication__Audience"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.configurations.apiAuth.configName | quote }}
+      name: {{ $configName }}
       key: "audience"
 - name: "Authentication__SwaggerAuthConfig__ClientCredsTokenUrl"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.configurations.apiAuth.configName | quote }}
+      name: {{ $configName }}
       key: "oauth_token_url"
+      optional: true
 - name: "Authentication__SwaggerAuthConfig__AuthCodeTokenUrl"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.configurations.apiAuth.configName | quote }}
+      name: {{ $configName }}
       key: "oauth_token_url"
+      optional: true
 - name: "Authentication__SwaggerAuthConfig__AuthCodeAuthorizeUrl"
   valueFrom:
     configMapKeyRef:
-      name: {{ .Values.configurations.apiAuth.configName | quote }}
+      name: {{ $configName }}
       key: "oauth_authorize_url"
+      optional: true
 {{- end }}
 
 {{/*
@@ -248,4 +249,35 @@ Enabling statistics pulishing for countly sender
 {{- define "smartface.statisticsPublish" -}}
 - name: "Statistics__SendStatisticsData"
   value: {{ .Values.countlyPublisher.enabled | quote }}
+{{- end }}
+
+{{/*
+Template used for setting up authentication data for test pods
+*/}}
+{{- define "smartface.testsAuthConfig" -}}
+{{- $configName := ( .Values.configurations.apiAuth.existingConfigMapName | default (include "smartface.auth.name" . )) }}
+- name: "SF_TENANT_1_NAME"
+  value: {{ .Values.tests.authentication.tenant1.name }}
+- name: "SF_TENANT_1_CLIENT_ID"
+  value: {{ .Values.tests.authentication.tenant1.clientId }}
+- name: "SF_TENANT_1_SECRET"
+  value: {{ .Values.tests.authentication.tenant1.clientSecret }}
+- name: "SF_TENANT_2_NAME"
+  value: {{ .Values.tests.authentication.tenant2.name }}
+- name: "SF_TENANT_2_CLIENT_ID"
+  value: {{ .Values.tests.authentication.tenant2.clientId }}
+- name: "SF_TENANT_2_SECRET"
+  value: {{ .Values.tests.authentication.tenant2.clientSecret }}
+- name: "SF_USE_AUTH"
+  value: "true"
+- name: "SF_AUTH_AUDIENCE"
+  valueFrom:
+    configMapKeyRef:
+      name: {{ $configName }}
+      key: "audience"
+- name: "SF_OAUTH_TOKEN_URL"
+  valueFrom:
+    configMapKeyRef:
+      name: {{ $configName }}
+      key: "oauth_token_url"
 {{- end }}

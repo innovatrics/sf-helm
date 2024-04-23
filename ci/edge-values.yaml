@@ -1,0 +1,13 @@
+features:
+  edgeStreams:
+    enabled: true
+
+sf-tenant-operator:
+  enabled: true
+  installCrd: true
+
+# edge stream tests test WL sync, which requires the population job to be run
+edgeStreamsStateSync:
+  resources: null
+  wlStreamPopulationJob:
+    enabled: true

@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.8.0]
+
+### Added
+
+- Added test pods supporting `helm test` command
+  - There are multiple test pods, some of which run based on what is possible to test in the selected chart configuration
+
+### Breaking change
+
+- Changed default behavior for creating Authentication configuration. If you like to continue managing the previously created Authentication config map please use the `configurations.apiAuth.existingConfigMapName` field. Otherwise the ConfigMap will be managed by the helm chart using the values provided in `configurations.apiAuth`
+  - This change also includes renaming previous field `configurations.apiAuth.configName` -> `configurations.apiAuth.existingConfigMapName`
+
 ## [v0.7.1]
 
 ### Changed
@@ -17,10 +29,6 @@
 - Bumped version of sf-tenant-operator to 0.3.0
 
 ## [v0.6.0]
-
-### Added
-
-- Added test pods supporting `helm test` command
 
 ### Changed
 
