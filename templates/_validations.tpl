@@ -107,11 +107,20 @@ Validate auth config present if it will be needed
 */}}
 {{- define "smartface.validate.authConfig" -}}
 {{- if or .Values.authApi.enabled .Values.graphqlApi.enableAuth .Values.dbSynchronizationLeader.enableAuth -}}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.apiAuth.configName "Key" "use_auth") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.apiAuth.configName "Key" "authority") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.apiAuth.configName "Key" "audience") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.apiAuth.configName "Key" "oauth_token_url") }}
-{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.apiAuth.configName "Key" "oauth_authorize_url") }}
+{{- if .Values.configurations.apiAuth.existingConfigMapName -}}
+{{- $configMapName := .Values.configurations.apiAuth.existingConfigMapName -}}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $configMapName "Key" "authority") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $configMapName "Key" "audience") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $configMapName "Key" "oauth_token_url") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $configMapName "Key" "oauth_authorize_url") }}
+{{- else -}}
+{{- if not .Values.configurations.apiAuth.audience -}}
+Please provide value for `configurations.apiAuth.audience`
+{{- end -}}
+{{- if not .Values.configurations.apiAuth.authority -}}
+Please provide value for `configurations.apiAuth.authority`
+{{- end -}}
+{{- end -}}
 {{- end -}}
 {{- if .Values.station.enabled }}
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" .Values.configurations.stationAuth.configName "Key" "use_auth") }}

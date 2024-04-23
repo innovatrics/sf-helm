@@ -1,5 +1,6 @@
 {{- if .Values.api.enabled }}
 {{- $name := include "smartface.watchlistTests.name" . -}}
+{{- $apiUrl := printf "http://%s.%s.svc.cluster.local:%d" (include "smartface.api.name" .) .Release.Namespace (.Values.api.servicePort | int) -}}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -33,7 +34,7 @@ spec:
     args: ['--filter', 'Category=Watchlists&SkipOnPlatform!=Cloud']
     env:
     - name: "SF_TEST_API_URL"
-      value: "http://{{ include "smartface.api.name" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.api.servicePort }}"
+      value: {{ $apiUrl | quote }}
     volumeMounts:
     {{- include "smartface.licVolumeMount" . | nindent 4 }}
   volumes:

@@ -48,8 +48,16 @@ configurations:
     volumeMountName: "license"
     mountPath: "/etc/innovatrics"
   apiAuth:
-    # -- config containing authorization configuration for APIs used when authentication is enabled
-    configName: "auth-config"
+    # -- supply to bring your own configmap. the configmap needs following keys: `authority`, `audience`, `oauth_token_url` and `oauth_authorize_url`
+    existingConfigMapName: ""
+    # -- issuer of JWT which the API will trust
+    authority: ""
+    # -- audience representing the API
+    audience: ""
+    # -- used only for enabling OAuth flows in swagger UI
+    oauthTokenUrl: ""
+    # -- used only for enabling OAuth flows in swagger UI
+    oauthAuthorizeUrl: ""
   stationAuth:
     # -- config containing authorization configuration for SF Station used when authentication is enabled for SF Station
     configName: "station-auth-config"
@@ -60,7 +68,7 @@ features:
     # -- enabled for multitenant deployment
     enabled: false
   edgeStreams:
-    # -- features.multitenancy needs to be enabled since tenant operator is responsible for populating wlStream
+    # -- sf-tenant-management.enabled needs to be enabled since tenant operator is responsible for populating wlStream
     enabled: false
 
 # -- config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq
@@ -819,6 +827,15 @@ countlyPublisher:
     pullPolicy: IfNotPresent
 
 tests:
+  authentication:
+    tenant1:
+      name: ""
+      clientId: ""
+      clientSecret: ""
+    tenant2:
+      name: ""
+      clientId: ""
+      clientSecret: ""
   # -- Annotations for test pods
   podAnnotations: {}
   # -- Additional labels for test pods

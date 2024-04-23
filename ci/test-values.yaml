@@ -10,19 +10,26 @@ minio:
   persistence:
     enabled: false
 
-# We enabled edge streams so we can run all of the tests in one go with all features enabled
-features:
-  edgeStreams:
-    enabled: true
-sf-tenant-management:
-  enabled: true
-  installCrd: true
-
+configurations:
+  apiAuth:
+    authority: "https://smartface-test.eu.auth0.com"
+    audience: "https://api.ghaction.smartfacecloud.com"
+    oauthTokenUrl: "https://smartface-test.eu.auth0.com/oauth/token"
+tests:
+  authentication:
+    tenant1:
+      name: "tenant-1"
+      clientId: "ZwZ71smcNTpCLHdqJNkMeLy2kM6cDwQY"
+    tenant2:
+      name: "tenant-2"
+      clientId: "guwK5NNDOj8hzYXfnJFVq4ZtuLx8RUTZ"
 api:
   resources: null
 authApi:
+  enabled: true
   resources: null
 graphqlApi:
+  enableAuth: true
   resources: null
 detector:
   resources: null
@@ -34,7 +41,6 @@ liveness:
   resources: null
 edgeStreamProcessor:
   resources: null
-# edge stream tests test WL sync, which requires the population job to be run
 edgeStreamsStateSync:
   resources: null
 base:

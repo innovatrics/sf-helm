@@ -1,5 +1,12 @@
-{{- if (and .Values.features.edgeStreams.enabled .Values.api.enabled .Values.graphqlApi.enabled (not .Values.graphqlApi.enableAuth)) }}
+{{- if (and .Values.features.edgeStreams.enabled .Values.graphqlApi.enabled) }}
 {{- $name := include "smartface.edgeStreamTests.name" . -}}
+{{- $useAuth := (or .Values.graphqlApi.enableAuth .Values.authApi.enabled) -}}
+{{- $apiUrl := "" -}}
+{{- if $useAuth -}}
+{{- $apiUrl = printf "http://%s.%s.svc.cluster.local:%d" (include "smartface.authApi.name" .) .Release.Namespace (.Values.authApi.servicePort | int) -}}
+{{- else -}}
+{{- $apiUrl = printf "http://%s.%s.svc.cluster.local:%d" (include "smartface.api.name" .) .Release.Namespace (.Values.api.servicePort | int) -}}
+{{- end -}}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -33,7 +40,7 @@ spec:
     args: ['--filter', 'Category=EdgeStreams']
     env:
     - name: "SF_TEST_API_URL"
-      value: "http://{{ include "smartface.api.name" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.api.servicePort }}"
+      value: {{ $apiUrl | quote }}
     - name: "SF_TEST_GQL_API_URL"
       value: "http://{{ include "smartface.graphqlApi.name" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.graphqlApi.servicePort }}"
     - name: "SF_ZMQ_HOST"
@@ -50,6 +57,9 @@ spec:
       value: "$(MQTT__Username)"
     - name: "SF_MQTT_PASS"
       value: "$(MQTT__Password)"
+    {{- if $useAuth }}
+    {{- include "smartface.testsAuthConfig" . | nindent 4 }}
+    {{- end }}
     volumeMounts:
     {{- include "smartface.licVolumeMount" . | nindent 4 }}
   volumes:
