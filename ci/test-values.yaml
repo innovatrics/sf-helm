@@ -41,6 +41,8 @@ liveness:
   resources: null
 edgeStreamProcessor:
   resources: null
+edgeStreamsStateSync:
+  resources: null
 base:
   resources: null
 faceMatcher:

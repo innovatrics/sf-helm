@@ -6,4 +6,5 @@ api:
   enabled: false
 
 sf-tenant-operator:
+  enabled: true
   installCrd: true

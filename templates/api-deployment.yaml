@@ -59,6 +59,9 @@ spec:
         {{- include "smartface.dbConfig" . | nindent 8 }}
         {{- include "smartface.s3Config" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
+        {{- if and .Values.features.edgeStreams.enabled (or .Values.rabbitmq.enabled (not .Values.rabbitmq.mqttConfiguration.existingConfigMapName)) }}
+        {{- include "smartface.mqttConfig" . | nindent 8 }}
+        {{- end }}
         {{- include "smartface.apiFeaturesConfig" . | nindent 8 }}
         {{- include "smartface.statisticsPublish" . | nindent 8 }}
         - name: "Hosting__Host"

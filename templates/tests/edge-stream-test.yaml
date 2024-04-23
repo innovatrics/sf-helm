@@ -1,4 +1,4 @@
-{{- if (and .Values.features.edgeStreams.enabled .Values.graphqlApi.enabled (eq .Values.edgeStreamProcessor.operationMode.matchingDataStrategy "ServerOnly")) }}
+{{- if (and .Values.features.edgeStreams.enabled .Values.graphqlApi.enabled) }}
 {{- $name := include "smartface.edgeStreamTests.name" . -}}
 {{- $useAuth := (or .Values.graphqlApi.enableAuth .Values.authApi.enabled) -}}
 {{- $apiUrl := "" -}}

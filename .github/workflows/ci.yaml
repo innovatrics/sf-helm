@@ -80,12 +80,19 @@ jobs:
           kubectl apply -f ci/tenants.yaml
           echo "Wait for the operator to create the deployments"
           sleep 5
-          kubectl rollout status deployment sf-matcher-tenant-1 --timeout=300s
-          kubectl rollout status deployment sf-matcher-tenant-2 --timeout=300s
-      - name: Wait for stream log population job
+      - name: Wait for tenant operator edge
         if: ${{ matrix.variant == 'edge' }}
         run: |
-          kubectl wait --for=condition=complete job/sf-wl-update-log-population --timeout=300s
+          kubectl rollout status deployment sf-matcher-default --timeout=300s
+          echo "Wait for the operator to create the job"
+          sleep 15
+      - name: Wait for tenant operator multitenant
+        if: ${{ matrix.variant == 'multitenant' }}
+        run: |
+          kubectl rollout status deployment sf-matcher-tenant-1 --timeout=300s
+          kubectl rollout status deployment sf-matcher-tenant-2 --timeout=300s
+          echo "Wait for the operator to create the job"
+          sleep 15
       - name: Test helm chart
         run: |
           helm test smartface
