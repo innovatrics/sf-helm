@@ -82,7 +82,6 @@ jobs:
       - name: Wait for tenant operator edge
         if: ${{ matrix.variant == 'edge' }}
         run: |
-          kubectl rollout status deployment sf-matcher-default --timeout=300s
           echo "Wait for the operator to create the job"
           sleep 15
       - name: Wait for tenant operator multitenant
@@ -90,8 +89,6 @@ jobs:
         run: |
           kubectl rollout status deployment sf-matcher-tenant-1 --timeout=300s
           kubectl rollout status deployment sf-matcher-tenant-2 --timeout=300s
-          echo "Wait for the operator to create the job"
-          sleep 15
       - name: Test helm chart
         run: |
           helm test smartface
