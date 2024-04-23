@@ -516,7 +516,7 @@ metadata:
 | serviceAccount.name | string | `"sf-service-account"` | The name of the ServiceAccount to use. |
 | serviceAnnotations | object | `{}` | Common annotations for all services |
 | serviceLabels | object | `{}` | Common labels for all services |
-| sf-tenant-management | object | `{"api":{"name":"sf-tenant-api","servicePort":80},"apiDnsHost":"","config":{"configDir":"/etc/components","fileName":"appsettings.override.json","mapName":"operator-config"},"enabled":false,"imagePullSecrets":[{"name":"sf-gitlab-registry-creds"}],"installCrd":false}` | configuration for sf-tenant-management subchart |
+| sf-tenant-management | object | `{"api":{"enabled":false,"name":"sf-tenant-api","servicePort":80},"apiDnsHost":"","config":{"configDir":"/etc/components","fileName":"appsettings.override.json","mapName":"operator-config"},"enabled":false,"imagePullSecrets":[{"name":"sf-gitlab-registry-creds"}],"installCrd":false}` | configuration for sf-tenant-management subchart |
 | sf-tenant-management.enabled | bool | `false` | configure if sf-tenant-management subchart should be included |
 | skipLookupBasedValidations | bool | `false` | due to ArgoCD limitations this can be used to skip validations that use the `lookup` helm function - for more information see https://github.com/argoproj/argo-cd/issues/5202 |
 | station.annotations | object | `{}` | Annotations for station deployment |

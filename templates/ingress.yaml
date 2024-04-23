@@ -77,7 +77,7 @@ spec:
               port:
                 number: {{ .Values.station.servicePort }}
     {{- end }}
-    {{- if index .Values "sf-tenant-management" "enabled" }}
+    {{- if and (index .Values "sf-tenant-management" "enabled") (index .Values "sf-tenant-management" "api" "enabled") }}
     - host: {{ index .Values "sf-tenant-management" "apiDnsHost" }}
       http:
         paths:

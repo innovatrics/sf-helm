@@ -781,6 +781,7 @@ sf-tenant-management:
   imagePullSecrets:
     - name: "sf-gitlab-registry-creds"
   api:
+    enabled: false
     name: "sf-tenant-api"
     servicePort: 80
 
