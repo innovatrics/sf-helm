@@ -838,7 +838,7 @@ tests:
     # -- Docker image repository
     repository: innovatrics/smartface/sf-cloud-func-tests
     # -- Countly publisher follows different versioning, so the chart app needs to be overridden
-    tag: v5_4.24.0.5415-dev
+    tag: null
     # -- Overrides the image tag with an image digest
     digest: null
     # -- Docker image pull policy
