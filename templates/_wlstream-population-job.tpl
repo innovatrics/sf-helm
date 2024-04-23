@@ -1,8 +1,8 @@
-{{- if and .Values.features.edgeStreams.enabled .Values.edgeStreamsStateSync.wlStreamPopulationJob.enabled }}
+{{- define "smartface.wlStreamPopulationJob" -}}
 apiVersion: "batch/v1"
 kind: "Job"
 metadata:
-  name: "sf-wl-update-log-population"
+  name: "wlstream-population"
 spec:
   template:
     spec:
@@ -14,7 +14,7 @@ spec:
       {{- end }}
       containers:
       - name: "sf-wl-update-log-population"
-        image: {{ include "smartface.image" (dict "local" .Values.edgeStreamsStateSync.wlStreamPopulationJob.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        image: {{ include "smartface.image" (dict "local" .Values.wlStreamPopulationJob.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
         # this is not multitenant, so we pass "default"
         # maybe we should generate UUID for generation ID
         args: [
@@ -31,8 +31,8 @@ spec:
           "--connection-string", "$(ConnectionStrings__CoreDbContext)",
           "-dbe", "$(Database__DbEngine)",
 
-          "--generation-id", {{ uuidv4 | quote }},
-          "--tenant-id", "default"
+          "--generation-id", "$(GENERATION_ID)",
+          "--tenant-id", "$(Multitenancy__TenantId)"
         ]
         env:
         {{- include "smartface.dbConfig" . | nindent 8 }}
@@ -40,14 +40,14 @@ spec:
         volumeMounts:
         {{- include "smartface.licVolumeMount" . | nindent 8 }}
         resources:
-          {{- toYaml .Values.edgeStreamsStateSync.wlStreamPopulationJob.resources | nindent 10 }}
+          {{- toYaml .Values.wlStreamPopulationJob.resources | nindent 10 }}
       volumes:
         {{- include "smartface.licVolume" . | nindent 8 }}
-      {{- with .Values.edgeStreamsStateSync.wlStreamPopulationJob.nodeSelector }}
+      {{- with .Values.wlStreamPopulationJob.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.edgeStreamsStateSync.wlStreamPopulationJob.tolerations }}
+      {{- with .Values.wlStreamPopulationJob.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

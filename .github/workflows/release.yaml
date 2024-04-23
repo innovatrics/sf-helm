@@ -47,24 +47,10 @@ jobs:
           helm package .
       - name: Helm | Push
         run: helm push ${{ steps.chart_info.outputs.chart_name }}-${{ steps.chart_info.outputs.chart_version }}.tgz $HELM_REGISTRY
-      - name: release
-        uses: actions/create-release@v1
+      - name: Release
         id: create_release
-        with:
-          draft: true
-          prerelease: false
-          release_name: Smartface Helm ${{ steps.chart_info.outputs.chart_version }}
-          tag_name: ${{ github.ref }}
-          # TODO somehow parse only changes relevant to current version
-          body_path: CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ github.token }}
-      - name: Chart package as release asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.chart_info.outputs.chart_name }}-${{ steps.chart_info.outputs.chart_version }}.tgz
-          asset_name: ${{ steps.chart_info.outputs.chart_name }}-${{ steps.chart_info.outputs.chart_version }}.tgz
-          asset_content_type: application/gzip
+        run: |
+          gh release create --draft --title "Smartface Helm ${{ steps.chart_info.outputs.chart_version }}" --notes-file CHANGELOG.md ${{ github.ref }}
+          gh release upload ${{ github.ref }} ${{ steps.chart_info.outputs.chart_name }}-${{ steps.chart_info.outputs.chart_version }}.tgz

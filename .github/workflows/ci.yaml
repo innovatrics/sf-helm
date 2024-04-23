@@ -54,8 +54,11 @@ jobs:
           TENANT_1_SECRET: ${{ secrets.TENANT_1_SECRET }}
         run: |
           helm install smartface . -f ci-values.yaml --set tests.authentication.tenant1.clientId="$TENANT_1_ID" --set tests.authentication.tenant1.clientSecret="$TENANT_1_SECRET"
+          kubectl apply -f ci/tenants.yaml
           kubectl rollout status deployment sf-api --timeout=300s
-          kubectl wait --for=condition=complete job/sf-wl-update-log-population --timeout=300s
+          echo "Wait for the operator to create the deployments"
+          sleep 15
+        # kubectl wait --for=condition=complete job/sf-wl-update-log-population --timeout=300s
       - name: Test helm chart
         run: |
           helm test smartface

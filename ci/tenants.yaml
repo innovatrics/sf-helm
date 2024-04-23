@@ -1,0 +1,7 @@
+kind: Tenant
+apiVersion: smartface.innovatrics.com/v1alpha1
+metadata:
+  name: "default"
+  namespace: "default"
+spec:
+  identifier: "default"

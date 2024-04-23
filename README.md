@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.5.2](https://img.shields.io/badge/Version-0.5.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.24.0](https://img.shields.io/badge/AppVersion-v5_4.24.0-informational?style=flat-square)
+![Version: 0.7.1](https://img.shields.io/badge/Version-0.7.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.25.2](https://img.shields.io/badge/AppVersion-v5_4.25.2-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -49,7 +49,7 @@ During the tests some data (Watchlists / EdgeStreams) will be created in the dep
 
 | Repository | Name | Version |
 |------------|------|---------|
-| oci://ghcr.io/innovatrics/sf-helm | sf-tenant-operator | 0.2.0 |
+| oci://ghcr.io/innovatrics/sf-helm | sf-tenant-operator | 0.3.0 |
 | oci://registry-1.docker.io/bitnamicharts | minio | 12.8.15 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 13.2.1 |
 | oci://registry-1.docker.io/bitnamicharts | rabbitmq | 12.0.4 |
@@ -289,6 +289,31 @@ metadata:
 | countlyPublisher.service.annotations | object | `{}` | Annotations for countlyPublisher Service |
 | countlyPublisher.service.labels | object | `{}` | Additional labels for countlyPublisher Service |
 | countlyPublisher.tolerations | list | `[]` |  |
+| dbSynchronizationLeader.annotations | object | `{}` | Annotations for dbSynchronizationLeader deployment |
+| dbSynchronizationLeader.containerPort | int | `80` |  |
+| dbSynchronizationLeader.dnsHost | string | `""` |  |
+| dbSynchronizationLeader.enableAuth | bool | `false` |  |
+| dbSynchronizationLeader.enabled | bool | `false` | features.multitenancy needs to be enabled since tenant operator is responsible for populating wlStream |
+| dbSynchronizationLeader.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| dbSynchronizationLeader.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| dbSynchronizationLeader.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| dbSynchronizationLeader.image.repository | string | `"innovatrics/smartface/sf-db-synchronization-leader"` | Docker image repository |
+| dbSynchronizationLeader.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
+| dbSynchronizationLeader.name | string | `"db-synchronization-leader"` |  |
+| dbSynchronizationLeader.nodeSelector | object | `{}` |  |
+| dbSynchronizationLeader.pdb.create | bool | `false` | create PodDisruptionBudget for dbSynchronizationLeader component |
+| dbSynchronizationLeader.pdb.maxUnavailable | string | `""` |  |
+| dbSynchronizationLeader.pdb.minAvailable | int | `1` |  |
+| dbSynchronizationLeader.podAnnotations | object | `{}` | Annotations for dbSynchronizationLeader pods |
+| dbSynchronizationLeader.podLabels | object | `{}` | Additional labels for each dbSynchronizationLeader pod |
+| dbSynchronizationLeader.replicas | int | `1` |  |
+| dbSynchronizationLeader.resources.limits.memory | string | `"4G"` |  |
+| dbSynchronizationLeader.resources.requests.cpu | string | `"250m"` |  |
+| dbSynchronizationLeader.resources.requests.memory | string | `"300M"` |  |
+| dbSynchronizationLeader.service.annotations | object | `{}` | Annotations for dbSynchronizationLeader Service |
+| dbSynchronizationLeader.service.labels | object | `{}` | Additional labels for dbSynchronizationLeader Service |
+| dbSynchronizationLeader.servicePort | int | `8100` |  |
+| dbSynchronizationLeader.tolerations | list | `[]` |  |
 | detector.annotations | object | `{}` | Annotations for detector deployment |
 | detector.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | detector.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
@@ -315,8 +340,6 @@ metadata:
 | edgeStreamProcessor.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | edgeStreamProcessor.name | string | `"edge-stream-processor"` |  |
 | edgeStreamProcessor.nodeSelector | object | `{}` |  |
-| edgeStreamProcessor.operationMode.livenessDataStrategy | string | `"ServerOnly"` | Possible values are `EdgeStreamOnly` or `ServerOnly` |
-| edgeStreamProcessor.operationMode.matchingDataStrategy | string | `"ServerOnly"` | Possible values are `EdgeStreamOnly` or `ServerOnly` |
 | edgeStreamProcessor.pdb.create | bool | `false` | create PodDisruptionBudget for edgeStreamProcessor component |
 | edgeStreamProcessor.pdb.maxUnavailable | string | `""` |  |
 | edgeStreamProcessor.pdb.minAvailable | int | `1` |  |
@@ -339,15 +362,6 @@ metadata:
 | edgeStreamsStateSync.resources.requests.cpu | string | `"100m"` |  |
 | edgeStreamsStateSync.resources.requests.memory | string | `"100M"` |  |
 | edgeStreamsStateSync.tolerations | list | `[]` |  |
-| edgeStreamsStateSync.wlStreamPopulationJob.enabled | bool | `false` |  |
-| edgeStreamsStateSync.wlStreamPopulationJob.image.digest | string | `nil` | Overrides the image tag with an image digest |
-| edgeStreamsStateSync.wlStreamPopulationJob.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| edgeStreamsStateSync.wlStreamPopulationJob.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| edgeStreamsStateSync.wlStreamPopulationJob.image.repository | string | `"innovatrics/smartface/sf-admin"` | Docker image repository |
-| edgeStreamsStateSync.wlStreamPopulationJob.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
-| edgeStreamsStateSync.wlStreamPopulationJob.nodeSelector | object | `{}` |  |
-| edgeStreamsStateSync.wlStreamPopulationJob.resources | object | `{}` |  |
-| edgeStreamsStateSync.wlStreamPopulationJob.tolerations | list | `[]` |  |
 | extractor.annotations | object | `{}` | Annotations for extractor deployment |
 | extractor.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | extractor.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
@@ -383,7 +397,7 @@ metadata:
 | faceMatcher.resources.requests.cpu | string | `"100m"` |  |
 | faceMatcher.resources.requests.memory | string | `"100M"` |  |
 | faceMatcher.tolerations | list | `[]` |  |
-| features.edgeStreams.enabled | bool | `false` |  |
+| features.edgeStreams.enabled | bool | `false` | sf-tenant-operator.enabled needs to be enabled since tenant operator is responsible for populating wlStream |
 | features.multitenancy.enabled | bool | `false` | enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled |
 | global.image.registry | string | `"registry.gitlab.com"` | Overrides the Docker registry globally for all images |
 | graphqlApi.annotations | object | `{}` | Annotations for graphqlApi deployment |
@@ -506,7 +520,8 @@ metadata:
 | serviceAccount.name | string | `"sf-service-account"` | The name of the ServiceAccount to use. |
 | serviceAnnotations | object | `{}` | Common annotations for all services |
 | serviceLabels | object | `{}` | Common labels for all services |
-| sf-tenant-operator | object | `{"config":{"configDir":"/etc/components","fileName":"appsettings.override.json","mapName":"operator-config"},"image":{"secretName":"sf-gitlab-registry-creds"},"installCrd":false}` | configuration for sf-tenant-operator subchart |
+| sf-tenant-operator | object | `{"config":{"configDir":"/etc/components","fileName":"appsettings.override.json","mapName":"operator-config"},"enabled":false,"image":{"secretName":"sf-gitlab-registry-creds"},"installCrd":false}` | configuration for sf-tenant-operator subchart |
+| sf-tenant-operator.enabled | bool | `false` | configure if sf-tenant-operator subchart should be included |
 | skipLookupBasedValidations | bool | `false` | due to ArgoCD limitations this can be used to skip validations that use the `lookup` helm function - for more information see https://github.com/argoproj/argo-cd/issues/5202 |
 | station.annotations | object | `{}` | Annotations for station deployment |
 | station.containerPort | int | `80` |  |
@@ -516,7 +531,7 @@ metadata:
 | station.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | station.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | station.image.repository | string | `"innovatrics/smartface/sf-station"` | Docker image repository |
-| station.image.tag | string | `"v5_1.21.0"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
+| station.image.tag | string | `"v5_1.24.3"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
 | station.name | string | `"station"` |  |
 | station.nodeSelector | object | `{}` |  |
 | station.podAnnotations | object | `{}` | Annotations for station pods |
@@ -555,6 +570,15 @@ metadata:
 | tests.podAnnotations | object | `{}` | Annotations for test pods |
 | tests.podLabels | object | `{}` | Additional labels for test pods |
 | tests.tolerations | list | `[]` |  |
+| wlStreamPopulationJob.enabled | bool | `false` |  |
+| wlStreamPopulationJob.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| wlStreamPopulationJob.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| wlStreamPopulationJob.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| wlStreamPopulationJob.image.repository | string | `"innovatrics/smartface/sf-admin"` | Docker image repository |
+| wlStreamPopulationJob.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
+| wlStreamPopulationJob.nodeSelector | object | `{}` |  |
+| wlStreamPopulationJob.resources | object | `{}` |  |
+| wlStreamPopulationJob.tolerations | list | `[]` |  |
 
 ## Maintainers
 

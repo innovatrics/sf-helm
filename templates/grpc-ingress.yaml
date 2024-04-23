@@ -1,4 +1,4 @@
-{{- if .Values.features.edgeStreams.enabled }}
+{{- if or .Values.features.edgeStreams.enabled .Values.dbSynchronizationLeader.enabled }}
 apiVersion: "networking.k8s.io/v1"
 kind: "Ingress"
 metadata:
@@ -22,6 +22,7 @@ spec:
   ingressClassName: {{ .Values.ingress.class | quote }}
   {{- end }}
   rules:
+    {{- if .Values.features.edgeStreams.enabled }}
     - host: {{ .Values.accessController.dnsHost }}
       http:
         paths:
@@ -32,4 +33,17 @@ spec:
               name: {{ include "smartface.accessController.authServiceName" . | quote }}
               port:
                 number: {{ .Values.accessController.authServicePort }}
+    {{- end }}
+    {{- if .Values.dbSynchronizationLeader.enabled }}
+    - host: {{ .Values.dbSynchronizationLeader.dnsHost }}
+      http:
+        paths:
+        - path: "/"
+          pathType: "Prefix"
+          backend:
+            service:
+              name: {{ include "smartface.dbSynchronizationLeader.name" . | quote }}
+              port:
+                number: {{ .Values.dbSynchronizationLeader.servicePort }}
+    {{- end }}
 {{- end }}

@@ -1,0 +1,29 @@
+{{- if and .Values.dbSynchronizationLeader.enabled .Values.features.multitenancy }}
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: {{ include "smartface.dbSynchronizationLeader.name" . | quote }}
+  labels:
+    {{- include "smartface.dbSynchronizationLeader.labels" . | nindent 4 }}
+    {{- with .Values.serviceLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.dbSynchronizationLeader.service.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  annotations:
+    {{- with .Values.serviceAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.dbSynchronizationLeader.service.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  selector:
+    {{- include "smartface.dbSynchronizationLeader.selectorLabels" . | nindent 4 }}
+  ports:
+    - port: {{ .Values.dbSynchronizationLeader.servicePort }}
+      targetPort: {{ .Values.dbSynchronizationLeader.containerPort }}
+      protocol: "TCP"
+  type: "ClusterIP"
+{{- end }}
