@@ -8,3 +8,6 @@ api:
 sf-tenant-operator:
   enabled: true
   installCrd: true
+
+dbSynchronizationLeader:
+  enabled: true

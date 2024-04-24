@@ -33,12 +33,14 @@ spec:
   - name: {{ $name | quote }}
     image: {{ include "smartface.image" (dict "local" .Values.tests.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
     imagePullPolicy: {{ .Values.tests.image.pullPolicy }}
-    args: ['--filter', 'Category=Multitenant']
+    args: ['--filter', 'Category=Multitenant{{- if not .Values.dbSynchronizationLeader.enabled }}&FullyQualifiedName!=SmartFace.CloudFunctionalTests.Multitenant.CloudLeaderMultitenantWlSyncTests.Test_Correct_Dispatching_Of_Wl_Updates_For_Tenants{{- end}}']
     env:
     - name: "SF_TEST_API_URL"
       value: {{ $apiUrl | quote }}
     - name: "SF_TEST_GQL_API_URL"
       value: "http://{{ include "smartface.graphqlApi.name" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.graphqlApi.servicePort }}"
+    - name: "DBSYNC_LEADER_TEST_API_URL"
+      value: "http://{{ include "smartface.dbSynchronizationLeader.name" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.dbSynchronizationLeader.servicePort }}"
     - name: "SF_API_METRICS_URL"
       value: {{ $apiMetricsUrl | quote }}
     {{- include "smartface.testsAuthConfig" . | nindent 4 }}
