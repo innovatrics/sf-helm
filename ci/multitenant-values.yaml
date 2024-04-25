@@ -11,3 +11,4 @@ sf-tenant-operator:
 
 dbSynchronizationLeader:
   enabled: true
+  enableAuth: true
