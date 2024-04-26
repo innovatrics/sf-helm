@@ -4,7 +4,7 @@ description: SmartFace is a Scalable Facial Recognition Server Platform Able to 
 
 dependencies:
   - name: sf-tenant-management
-    version: "0.4.2"
+    version: "0.4.4"
     repository: "oci://ghcr.io/innovatrics/sf-helm"
     condition: sf-tenant-management.enabled
   - name: rabbitmq

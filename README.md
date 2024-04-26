@@ -49,7 +49,7 @@ During the tests some data (Watchlists / EdgeStreams) will be created in the dep
 
 | Repository | Name | Version |
 |------------|------|---------|
-| oci://ghcr.io/innovatrics/sf-helm | sf-tenant-management | 0.4.2 |
+| oci://ghcr.io/innovatrics/sf-helm | sf-tenant-management | 0.4.4 |
 | oci://registry-1.docker.io/bitnamicharts | minio | 12.8.15 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 13.2.1 |
 | oci://registry-1.docker.io/bitnamicharts | rabbitmq | 12.0.4 |
