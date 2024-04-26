@@ -1,4 +1,4 @@
-{{- if and .Values.dbSynchronizationLeader.enabled (index .Values "sf-tenant-operator" "enabled") }}
+{{- if and .Values.dbSynchronizationLeader.enabled (index .Values "sf-tenant-management" "enabled") }}
 {{- $name := include "smartface.dbSynchronizationLeader.name" . -}}
 {{- $selectorLabels := include "smartface.dbSynchronizationLeader.selectorLabels" . -}}
 apiVersion: "apps/v1"
