@@ -43,6 +43,11 @@ spec:
       value: "http://{{ include "smartface.dbSynchronizationLeader.name" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.dbSynchronizationLeader.servicePort }}"
     - name: "SF_API_METRICS_URL"
       value: {{ $apiMetricsUrl | quote }}
+   - name: "SF_RMQ_HOST"
+      valueFrom:
+        configMapKeyRef:
+          name: {{ include "smartface.rabbitmq.name" . | quote }}
+          key: "hostname"
     {{- include "smartface.testsAuthConfig" . | nindent 4 }}
     volumeMounts:
     {{- include "smartface.licVolumeMount" . | nindent 4 }}
