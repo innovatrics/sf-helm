@@ -65,10 +65,10 @@ configurations:
 
 features:
   multitenancy:
-    # -- enabled for multitenant deployment. Will include sf-tenant-operator subchart if enabled
+    # -- enabled for multitenant deployment
     enabled: false
   edgeStreams:
-    # -- sf-tenant-operator.enabled needs to be enabled since tenant operator is responsible for populating wlStream
+    # -- sf-tenant-management.enabled needs to be enabled since tenant operator is responsible for populating wlStream
     enabled: false
 
 # -- config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq
@@ -776,17 +776,22 @@ autoscaling:
     # -- provide additional triggers - see https://keda.sh/docs/2.12/concepts/scaling-deployments/#triggers
     triggers: []
 
-# -- configuration for sf-tenant-operator subchart
-sf-tenant-operator:
-  # -- configure if sf-tenant-operator subchart should be included
+# -- configuration for sf-tenant-management subchart
+sf-tenant-management:
+  # -- configure if sf-tenant-management subchart should be included
   enabled: false
+  apiDnsHost: ""
   config:
     mapName: "operator-config"
     fileName: "appsettings.override.json"
     configDir: "/etc/components"
   installCrd: false
-  image:
-    secretName: "sf-gitlab-registry-creds"
+  imagePullSecrets:
+    - name: "sf-gitlab-registry-creds"
+  api:
+    enabled: false
+    name: "sf-tenant-api"
+    servicePort: 80
 
 countlyPublisher:
   enabled: false

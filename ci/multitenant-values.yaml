@@ -5,7 +5,7 @@ features:
 api:
   enabled: false
 
-sf-tenant-operator:
+sf-tenant-management:
   enabled: true
   installCrd: true
 

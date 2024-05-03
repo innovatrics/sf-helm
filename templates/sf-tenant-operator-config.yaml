@@ -1,12 +1,11 @@
-{{- if index .Values "sf-tenant-operator" "enabled" }}
-
+{{- if index .Values "sf-tenant-management" "enabled" }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
 # we use index bacuse of https://github.com/helm/helm/issues/2192
-  name: {{ index .Values "sf-tenant-operator" "config" "mapName" | quote }}
+  name: {{ index .Values "sf-tenant-management" "config" "mapName" | quote }}
 data:
-  {{ index .Values "sf-tenant-operator" "config" "fileName" }}: |-
+  {{ index .Values "sf-tenant-management" "config" "fileName" }}: |-
     {
       "LoopConfiguration": {
         "FullFetchLoopDelay": "00:00:30"
@@ -17,7 +16,7 @@ data:
   {{- if .Values.features.multitenancy.enabled}}
           {
             "ComponentName": "matcher",
-            "DeploymentTemplateFilePath": "{{ index .Values "sf-tenant-operator" "config" "configDir" }}/matcher.yaml",
+            "DeploymentTemplateFilePath": "{{ index .Values "sf-tenant-management" "config" "configDir" }}/matcher.yaml",
             "TenantEnvVar": "Multitenancy__TenantId"
           }
   {{- end}}
@@ -26,7 +25,7 @@ data:
   {{- if or .Values.features.edgeStreams.enabled .Values.dbSynchronizationLeader.enabled}}
           {
             "Name": "wl_stream_population_job",
-            "TemplateFilePath": "{{ index .Values "sf-tenant-operator" "config" "configDir" }}/wlStreamPopulationJob.yaml",
+            "TemplateFilePath": "{{ index .Values "sf-tenant-management" "config" "configDir" }}/wlStreamPopulationJob.yaml",
             "SubmittedAnnotationName": "WlStreamSubmitted",
             "TenantEnvVar": "Multitenancy__TenantId",
             "JobIdEnvVar": "GENERATION_ID"
