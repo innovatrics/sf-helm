@@ -33,7 +33,7 @@ spec:
   - name: {{ $name | quote }}
     image: {{ include "smartface.image" (dict "local" .Values.tests.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
     imagePullPolicy: {{ .Values.tests.image.pullPolicy }}
-    args: ['--filter', 'Category=Multitenant{{- if not .Values.dbSynchronizationLeader.enabled }}&FullyQualifiedName!=SmartFace.CloudFunctionalTests.Multitenant.CloudLeaderMultitenantWlSyncTests.Test_Correct_Dispatching_Of_Wl_Updates_For_Tenants{{- end}}']
+    args: ['--filter', 'Category=Multitenant{{- if not .Values.dbSynchronizationLeader.enabled }}&FullyQualifiedName!=SmartFace.CloudFunctionalTests.Multitenant.CloudLeaderMultitenantWlSyncTests.Wl_Updates_For_Tenants_Smoke_Test{{- end}}']
     env:
     - name: "SF_TEST_API_URL"
       value: {{ $apiUrl | quote }}
@@ -43,11 +43,6 @@ spec:
       value: "http://{{ include "smartface.dbSynchronizationLeader.name" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.dbSynchronizationLeader.servicePort }}"
     - name: "SF_API_METRICS_URL"
       value: {{ $apiMetricsUrl | quote }}
-   - name: "SF_RMQ_HOST"
-      valueFrom:
-        configMapKeyRef:
-          name: {{ include "smartface.rabbitmq.name" . | quote }}
-          key: "hostname"
     {{- include "smartface.testsAuthConfig" . | nindent 4 }}
     volumeMounts:
     {{- include "smartface.licVolumeMount" . | nindent 4 }}
