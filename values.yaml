@@ -640,6 +640,9 @@ accessController:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  mqttAccessNotifications:
+    enabled: true
+    topic: "edge-stream/{streamId}/{clientId}/access-notifications/{notificationType}"    
 
 station:
   enabled: false
