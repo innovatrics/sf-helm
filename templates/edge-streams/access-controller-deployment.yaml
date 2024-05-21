@@ -53,7 +53,7 @@ spec:
         {{- include "smartface.commonEnv" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
         {{- include "smartface.mqttConfig" . | nindent 8 }}
-        {{- include "smartface.authenticationConfig" . | nindent 8 }}        
+        {{- include "smartface.authenticationConfig" . | nindent 8 }}
         - name: "Kestrel__EndPoints__Http__Url"
           value: "http://0.0.0.0:{{ .Values.accessController.containerPort }}"
         - name: "Kestrel__EndPoints__Http__RequireAuthentication"

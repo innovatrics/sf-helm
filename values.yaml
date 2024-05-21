@@ -635,14 +635,14 @@ accessController:
     # -- Docker image repository
     repository: innovatrics/smartface/sf-access-controller
     # -- Access Controller follows different versioning, so the chart app needs to be overridden
-    tag: "v5_1.9.1"
+    tag: "v5_1.10.0"
     # -- Overrides the image tag with an image digest
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
   mqttAccessNotifications:
     enabled: true
-    topic: "edge-stream/{streamId}/{clientId}/access-notifications/{notificationType}"    
+    topic: "edge-stream/{sourceId}/access-notifications/{notificationType}"
 
 station:
   enabled: false
