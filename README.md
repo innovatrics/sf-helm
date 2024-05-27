@@ -149,7 +149,7 @@ metadata:
 | accessController.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | accessController.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | accessController.image.repository | string | `"innovatrics/smartface/sf-access-controller"` | Docker image repository |
-| accessController.image.tag | string | `"v5_1.9.1"` | Access Controller follows different versioning, so the chart app needs to be overridden |
+| accessController.image.tag | string | `"v5_1.10.0"` | Access Controller follows different versioning, so the chart app needs to be overridden |
 | accessController.name | string | `"access-controller"` |  |
 | accessController.nodeSelector | object | `{}` |  |
 | accessController.podAnnotations | object | `{}` | Annotations for accessController pods |
