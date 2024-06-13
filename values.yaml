@@ -635,7 +635,7 @@ accessController:
     # -- Docker image repository
     repository: innovatrics/smartface/sf-access-controller
     # -- Access Controller follows different versioning, so the chart app needs to be overridden
-    tag: "v5_1.10.0"
+    tag: "v5_1.11.0"
     # -- Overrides the image tag with an image digest
     digest: null
     # -- Docker image pull policy
