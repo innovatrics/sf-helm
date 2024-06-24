@@ -6,9 +6,6 @@ global:
   image:
     # -- Overrides the Docker registry globally for all images
     registry: "registry.gitlab.com"
-  deployments:
-    revisionHistoryLimit: 10
-    strategy: "RollingUpdate"
 
 # -- Overrides the chart's name
 nameOverride: null
@@ -22,6 +19,11 @@ podLabels: {}
 serviceAnnotations: {}
 # -- Common labels for all services
 serviceLabels: {}
+# -- Common revisionHistoryLimit for all deployments
+revisionHistoryLimit: 10
+# -- Common updateStrategy for all deployments
+updateStrategy:
+  type: "RollingUpdate"
 
 # -- docker secrets used to pull images with
 imagePullSecrets:
