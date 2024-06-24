@@ -7,6 +7,7 @@
 - Added test pods supporting `helm test` command
   - There are multiple test pods, some of which run based on what is possible to test in the selected chart configuration
 - Added support for tenant management API (ingress)
+- Make deployment revisionHistoryLimit and updateStrategy configurable via values
 
 ### Changed
 - Bumped version of `sf-tenant-management` subchart
