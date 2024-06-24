@@ -16,6 +16,9 @@ metadata:
     {{- end }}
 spec:
   replicas: {{ .Values.dbSynchronizationLeader.replicas }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  strategy:
+    type: {{ .Values.updateStrategy.type }}
   selector:
     matchLabels:
       {{- $selectorLabels | nindent 6 }}

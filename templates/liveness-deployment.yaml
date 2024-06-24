@@ -15,6 +15,9 @@ metadata:
     {{- end }}
 spec:
   replicas: {{ .Values.liveness.replicas }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  strategy:
+    type: {{ .Values.updateStrategy.type }}
   selector:
     matchLabels:
       {{- $selectorLabels | nindent 6 }}

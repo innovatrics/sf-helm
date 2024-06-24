@@ -6,6 +6,9 @@ global:
   image:
     # -- Overrides the Docker registry globally for all images
     registry: "registry.gitlab.com"
+  deployments:
+    revisionHistoryLimit: 10
+    strategy: "RollingUpdate"
 
 # -- Overrides the chart's name
 nameOverride: null
