@@ -4,6 +4,9 @@ kind: Deployment
 metadata:
   name: {{ .Values.readonlyApi.noAuthName | quote }}
 spec:
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  strategy:
+    type: {{ .Values.updateStrategy.type }}
   selector:
     matchLabels:
       app: {{ .Values.readonlyApi.noAuthName | quote }}
