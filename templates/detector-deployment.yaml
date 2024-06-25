@@ -6,8 +6,6 @@ metadata:
   name: {{ $name | quote }}
   labels:
     {{- include "smartface.detector.labels" . | nindent 4 }}
-    {{- if .Values.updateStrategy }}
-    debug: "ano"
     {{- end }}
   annotations:
     {{- with .Values.annotations }}
