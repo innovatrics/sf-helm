@@ -6,7 +6,6 @@ metadata:
   name: {{ $name | quote }}
   labels:
     {{- include "smartface.detector.labels" . | nindent 4 }}
-    {{- end }}
   annotations:
     {{- with .Values.annotations }}
     {{- toYaml . | nindent 4 }}
