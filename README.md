@@ -512,6 +512,7 @@ metadata:
 | readonlyApi.nodeSelector | object | `{}` |  |
 | readonlyApi.proxyContainer.resources | object | `{}` |  |
 | readonlyApi.tolerations | list | `[]` |  |
+| revisionHistoryLimit | int | `10` | Common revisionHistoryLimit for all deployments |
 | serviceAccount.annotations | object | `{}` | Annotations for the service account |
 | serviceAccount.automountServiceAccountToken | bool | `true` | Set this toggle to false to opt out of automounting API credentials for the service account |
 | serviceAccount.create | bool | `true` | Specifies whether a ServiceAccount should be created |
@@ -574,6 +575,7 @@ metadata:
 | tests.podAnnotations | object | `{}` | Annotations for test pods |
 | tests.podLabels | object | `{}` | Additional labels for test pods |
 | tests.tolerations | list | `[]` |  |
+| updateStrategy | object | `{"type":"RollingUpdate"}` | Common updateStrategy for all deployments # e.g: # updateStrategy: #  type: RollingUpdate #  rollingUpdate: #    maxSurge: 25% #    maxUnavailable: 25% # |
 | wlStreamPopulationJob.enabled | bool | `false` |  |
 | wlStreamPopulationJob.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | wlStreamPopulationJob.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
