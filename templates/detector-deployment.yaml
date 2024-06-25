@@ -6,6 +6,9 @@ metadata:
   name: {{ $name | quote }}
   labels:
     {{- include "smartface.detector.labels" . | nindent 4 }}
+    {{- if .Values.updateStrategy }}
+    debug: "ano"
+    {{- end }}
   annotations:
     {{- with .Values.annotations }}
     {{- toYaml . | nindent 4 }}
@@ -18,8 +21,9 @@ spec:
   replicas: {{ .Values.detector.replicas }}
   {{- end }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
-  strategy:
-    type: {{ .Values.updateStrategy.type }}
+  {{- if .Values.updateStrategy }}
+  strategy: {{- toYaml .Values.updateStrategy | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- $selectorLabels | nindent 6 }}

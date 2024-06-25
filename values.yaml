@@ -20,7 +20,7 @@ serviceAnnotations: {}
 # -- Common labels for all services
 serviceLabels: {}
 # -- Common revisionHistoryLimit for all deployments
-revisionHistoryLimit: 10
+revisionHistoryLimit:
 # -- Common updateStrategy for all deployments
 ## e.g:
 ## updateStrategy:
@@ -29,8 +29,7 @@ revisionHistoryLimit: 10
 ##    maxSurge: 25%
 ##    maxUnavailable: 25%
 ##
-updateStrategy:
-  type: "RollingUpdate"
+updateStrategy: {}
 
 # -- docker secrets used to pull images with
 imagePullSecrets:
