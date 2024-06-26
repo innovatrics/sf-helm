@@ -16,6 +16,12 @@ metadata:
     {{- end }}
 spec:
   replicas: {{ .Values.api.replicas }}
+  {{- if .Values.revisionHistoryLimit }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  {{- end }}
+  {{- if .Values.updateStrategy }}
+  strategy: {{- toYaml .Values.updateStrategy | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- $selectorLabels | nindent 6 }}
