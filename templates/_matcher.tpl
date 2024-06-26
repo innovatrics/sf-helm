@@ -20,7 +20,9 @@ metadata:
     {{- end }}
 spec:
   replicas: {{ .Values.matcher.replicas }}
+  {{- if .Values.revisionHistoryLimit }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  {{- end }}
   {{- if .Values.updateStrategy }}
   strategy: {{- toYaml .Values.updateStrategy | nindent 4 }}
   {{- end }}
