@@ -16,7 +16,9 @@ metadata:
     {{- end }}
 spec:
   replicas: {{ .Values.dbSynchronizationLeader.replicas }}
+  {{- if .Values.revisionHistoryLimit }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  {{- end }}
   {{- if .Values.updateStrategy }}
   strategy: {{- toYaml .Values.updateStrategy | nindent 4 }}
   {{- end }}

@@ -4,7 +4,9 @@ kind: Deployment
 metadata:
   name: {{ .Values.readonlyApi.authName | quote }}
 spec:
+  {{- if .Values.revisionHistoryLimit }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  {{- end }}
   {{- if .Values.updateStrategy }}
   strategy: {{- toYaml .Values.updateStrategy | nindent 4 }}
   {{- end }}
