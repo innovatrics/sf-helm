@@ -575,7 +575,7 @@ metadata:
 | tests.podAnnotations | object | `{}` | Annotations for test pods |
 | tests.podLabels | object | `{}` | Additional labels for test pods |
 | tests.tolerations | list | `[]` |  |
-| updateStrategy | object | `{}` | Common updateStrategy for all deployments # e.g: # updateStrategy: #  type: RollingUpdate #  rollingUpdate: #    maxSurge: 25% #    maxUnavailable: 25% # |
+| updateStrategy | object | `{}` | Common updateStrategy for all deployments |
 | wlStreamPopulationJob.enabled | bool | `false` |  |
 | wlStreamPopulationJob.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | wlStreamPopulationJob.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
