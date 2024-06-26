@@ -59,6 +59,7 @@ spec:
         {{- include "smartface.commonEnv" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
         {{- include "smartface.authenticationConfig" . | nindent 8 }}
+        {{- include "smartface.mqttConfig" . | nindent 8 }}
         - name: "Kestrel__EndPoints__Http__Url"
           value: "http://0.0.0.0:{{ .Values.accessController.containerPort }}"
         - name: "Kestrel__EndPoints__Http__RequireAuthentication"
@@ -67,6 +68,12 @@ spec:
           value: "http://0.0.0.0:{{ .Values.accessController.authContainerPort }}"
         - name: "Kestrel__EndPoints__HttpAuth__RequireAuthentication"
           value: "true"
+        - name: "MQTT__Enabled"
+          value: {{ .Values.enabled | quote }}
+        - name: "MQTT__Topic"
+          value: {{ .Values.topic | quote }}
+        - name: "MQTT__SendImageData"
+          value: {{ .Values.sendImageData | quote }}
         resources:
           {{- toYaml .Values.accessController.resources | nindent 10 }}
         volumeMounts:
