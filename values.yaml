@@ -22,13 +22,6 @@ serviceLabels: {}
 # -- Common revisionHistoryLimit for all deployments
 revisionHistoryLimit:
 # -- Common updateStrategy for all deployments
-## e.g:
-## updateStrategy:
-##  type: RollingUpdate
-##  rollingUpdate:
-##    maxSurge: 25%
-##    maxUnavailable: 25%
-##
 updateStrategy: {}
 
 # -- docker secrets used to pull images with
