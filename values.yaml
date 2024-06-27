@@ -19,6 +19,10 @@ podLabels: {}
 serviceAnnotations: {}
 # -- Common labels for all services
 serviceLabels: {}
+# -- Common revisionHistoryLimit for all deployments
+revisionHistoryLimit:
+# -- Common updateStrategy for all deployments
+updateStrategy: {}
 
 # -- docker secrets used to pull images with
 imagePullSecrets:
