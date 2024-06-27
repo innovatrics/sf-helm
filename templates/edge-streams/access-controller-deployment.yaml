@@ -69,11 +69,11 @@ spec:
         - name: "Kestrel__EndPoints__HttpAuth__RequireAuthentication"
           value: "true"
         - name: "MQTT__Enabled"
-          value: {{ .Values.enabled | quote }}
+          value: {{ .Values.accessController.mqttConfig.enabled | quote }}
         - name: "MQTT__Topic"
-          value: {{ .Values.topic | quote }}
+          value: {{ .Values.accessController.mqttConfig.topic | quote }}
         - name: "MQTT__SendImageData"
-          value: {{ .Values.sendImageData | quote }}
+          value: {{ .Values.accessController.mqttConfig.sendImageData | quote }}
         resources:
           {{- toYaml .Values.accessController.resources | nindent 10 }}
         volumeMounts:

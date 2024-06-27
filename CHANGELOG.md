@@ -8,6 +8,7 @@
   - There are multiple test pods, some of which run based on what is possible to test in the selected chart configuration
 - Added support for tenant management API (ingress)
 - Deployment revisionHistoryLimit and updateStrategy are configurable via values
+- Access Controller MQTT settings are configurable via values
 
 ### Changed
 - Bumped version of `sf-tenant-management` subchart
