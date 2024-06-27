@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.9.0]
+
+### Changed
+
+- Updated for SmartFace Platform version 4.26
+- Bumped version of SmartFace Station to 4.25
+- Bumped version of SmartFace Access Controller to 1.11
+
+### Added
+
+- Added support for Access Controller to publish notification messages through MQTT broker
+
 ## [v0.8.0]
 
 ### Added
