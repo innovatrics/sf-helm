@@ -1,0 +1,93 @@
+"accessController":
+  "dnsHost": "ac.egid.smartfacecloud.com"
+"api":
+  "dnsHost": ""
+  "enabled": false
+"authApi":
+  "dnsHost": "api.egid.smartfacecloud.com"
+  "enabled": true
+"autoscaling":
+  "cron":
+    "enabled": false
+  "rmq":
+    "enabled": true
+"configurations":
+  "apiAuth":
+    "existingConfigMapName": "auth-config"
+  "s3":
+    "existingConfigMapName": "s3-config"
+"countlyPublisher":
+  "clusterName": "egid"
+  "enabled": false
+"dbSynchronizationLeader":
+  "dnsHost": ""
+  "enableAuth": true
+  "enabled": false
+"detector":
+  "resources":
+    "requests":
+      "cpu": "100m"
+"extractor":
+  "resources":
+    "requests":
+      "cpu": "100m"
+"features":
+  "edgeStreams":
+    "enabled": false
+  "multitenancy":
+    "enabled": true
+"graphqlApi":
+  "dnsHost": "graphql.egid.smartfacecloud.com"
+  "enableAuth": true
+"ingress":
+  "certificateArn": "arn:aws:acm:eu-central-1:291501518763:certificate/8e94db10-74ad-4736-ab56-e07d04d7227f"
+  "class": "alb"
+  "includeAlbAnnotations": true
+"liveness":
+  "resources":
+    "requests":
+      "cpu": "100m"
+"matcher":
+  "resources":
+    "requests":
+      "cpu": "100m"
+"metrics":
+  "enabled": false
+"minio":
+  "enabled": false
+"postgresql":
+  "enabled": false
+"rabbitmq":
+  "auth":
+    "erlangCookie": "]Lc3gffKkpGYH[xq>sxVy(o1H<UiZL51"
+    "password": "Zg2_K4mL3GPO"
+  "mqttPublicService":
+    "enabled": false
+    "mqttDnsHost": ""
+"serviceAccount":
+  "annotations":
+    "eks.amazonaws.com/role-arn": "arn:aws:iam::291501518763:role/smartface-egid-egid"
+  "name": "sf-service-account"
+"sf-tenant-management":
+  "api":
+    "auth":
+      "existingConfigMap": "tenant-auth-config"
+    "enabled": true
+  "apiDnsHost": ""
+  "enabled": true
+"station":
+  "dnsHost": "egid.smartfacecloud.com"
+  "enabled": true
+"tests":
+  "authentication":
+    "tenant1":
+      "clientId": "UF8wzFUsRcanLl3jn4vLf1xILs3txpD6"
+      "clientSecret": "EGEU93uUSPL_sdCNwrRe2qNQn77TsI0wh0z23f7Pf_7lu6EiLgyg8X996NJZerkU"
+      "name": "ttenant-1"
+    "tenant2":
+      "clientId": "PWMNAUcWhckaABnn5UCj3yRXduWrgtxj"
+      "clientSecret": "GgupULpsOMp5HS09lKQ22EjRnPYj61Kycb9D9v_zI21YvIowDRRX0zYZuB_hCmDD"
+      "name": "customized"
+"sf-tenant-operator":
+  "enabled": true
+
