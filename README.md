@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.8.0](https://img.shields.io/badge/Version-0.8.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.25.2](https://img.shields.io/badge/AppVersion-v5_4.25.2-informational?style=flat-square)
+![Version: 0.9.0](https://img.shields.io/badge/Version-0.9.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.26.0](https://img.shields.io/badge/AppVersion-v5_4.26.0-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -150,6 +150,8 @@ metadata:
 | accessController.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | accessController.image.repository | string | `"innovatrics/smartface/sf-access-controller"` | Docker image repository |
 | accessController.image.tag | string | `"v5_1.11.0"` | Access Controller follows different versioning, so the chart app needs to be overridden |
+| accessController.mqttAccessNotifications.enabled | bool | `true` |  |
+| accessController.mqttAccessNotifications.topic | string | `"edge-stream/{sourceId}/access-notifications/{notificationType}"` |  |
 | accessController.name | string | `"access-controller"` |  |
 | accessController.nodeSelector | object | `{}` |  |
 | accessController.podAnnotations | object | `{}` | Annotations for accessController pods |
@@ -512,6 +514,28 @@ metadata:
 | readonlyApi.nodeSelector | object | `{}` |  |
 | readonlyApi.proxyContainer.resources | object | `{}` |  |
 | readonlyApi.tolerations | list | `[]` |  |
+| relayController.annotations | object | `{}` | Annotations for edgeStreamProcessor deployment |
+| relayController.containerPort | int | `8080` |  |
+| relayController.dnsHost | string | `""` |  |
+| relayController.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| relayController.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| relayController.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| relayController.image.repository | string | `"innovatrics/smartface/sf-relay-controller"` | Docker image repository |
+| relayController.image.tag | string | `"0.1.0.16-dev"` | Overrides the image tag whose default is the chart's appVersion |
+| relayController.name | string | `"relay-controller"` |  |
+| relayController.nodeSelector | object | `{}` |  |
+| relayController.pdb.create | bool | `false` | create PodDisruptionBudget for edgeStreamProcessor component |
+| relayController.pdb.maxUnavailable | string | `""` |  |
+| relayController.pdb.minAvailable | int | `1` |  |
+| relayController.podAnnotations | object | `{}` | Annotations for edgeStreamProcessor pods |
+| relayController.podLabels | object | `{}` | Additional labels for each edgeStreamProcessor pod |
+| relayController.replicas | int | `1` |  |
+| relayController.resources.requests.cpu | string | `"100m"` |  |
+| relayController.resources.requests.memory | string | `"300M"` |  |
+| relayController.service.annotations | object | `{}` | Annotations for api Service |
+| relayController.service.labels | object | `{}` | Additional labels for api Service |
+| relayController.servicePort | int | `80` |  |
+| relayController.tolerations | list | `[]` |  |
 | serviceAccount.annotations | object | `{}` | Annotations for the service account |
 | serviceAccount.automountServiceAccountToken | bool | `true` | Set this toggle to false to opt out of automounting API credentials for the service account |
 | serviceAccount.create | bool | `true` | Specifies whether a ServiceAccount should be created |

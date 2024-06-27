@@ -1,0 +1,31 @@
+{{- if .Values.features.edgeStreams.enabled }}
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: {{ include "smartface.relayController.name" . | quote }}
+  labels:
+    {{- include "smartface.relayController.labels" . | nindent 4 }}
+    {{- with .Values.serviceLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.relayController.service.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  annotations:
+    {{- with .Values.serviceAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.relayController.service.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  selector:
+    {{- include "smartface.relayController.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: "http"
+      port: {{ .Values.relayController.servicePort }}
+      targetPort: {{ .Values.relayController.containerPort }}
+    - name: {{ .Values.metrics.portName | quote }}
+      port: {{ .Values.metrics.port }}
+  type: "ClusterIP"
+{{- end }}
