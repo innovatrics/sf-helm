@@ -8,3 +8,7 @@ api:
 sf-tenant-management:
   enabled: true
   installCrd: true
+
+dbSynchronizationLeader:
+  enabled: true
+  enableAuth: true
