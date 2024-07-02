@@ -534,7 +534,7 @@ metadata:
 | relayController.resources.requests.memory | string | `"300M"` |  |
 | relayController.service.annotations | object | `{}` | Annotations for api Service |
 | relayController.service.labels | object | `{}` | Additional labels for api Service |
-| relayController.servicePort | int | `80` |  |
+| relayController.servicePort | int | `8080` |  |
 | relayController.tolerations | list | `[]` |  |
 | revisionHistoryLimit | string | `nil` | Common revisionHistoryLimit for all deployments |
 | serviceAccount.annotations | object | `{}` | Annotations for the service account |

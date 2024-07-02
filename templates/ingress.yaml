@@ -97,7 +97,7 @@ spec:
           pathType: "Prefix"
           backend:
             service:
-              name: {{ index .Values "relayController" "name" }}
+              name: {{ include "smartface.relayController.name" . | quote }}
               port:
                 number: {{ index .Values "relayController" "servicePort" }}
     {{- end }}

@@ -470,7 +470,7 @@ liveness:
 
 relayController:
   name: "relay-controller"
-  servicePort: 80
+  servicePort: 8080
   containerPort: 8080
   dnsHost: ""
   # -- Annotations for edgeStreamProcessor deployment
