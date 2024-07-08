@@ -722,6 +722,7 @@ jaegerTracing:
 
 migration:
   enabled: true
+  skipWlStreamMigration: false
   initContainer:
     resources: {}
     image:
