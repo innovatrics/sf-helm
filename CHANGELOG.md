@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.9.0]
+
+### Changed
+
+### Added
+
+- Added support for Access Controller to publish notification messages through MQTT broker
+
 ## [v0.8.0]
 
 ### Added
@@ -14,6 +22,7 @@
 - Bumped version of Access Controller to 1.11.0
 
 ### Changed
+
 - Bumped version of `sf-tenant-management` subchart
   - since the chart was renamed all references to previous name were changes
 
