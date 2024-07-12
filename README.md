@@ -521,7 +521,7 @@ metadata:
 | relayController.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | relayController.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | relayController.image.repository | string | `"innovatrics/smartface/sf-relay-controller"` | Docker image repository |
-| relayController.image.tag | string | `"0.1.0.16-dev"` | Overrides the image tag whose default is the chart's appVersion |
+| relayController.image.tag | string | `"0.1.0.21"` | Overrides the image tag whose default is the chart's appVersion |
 | relayController.name | string | `"relay-controller"` |  |
 | relayController.nodeSelector | object | `{}` |  |
 | relayController.pdb.create | bool | `false` | create PodDisruptionBudget for edgeStreamProcessor component |
