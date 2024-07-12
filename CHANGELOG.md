@@ -4,10 +4,6 @@
 
 ### Changed
 
-- Updated for SmartFace Platform version 4.26
-- Bumped version of SmartFace Station to 4.25
-- Bumped version of SmartFace Access Controller to 1.11
-
 ### Added
 
 - Added support for Access Controller to publish notification messages through MQTT broker
@@ -26,6 +22,7 @@
 - Bumped version of Access Controller to 1.11.0
 
 ### Changed
+
 - Bumped version of `sf-tenant-management` subchart
   - since the chart was renamed all references to previous name were changes
 
