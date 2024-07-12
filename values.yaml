@@ -19,6 +19,10 @@ podLabels: {}
 serviceAnnotations: {}
 # -- Common labels for all services
 serviceLabels: {}
+# -- Common revisionHistoryLimit for all deployments
+revisionHistoryLimit:
+# -- Common updateStrategy for all deployments
+updateStrategy: {}
 
 # -- docker secrets used to pull images with
 imagePullSecrets:
@@ -640,9 +644,10 @@ accessController:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
-  mqttAccessNotifications:
+  mqttConfig:
     enabled: true
     topic: "edge-stream/{sourceId}/access-notifications/{notificationType}"
+    sendImageData: false
 
 station:
   enabled: false
@@ -673,7 +678,7 @@ station:
     # -- Docker image repository
     repository: innovatrics/smartface/sf-station
     # -- Smartface Station follows different versioning, so the chart app needs to be overridden
-    tag: "v5_1.24.3"
+    tag: "v5_1.25.1"
     # -- Overrides the image tag with an image digest
     digest: null
     # -- Docker image pull policy

@@ -18,6 +18,12 @@ spec:
   {{- if not (and (or .Values.autoscaling.cron.enabled .Values.autoscaling.rmq.enabled) .Values.autoscaling.api.enabled ) }}
   replicas: {{ .Values.authApi.replicas }}
   {{- end }}
+  {{- if .Values.revisionHistoryLimit }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  {{- end }}
+  {{- if .Values.updateStrategy }}
+  strategy: {{- toYaml .Values.updateStrategy | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- $selectorLabels | nindent 6 }}
