@@ -83,6 +83,34 @@ app.kubernetes.io/component: "graphqlApi"
 {{- end -}}
 
 {{/*
+relayController
+*/}}
+{{/*
+Template used for resolving SF relayController name
+*/}}
+{{- define "smartface.relayController.name" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := .Values.relayController.name -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}
+
+{{/*
+Template used for resolving labels for relayController component
+*/}}
+{{- define "smartface.relayController.labels" }}
+{{- include "smartface.labels" . }}
+app.kubernetes.io/component: "relayController"
+{{- end -}}
+
+{{/*
+Template used for resolving selector labels for relayController component
+*/}}
+{{- define "smartface.relayController.selectorLabels" }}
+{{- include "smartface.selectorLabels" . }}
+app.kubernetes.io/component: "relayController"
+{{- end -}}
+
+{{/*
 dbSynchronizationLeader
 */}}
 {{/*

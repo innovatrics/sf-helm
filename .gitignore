@@ -1,4 +1,4 @@
 *.tgz
 *.zip
+*-secret.yaml
 .devcontainer/
-egid.values.yaml

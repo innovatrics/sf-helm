@@ -106,7 +106,7 @@ Validate that the license secret exists with correct keys
 Validate auth config present if it will be needed
 */}}
 {{- define "smartface.validate.authConfig" -}}
-{{- if or .Values.authApi.enabled .Values.graphqlApi.enableAuth .Values.dbSynchronizationLeader.enableAuth -}}
+{{- if or .Values.authApi.enabled .Values.graphqlApi.enableAuth .Values.dbSynchronizationLeader.enableAuth (and .Values.features.edgeStreams.enabled .Values.relayController.enableAuth) -}}
 {{- if .Values.configurations.apiAuth.existingConfigMapName -}}
 {{- $configMapName := .Values.configurations.apiAuth.existingConfigMapName -}}
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $configMapName "Key" "authority") }}
