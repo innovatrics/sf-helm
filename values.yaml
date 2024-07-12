@@ -685,7 +685,7 @@ accessController:
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
   mqttConfig:
-    enabled: false
+    enabled: true
     topic: "edge-stream/{sourceId}/access-notifications/{notificationType}"
     sendImageData: false
 
