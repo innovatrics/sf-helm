@@ -13,7 +13,8 @@ spec:
     matchLabels:
       {{- toYaml $.Values.metrics.serviceDiscoveryLabels | nindent 6 }}
   endpoints:
-  - metricRelabelings:
+  - {{- if .Values.metrics.reducedMetricsForIngestion }}
+    metricRelabelings:
       - action: drop
         regex: http_server_duration_ms_bucket
         sourceLabels:
@@ -22,5 +23,6 @@ spec:
         regex: rpc_client_duration_ms_bucket
         sourceLabels:
           - __name__
+    {{- end }}
     port: {{ .Values.metrics.portName | quote }}
 {{- end }}

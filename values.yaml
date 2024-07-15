@@ -865,6 +865,7 @@ tests:
 
 metrics:
   enabled: false
+  reducedMetricsForIngestion: true
   monitorDiscoveryLabel:
     instance: primary
   serviceDiscoveryLabels:
