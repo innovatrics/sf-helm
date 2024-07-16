@@ -865,7 +865,7 @@ tests:
 
 metrics:
   enabled: false
-  reducedMetricsForIngestion: true
+  publishAllMetrics: true
   monitorDiscoveryLabel:
     instance: primary
   serviceDiscoveryLabels:
