@@ -475,6 +475,7 @@ metadata:
 | metrics.monitorDiscoveryLabel.instance | string | `"primary"` |  |
 | metrics.port | int | `4318` |  |
 | metrics.portName | string | `"metrics"` |  |
+| metrics.publishAllMetrics | bool | `true` |  |
 | metrics.serviceDiscoveryLabels.sf-metrics | string | `"true"` |  |
 | migration.enabled | bool | `true` |  |
 | migration.initContainer.image.digest | string | `nil` | Overrides the image tag with an image digest |
