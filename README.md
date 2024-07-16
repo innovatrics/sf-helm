@@ -475,6 +475,7 @@ metadata:
 | metrics.monitorDiscoveryLabel.instance | string | `"primary"` |  |
 | metrics.port | int | `4318` |  |
 | metrics.portName | string | `"metrics"` |  |
+| metrics.publishAllMetrics | bool | `true` |  |
 | metrics.serviceDiscoveryLabels.sf-metrics | string | `"true"` |  |
 | migration.enabled | bool | `true` |  |
 | migration.initContainer.image.digest | string | `nil` | Overrides the image tag with an image digest |
@@ -483,6 +484,7 @@ metadata:
 | migration.initContainer.image.repository | string | `"innovatrics/smartface/sf-admin"` | Docker image repository |
 | migration.initContainer.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | migration.initContainer.resources | object | `{}` |  |
+| migration.skipWlStreamMigration | bool | `false` |  |
 | minio | object | `{"defaultBuckets":"smartface","enabled":true}` | config for minio subchart, see https://github.com/bitnami/charts/tree/main/bitnami/minio |
 | nameOverride | string | `nil` | Overrides the chart's name |
 | podAnnotations | object | `{}` | Common annotations for all pods |
