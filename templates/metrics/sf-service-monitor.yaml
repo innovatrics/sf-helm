@@ -13,7 +13,7 @@ spec:
     matchLabels:
       {{- toYaml $.Values.metrics.serviceDiscoveryLabels | nindent 6 }}
   endpoints:
-  - {{- if .Values.metrics.reducedMetricsForIngestion }}
+  - {{- if not .Values.metrics.publishAllMetrics }}
     metricRelabelings:
       - action: drop
         regex: http_server_duration_ms_bucket

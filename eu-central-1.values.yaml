@@ -1,0 +1,90 @@
+"accessController":
+  "dnsHost": "ac.eu-central-1.smartfacecloud.com"
+"api":
+  "dnsHost": "noauth-api.eu-central-1.smartfacecloud.com"
+  "enabled": true
+"authApi":
+  "dnsHost": "api.eu-central-1.smartfacecloud.com"
+  "enabled": true
+"autoscaling":
+  "cron":
+    "enabled": false
+  "rmq":
+    "enabled": true
+"configurations":
+  "apiAuth":
+    "existingConfigMapName": "auth-config"
+  "s3":
+    "existingConfigMapName": "s3-config"
+"countlyPublisher":
+  "clusterName": "eu-central-1"
+  "enabled": true
+"dbSynchronizationLeader":
+  "dnsHost": "dbsync.eu-central-1.smartfacecloud.com"
+  "enableAuth": true
+  "enabled": true
+"detector":
+  "resources":
+    "requests":
+      "cpu": "750m"
+"extractor":
+  "resources":
+    "requests":
+      "cpu": "750m"
+"features":
+  "edgeStreams":
+    "enabled": false
+  "multitenancy":
+    "enabled": true
+"graphqlApi":
+  "dnsHost": "graphql.eu-central-1.smartfacecloud.com"
+  "enableAuth": true
+"ingress":
+  "certificateArn": "arn:aws:acm:eu-central-1:291501518763:certificate/255d18c4-9edc-4c7c-97de-c479b2b69dd3"
+  "class": "alb"
+  "includeAlbAnnotations": true
+"liveness":
+  "resources":
+    "requests":
+      "cpu": "750m"
+"matcher":
+  "resources":
+    "requests":
+      "cpu": "750m"
+"metrics":
+  "enabled": true
+"minio":
+  "enabled": false
+"postgresql":
+  "enabled": false
+"rabbitmq":
+  "auth":
+    "erlangCookie": "TYLe07z.r<JLWaS5%oG{F9ri(J[QyzyK"
+    "password": "NV(7_5wbl*[T"
+  "mqttPublicService":
+    "enabled": false
+    "mqttDnsHost": ""
+"serviceAccount":
+  "annotations":
+    "eks.amazonaws.com/role-arn": "arn:aws:iam::291501518763:role/smartface-prod-eu-central-1"
+  "name": "sf-service-account"
+"sf-tenant-management":
+  "api":
+    "auth":
+      "existingConfigMap": "tenant-auth-config"
+    "enabled": false
+  "apiDnsHost": ""
+  "enabled": true
+"station":
+  "dnsHost": "eu-central-1.smartfacecloud.com"
+  "enabled": true
+"tests":
+  "authentication":
+    "tenant1":
+      "clientId": "basCIv7SiIXWbPFZeLr7Qk96cVaNDKQ7"
+      "clientSecret": "dA5H9l6BQfasotWc7gtywjBNcV3XDMIhhrj8hB-qsEcWtfySreHpRjwW7GbDKju9"
+      "name": "tenant-1"
+    "tenant2":
+      "clientId": "zvpHQcoUmy1RK6DN8REgafWAbLuuymPY"
+      "clientSecret": "MH9QvcUtcZlYFehh5YQpk1wpILaxeNTyPS846Ri7haalwQUyLXFwDJ32Z_DHYLOk"
+      "name": "default"

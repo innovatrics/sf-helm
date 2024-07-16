@@ -1,0 +1,91 @@
+"accessController":
+  "dnsHost": "ac.egid-multitenant.smartfacecloud.com"
+"api":
+  "dnsHost": "noauth-api.egid-multitenant.smartfacecloud.com"
+  "enabled": true
+"authApi":
+  "dnsHost": "api.egid-multitenant.smartfacecloud.com"
+  "enabled": true
+"autoscaling":
+  "cron":
+    "enabled": false
+  "rmq":
+    "enabled": true
+"configurations":
+  "apiAuth":
+    "existingConfigMapName": "auth-config"
+  "s3":
+    "existingConfigMapName": "s3-config"
+"countlyPublisher":
+  "clusterName": "egid-multitenant"
+  "enabled": false
+"dbSynchronizationLeader":
+  "dnsHost": "dbsync.egid-multitenant.smartfacecloud.com"
+  "enableAuth": true
+  "enabled": true
+"detector":
+  "resources":
+    "requests":
+      "cpu": "100m"
+"extractor":
+  "resources":
+    "requests":
+      "cpu": "100m"
+"features":
+  "edgeStreams":
+    "enabled": false
+  "multitenancy":
+    "enabled": true
+"graphqlApi":
+  "dnsHost": "graphql.egid-multitenant.smartfacecloud.com"
+  "enableAuth": true
+"ingress":
+  "certificateArn": "arn:aws:acm:eu-central-1:291501518763:certificate/6f3b3c17-4e98-420a-86df-aee6fd916638"
+  "class": "alb"
+  "includeAlbAnnotations": true
+"liveness":
+  "resources":
+    "requests":
+      "cpu": "100m"
+"matcher":
+  "resources":
+    "requests":
+      "cpu": "100m"
+"metrics":
+  "enabled": true
+  "publishAllMetrics": false
+"minio":
+  "enabled": false
+"postgresql":
+  "enabled": false
+"rabbitmq":
+  "auth":
+    "erlangCookie": "7_nX0>>i-N72wsgyma}C1[WK)>N5]7]5"
+    "password": "o0Gs.YM.q1WL"
+  "mqttPublicService":
+    "enabled": false
+    "mqttDnsHost": ""
+"serviceAccount":
+  "annotations":
+    "eks.amazonaws.com/role-arn": "arn:aws:iam::291501518763:role/smartface-egid-egid-multitenant"
+  "name": "sf-service-account"
+"sf-tenant-management":
+  "api":
+    "auth":
+      "existingConfigMap": "tenant-auth-config"
+    "enabled": false
+  "apiDnsHost": ""
+  "enabled": true
+"station":
+  "dnsHost": "egid-multitenant.smartfacecloud.com"
+  "enabled": true
+"tests":
+  "authentication":
+    "tenant1":
+      "clientId": "OAEuiZR0lUarZqFfJhHn4nO2KVq3Vt7v"
+      "clientSecret": "CTkMxmEStgZsF4C6v4N_OisrcLGxmZBJDU1kay3tq8Rzxu0jOCy8X21223A2YLZi"
+      "name": "stage-1"
+    "tenant2":
+      "clientId": "TatqZOJugh23Vl8ewwCpzYNytL4Y4sQ9"
+      "clientSecret": "Ov5_iHsEnP-6T63GhMlRkxMdMct8QSf8KEexNBcb1OWPyUWYlLk4zBJtCA6YCuHL"
+      "name": "default"
