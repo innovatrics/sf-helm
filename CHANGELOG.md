@@ -5,6 +5,7 @@
 ### Added
 
 - Support for skipping WLStream migration during the migration process
+- Support for reducing number of published metrics
 
 ## [v0.8.0]
 
