@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.8.2]
+
+### Changed
+
+- Bumped version of SmartFace Station to 1.26.0
+- Bumped version of SmartFace Platform to 4.27.0
+- Bumped version of Access Controller to 1.12.0
+
 ## [v0.8.1]
 
 ### Added
@@ -16,11 +24,12 @@
 - Added support for tenant management API (ingress)
 - Deployment revisionHistoryLimit and updateStrategy are configurable via values
 - Access Controller MQTT settings are configurable via values
+
+### Changed
+
 - Bumped version of SmartFace Station to 1.25.1
 - Bumped version of SmartFace Platform to 4.26.0
 - Bumped version of Access Controller to 1.11.0
-
-### Changed
 - Bumped version of `sf-tenant-management` subchart
   - since the chart was renamed all references to previous name were changes
 
