@@ -473,14 +473,14 @@ relayController:
   servicePort: 8080
   containerPort: 8080
   dnsHost: ""
-  # -- Annotations for edgeStreamProcessor deployment
+  # -- Annotations for relayController deployment
   annotations: {}
-  # -- Annotations for edgeStreamProcessor pods
+  # -- Annotations for relayController pods
   podAnnotations: {}
-  # -- Additional labels for each edgeStreamProcessor pod
+  # -- Additional labels for each relayController pod
   podLabels: {}
   pdb:
-    # -- create PodDisruptionBudget for edgeStreamProcessor component
+    # -- create PodDisruptionBudget for relayController component
     create: false
     minAvailable: 1
     maxUnavailable: ""
