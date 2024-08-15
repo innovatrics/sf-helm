@@ -515,6 +515,28 @@ metadata:
 | readonlyApi.nodeSelector | object | `{}` |  |
 | readonlyApi.proxyContainer.resources | object | `{}` |  |
 | readonlyApi.tolerations | list | `[]` |  |
+| relayController.annotations | object | `{}` | Annotations for relayController deployment |
+| relayController.containerPort | int | `8080` |  |
+| relayController.dnsHost | string | `""` |  |
+| relayController.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| relayController.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| relayController.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| relayController.image.repository | string | `"innovatrics/smartface/sf-relay-controller"` | Docker image repository |
+| relayController.image.tag | string | `"0.1.0.21"` | Overrides the image tag whose default is the chart's appVersion |
+| relayController.name | string | `"relay-controller"` |  |
+| relayController.nodeSelector | object | `{}` |  |
+| relayController.pdb.create | bool | `false` | create PodDisruptionBudget for relayController component |
+| relayController.pdb.maxUnavailable | string | `""` |  |
+| relayController.pdb.minAvailable | int | `1` |  |
+| relayController.podAnnotations | object | `{}` | Annotations for relayController pods |
+| relayController.podLabels | object | `{}` | Additional labels for each relayController pod |
+| relayController.replicas | int | `1` |  |
+| relayController.resources.requests.cpu | string | `"100m"` |  |
+| relayController.resources.requests.memory | string | `"300M"` |  |
+| relayController.service.annotations | object | `{}` | Annotations for api Service |
+| relayController.service.labels | object | `{}` | Additional labels for api Service |
+| relayController.servicePort | int | `8080` |  |
+| relayController.tolerations | list | `[]` |  |
 | revisionHistoryLimit | string | `nil` | Common revisionHistoryLimit for all deployments |
 | serviceAccount.annotations | object | `{}` | Annotations for the service account |
 | serviceAccount.automountServiceAccountToken | bool | `true` | Set this toggle to false to opt out of automounting API credentials for the service account |

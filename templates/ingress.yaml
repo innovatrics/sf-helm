@@ -89,4 +89,16 @@ spec:
               port:
                 number: {{ index .Values "sf-tenant-management" "api" "servicePort" }}
     {{- end }}
+    {{- if .Values.features.edgeStreams.enabled }}
+    - host: {{ index .Values "relayController" "dnsHost" }}
+      http:
+        paths:
+        - path: "/"
+          pathType: "Prefix"
+          backend:
+            service:
+              name: {{ include "smartface.relayController.name" . | quote }}
+              port:
+                number: {{ index .Values "relayController" "servicePort" }}
+    {{- end }}
 {{- end }}
