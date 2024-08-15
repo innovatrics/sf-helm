@@ -149,7 +149,7 @@ metadata:
 | accessController.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | accessController.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | accessController.image.repository | string | `"innovatrics/smartface/sf-access-controller"` | Docker image repository |
-| accessController.image.tag | string | `"v5_1.11.0"` | Access Controller follows different versioning, so the chart app needs to be overridden |
+| accessController.image.tag | string | `"v5_1.12.0"` | Access Controller follows different versioning, so the chart app needs to be overridden |
 | accessController.mqttConfig.enabled | bool | `true` |  |
 | accessController.mqttConfig.sendImageData | bool | `false` |  |
 | accessController.mqttConfig.topic | string | `"edge-stream/{sourceId}/access-notifications/{notificationType}"` |  |
@@ -475,6 +475,7 @@ metadata:
 | metrics.monitorDiscoveryLabel.instance | string | `"primary"` |  |
 | metrics.port | int | `4318` |  |
 | metrics.portName | string | `"metrics"` |  |
+| metrics.publishAllMetrics | bool | `true` |  |
 | metrics.serviceDiscoveryLabels.sf-metrics | string | `"true"` |  |
 | migration.enabled | bool | `true` |  |
 | migration.initContainer.image.digest | string | `nil` | Overrides the image tag with an image digest |
@@ -483,6 +484,7 @@ metadata:
 | migration.initContainer.image.repository | string | `"innovatrics/smartface/sf-admin"` | Docker image repository |
 | migration.initContainer.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | migration.initContainer.resources | object | `{}` |  |
+| migration.skipWlStreamMigration | bool | `false` |  |
 | minio | object | `{"defaultBuckets":"smartface","enabled":true}` | config for minio subchart, see https://github.com/bitnami/charts/tree/main/bitnami/minio |
 | nameOverride | string | `nil` | Overrides the chart's name |
 | podAnnotations | object | `{}` | Common annotations for all pods |
@@ -557,7 +559,7 @@ metadata:
 | station.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | station.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | station.image.repository | string | `"innovatrics/smartface/sf-station"` | Docker image repository |
-| station.image.tag | string | `"v5_1.25.1"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
+| station.image.tag | string | `"v5_1.26.0"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
 | station.name | string | `"station"` |  |
 | station.nodeSelector | object | `{}` |  |
 | station.podAnnotations | object | `{}` | Annotations for station pods |

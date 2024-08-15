@@ -84,6 +84,13 @@ spec:
         - name: "IDENTIFICATION_ENABLED"
           value: "true"
 
+        - name: "QR_CODE_ENABLED"
+          value: "true"
+        - name: "QR_CODE_REFRESH_INTERVAL"
+          value: "1"
+        - name: "QR_CODE_WITH_WHITE_ZONES"
+          value: "true"
+
         - name: "AUTH0_AUTHENTICATION_ENABLED"
           valueFrom:
             configMapKeyRef:
