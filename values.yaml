@@ -468,6 +468,46 @@ liveness:
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
 
+relayController:
+  name: "relay-controller"
+  servicePort: 8080
+  containerPort: 8080
+  dnsHost: ""
+  # -- Annotations for relayController deployment
+  annotations: {}
+  # -- Annotations for relayController pods
+  podAnnotations: {}
+  # -- Additional labels for each relayController pod
+  podLabels: {}
+  pdb:
+    # -- create PodDisruptionBudget for relayController component
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
+  service:
+    # -- Annotations for api Service
+    annotations: {}
+    # -- Additional labels for api Service
+    labels: {}
+  resources:
+    requests:
+      memory: "300M"
+      cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
+  replicas: 1
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-relay-controller
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: "0.1.0.21"
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
 edgeStreamProcessor:
   name: "edge-stream-processor"
   # -- Annotations for edgeStreamProcessor deployment
@@ -645,7 +685,7 @@ accessController:
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
   mqttConfig:
-    enabled: false
+    enabled: true
     topic: "edge-stream/{sourceId}/access-notifications/{notificationType}"
     sendImageData: false
 

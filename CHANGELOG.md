@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.9.0]
+
+### Changed
+
+### Added
+
+- Added support for Access Controller to publish notification messages through MQTT broker
+- Added relayController service to be able to trigger onprem mqtt relay
+
 ## [v0.8.2]
 
 ### Changed
