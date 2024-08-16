@@ -43,6 +43,7 @@ spec:
       value: "http://{{ include "smartface.dbSynchronizationLeader.name" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.dbSynchronizationLeader.servicePort }}"
     - name: "SF_API_METRICS_URL"
       value: {{ $apiMetricsUrl | quote }}
+    {{- include "smartface.dbConfig" . | nindent 4 }}
     {{- include "smartface.testsAuthConfig" . | nindent 4 }}
     volumeMounts:
     {{- include "smartface.licVolumeMount" . | nindent 4 }}
