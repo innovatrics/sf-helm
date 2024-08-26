@@ -17,3 +17,4 @@ spec:
     matchLabels:
       {{- include "smartface.objectDetector.selectorLabels" . | nindent 6 }}
 {{- end }}
+{{- end }}

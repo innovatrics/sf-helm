@@ -782,6 +782,9 @@ autoscaling:
     detector:
       workHoursReplicas: 2
       nonWorkHoursReplicas: 1
+    objectDetector:
+      workHoursReplicas: 2
+      nonWorkHoursReplicas: 1  
     extractor:
       workHoursReplicas: 2
       nonWorkHoursReplicas: 1
@@ -795,11 +798,20 @@ autoscaling:
     hostSecretName: "rmq-management-uri-with-creds"
     detector:
       requestsPerSecond: 15
+    objectDetector:
+      requestsPerSecond: 15  
     extractor:
       requestsPerSecond: 12
     api:
       requestsPerSecond: 17
   detector:
+    # -- enables ScaledObject for detector
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+    # -- provide additional triggers - see https://keda.sh/docs/2.12/concepts/scaling-deployments/#triggers
+    triggers: []
+  objectDetector:
     # -- enables ScaledObject for detector
     enabled: true
     minReplicas: 1
