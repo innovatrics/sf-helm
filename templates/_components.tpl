@@ -139,6 +139,34 @@ app.kubernetes.io/component: "detector"
 {{- end -}}
 
 {{/*
+objectDetector
+*/}}
+{{/*
+Template used for resolving SF objectDetector name
+*/}}
+{{- define "smartface.objectDetector.name" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := .Values.objectDetector.name -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}
+
+{{/*
+Template used for resolving labels for objectDetector component
+*/}}
+{{- define "smartface.objectDetector.labels" }}
+{{- include "smartface.labels" . }}
+app.kubernetes.io/component: "objectDetector"
+{{- end -}}
+
+{{/*
+Template used for resolving selector labels for objectDetector component
+*/}}
+{{- define "smartface.objectDetector.selectorLabels" }}
+{{- include "smartface.selectorLabels" . }}
+app.kubernetes.io/component: "objectDetector"
+{{- end -}}
+
+{{/*
 extractor
 */}}
 {{/*
