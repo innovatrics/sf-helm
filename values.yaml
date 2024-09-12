@@ -788,7 +788,7 @@ autoscaling:
       nonWorkHoursReplicas: 1
     objectDetector:
       workHoursReplicas: 2
-      nonWorkHoursReplicas: 1  
+      nonWorkHoursReplicas: 1
     extractor:
       workHoursReplicas: 2
       nonWorkHoursReplicas: 1
@@ -803,7 +803,7 @@ autoscaling:
     detector:
       requestsPerSecond: 15
     objectDetector:
-      requestsPerSecond: 3  
+      requestsPerSecond: 3
     extractor:
       requestsPerSecond: 12
     api:
