@@ -803,7 +803,7 @@ autoscaling:
     detector:
       requestsPerSecond: 15
     objectDetector:
-      requestsPerSecond: 2  
+      requestsPerSecond: 3  
     extractor:
       requestsPerSecond: 12
     api:
@@ -819,7 +819,7 @@ autoscaling:
     # -- enables ScaledObject for detector
     enabled: true
     minReplicas: 1
-    maxReplicas: 3
+    maxReplicas: 8
     # -- provide additional triggers - see https://keda.sh/docs/2.12/concepts/scaling-deployments/#triggers
     triggers: []
   extractor:
