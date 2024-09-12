@@ -1,4 +1,4 @@
-{{- if .Values.objectDetector.enabled }}
+{{- if .Values.features.objectDetection.enabled }}
 {{- if .Values.objectDetector.pdb.create }}
 apiVersion: policy/v1
 kind: PodDisruptionBudget

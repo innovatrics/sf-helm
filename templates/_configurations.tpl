@@ -89,7 +89,7 @@ Template used for configuring feature flags on APIs
 - name: "FeatureManagement__Edge"
   value: {{ .Values.features.edgeStreams.enabled | quote }}
 - name: "FeatureManagement__Detection"
-  value: {{ .Values.objectDetector.enabled | quote }}
+  value: {{ .Values.features.objectDetection.enabled | quote }}
 {{- end }}
 
 {{/*

@@ -1,4 +1,4 @@
-{{- if .Values.objectDetector.enabled }}
+{{- if .Values.features.objectDetection.enabled }}
 {{- $name := include "smartface.objectDetector.name" . -}}
 {{- $selectorLabels := include "smartface.objectDetector.selectorLabels" . -}}
 apiVersion: "apps/v1"
@@ -60,6 +60,8 @@ spec:
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
+        - name: "Detection__Algorithm"
+          value: {{ .Values.objectDetector.detectionAlgorithm | quote }}
         resources:
           {{- toYaml .Values.objectDetector.resources | nindent 10 }}
         volumeMounts:

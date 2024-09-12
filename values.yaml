@@ -74,6 +74,9 @@ features:
   edgeStreams:
     # -- sf-tenant-management.enabled needs to be enabled since tenant operator is responsible for populating wlStream
     enabled: false
+  objectDetection:
+    # -- enable object detector, which can detect objects and pedestrian
+    enabled: false
 
 # -- config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq
 rabbitmq:
@@ -372,6 +375,7 @@ detector:
 objectDetector:
   enabled: false
   name: "object-detector"
+  detectionAlgorithm: accurate
   # -- Annotations for object detector deployment
   annotations: {}
   # -- Annotations for object detector pods
@@ -799,7 +803,7 @@ autoscaling:
     detector:
       requestsPerSecond: 15
     objectDetector:
-      requestsPerSecond: 15  
+      requestsPerSecond: 2  
     extractor:
       requestsPerSecond: 12
     api:
