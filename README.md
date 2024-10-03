@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.9.0](https://img.shields.io/badge/Version-0.9.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.27.0.6867-x64-dev](https://img.shields.io/badge/AppVersion-v5_4.27.0.6867--x64--dev-informational?style=flat-square)
+![Version: 0.9.0](https://img.shields.io/badge/Version-0.9.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.28.0.7082-x64-dev](https://img.shields.io/badge/AppVersion-v5_4.28.0.7082--x64--dev-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -181,6 +181,7 @@ metadata:
 | api.pdb.minAvailable | int | `1` |  |
 | api.podAnnotations | object | `{}` | Annotations for api pods |
 | api.podLabels | object | `{}` | Additional labels for each api pod |
+| api.qrCodeImageEndpointEnabled | bool | `false` |  |
 | api.replicas | int | `1` |  |
 | api.resources.limits.memory | string | `"4G"` |  |
 | api.resources.requests.cpu | string | `"250m"` |  |
@@ -206,6 +207,7 @@ metadata:
 | authApi.pdb.minAvailable | int | `1` |  |
 | authApi.podAnnotations | object | `{}` | Annotations for authApi pods |
 | authApi.podLabels | object | `{}` | Additional labels for each authApi pod |
+| authApi.qrCodeImageEndpointEnabled | bool | `false` |  |
 | authApi.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
 | authApi.resources.limits.memory | string | `"4G"` |  |
 | authApi.resources.requests.cpu | string | `"250m"` |  |
