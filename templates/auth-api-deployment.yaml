@@ -80,7 +80,7 @@ spec:
         - name: "Hosting__Port"
           value: {{ .Values.authApi.containerPort | quote }}
         - name: "Totp__QrCodeImageEndpointEnabled"
-          value: "true"
+          value: {{ .Values.authApi.qrCodeImageEndpointEnabled | quote }}
         resources:
           {{- toYaml .Values.authApi.resources | nindent 10 }}
         volumeMounts:

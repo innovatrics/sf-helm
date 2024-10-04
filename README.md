@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.8.2](https://img.shields.io/badge/Version-0.8.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.28.0.7018-x64-dev](https://img.shields.io/badge/AppVersion-v5_4.28.0.7018--x64--dev-informational?style=flat-square)
+![Version: 0.8.3](https://img.shields.io/badge/Version-0.8.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.28](https://img.shields.io/badge/AppVersion-v5_4.28-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -149,8 +149,8 @@ metadata:
 | accessController.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | accessController.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | accessController.image.repository | string | `"innovatrics/smartface/sf-access-controller"` | Docker image repository |
-| accessController.image.tag | string | `"v5_1.12.0"` | Access Controller follows different versioning, so the chart app needs to be overridden |
-| accessController.mqttConfig.enabled | bool | `false` |  |
+| accessController.image.tag | string | `"v5_1.13.0.633-dev"` | Access Controller follows different versioning, so the chart app needs to be overridden |
+| accessController.mqttConfig.enabled | bool | `true` |  |
 | accessController.mqttConfig.sendImageData | bool | `false` |  |
 | accessController.mqttConfig.topic | string | `"edge-stream/{sourceId}/access-notifications/{notificationType}"` |  |
 | accessController.name | string | `"access-controller"` |  |
@@ -181,6 +181,7 @@ metadata:
 | api.pdb.minAvailable | int | `1` |  |
 | api.podAnnotations | object | `{}` | Annotations for api pods |
 | api.podLabels | object | `{}` | Additional labels for each api pod |
+| api.qrCodeImageEndpointEnabled | bool | `false` |  |
 | api.replicas | int | `1` |  |
 | api.resources.limits.memory | string | `"4G"` |  |
 | api.resources.requests.cpu | string | `"250m"` |  |
@@ -206,6 +207,7 @@ metadata:
 | authApi.pdb.minAvailable | int | `1` |  |
 | authApi.podAnnotations | object | `{}` | Annotations for authApi pods |
 | authApi.podLabels | object | `{}` | Additional labels for each authApi pod |
+| authApi.qrCodeImageEndpointEnabled | bool | `false` |  |
 | authApi.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
 | authApi.resources.limits.memory | string | `"4G"` |  |
 | authApi.resources.requests.cpu | string | `"250m"` |  |
@@ -545,6 +547,28 @@ metadata:
 | readonlyApi.nodeSelector | object | `{}` |  |
 | readonlyApi.proxyContainer.resources | object | `{}` |  |
 | readonlyApi.tolerations | list | `[]` |  |
+| relayController.annotations | object | `{}` | Annotations for relayController deployment |
+| relayController.containerPort | int | `8080` |  |
+| relayController.dnsHost | string | `""` |  |
+| relayController.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| relayController.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| relayController.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| relayController.image.repository | string | `"innovatrics/smartface/sf-relay-controller"` | Docker image repository |
+| relayController.image.tag | string | `"0.1.0.21"` | Overrides the image tag whose default is the chart's appVersion |
+| relayController.name | string | `"relay-controller"` |  |
+| relayController.nodeSelector | object | `{}` |  |
+| relayController.pdb.create | bool | `false` | create PodDisruptionBudget for relayController component |
+| relayController.pdb.maxUnavailable | string | `""` |  |
+| relayController.pdb.minAvailable | int | `1` |  |
+| relayController.podAnnotations | object | `{}` | Annotations for relayController pods |
+| relayController.podLabels | object | `{}` | Additional labels for each relayController pod |
+| relayController.replicas | int | `1` |  |
+| relayController.resources.requests.cpu | string | `"100m"` |  |
+| relayController.resources.requests.memory | string | `"300M"` |  |
+| relayController.service.annotations | object | `{}` | Annotations for api Service |
+| relayController.service.labels | object | `{}` | Additional labels for api Service |
+| relayController.servicePort | int | `8080` |  |
+| relayController.tolerations | list | `[]` |  |
 | revisionHistoryLimit | string | `nil` | Common revisionHistoryLimit for all deployments |
 | serviceAccount.annotations | object | `{}` | Annotations for the service account |
 | serviceAccount.automountServiceAccountToken | bool | `true` | Set this toggle to false to opt out of automounting API credentials for the service account |
@@ -565,7 +589,7 @@ metadata:
 | station.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | station.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | station.image.repository | string | `"innovatrics/smartface/sf-station"` | Docker image repository |
-| station.image.tag | string | `"v5_1.26.0"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
+| station.image.tag | string | `"v5_1.26.0.3849-dev"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
 | station.name | string | `"station"` |  |
 | station.nodeSelector | object | `{}` |  |
 | station.podAnnotations | object | `{}` | Annotations for station pods |

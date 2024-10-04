@@ -36,6 +36,8 @@ spec:
     env:
     - name: "SF_TEST_API_URL"
       value: {{ $apiUrl | quote }}
+    - name: "SF_TEST_GQL_API_URL"
+      value: "http://{{ include "smartface.graphqlApi.name" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.graphqlApi.servicePort }}"
     {{- include "smartface.testsAuthConfig" . | nindent 4 }}
     volumeMounts:
     {{- include "smartface.licVolumeMount" . | nindent 4 }}
