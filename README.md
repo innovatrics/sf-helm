@@ -149,7 +149,7 @@ metadata:
 | accessController.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | accessController.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | accessController.image.repository | string | `"innovatrics/smartface/sf-access-controller"` | Docker image repository |
-| accessController.image.tag | string | `"v5_1.13.0.633-dev"` | Access Controller follows different versioning, so the chart app needs to be overridden |
+| accessController.image.tag | string | `"v5_1.13"` | Access Controller follows different versioning, so the chart app needs to be overridden |
 | accessController.mqttConfig.enabled | bool | `true` |  |
 | accessController.mqttConfig.sendImageData | bool | `false` |  |
 | accessController.mqttConfig.topic | string | `"edge-stream/{sourceId}/access-notifications/{notificationType}"` |  |
@@ -589,7 +589,7 @@ metadata:
 | station.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | station.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | station.image.repository | string | `"innovatrics/smartface/sf-station"` | Docker image repository |
-| station.image.tag | string | `"v5_1.26.0.3849-dev"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
+| station.image.tag | string | `"v5_1.27.0"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
 | station.name | string | `"station"` |  |
 | station.nodeSelector | object | `{}` |  |
 | station.podAnnotations | object | `{}` | Annotations for station pods |
