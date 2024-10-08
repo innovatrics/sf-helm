@@ -31,12 +31,13 @@ spec:
   - name: {{ $name | quote }}
     image: {{ include "smartface.image" (dict "local" .Values.tests.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
     imagePullPolicy: {{ .Values.tests.image.pullPolicy }}
-    args: ['--filter', 'Category=Watchlists&SkipOnPlatform!=Cloud&FullyQualifiedName!=SmartFace.CloudFunctionalTests.Watchlists.CloudWatchlistSearchApiTests.Test_Rpc_Search_By_Template']
+    args: ['--filter', 'Category=Watchlists&SkipOnPlatform!=Cloud']
     env:
     - name: "SF_TEST_API_URL"
       value: {{ $apiUrl | quote }}
     - name: "SF_TEST_GQL_API_URL"
       value: "http://{{ include "smartface.graphqlApi.name" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.graphqlApi.servicePort }}"
+    {{- include "smartface.testsAuthConfig" . | nindent 4 }}
     volumeMounts:
     {{- include "smartface.licVolumeMount" . | nindent 4 }}
   volumes:
