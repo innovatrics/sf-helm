@@ -78,6 +78,11 @@ features:
     # -- enable object detector, which can detect objects and pedestrian
     enabled: false
 
+experimentalFeatures:
+  qr:
+    # -- enable qr modality
+    enabled: false
+
 # -- config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq
 rabbitmq:
   # -- configure if rabbitmq subchart should be included
@@ -153,7 +158,6 @@ api:
   containerPort: 80
   dnsHost: ""
   initMigration: true
-  qrCodeImageEndpointEnabled : false
   # -- Annotations for api deployment
   annotations: {}
   # -- Annotations for api pods
@@ -198,7 +202,6 @@ authApi:
   containerPort: 80
   dnsHost: ""
   initMigration: true
-  qrCodeImageEndpointEnabled : false
   # -- Annotations for authApi deployment
   annotations: {}
   # -- Annotations for authApi pods

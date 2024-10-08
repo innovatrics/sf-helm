@@ -85,7 +85,7 @@ spec:
           value: "true"
 
         - name: "QR_CODE_ENABLED"
-          value: "true"
+          value: {{ .Values.experimentalFeatures.qr.enabled | quote }}
         - name: "QR_CODE_REFRESH_INTERVAL"
           value: "1"
         - name: "QR_CODE_WITH_WHITE_ZONES"
