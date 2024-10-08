@@ -33,7 +33,7 @@ spec:
   - name: {{ $name | quote }}
     image: {{ include "smartface.image" (dict "local" .Values.tests.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
     imagePullPolicy: {{ .Values.tests.image.pullPolicy }}
-    args: ['--filter', 'Category=Multitenant{{- if not .Values.dbSynchronizationLeader.enabled }}&FullyQualifiedName!=SmartFace.CloudFunctionalTests.Multitenant.CloudLeaderMultitenantWlSyncTests.Wl_Updates_For_Tenants_Smoke_Test{{- end}}']
+    args: ['--filter', 'Category=Multitenant{{- if not .Values.dbSynchronizationLeader.enabled }}&FullyQualifiedName!=SmartFace.CloudFunctionalTests.Multitenant.CloudLeaderMultitenantWlSyncTests.Wl_Updates_For_Tenants_Smoke_Test{{- end}}&FullyQualifiedName!=SmartFace.CloudFunctionalTests.Multitenant.CloudWatchlistMultitenantTests.Test_Watchlist_Member_Totp_QR_Code_Image_Generation']
     env:
     - name: "SF_TEST_API_URL"
       value: {{ $apiUrl | quote }}
@@ -43,6 +43,7 @@ spec:
       value: "http://{{ include "smartface.dbSynchronizationLeader.name" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.dbSynchronizationLeader.servicePort }}"
     - name: "SF_API_METRICS_URL"
       value: {{ $apiMetricsUrl | quote }}
+    {{- include "smartface.dbConfig" . | nindent 4 }}
     {{- include "smartface.testsAuthConfig" . | nindent 4 }}
     volumeMounts:
     {{- include "smartface.licVolumeMount" . | nindent 4 }}

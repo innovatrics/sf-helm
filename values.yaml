@@ -74,6 +74,14 @@ features:
   edgeStreams:
     # -- sf-tenant-management.enabled needs to be enabled since tenant operator is responsible for populating wlStream
     enabled: false
+  objectDetection:
+    # -- enable object detector, which can detect objects and pedestrian
+    enabled: false
+
+experimentalFeatures:
+  qr:
+    # -- enable qr modality
+    enabled: false
 
 # -- config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq
 rabbitmq:
@@ -369,6 +377,43 @@ detector:
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
 
+objectDetector:
+  enabled: false
+  name: "object-detector"
+  detectionAlgorithm: accurate
+  # -- Annotations for object detector deployment
+  annotations: {}
+  # -- Annotations for object detector pods
+  podAnnotations: {}
+  # -- Additional labels for each object detector pod
+  podLabels: {}
+  pdb:
+    # -- create PodDisruptionBudget for object detector component
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
+  resources:
+    requests:
+      memory: "600M"
+      cpu: "750m"
+    limits:
+      memory: "1500M"
+  nodeSelector: {}
+  tolerations: []
+  # -- number of replicas to use when autoscaling is not enabled for this component
+  replicas: 1
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-object-detector
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
 extractor:
   name: "extractor"
   # -- Annotations for extractor deployment
@@ -463,6 +508,46 @@ liveness:
     repository: innovatrics/smartface/sf-liveness
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+relayController:
+  name: "relay-controller"
+  servicePort: 8080
+  containerPort: 8080
+  dnsHost: ""
+  # -- Annotations for relayController deployment
+  annotations: {}
+  # -- Annotations for relayController pods
+  podAnnotations: {}
+  # -- Additional labels for each relayController pod
+  podLabels: {}
+  pdb:
+    # -- create PodDisruptionBudget for relayController component
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
+  service:
+    # -- Annotations for api Service
+    annotations: {}
+    # -- Additional labels for api Service
+    labels: {}
+  resources:
+    requests:
+      memory: "300M"
+      cpu: "100m"
+  nodeSelector: {}
+  tolerations: []
+  replicas: 1
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-relay-controller
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: "0.1.0.21"
     # -- Overrides the image tag with an image digest
     digest: null
     # -- Docker image pull policy
@@ -639,13 +724,13 @@ accessController:
     # -- Docker image repository
     repository: innovatrics/smartface/sf-access-controller
     # -- Access Controller follows different versioning, so the chart app needs to be overridden
-    tag: "v5_1.12.0"
+    tag: "v5_1.13"
     # -- Overrides the image tag with an image digest
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
   mqttConfig:
-    enabled: false
+    enabled: true
     topic: "edge-stream/{sourceId}/access-notifications/{notificationType}"
     sendImageData: false
 
@@ -678,7 +763,7 @@ station:
     # -- Docker image repository
     repository: innovatrics/smartface/sf-station
     # -- Smartface Station follows different versioning, so the chart app needs to be overridden
-    tag: "v5_1.26.0"
+    tag: "v5_1.27.0"
     # -- Overrides the image tag with an image digest
     digest: null
     # -- Docker image pull policy
@@ -746,6 +831,9 @@ autoscaling:
     detector:
       workHoursReplicas: 2
       nonWorkHoursReplicas: 1
+    objectDetector:
+      workHoursReplicas: 2
+      nonWorkHoursReplicas: 1
     extractor:
       workHoursReplicas: 2
       nonWorkHoursReplicas: 1
@@ -759,6 +847,8 @@ autoscaling:
     hostSecretName: "rmq-management-uri-with-creds"
     detector:
       requestsPerSecond: 15
+    objectDetector:
+      requestsPerSecond: 3
     extractor:
       requestsPerSecond: 12
     api:
@@ -768,6 +858,13 @@ autoscaling:
     enabled: true
     minReplicas: 1
     maxReplicas: 3
+    # -- provide additional triggers - see https://keda.sh/docs/2.12/concepts/scaling-deployments/#triggers
+    triggers: []
+  objectDetector:
+    # -- enables ScaledObject for detector
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 8
     # -- provide additional triggers - see https://keda.sh/docs/2.12/concepts/scaling-deployments/#triggers
     triggers: []
   extractor:

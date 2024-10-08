@@ -1,0 +1,53 @@
+{{- $predefinedTriggerUsed := (or .Values.autoscaling.rmq.enabled .Values.autoscaling.cron.enabled) -}}
+{{- $customTriggerUsed := .Values.autoscaling.objectDetector.triggers -}}
+{{- if and .Values.autoscaling.objectDetector.enabled (or $predefinedTriggerUsed $customTriggerUsed) }}
+{{- $name := include "smartface.objectDetector.name" . -}}
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ $name | quote }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ $name | quote }}
+  minReplicaCount: {{ .Values.autoscaling.objectDetector.minReplicas }}
+  maxReplicaCount: {{ .Values.autoscaling.objectDetector.maxReplicas }}
+  triggers:
+  {{- if .Values.autoscaling.rmq.enabled }}
+  - type: "rabbitmq"
+    metadata:
+      queueName: "rpc\\.object\\.detect.*"
+      mode: "MessageRate"
+      value: {{ .Values.autoscaling.rmq.objectDetector.requestsPerSecond | quote }}
+      useRegex: "true"
+    authenticationRef:
+      name: {{ .Values.autoscaling.rmq.triggerAuthName | quote }}
+  {{- end }}
+  {{- if .Values.autoscaling.cron.enabled }}
+#   during work hours
+  - type: "cron"
+    metadata:
+      timezone: {{ .Values.autoscaling.cron.timezone | quote }}
+      start: "0 8 * * 1-5"
+      end: "0 17 * * 1-5"
+      desiredReplicas: {{ .Values.autoscaling.cron.objectDetector.workHoursReplicas | quote }}
+#   outside work hours
+  - type: "cron"
+    metadata:
+      timezone: {{ .Values.autoscaling.cron.timezone | quote }}
+      start: "0 17 * * 1-5"
+      end: "0 8 * * 1-5"
+      desiredReplicas: {{ .Values.autoscaling.cron.objectDetector.nonWorkHoursReplicas | quote }}
+#   during weekend
+  - type: "cron"
+    metadata:
+      timezone: {{ .Values.autoscaling.cron.timezone | quote }}
+      start: "0 0 * * 0,6"
+      end: "0 0 * * 1-5"
+      desiredReplicas: {{ .Values.autoscaling.cron.objectDetector.nonWorkHoursReplicas | quote }}
+  {{- end }}
+  {{- with .Values.autoscaling.objectDetector.triggers }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}

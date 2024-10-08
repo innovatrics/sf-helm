@@ -1,0 +1,20 @@
+{{- if .Values.features.objectDetection.enabled }}
+{{- if .Values.objectDetector.pdb.create }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "smartface.objectDetector.name" . | quote }}
+  labels:
+    {{- include "smartface.objectDetector.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.objectDetector.pdb.minAvailable }}
+  minAvailable: {{ .Values.objectDetector.pdb.minAvailable }}
+  {{- end }}
+  {{- if .Values.objectDetector.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.objectDetector.pdb.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "smartface.objectDetector.selectorLabels" . | nindent 6 }}
+{{- end }}
+{{- end }}

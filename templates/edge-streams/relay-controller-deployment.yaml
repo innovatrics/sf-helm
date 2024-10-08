@@ -1,0 +1,71 @@
+{{- if .Values.features.edgeStreams.enabled }}
+{{- $name := include "smartface.relayController.name" . -}}
+{{- $selectorLabels := include "smartface.relayController.selectorLabels" . -}}
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: {{ $name | quote }}
+  labels:
+    {{- include "smartface.relayController.labels" . | nindent 4 }}
+  annotations:
+    {{- with .Values.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.relayController.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  replicas: 1
+  {{- if .Values.revisionHistoryLimit }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  {{- end }}
+  {{- if .Values.updateStrategy }}
+  strategy: {{- toYaml .Values.updateStrategy | nindent 4 }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- $selectorLabels | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.relayController.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- $selectorLabels | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.relayController.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name | quote }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
+      topologySpreadConstraints:
+        {{- include "smartface.topologySpread" (dict "selectorLabels" $selectorLabels ) | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ $name | quote }}
+        image: {{ include "smartface.image" (dict "local" .Values.relayController.image "global" .Values.global.image "defaultVersion" "") }}
+        imagePullPolicy: {{ .Values.relayController.image.pullPolicy }}
+        env:
+        {{- include "smartface.mqttConfig" . | nindent 8 }}
+        {{- include "smartface.authenticationConfig" . | nindent 8 }}
+        resources:
+          {{- toYaml .Values.relayController.resources | nindent 10 }}
+      {{- with .Values.relayController.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.relayController.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

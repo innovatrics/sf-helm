@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.8.2](https://img.shields.io/badge/Version-0.8.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.27.0](https://img.shields.io/badge/AppVersion-v5_4.27.0-informational?style=flat-square)
+![Version: 0.8.3](https://img.shields.io/badge/Version-0.8.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.28](https://img.shields.io/badge/AppVersion-v5_4.28-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -149,8 +149,8 @@ metadata:
 | accessController.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | accessController.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | accessController.image.repository | string | `"innovatrics/smartface/sf-access-controller"` | Docker image repository |
-| accessController.image.tag | string | `"v5_1.12.0"` | Access Controller follows different versioning, so the chart app needs to be overridden |
-| accessController.mqttConfig.enabled | bool | `false` |  |
+| accessController.image.tag | string | `"v5_1.13"` | Access Controller follows different versioning, so the chart app needs to be overridden |
+| accessController.mqttConfig.enabled | bool | `true` |  |
 | accessController.mqttConfig.sendImageData | bool | `false` |  |
 | accessController.mqttConfig.topic | string | `"edge-stream/{sourceId}/access-notifications/{notificationType}"` |  |
 | accessController.name | string | `"access-controller"` |  |
@@ -225,6 +225,8 @@ metadata:
 | autoscaling.cron.enabled | bool | `false` | enables predefined workhours-based cron triggers on ScaledObjects |
 | autoscaling.cron.extractor.nonWorkHoursReplicas | int | `1` |  |
 | autoscaling.cron.extractor.workHoursReplicas | int | `2` |  |
+| autoscaling.cron.objectDetector.nonWorkHoursReplicas | int | `1` |  |
+| autoscaling.cron.objectDetector.workHoursReplicas | int | `2` |  |
 | autoscaling.cron.timezone | string | `"Europe/Bratislava"` | see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones |
 | autoscaling.detector.enabled | bool | `true` | enables ScaledObject for detector |
 | autoscaling.detector.maxReplicas | int | `3` |  |
@@ -234,11 +236,16 @@ metadata:
 | autoscaling.extractor.maxReplicas | int | `3` |  |
 | autoscaling.extractor.minReplicas | int | `1` |  |
 | autoscaling.extractor.triggers | list | `[]` | provide additional triggers - see https://keda.sh/docs/2.12/concepts/scaling-deployments/#triggers |
+| autoscaling.objectDetector.enabled | bool | `true` | enables ScaledObject for detector |
+| autoscaling.objectDetector.maxReplicas | int | `8` |  |
+| autoscaling.objectDetector.minReplicas | int | `1` |  |
+| autoscaling.objectDetector.triggers | list | `[]` | provide additional triggers - see https://keda.sh/docs/2.12/concepts/scaling-deployments/#triggers |
 | autoscaling.rmq.api.requestsPerSecond | int | `17` |  |
 | autoscaling.rmq.detector.requestsPerSecond | int | `15` |  |
 | autoscaling.rmq.enabled | bool | `false` | enables predefined rabbitmq triggers based on requests per second on ScaledObjects |
 | autoscaling.rmq.extractor.requestsPerSecond | int | `12` |  |
 | autoscaling.rmq.hostSecretName | string | `"rmq-management-uri-with-creds"` |  |
+| autoscaling.rmq.objectDetector.requestsPerSecond | int | `3` |  |
 | autoscaling.rmq.triggerAuthName | string | `"keda-trigger-auth-rabbitmq-conn"` |  |
 | base.annotations | object | `{}` | Annotations for base deployment |
 | base.image.digest | string | `nil` | Overrides the image tag with an image digest |
@@ -365,6 +372,7 @@ metadata:
 | edgeStreamsStateSync.resources.requests.cpu | string | `"100m"` |  |
 | edgeStreamsStateSync.resources.requests.memory | string | `"100M"` |  |
 | edgeStreamsStateSync.tolerations | list | `[]` |  |
+| experimentalFeatures.qr.enabled | bool | `false` | enable qr modality |
 | extractor.annotations | object | `{}` | Annotations for extractor deployment |
 | extractor.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | extractor.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
@@ -402,6 +410,7 @@ metadata:
 | faceMatcher.tolerations | list | `[]` |  |
 | features.edgeStreams.enabled | bool | `false` | sf-tenant-management.enabled needs to be enabled since tenant operator is responsible for populating wlStream |
 | features.multitenancy.enabled | bool | `false` | enabled for multitenant deployment |
+| features.objectDetection.enabled | bool | `false` | enable object detector, which can detect objects and pedestrian |
 | global.image.registry | string | `"registry.gitlab.com"` | Overrides the Docker registry globally for all images |
 | graphqlApi.annotations | object | `{}` | Annotations for graphqlApi deployment |
 | graphqlApi.containerPort | int | `80` |  |
@@ -487,6 +496,26 @@ metadata:
 | migration.skipWlStreamMigration | bool | `false` |  |
 | minio | object | `{"defaultBuckets":"smartface","enabled":true}` | config for minio subchart, see https://github.com/bitnami/charts/tree/main/bitnami/minio |
 | nameOverride | string | `nil` | Overrides the chart's name |
+| objectDetector.annotations | object | `{}` | Annotations for object detector deployment |
+| objectDetector.detectionAlgorithm | string | `"accurate"` |  |
+| objectDetector.enabled | bool | `false` |  |
+| objectDetector.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| objectDetector.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| objectDetector.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| objectDetector.image.repository | string | `"innovatrics/smartface/sf-object-detector"` | Docker image repository |
+| objectDetector.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
+| objectDetector.name | string | `"object-detector"` |  |
+| objectDetector.nodeSelector | object | `{}` |  |
+| objectDetector.pdb.create | bool | `false` | create PodDisruptionBudget for object detector component |
+| objectDetector.pdb.maxUnavailable | string | `""` |  |
+| objectDetector.pdb.minAvailable | int | `1` |  |
+| objectDetector.podAnnotations | object | `{}` | Annotations for object detector pods |
+| objectDetector.podLabels | object | `{}` | Additional labels for each object detector pod |
+| objectDetector.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
+| objectDetector.resources.limits.memory | string | `"1500M"` |  |
+| objectDetector.resources.requests.cpu | string | `"750m"` |  |
+| objectDetector.resources.requests.memory | string | `"600M"` |  |
+| objectDetector.tolerations | list | `[]` |  |
 | podAnnotations | object | `{}` | Common annotations for all pods |
 | podLabels | object | `{}` | Common labels for all pods |
 | postgresql | object | `{"enabled":true,"primary":{"initdb":{"scripts":{"create-database.sql":"CREATE DATABASE smartface"}}}}` | config for postgresql subchart, see https://github.com/bitnami/charts/tree/main/bitnami/postgresql |
@@ -517,6 +546,28 @@ metadata:
 | readonlyApi.nodeSelector | object | `{}` |  |
 | readonlyApi.proxyContainer.resources | object | `{}` |  |
 | readonlyApi.tolerations | list | `[]` |  |
+| relayController.annotations | object | `{}` | Annotations for relayController deployment |
+| relayController.containerPort | int | `8080` |  |
+| relayController.dnsHost | string | `""` |  |
+| relayController.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| relayController.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| relayController.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| relayController.image.repository | string | `"innovatrics/smartface/sf-relay-controller"` | Docker image repository |
+| relayController.image.tag | string | `"0.1.0.21"` | Overrides the image tag whose default is the chart's appVersion |
+| relayController.name | string | `"relay-controller"` |  |
+| relayController.nodeSelector | object | `{}` |  |
+| relayController.pdb.create | bool | `false` | create PodDisruptionBudget for relayController component |
+| relayController.pdb.maxUnavailable | string | `""` |  |
+| relayController.pdb.minAvailable | int | `1` |  |
+| relayController.podAnnotations | object | `{}` | Annotations for relayController pods |
+| relayController.podLabels | object | `{}` | Additional labels for each relayController pod |
+| relayController.replicas | int | `1` |  |
+| relayController.resources.requests.cpu | string | `"100m"` |  |
+| relayController.resources.requests.memory | string | `"300M"` |  |
+| relayController.service.annotations | object | `{}` | Annotations for api Service |
+| relayController.service.labels | object | `{}` | Additional labels for api Service |
+| relayController.servicePort | int | `8080` |  |
+| relayController.tolerations | list | `[]` |  |
 | revisionHistoryLimit | string | `nil` | Common revisionHistoryLimit for all deployments |
 | serviceAccount.annotations | object | `{}` | Annotations for the service account |
 | serviceAccount.automountServiceAccountToken | bool | `true` | Set this toggle to false to opt out of automounting API credentials for the service account |
@@ -537,7 +588,7 @@ metadata:
 | station.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | station.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | station.image.repository | string | `"innovatrics/smartface/sf-station"` | Docker image repository |
-| station.image.tag | string | `"v5_1.26.0"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
+| station.image.tag | string | `"v5_1.27.0"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
 | station.name | string | `"station"` |  |
 | station.nodeSelector | object | `{}` |  |
 | station.podAnnotations | object | `{}` | Annotations for station pods |

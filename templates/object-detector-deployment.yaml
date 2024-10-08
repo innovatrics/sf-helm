@@ -1,21 +1,23 @@
-{{- if .Values.features.edgeStreams.enabled }}
-{{- $name := include "smartface.accessController.name" . -}}
-{{- $selectorLabels := include "smartface.accessController.selectorLabels" . -}}
+{{- if .Values.features.objectDetection.enabled }}
+{{- $name := include "smartface.objectDetector.name" . -}}
+{{- $selectorLabels := include "smartface.objectDetector.selectorLabels" . -}}
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
   name: {{ $name | quote }}
   labels:
-    {{- include "smartface.accessController.labels" . | nindent 4 }}
+    {{- include "smartface.objectDetector.labels" . | nindent 4 }}
   annotations:
     {{- with .Values.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
-    {{- with .Values.accessController.annotations }}
+    {{- with .Values.objectDetector.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
-  replicas: 1
+  {{- if not (and (or .Values.autoscaling.cron.enabled .Values.autoscaling.rmq.enabled) .Values.autoscaling.objectDetector.enabled ) }}
+  replicas: {{ .Values.objectDetector.replicas }}
+  {{- end }}
   {{- if .Values.revisionHistoryLimit }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   {{- end }}
@@ -31,7 +33,7 @@ spec:
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-        {{- with .Values.accessController.podAnnotations }}
+        {{- with .Values.objectDetector.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
@@ -39,7 +41,7 @@ spec:
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-        {{- with .Values.accessController.podLabels }}
+        {{- with .Values.objectDetector.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
@@ -53,39 +55,24 @@ spec:
       {{- end }}
       containers:
       - name: {{ $name | quote }}
-        image: {{ include "smartface.image" (dict "local" .Values.accessController.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
-        imagePullPolicy: {{ .Values.accessController.image.pullPolicy }}
+        image: {{ include "smartface.image" (dict "local" .Values.objectDetector.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.objectDetector.image.pullPolicy }}
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
-        {{- include "smartface.mqttConfig" . | nindent 8 }}
-        {{- include "smartface.authenticationConfig" . | nindent 8 }}
-        {{- include "smartface.mqttConfig" . | nindent 8 }}
-        - name: "Kestrel__EndPoints__Http__Url"
-          value: "http://0.0.0.0:{{ .Values.accessController.containerPort }}"
-        - name: "Kestrel__EndPoints__Http__RequireAuthentication"
-          value: "false"
-        - name: "Kestrel__EndPoints__HttpAuth__Url"
-          value: "http://0.0.0.0:{{ .Values.accessController.authContainerPort }}"
-        - name: "Kestrel__EndPoints__HttpAuth__RequireAuthentication"
-          value: "true"
-        - name: "MQTT__Enabled"
-          value: {{ .Values.accessController.mqttConfig.enabled | quote }}
-        - name: "MQTT__Topic"
-          value: {{ .Values.accessController.mqttConfig.topic | quote }}
-        - name: "MQTT__SendImageData"
-          value: {{ .Values.accessController.mqttConfig.sendImageData | quote }}
+        - name: "Detection__Algorithm"
+          value: {{ .Values.objectDetector.detectionAlgorithm | quote }}
         resources:
-          {{- toYaml .Values.accessController.resources | nindent 10 }}
+          {{- toYaml .Values.objectDetector.resources | nindent 10 }}
         volumeMounts:
         {{- include "smartface.licVolumeMount" . | nindent 8 }}
       volumes:
         {{- include "smartface.licVolume" . | nindent 8 }}
-      {{- with .Values.accessController.nodeSelector }}
+      {{- with .Values.objectDetector.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.accessController.tolerations }}
+      {{- with .Values.objectDetector.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

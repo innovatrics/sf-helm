@@ -1,5 +1,21 @@
 # Changelog
 
+## [v0.8.3]
+
+### Changed
+
+### Added
+
+- Added support for Access Controller to publish notification messages through MQTT broker
+- Added relayController service to be able to trigger onprem mqtt relay
+- Added qr functionality
+
+### Changed
+
+- Bumped version of SmartFace Station to 1.27.0
+- Bumped version of SmartFace Platform to 4.28
+- Bumped version of Access Controller to 1.13
+
 ## [v0.8.2]
 
 ### Changed
