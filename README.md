@@ -181,7 +181,6 @@ metadata:
 | api.pdb.minAvailable | int | `1` |  |
 | api.podAnnotations | object | `{}` | Annotations for api pods |
 | api.podLabels | object | `{}` | Additional labels for each api pod |
-| api.qrCodeImageEndpointEnabled | bool | `false` |  |
 | api.replicas | int | `1` |  |
 | api.resources.limits.memory | string | `"4G"` |  |
 | api.resources.requests.cpu | string | `"250m"` |  |
@@ -207,7 +206,6 @@ metadata:
 | authApi.pdb.minAvailable | int | `1` |  |
 | authApi.podAnnotations | object | `{}` | Annotations for authApi pods |
 | authApi.podLabels | object | `{}` | Additional labels for each authApi pod |
-| authApi.qrCodeImageEndpointEnabled | bool | `false` |  |
 | authApi.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
 | authApi.resources.limits.memory | string | `"4G"` |  |
 | authApi.resources.requests.cpu | string | `"250m"` |  |
@@ -374,6 +372,7 @@ metadata:
 | edgeStreamsStateSync.resources.requests.cpu | string | `"100m"` |  |
 | edgeStreamsStateSync.resources.requests.memory | string | `"100M"` |  |
 | edgeStreamsStateSync.tolerations | list | `[]` |  |
+| experimentalFeatures.qr.enabled | bool | `false` | enable qr modality |
 | extractor.annotations | object | `{}` | Annotations for extractor deployment |
 | extractor.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | extractor.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
