@@ -2,8 +2,6 @@
 
 ## [v0.8.3]
 
-### Changed
-
 ### Added
 
 - Added support for Access Controller to publish notification messages through MQTT broker
