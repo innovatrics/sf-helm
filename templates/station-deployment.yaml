@@ -127,6 +127,14 @@ spec:
             secretKeyRef:
               name: {{ .Values.configurations.stationAuth.secretName | quote }}
               key: "client_id"
+
+        {{- range $index, $label := .Values.configurations.watchlistMemberLabels }}
+        - name: WATCHLIST_MEMBER_KEY_{{ $index }}
+          value: "{{ $label.label }}"
+        - name: WATCHLIST_MEMBER_LABEL_{{ $index }}
+          value: "{{ $label.displayName }}"
+        {{- end }}
+
         resources:
           {{- toYaml .Values.station.resources | nindent 10 }}
         volumeMounts:
