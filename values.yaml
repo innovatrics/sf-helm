@@ -70,7 +70,7 @@ configurations:
     # - label: "employeeNumber"
     #   displayName: "Employee Number"
     # - label: "registrationPlate"
-    #   displayName: "Registration Plate"  
+    #   displayName: "Registration Plate"
 
 features:
   multitenancy:

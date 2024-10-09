@@ -282,6 +282,7 @@ metadata:
 | configurations.s3.useBucketRegion | bool | `true` | mechanism to resolve bucket endpoint - if `true` then connection is made based on bucket region. If `false` then bucket endpoint needs to be set manually |
 | configurations.stationAuth.configName | string | `"station-auth-config"` | config containing authorization configuration for SF Station used when authentication is enabled for SF Station |
 | configurations.stationAuth.secretName | string | `"station-client-id"` |  |
+| configurations.watchlistMemberLabels | string | `nil` |  |
 | countlyPublisher.annotations | object | `{}` | Annotations for countlyPublisher deployment |
 | countlyPublisher.clusterName | string | `""` |  |
 | countlyPublisher.enabled | bool | `false` |  |
