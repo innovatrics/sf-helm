@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.8.4]
+
+### Added
+
+- Add configuration for watchlist Member labels
+
 ## [v0.8.3]
 
 ### Added

@@ -66,6 +66,11 @@ configurations:
     # -- config containing authorization configuration for SF Station used when authentication is enabled for SF Station
     configName: "station-auth-config"
     secretName: "station-client-id"
+  watchlistMemberLabels:
+    # - label: "employeeNumber"
+    #   displayName: "Employee Number"
+    # - label: "registrationPlate"
+    #   displayName: "Registration Plate"  
 
 features:
   multitenancy:
