@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.8.4](https://img.shields.io/badge/Version-0.8.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.28](https://img.shields.io/badge/AppVersion-v5_4.28-informational?style=flat-square)
+![Version: 0.8.4-alpha1](https://img.shields.io/badge/Version-0.8.4--alpha1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.28](https://img.shields.io/badge/AppVersion-v5_4.28-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -282,7 +282,7 @@ metadata:
 | configurations.s3.useBucketRegion | bool | `true` | mechanism to resolve bucket endpoint - if `true` then connection is made based on bucket region. If `false` then bucket endpoint needs to be set manually |
 | configurations.stationAuth.configName | string | `"station-auth-config"` | config containing authorization configuration for SF Station used when authentication is enabled for SF Station |
 | configurations.stationAuth.secretName | string | `"station-client-id"` |  |
-| configurations.watchlistMemberLabels | string | `nil` |  |
+| configurations.watchlistMemberLabels | list | `[]` | array of pre-defined watchlist member labels |
 | countlyPublisher.annotations | object | `{}` | Annotations for countlyPublisher deployment |
 | countlyPublisher.clusterName | string | `""` |  |
 | countlyPublisher.enabled | bool | `false` |  |

@@ -4,7 +4,7 @@
 
 ### Added
 
-- Add configuration for watchlist Member labels
+- Add configuration for watchlist member labels
 
 ## [v0.8.3]
 
