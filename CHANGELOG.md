@@ -5,6 +5,7 @@
 ### Added
 
 - Add configuration for watchlist member labels
+- Bumped version of SmartFace Platform to 4.28.1
 
 ## [v0.8.3]
 
