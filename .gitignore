@@ -1,4 +1,3 @@
 *.tgz
 *.zip
 *-secret.yaml
-.devcontainer/
