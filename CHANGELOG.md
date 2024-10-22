@@ -4,7 +4,8 @@
 
 ### Added
 
-- Add configuration for watchlist member labels
+- Add configuration for watchlist member label
+- Add configuration additional configuration for access controll
 
 ## [v0.8.3]
 
