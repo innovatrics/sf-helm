@@ -4,8 +4,8 @@
 
 ### Added
 
-- Add configuration for watchlist member label
-- Add configuration additional configuration for access controll
+- Add configuration settings to define and manage labels for watchlist members.
+- Implement additional configurations to strengthen and refine access control mechanisms.
 
 ## [v0.8.3]
 
