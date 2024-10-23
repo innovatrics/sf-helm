@@ -145,6 +145,12 @@ metadata:
 | accessController.authServicePort | int | `5051` |  |
 | accessController.containerPort | int | `80` |  |
 | accessController.dnsHost | string | `""` |  |
+| accessController.filterConfiguration.faceOrderConfiguration.enabled | bool | `true` |  |
+| accessController.filterConfiguration.faceOrderConfiguration.order | int | `1` |  |
+| accessController.filterConfiguration.openingDebounceConfiguration.openingDebounceEnabled | bool | `true` |  |
+| accessController.filterConfiguration.openingDebounceConfiguration.openingDebounceMs | int | `4000` |  |
+| accessController.filterConfiguration.spoofCheckConfiguration.denyingDebounceMs | int | `4000` |  |
+| accessController.filterConfiguration.spoofCheckConfiguration.enabled | bool | `true` |  |
 | accessController.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | accessController.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | accessController.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |

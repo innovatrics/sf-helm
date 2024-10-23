@@ -4,7 +4,11 @@
 
 ### Added
 
-- Add configuration for watchlist member labels
+- Add configuration settings to define and manage labels for watchlist members.
+- Implement additional configurations to strengthen and refine access control mechanisms.
+
+### Changed
+
 - Bumped version of SmartFace Platform to 4.28.1
 
 ## [v0.8.3]
@@ -18,8 +22,8 @@
 ### Changed
 
 - Bumped version of SmartFace Station to 1.27.0
-- Bumped version of SmartFace Platform to 4.28
-- Bumped version of Access Controller to 1.13
+- Bumped version of SmartFace Platform to 4.28.0
+- Bumped version of Access Controller to 1.13.0
 
 ## [v0.8.2]
 

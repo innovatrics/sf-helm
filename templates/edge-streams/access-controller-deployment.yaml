@@ -75,6 +75,18 @@ spec:
           value: {{ .Values.accessController.mqttConfig.topic | quote }}
         - name: "MQTT__SendImageData"
           value: {{ .Values.accessController.mqttConfig.sendImageData | quote }}
+        - name: "FilterConfiguration__FaceOrderConfiguration__Enabled"
+          value: {{ .Values.accessController.filterConfiguration.faceOrderConfiguration.enabled | quote }}
+        - name: "FilterConfiguration__FaceOrderConfiguration__Order"
+          value: {{ .Values.accessController.filterConfiguration.faceOrderConfiguration.order | quote }}
+        - name: "FilterConfiguration__OpeningDebounceConfiguration__OpeningDebounceEnabled"
+          value: {{ .Values.accessController.filterConfiguration.openingDebounceConfiguration.openingDebounceEnabled | quote }}
+        - name: "FilterConfiguration__OpeningDebounceConfiguration__OpeningDebounceMs"
+          value: {{ .Values.accessController.filterConfiguration.openingDebounceConfiguration.openingDebounceMs | quote }}
+        - name: "FilterConfiguration__SpoofCheckConfiguration__Enabled"
+          value: {{ .Values.accessController.filterConfiguration.spoofCheckConfiguration.enabled | quote }}
+        - name: "FilterConfiguration__SpoofCheckConfiguration__DenyingDebounceMs"
+          value: {{ .Values.accessController.filterConfiguration.spoofCheckConfiguration.denyingDebounceMs | quote }}
         resources:
           {{- toYaml .Values.accessController.resources | nindent 10 }}
         volumeMounts:
