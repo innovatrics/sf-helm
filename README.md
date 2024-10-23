@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.8.4-alpha1](https://img.shields.io/badge/Version-0.8.4--alpha1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.28](https://img.shields.io/badge/AppVersion-v5_4.28-informational?style=flat-square)
+![Version: 0.8.4](https://img.shields.io/badge/Version-0.8.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.28.1](https://img.shields.io/badge/AppVersion-v5_4.28.1-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -145,6 +145,12 @@ metadata:
 | accessController.authServicePort | int | `5051` |  |
 | accessController.containerPort | int | `80` |  |
 | accessController.dnsHost | string | `""` |  |
+| accessController.filterConfiguration.faceOrderConfiguration.enabled | bool | `true` |  |
+| accessController.filterConfiguration.faceOrderConfiguration.order | int | `1` |  |
+| accessController.filterConfiguration.openingDebounceConfiguration.openingDebounceEnabled | bool | `true` |  |
+| accessController.filterConfiguration.openingDebounceConfiguration.openingDebounceMs | int | `4000` |  |
+| accessController.filterConfiguration.spoofCheckConfiguration.denyingDebounceMs | int | `4000` |  |
+| accessController.filterConfiguration.spoofCheckConfiguration.enabled | bool | `true` |  |
 | accessController.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | accessController.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | accessController.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |

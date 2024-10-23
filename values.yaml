@@ -739,6 +739,16 @@ accessController:
     enabled: true
     topic: "edge-stream/{sourceId}/access-notifications/{notificationType}"
     sendImageData: false
+  filterConfiguration:
+    faceOrderConfiguration:
+      enabled: true
+      order: 1
+    openingDebounceConfiguration:
+      openingDebounceEnabled: true
+      openingDebounceMs: 4000
+    spoofCheckConfiguration:
+      enabled: true
+      denyingDebounceMs: 4000
 
 station:
   enabled: false
