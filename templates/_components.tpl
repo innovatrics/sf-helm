@@ -488,6 +488,92 @@ app.kubernetes.io/component: "streamDataDbWorker"
 {{- end -}}
 
 {{/*
+VideoAggregator
+*/}}
+{{/*
+Template used for resolving VideoAggregator name
+*/}}
+{{- define "smartface.VideoAggregator.name" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := .Values.VideoAggregator.name -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}
+
+{{/*
+Template used for resolving labels for VideoAggregator component
+*/}}
+{{- define "smartface.VideoAggregator.labels" }}
+{{- include "smartface.labels" . }}
+app.kubernetes.io/component: "VideoAggregator"
+{{- end -}}
+
+{{/*
+Template used for resolving selector labels for VideoAggregator component
+*/}}
+{{- define "smartface.VideoAggregator.selectorLabels" }}
+{{- include "smartface.selectorLabels" . }}
+app.kubernetes.io/component: "VideoAggregator"
+{{- end -}}
+
+{{/*
+VideoCollector
+*/}}
+{{/*
+Template used for resolving VideoCollector name
+*/}}
+{{- define "smartface.VideoCollector.name" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := .Values.VideoCollector.name -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}
+
+{{/*
+Template used for resolving labels for VideoCollector component
+*/}}
+{{- define "smartface.VideoCollector.labels" }}
+{{- include "smartface.labels" . }}
+app.kubernetes.io/component: "VideoCollector"
+{{- end -}}
+
+{{/*
+Template used for resolving selector labels for VideoCollector component
+*/}}
+{{- define "smartface.VideoCollector.selectorLabels" }}
+{{- include "smartface.selectorLabels" . }}
+app.kubernetes.io/component: "VideoCollector"
+{{- end -}}
+
+
+{{/*
+VideoReader
+*/}}
+{{/*
+Template used for resolving VideoReader name
+*/}}
+{{- define "smartface.VideoReader.name" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := .Values.VideoReader.name -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}
+
+{{/*
+Template used for resolving labels for VideoReader component
+*/}}
+{{- define "smartface.VideoReader.labels" }}
+{{- include "smartface.labels" . }}
+app.kubernetes.io/component: "VideoReader"
+{{- end -}}
+
+{{/*
+Template used for resolving selector labels for VideoReader component
+*/}}
+{{- define "smartface.VideoReader.selectorLabels" }}
+{{- include "smartface.selectorLabels" . }}
+app.kubernetes.io/component: "VideoReader"
+{{- end -}}
+
+
+{{/*
 countlyPublisher
 */}}
 {{/*

@@ -90,6 +90,9 @@ Template used for configuring feature flags on APIs
   value: {{ .Values.features.edgeStreams.enabled | quote }}
 - name: "FeatureManagement__Detection"
   value: {{ .Values.features.objectDetection.enabled | quote }}
+- name: "FeatureManagement__Full"
+  value: {{ .Values.features.offlineVideoProcessing.enabled | quote }}
+
 {{- end }}
 
 {{/*
