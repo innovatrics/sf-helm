@@ -923,7 +923,7 @@ VideoReader:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
-  
+
 jaegerTracing:
   enabled: true
   hostname: grafana-agent.monitoring.svc.cluster.local

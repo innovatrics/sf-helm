@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.8.5]
+
+### Added
+
+- Added support for offline video processing functionality
+
 ## [v0.8.4]
 
 ### Added

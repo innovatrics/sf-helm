@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.8.4](https://img.shields.io/badge/Version-0.8.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.28.1](https://img.shields.io/badge/AppVersion-v5_4.28.1-informational?style=flat-square)
+![Version: 0.8.5](https://img.shields.io/badge/Version-0.8.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.28.1](https://img.shields.io/badge/AppVersion-v5_4.28.1-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -139,6 +139,60 @@ metadata:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| VideoAggregator.annotations | object | `{}` | Annotations for VideoAggregator deployment |
+| VideoAggregator.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| VideoAggregator.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| VideoAggregator.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| VideoAggregator.image.repository | string | `"innovatrics/smartface/sf-video-aggregator"` | Docker image repository |
+| VideoAggregator.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
+| VideoAggregator.name | string | `"video-aggregator"` |  |
+| VideoAggregator.nodeSelector | object | `{}` |  |
+| VideoAggregator.pdb.create | bool | `false` | create PodDisruptionBudget for VideoAggregator component |
+| VideoAggregator.pdb.maxUnavailable | string | `""` |  |
+| VideoAggregator.pdb.minAvailable | int | `1` |  |
+| VideoAggregator.podAnnotations | object | `{}` | Annotations for VideoAggregator pods |
+| VideoAggregator.podLabels | object | `{}` | Additional labels for each VideoAggregator pod |
+| VideoAggregator.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
+| VideoAggregator.resources.limits.memory | string | `"1500M"` |  |
+| VideoAggregator.resources.requests.cpu | string | `"750m"` |  |
+| VideoAggregator.resources.requests.memory | string | `"600M"` |  |
+| VideoAggregator.tolerations | list | `[]` |  |
+| VideoCollector.annotations | object | `{}` | Annotations for VideoCollector deployment |
+| VideoCollector.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| VideoCollector.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| VideoCollector.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| VideoCollector.image.repository | string | `"innovatrics/smartface/sf-video-collector"` | Docker image repository |
+| VideoCollector.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
+| VideoCollector.name | string | `"video-collector"` |  |
+| VideoCollector.nodeSelector | object | `{}` |  |
+| VideoCollector.pdb.create | bool | `false` | create PodDisruptionBudget for VideoCollector component |
+| VideoCollector.pdb.maxUnavailable | string | `""` |  |
+| VideoCollector.pdb.minAvailable | int | `1` |  |
+| VideoCollector.podAnnotations | object | `{}` | Annotations for VideoCollector pods |
+| VideoCollector.podLabels | object | `{}` | Additional labels for each VideoCollector pod |
+| VideoCollector.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
+| VideoCollector.resources.limits.memory | string | `"1500M"` |  |
+| VideoCollector.resources.requests.cpu | string | `"750m"` |  |
+| VideoCollector.resources.requests.memory | string | `"600M"` |  |
+| VideoCollector.tolerations | list | `[]` |  |
+| VideoReader.annotations | object | `{}` | Annotations for VideoReader deployment |
+| VideoReader.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| VideoReader.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| VideoReader.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| VideoReader.image.repository | string | `"innovatrics/smartface/sf-video-reader"` | Docker image repository |
+| VideoReader.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
+| VideoReader.name | string | `"video-reader"` |  |
+| VideoReader.nodeSelector | object | `{}` |  |
+| VideoReader.pdb.create | bool | `false` | create PodDisruptionBudget for VideoReader component |
+| VideoReader.pdb.maxUnavailable | string | `""` |  |
+| VideoReader.pdb.minAvailable | int | `1` |  |
+| VideoReader.podAnnotations | object | `{}` | Annotations for VideoReader pods |
+| VideoReader.podLabels | object | `{}` | Additional labels for each VideoReader pod |
+| VideoReader.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
+| VideoReader.resources.limits.memory | string | `"1500M"` |  |
+| VideoReader.resources.requests.cpu | string | `"750m"` |  |
+| VideoReader.resources.requests.memory | string | `"600M"` |  |
+| VideoReader.tolerations | list | `[]` |  |
 | accessController.annotations | object | `{}` | Annotations for accessController deployment |
 | accessController.authContainerPort | int | `5051` |  |
 | accessController.authServiceName | string | `"auth-access-controller"` |  |
@@ -418,6 +472,7 @@ metadata:
 | features.edgeStreams.enabled | bool | `false` | sf-tenant-management.enabled needs to be enabled since tenant operator is responsible for populating wlStream |
 | features.multitenancy.enabled | bool | `false` | enabled for multitenant deployment |
 | features.objectDetection.enabled | bool | `false` | enable object detector, which can detect objects and pedestrian |
+| features.offlineVideoProcessing.enabled | bool | `false` | enable offline video processing services |
 | global.image.registry | string | `"registry.gitlab.com"` | Overrides the Docker registry globally for all images |
 | graphqlApi.annotations | object | `{}` | Annotations for graphqlApi deployment |
 | graphqlApi.containerPort | int | `80` |  |
