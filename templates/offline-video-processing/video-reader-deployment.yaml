@@ -58,6 +58,7 @@ spec:
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
+        {{- include "smartface.s3Config" . | nindent 8 }}
         resources:
           {{- toYaml .Values.VideoReader.resources | nindent 10 }}
         volumeMounts:
@@ -71,4 +72,5 @@ spec:
       {{- with .Values.VideoReader.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
+      {{- end }}
 {{- end }}

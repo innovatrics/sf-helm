@@ -82,8 +82,6 @@ Template used for adding S3 configuration to containers
 Template used for configuring feature flags on APIs
 */}}
 {{- define "smartface.apiFeaturesConfig" -}}
-- name: "FeatureManagement__Full"
-  value: "false"
 - name: "FeatureManagement__Watchlist"
   value: "true"
 - name: "FeatureManagement__Edge"
