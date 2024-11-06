@@ -1,0 +1,18 @@
+{{- if and .Values.features.offlineVideoProcessing.enabled .Values.VideoCollector.pdb.create }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "smartface.VideoCollector.name" . | quote }}
+  labels:
+    {{- include "smartface.VideoCollector.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.VideoCollector.pdb.minAvailable }}
+  minAvailable: {{ .Values.VideoCollector.pdb.minAvailable }}
+  {{- end }}
+  {{- if .Values.VideoCollector.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.VideoCollector.pdb.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "smartface.VideoCollector.selectorLabels" . | nindent 6 }}
+{{- end }}

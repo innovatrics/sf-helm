@@ -83,7 +83,9 @@ features:
   objectDetection:
     # -- enable object detector, which can detect objects and pedestrian
     enabled: false
-
+  offlineVideoProcessing:
+    # -- enable offline video processing services
+    enabled: false
 experimentalFeatures:
   qr:
     # -- enable qr modality
@@ -810,6 +812,111 @@ streamDataDbWorker:
     registry: null
     # -- Docker image repository
     repository: innovatrics/smartface/sf-streamdatadbworker
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+VideoAggregator:
+  name: "video-aggregator"
+  # -- Annotations for VideoAggregator deployment
+  annotations: {}
+  # -- Annotations for VideoAggregator pods
+  podAnnotations: {}
+  # -- Additional labels for each VideoAggregator pod
+  podLabels: {}
+  pdb:
+    # -- create PodDisruptionBudget for VideoAggregator component
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
+  resources:
+    requests:
+      memory: "600M"
+      cpu: "750m"
+    limits:
+      memory: "1500M"
+  nodeSelector: {}
+  tolerations: []
+  # -- number of replicas to use when autoscaling is not enabled for this component
+  replicas: 1
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-video-aggregator
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+VideoCollector:
+  name: "video-collector"
+  # -- Annotations for VideoCollector deployment
+  annotations: {}
+  # -- Annotations for VideoCollector pods
+  podAnnotations: {}
+  # -- Additional labels for each VideoCollector pod
+  podLabels: {}
+  pdb:
+    # -- create PodDisruptionBudget for VideoCollector component
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
+  resources:
+    requests:
+      memory: "600M"
+      cpu: "750m"
+    limits:
+      memory: "1500M"
+  nodeSelector: {}
+  tolerations: []
+  # -- number of replicas to use when autoscaling is not enabled for this component
+  replicas: 1
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-video-collector
+    # -- Overrides the image tag whose default is the chart's appVersion
+    tag: null
+    # -- Overrides the image tag with an image digest
+    digest: null
+    # -- Docker image pull policy
+    pullPolicy: IfNotPresent
+
+VideoReader:
+  name: "video-reader"
+  # -- Annotations for VideoReader deployment
+  annotations: {}
+  # -- Annotations for VideoReader pods
+  podAnnotations: {}
+  # -- Additional labels for each VideoReader pod
+  podLabels: {}
+  pdb:
+    # -- create PodDisruptionBudget for VideoReader component
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
+  resources:
+    requests:
+      memory: "600M"
+      cpu: "750m"
+    limits:
+      memory: "1500M"
+  nodeSelector: {}
+  tolerations: []
+  # -- number of replicas to use when autoscaling is not enabled for this component
+  replicas: 1
+  image:
+    # -- The Docker registry, overrides `global.image.registry`
+    registry: null
+    # -- Docker image repository
+    repository: innovatrics/smartface/sf-video-reader
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest

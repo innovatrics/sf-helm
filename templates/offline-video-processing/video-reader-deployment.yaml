@@ -1,21 +1,21 @@
-{{- if or .Values.features.edgeStreams.enabled .Values.features.offlineVideoProcessing.enabled }}
-{{- $name := include "smartface.base.name" . -}}
-{{- $selectorLabels := include "smartface.base.selectorLabels" . -}}
+{{- if .Values.features.offlineVideoProcessing.enabled }}
+{{- $name := include "smartface.VideoReader.name" . -}}
+{{- $selectorLabels := include "smartface.VideoReader.selectorLabels" . -}}
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
   name: {{ $name | quote }}
   labels:
-    {{- include "smartface.base.labels" . | nindent 4 }}
+    {{- include "smartface.VideoReader.labels" . | nindent 4 }}
   annotations:
     {{- with .Values.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
-    {{- with .Values.base.annotations }}
+    {{- with .Values.VideoReader.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.VideoReader.replicas }}
   {{- if .Values.revisionHistoryLimit }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   {{- end }}
@@ -31,7 +31,7 @@ spec:
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-        {{- with .Values.base.podAnnotations }}
+        {{- with .Values.VideoReader.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
@@ -39,7 +39,7 @@ spec:
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-        {{- with .Values.base.podLabels }}
+        {{- with .Values.VideoReader.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
@@ -53,25 +53,23 @@ spec:
       {{- end }}
       containers:
       - name: {{ $name | quote }}
-        image: {{ include "smartface.image" (dict "local" .Values.base.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
-        imagePullPolicy: {{ .Values.base.image.pullPolicy }}
-        args: ["--serviceName", "SFBase"]
+        image: {{ include "smartface.image" (dict "local" .Values.VideoReader.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        imagePullPolicy: {{ .Values.VideoReader.image.pullPolicy }}
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
-        {{- include "smartface.dbConfig" . | nindent 8 }}
         {{- include "smartface.s3Config" . | nindent 8 }}
         resources:
-          {{- toYaml .Values.base.resources | nindent 10 }}
+          {{- toYaml .Values.VideoReader.resources | nindent 10 }}
         volumeMounts:
         {{- include "smartface.licVolumeMount" . | nindent 8 }}
       volumes:
         {{- include "smartface.licVolume" . | nindent 8 }}
-      {{- with .Values.base.nodeSelector }}
+      {{- with .Values.VideoReader.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.base.tolerations }}
+      {{- with .Values.VideoReader.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
