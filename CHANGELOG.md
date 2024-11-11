@@ -6,6 +6,10 @@
 
 - Added support for offline video processing functionality
 
+### Changed
+
+- The default value for access control spoof check is set to false.
+
 ## [v0.8.4]
 
 ### Added

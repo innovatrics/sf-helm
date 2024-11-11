@@ -749,7 +749,7 @@ accessController:
       openingDebounceEnabled: true
       openingDebounceMs: 4000
     spoofCheckConfiguration:
-      enabled: true
+      enabled: false
       denyingDebounceMs: 4000
 
 station:
