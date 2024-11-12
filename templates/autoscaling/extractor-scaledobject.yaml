@@ -29,22 +29,22 @@ spec:
   - type: "cron"
     metadata:
       timezone: {{ .Values.autoscaling.cron.timezone | quote }}
-      start: "0 8 * * 1-5"
-      end: "0 17 * * 1-5"
+      start: {{ .Values.autoscaling.cron.schedules.workHours.start | quote }}
+      end: {{ .Values.autoscaling.cron.schedules.workHours.end | quote }}
       desiredReplicas: {{ .Values.autoscaling.cron.extractor.workHoursReplicas | quote }}
 #   outside work hours
   - type: "cron"
     metadata:
       timezone: {{ .Values.autoscaling.cron.timezone | quote }}
-      start: "0 17 * * 1-5"
-      end: "0 8 * * 1-5"
+      start: {{ .Values.autoscaling.cron.schedules.nonWorkHours.start | quote }}
+      end: {{ .Values.autoscaling.cron.schedules.nonWorkHours.end | quote }}
       desiredReplicas: {{ .Values.autoscaling.cron.extractor.nonWorkHoursReplicas | quote }}
 #   during weekend
   - type: "cron"
     metadata:
       timezone: {{ .Values.autoscaling.cron.timezone | quote }}
-      start: "0 0 * * 0,6"
-      end: "0 0 * * 1-5"
+      start: {{ .Values.autoscaling.cron.schedules.weekend.start | quote }}
+      end: {{ .Values.autoscaling.cron.schedules.weekend.end | quote }}
       desiredReplicas: {{ .Values.autoscaling.cron.extractor.nonWorkHoursReplicas | quote }}
   {{- end }}
   {{- with .Values.autoscaling.extractor.triggers }}

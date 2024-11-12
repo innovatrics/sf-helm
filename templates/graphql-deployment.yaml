@@ -74,6 +74,9 @@ spec:
           value: "http://0.0.0.0"
         - name: "Hosting__Port"
           value: {{ .Values.graphqlApi.containerPort | quote }}
+        {{- with .Values.graphqlApi.extraVars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         resources:
           {{- toYaml .Values.graphqlApi.resources | nindent 10 }}
         volumeMounts:

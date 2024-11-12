@@ -58,6 +58,9 @@ spec:
         env:
         {{- include "smartface.mqttConfig" . | nindent 8 }}
         {{- include "smartface.authenticationConfig" . | nindent 8 }}
+        {{- with .Values.relayController.extraVars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         resources:
           {{- toYaml .Values.relayController.resources | nindent 10 }}
       {{- with .Values.relayController.nodeSelector }}

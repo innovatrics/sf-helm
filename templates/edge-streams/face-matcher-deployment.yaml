@@ -59,6 +59,9 @@ spec:
         {{- include "smartface.commonEnv" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
         {{- include "smartface.dbConfig" . | nindent 8 }}
+        {{- with .Values.faceMatcher.extraVars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         resources:
           {{- toYaml .Values.faceMatcher.resources | nindent 10 }}
         volumeMounts:

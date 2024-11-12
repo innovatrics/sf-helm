@@ -287,6 +287,7 @@ metadata:
 | autoscaling.cron.extractor.workHoursReplicas | int | `2` |  |
 | autoscaling.cron.objectDetector.nonWorkHoursReplicas | int | `1` |  |
 | autoscaling.cron.objectDetector.workHoursReplicas | int | `2` |  |
+| autoscaling.cron.schedules | object | `{"nonWorkHours":{"end":"0 8 * * 1-5","start":"0 17 * * 1-5"},"weekend":{"end":"0 8 * * 1","start":"0 0 * * 6,0"},"workHours":{"end":"0 17 * * 1-5","start":"0 8 * * 1-5"}}` | Schedules for scaling, cron expression format: "minute hour day-of-month month day-of-week" |
 | autoscaling.cron.timezone | string | `"Europe/Bratislava"` | see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones |
 | autoscaling.detector.enabled | bool | `true` | enables ScaledObject for detector |
 | autoscaling.detector.maxReplicas | int | `3` |  |
@@ -403,6 +404,7 @@ metadata:
 | detector.resources.requests.cpu | string | `"750m"` |  |
 | detector.resources.requests.memory | string | `"600M"` |  |
 | detector.tolerations | list | `[]` |  |
+| detector.warmupDetectionAlgorithms | list | `["balanced_mask"]` | Determines which face detection models are loaded at startup. You can specify one or more detection modes. |
 | edgeStreamProcessor.annotations | object | `{}` | Annotations for edgeStreamProcessor deployment |
 | edgeStreamProcessor.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | edgeStreamProcessor.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |

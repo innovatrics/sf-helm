@@ -87,6 +87,9 @@ spec:
           value: {{ .Values.accessController.filterConfiguration.spoofCheckConfiguration.enabled | quote }}
         - name: "FilterConfiguration__SpoofCheckConfiguration__DenyingDebounceMs"
           value: {{ .Values.accessController.filterConfiguration.spoofCheckConfiguration.denyingDebounceMs | quote }}
+        {{- with .Values.accessController.extraVars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         resources:
           {{- toYaml .Values.accessController.resources | nindent 10 }}
         volumeMounts:

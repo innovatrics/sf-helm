@@ -60,6 +60,9 @@ spec:
         {{- include "smartface.rmqConfig" . | nindent 8 }}
         {{- include "smartface.mqttConfig" . | nindent 8 }}
         {{- include "smartface.dbConfig" . | nindent 8 }}
+        {{- with .Values.edgeStreamsStateSync.extraVars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         resources:
           {{- toYaml .Values.edgeStreamsStateSync.resources | nindent 10 }}
         volumeMounts:

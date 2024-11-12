@@ -135,6 +135,10 @@ spec:
           value: "{{ $label.displayName }}"
         {{- end }}
 
+        {{- with .Values.station.extraVars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+
         resources:
           {{- toYaml .Values.station.resources | nindent 10 }}
         volumeMounts:

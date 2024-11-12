@@ -59,6 +59,11 @@ spec:
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
+        - name: Warmup__DetectionAlgorithms
+          value: {{ .Values.detector.warmupDetectionAlgorithms | join "," | quote }}
+        {{- with .Values.detector.extraVars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         resources:
           {{- toYaml .Values.detector.resources | nindent 10 }}
         volumeMounts:
