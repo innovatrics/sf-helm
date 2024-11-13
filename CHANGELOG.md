@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.8.6]
+
+### Added
+
+- Added configuration options for specifying arbitrary environment variables.
+- Added configurable settings to define working hours, non-working hours, and weekends for time-based scaling.
+- Made `warmupDetectionAlgorithms` configurable for the detector component.
+
 ## [v0.8.5]
 
 ### Added

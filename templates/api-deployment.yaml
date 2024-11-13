@@ -70,6 +70,9 @@ spec:
         {{- end }}
         {{- include "smartface.apiFeaturesConfig" . | nindent 8 }}
         {{- include "smartface.statisticsPublish" . | nindent 8 }}
+        {{- with .Values.api.extraVars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         - name: "Hosting__Host"
           value: "http://0.0.0.0"
         - name: "Hosting__Port"

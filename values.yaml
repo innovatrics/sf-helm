@@ -202,6 +202,12 @@ api:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  # --  Additional environment variables for the api component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 authApi:
   enabled: false
@@ -247,6 +253,12 @@ authApi:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  # --  Additional environment variables for the auth-api component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 dbSynchronizationLeader:
   # -- features.multitenancy needs to be enabled since tenant operator is responsible for populating wlStream
@@ -292,6 +304,12 @@ dbSynchronizationLeader:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  # --  Additional environment variables for the dbSynchronizationLeader component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 graphqlApi:
   enabled: true
@@ -337,6 +355,12 @@ graphqlApi:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  # --  Additional environment variables for the graphqlApi component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 ingress:
   # -- enable creation of ingress object
@@ -384,6 +408,18 @@ detector:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  # -- Determines which face detection models are loaded at startup. You can specify one or more detection modes.
+  warmupDetectionAlgorithms:
+    - balanced_mask
+    #- fast
+    #- accurate_mask
+    #- balanced_experimental
+  # --  Additional environment variables for the detector component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 objectDetector:
   enabled: false
@@ -421,6 +457,12 @@ objectDetector:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  # --  Additional environment variables for the objectDetector component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 extractor:
   name: "extractor"
@@ -456,6 +498,12 @@ extractor:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  # --  Additional environment variables for the extractor component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 matcher:
   name: "matcher"
@@ -488,6 +536,12 @@ matcher:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  # --  Additional environment variables for the matcher component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 liveness:
   name: "liveness"
@@ -520,6 +574,12 @@ liveness:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  # --  Additional environment variables for the liveness component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 relayController:
   name: "relay-controller"
@@ -560,6 +620,12 @@ relayController:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  # --  Additional environment variables for the relayController component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 edgeStreamProcessor:
   name: "edge-stream-processor"
@@ -592,6 +658,12 @@ edgeStreamProcessor:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  # --  Additional environment variables for the edgeStreamProcessor component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 edgeStreamsStateSync:
   name: "edge-streams-state-synchronizer"
@@ -618,6 +690,12 @@ edgeStreamsStateSync:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  # --  Additional environment variables for the edgeStreamsStateSync component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 wlStreamPopulationJob:
   enabled: false
@@ -668,6 +746,12 @@ base:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  # --  Additional environment variables for the base component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 faceMatcher:
   name: "face-matcher"
@@ -700,6 +784,12 @@ faceMatcher:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  # --  Additional environment variables for the faceMatcher component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 accessController:
   name: "access-controller"
@@ -751,6 +841,12 @@ accessController:
     spoofCheckConfiguration:
       enabled: false
       denyingDebounceMs: 4000
+  # --  Additional environment variables for the accessController component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 station:
   enabled: false
@@ -786,6 +882,12 @@ station:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  # --  Additional environment variables for the station component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 streamDataDbWorker:
   name: "stream-data-db-worker"
@@ -818,6 +920,12 @@ streamDataDbWorker:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  # --  Additional environment variables for the streamDataDbWorker component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 VideoAggregator:
   name: "video-aggregator"
@@ -853,6 +961,12 @@ VideoAggregator:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  # --  Additional environment variables for the VideoAggregator component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 VideoCollector:
   name: "video-collector"
@@ -888,6 +1002,12 @@ VideoCollector:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+  # --  Additional environment variables for the VideoCollector component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 VideoReader:
   name: "video-reader"
@@ -923,6 +1043,12 @@ VideoReader:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
+    # --  Additional environment variables for the VideoReader component
+  # extraVars:
+  #  - name: EXTRA_VAR1
+  #    value: "value1"
+  #  - name: EXTRA_VAR2
+  #    value: "value2"
 
 jaegerTracing:
   enabled: true
@@ -951,6 +1077,17 @@ autoscaling:
     enabled: false
     # -- see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
     timezone: "Europe/Bratislava"
+    # -- Schedules for scaling, cron expression format: "minute hour day-of-month month day-of-week"
+    schedules:
+      workHours:
+        start: "0 8 * * 1-5"
+        end: "0 17 * * 1-5"
+      nonWorkHours:
+        start: "0 17 * * 1-5"
+        end: "0 8 * * 1-5"
+      weekend:
+        start: "0 0 * * 6,0"
+        end: "0 8 * * 1"
     detector:
       workHoursReplicas: 2
       nonWorkHoursReplicas: 1

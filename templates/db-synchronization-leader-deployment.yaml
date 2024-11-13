@@ -70,6 +70,9 @@ spec:
           value: "http://0.0.0.0"
         - name: "Hosting__Port"
           value: {{ .Values.dbSynchronizationLeader.containerPort | quote }}
+        {{- with .Values.dbSynchronizationLeader.extraVars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         resources:
           {{- toYaml .Values.dbSynchronizationLeader.resources | nindent 10 }}
       {{- with .Values.dbSynchronizationLeader.nodeSelector }}

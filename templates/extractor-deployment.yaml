@@ -59,6 +59,9 @@ spec:
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
+        {{- with .Values.extractor.extraVars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         resources:
           {{- toYaml .Values.extractor.resources | nindent 10 }}
         volumeMounts:

@@ -81,6 +81,9 @@ spec:
           value: {{ .Values.authApi.containerPort | quote }}
         - name: "Totp__QrCodeImageEndpointEnabled"
           value: {{ .Values.experimentalFeatures.qr.enabled | quote }}
+        {{- with .Values.authApi.extraVars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         resources:
           {{- toYaml .Values.authApi.resources | nindent 10 }}
         volumeMounts:
