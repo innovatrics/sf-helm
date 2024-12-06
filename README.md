@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.8.6](https://img.shields.io/badge/Version-0.8.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.28.1](https://img.shields.io/badge/AppVersion-v5_4.28.1-informational?style=flat-square)
+![Version: 0.8.7](https://img.shields.io/badge/Version-0.8.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.28.2](https://img.shields.io/badge/AppVersion-v5_4.28.2-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -351,7 +351,7 @@ metadata:
 | countlyPublisher.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | countlyPublisher.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | countlyPublisher.image.repository | string | `"innovatrics/smartface/sf-countly-publisher"` | Docker image repository |
-| countlyPublisher.image.tag | string | `"31"` | Countly publisher follows different versioning, so the chart app needs to be overridden |
+| countlyPublisher.image.tag | string | `"45"` | Countly publisher follows different versioning, so the chart app needs to be overridden |
 | countlyPublisher.name | string | `"countly-publisher"` |  |
 | countlyPublisher.nodeSelector | object | `{}` |  |
 | countlyPublisher.podAnnotations | object | `{}` | Annotations for countlyPublisher pods |
@@ -652,7 +652,7 @@ metadata:
 | station.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | station.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | station.image.repository | string | `"innovatrics/smartface/sf-station"` | Docker image repository |
-| station.image.tag | string | `"v5_1.27.0"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
+| station.image.tag | string | `"v5_1.28.0"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
 | station.name | string | `"station"` |  |
 | station.nodeSelector | object | `{}` |  |
 | station.podAnnotations | object | `{}` | Annotations for station pods |
