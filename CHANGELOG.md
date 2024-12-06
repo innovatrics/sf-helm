@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.8.7]
+
+### Changed
+
+- Version of SmartFace Platform to 4.28.2
+- Version of SmartFace Station to 1.28
+- Version of Countly publisher to 45
+
 ## [v0.8.6]
 
 ### Added
