@@ -351,7 +351,7 @@ metadata:
 | countlyPublisher.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | countlyPublisher.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | countlyPublisher.image.repository | string | `"innovatrics/smartface/sf-countly-publisher"` | Docker image repository |
-| countlyPublisher.image.tag | string | `"31"` | Countly publisher follows different versioning, so the chart app needs to be overridden |
+| countlyPublisher.image.tag | string | `"45"` | Countly publisher follows different versioning, so the chart app needs to be overridden |
 | countlyPublisher.name | string | `"countly-publisher"` |  |
 | countlyPublisher.nodeSelector | object | `{}` |  |
 | countlyPublisher.podAnnotations | object | `{}` | Annotations for countlyPublisher pods |

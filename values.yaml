@@ -1186,7 +1186,7 @@ countlyPublisher:
     # -- Docker image repository
     repository: innovatrics/smartface/sf-countly-publisher
     # -- Countly publisher follows different versioning, so the chart app needs to be overridden
-    tag: "31"
+    tag: "45"
     # -- Overrides the image tag with an image digest
     digest: null
     # -- Docker image pull policy
