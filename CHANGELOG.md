@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.8.8]
+
+### Changed
+
+- Added extractionAlgorithm property for Extractor
+- Added faceTemplateCompatibilityVersion property to validate templates versions
+
 ## [v0.8.7]
 
 ### Changed
