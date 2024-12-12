@@ -72,12 +72,13 @@ configurations:
     #   displayName: "Employee Number"
     # - label: "registrationPlate"
     #   displayName: "Registration Plate"
-  # If the faceTemplateCompatibilityVersion value is null, the default value is used.
-  # Example of possible values: 1.40, 1.39
+  # If the compatibilityVersion or extractionAlgorithm value is null, the default value is used.
   # It is specifically intended for use during the process of migrating templates
   # Use this setting with caution, because it can break functionality
   faceTemplate:
+    # Example of possible values: 1.40, 1.39
     compatibilityVersion: null
+    # Example of possible values: balanced, accurate_mask
     extractionAlgorithm: null
 
 features:
