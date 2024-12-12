@@ -76,7 +76,7 @@ configurations:
   # Example of possible values: 1.40, 1.39
   # It is specifically intended for use during the process of migrating templates
   # Use this setting with caution, because it can break functionality
-  facetemplate:
+  faceTemplate:
     compatibilityVersion: null
     extractionAlgorithm: null
 
