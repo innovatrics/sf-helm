@@ -75,7 +75,7 @@ configurations:
   # If the faceTemplateCompatibilityVersion value is null, the default value is used.
   # Example of possible values: 1.40, 1.39
   # It is specifically intended for use during the process of migrating templates
-  # Use this setting with caution, becouse it can break functionality
+  # Use this setting with caution, because it can break functionality
   facetemplate:
     compatibilityVersion: null
     extractionAlgorithm: null
