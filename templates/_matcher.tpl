@@ -63,9 +63,9 @@ spec:
         {{- include "smartface.commonEnv" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
         {{- include "smartface.dbConfig" . | nindent 8 }}
-        {{- if .Values.configurations.faceTemplateCompatibilityVersion  }}
+        {{- if .Values.configurations.facetemplate.compatibilityVersion  }}
         - name: SF_FACE_TEMPLATE_COMPATIBILITY_VERSION
-          value: {{ .Values.configurations.faceTemplateCompatibilityVersion | quote }}
+          value: {{ .Values.configurations.facetemplate.compatibilityVersion | quote }}
         {{- end }}
         {{- with .Values.matcher.extraVars }}
         {{- toYaml . | nindent 8 }}

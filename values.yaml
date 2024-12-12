@@ -76,7 +76,9 @@ configurations:
   # Example of possible values: 1.40, 1.39
   # It is specifically intended for use during the process of migrating templates
   # Use this setting with caution, becouse it can break functionality
-  faceTemplateCompatibilityVersion: null
+  facetemplate:
+    compatibilityVersion: null
+    extractionAlgorithm: null
 
 features:
   multitenancy:
@@ -503,11 +505,6 @@ extractor:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
-  # If the extractionAlgorithm value is null, the default algorithm is used.
-  # Possible values for this property are "accurate_mask" and "balanced".
-  # It is specifically intended for use during the process of migrating templates
-  # Use this setting with caution, becouse it can break functionality
-  extractionAlgorithm: null
   # --  Additional environment variables for the extractor component
   # extraVars:
   #  - name: EXTRA_VAR1

@@ -59,9 +59,9 @@ spec:
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
-        {{- if .Values.extractor.extractionAlgorithm  }}
+        {{- if .Values.configurations.facetemplate.extractionAlgorithm  }}
         - name: Extraction__Algorithm
-          value: {{ .Values.extractor.extractionAlgorithm | quote }}
+          value: {{ .Values.configurations.facetemplate.extractionAlgorithm | quote }}
         {{- end }}
         {{- with .Values.extractor.extraVars }}
         {{- toYaml . | nindent 8 }}

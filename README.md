@@ -332,7 +332,8 @@ metadata:
 | configurations.apiAuth.oauthTokenUrl | string | `""` | used only for enabling OAuth flows in swagger UI |
 | configurations.database.connectionStringKey | string | `"cs"` | key within the existing secret which contains the connection string, see https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/connection-strings |
 | configurations.database.existingSecretName | string | `"db-cs"` | connection string needs to be provided as a dependency of the chart |
-| configurations.faceTemplateCompatibilityVersion | string | `nil` |  |
+| configurations.facetemplate.compatibilityVersion | string | `nil` |  |
+| configurations.facetemplate.extractionAlgorithm | string | `nil` |  |
 | configurations.license.mountPath | string | `"/etc/innovatrics"` |  |
 | configurations.license.secretName | string | `"iface-lic"` |  |
 | configurations.license.volumeMountName | string | `"license"` |  |
@@ -438,7 +439,6 @@ metadata:
 | edgeStreamsStateSync.tolerations | list | `[]` |  |
 | experimentalFeatures.qr.enabled | bool | `false` | enable qr modality |
 | extractor.annotations | object | `{}` | Annotations for extractor deployment |
-| extractor.extractionAlgorithm | string | `nil` |  |
 | extractor.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | extractor.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | extractor.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |

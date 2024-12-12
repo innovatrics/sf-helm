@@ -4,8 +4,7 @@
 
 ### Changed
 
-- Added extractionAlgorithm property for Extractor
-- Added faceTemplateCompatibilityVersion property to validate templates versions
+- Added extractionAlgorithm and compatibilityVersion for face templates
 
 ## [v0.8.7]
 
