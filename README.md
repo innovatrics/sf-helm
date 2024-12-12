@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.8.7](https://img.shields.io/badge/Version-0.8.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.28.2](https://img.shields.io/badge/AppVersion-v5_4.28.2-informational?style=flat-square)
+![Version: 0.8.8](https://img.shields.io/badge/Version-0.8.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.28.2](https://img.shields.io/badge/AppVersion-v5_4.28.2-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -332,6 +332,8 @@ metadata:
 | configurations.apiAuth.oauthTokenUrl | string | `""` | used only for enabling OAuth flows in swagger UI |
 | configurations.database.connectionStringKey | string | `"cs"` | key within the existing secret which contains the connection string, see https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/connection-strings |
 | configurations.database.existingSecretName | string | `"db-cs"` | connection string needs to be provided as a dependency of the chart |
+| configurations.faceTemplate.compatibilityVersion | string | `nil` |  |
+| configurations.faceTemplate.extractionAlgorithm | string | `nil` |  |
 | configurations.license.mountPath | string | `"/etc/innovatrics"` |  |
 | configurations.license.secretName | string | `"iface-lic"` |  |
 | configurations.license.volumeMountName | string | `"license"` |  |

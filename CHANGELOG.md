@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.8.8]
+
+### Changed
+
+- Added extractionAlgorithm and compatibilityVersion for face templates
+
 ## [v0.8.7]
 
 ### Changed
