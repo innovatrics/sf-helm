@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.8.8](https://img.shields.io/badge/Version-0.8.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.28.2](https://img.shields.io/badge/AppVersion-v5_4.28.2-informational?style=flat-square)
+![Version: 0.8.8](https://img.shields.io/badge/Version-0.8.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.29.0](https://img.shields.io/badge/AppVersion-v5_4.29.0-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -477,6 +477,7 @@ metadata:
 | features.multitenancy.enabled | bool | `false` | enabled for multitenant deployment |
 | features.objectDetection.enabled | bool | `false` | enable object detector, which can detect objects and pedestrian |
 | features.offlineVideoProcessing.enabled | bool | `false` | enable offline video processing services |
+| features.palms.enabled | bool | `false` | enable palm detector and palm extractor, which can work with palms |
 | global.image.registry | string | `"registry.gitlab.com"` | Overrides the Docker registry globally for all images |
 | graphqlApi.annotations | object | `{}` | Annotations for graphqlApi deployment |
 | graphqlApi.containerPort | int | `80` |  |
@@ -582,6 +583,43 @@ metadata:
 | objectDetector.resources.requests.cpu | string | `"750m"` |  |
 | objectDetector.resources.requests.memory | string | `"600M"` |  |
 | objectDetector.tolerations | list | `[]` |  |
+| palmDetector.annotations | object | `{}` | Annotations for detector deployment |
+| palmDetector.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| palmDetector.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| palmDetector.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| palmDetector.image.repository | string | `"innovatrics/smartface/sf-palm-detector"` | Docker image repository |
+| palmDetector.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
+| palmDetector.name | string | `"palmDetector"` |  |
+| palmDetector.nodeSelector | object | `{}` |  |
+| palmDetector.pdb.create | bool | `false` | create PodDisruptionBudget for detector component |
+| palmDetector.pdb.maxUnavailable | string | `""` |  |
+| palmDetector.pdb.minAvailable | int | `1` |  |
+| palmDetector.podAnnotations | object | `{}` | Annotations for detector pods |
+| palmDetector.podLabels | object | `{}` | Additional labels for each detector pod |
+| palmDetector.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
+| palmDetector.resources.limits.memory | string | `"1500M"` |  |
+| palmDetector.resources.requests.cpu | string | `"750m"` |  |
+| palmDetector.resources.requests.memory | string | `"600M"` |  |
+| palmDetector.tolerations | list | `[]` |  |
+| palmDetector.warmupDetectionAlgorithms | list | `["balanced_mask"]` | Determines which face detection models are loaded at startup. You can specify one or more detection modes. |
+| palmExtractor.annotations | object | `{}` | Annotations for extractor deployment |
+| palmExtractor.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| palmExtractor.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| palmExtractor.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
+| palmExtractor.image.repository | string | `"innovatrics/smartface/sf-palm-extractor"` | Docker image repository |
+| palmExtractor.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
+| palmExtractor.name | string | `"palmExtractor"` |  |
+| palmExtractor.nodeSelector | object | `{}` |  |
+| palmExtractor.pdb.create | bool | `false` | create PodDisruptionBudget for extractor component |
+| palmExtractor.pdb.maxUnavailable | string | `""` |  |
+| palmExtractor.pdb.minAvailable | int | `1` |  |
+| palmExtractor.podAnnotations | object | `{}` | Annotations for extractor pods |
+| palmExtractor.podLabels | object | `{}` | Additional labels for each extractor pod |
+| palmExtractor.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
+| palmExtractor.resources.limits.memory | string | `"1G"` |  |
+| palmExtractor.resources.requests.cpu | string | `"750m"` |  |
+| palmExtractor.resources.requests.memory | string | `"500M"` |  |
+| palmExtractor.tolerations | list | `[]` |  |
 | podAnnotations | object | `{}` | Common annotations for all pods |
 | podLabels | object | `{}` | Common labels for all pods |
 | postgresql | object | `{"enabled":true,"primary":{"initdb":{"scripts":{"create-database.sql":"CREATE DATABASE smartface"}}}}` | config for postgresql subchart, see https://github.com/bitnami/charts/tree/main/bitnami/postgresql |
@@ -654,7 +692,7 @@ metadata:
 | station.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | station.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | station.image.repository | string | `"innovatrics/smartface/sf-station"` | Docker image repository |
-| station.image.tag | string | `"v5_1.28.0"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
+| station.image.tag | string | `"v5_1.29.0"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
 | station.name | string | `"station"` |  |
 | station.nodeSelector | object | `{}` |  |
 | station.podAnnotations | object | `{}` | Annotations for station pods |
