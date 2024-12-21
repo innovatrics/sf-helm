@@ -476,7 +476,7 @@ objectDetector:
   #    value: "value2"
 
 palmDetector:
-  name: "palmDetector"
+  name: "palm-detector"
   # -- Annotations for detector deployment
   annotations: {}
   # -- Annotations for detector pods
@@ -564,7 +564,7 @@ extractor:
   #    value: "value2"
 
 palmExtractor:
-  name: "palmExtractor"
+  name: "palm-extractor"
   # -- Annotations for extractor deployment
   annotations: {}
   # -- Annotations for extractor pods
