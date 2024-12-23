@@ -1,0 +1,18 @@
+{{- if .Values.palmDetector.pdb.create }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "smartface.palmDetector.name" . | quote }}
+  labels:
+    {{- include "smartface.palmDetector.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.palmDetector.pdb.minAvailable }}
+  minAvailable: {{ .Values.palmDetector.pdb.minAvailable }}
+  {{- end }}
+  {{- if .Values.palmDetector.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.palmDetector.pdb.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "smartface.palmDetector.selectorLabels" . | nindent 6 }}
+{{- end }}

@@ -572,6 +572,61 @@ Template used for resolving selector labels for VideoReader component
 app.kubernetes.io/component: "VideoReader"
 {{- end -}}
 
+{{/*
+[palm detector]
+*/}}
+{{/*
+Template used for resolving palm detector name
+*/}}
+{{- define "smartface.palmDetector.name" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := .Values.palmDetector.name -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}
+
+{{/*
+Template used for resolving labels for palm detector component
+*/}}
+{{- define "smartface.palmDetector.labels" }}
+{{- include "smartface.labels" . }}
+app.kubernetes.io/component: "palmDetector"
+{{- end -}}
+
+{{/*
+Template used for resolving selector labels for palm detector component
+*/}}
+{{- define "smartface.palmDetector.selectorLabels" }}
+{{- include "smartface.selectorLabels" . }}
+app.kubernetes.io/component: "palmDetector"
+{{- end -}}
+
+{{/*
+[palm extractor]
+*/}}
+{{/*
+Template used for resolving palm extractor name
+*/}}
+{{- define "smartface.palmExtractor.name" }}
+{{- $prefix := include "smartface.name" . -}}
+{{- $suffix := .Values.palmExtractor.name -}}
+{{- printf "%s-%s" $prefix $suffix -}}
+{{- end -}}
+
+{{/*
+Template used for resolving labels for palm extractor component
+*/}}
+{{- define "smartface.palmExtractor.labels" }}
+{{- include "smartface.labels" . }}
+app.kubernetes.io/component: "palmExtractor"
+{{- end -}}
+
+{{/*
+Template used for resolving selector labels for palm extractor component
+*/}}
+{{- define "smartface.palmExtractor.selectorLabels" }}
+{{- include "smartface.selectorLabels" . }}
+app.kubernetes.io/component: "palmExtractor"
+{{- end -}}
 
 {{/*
 countlyPublisher
