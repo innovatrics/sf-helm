@@ -23,8 +23,8 @@ dependencies:
 type: application
 
 keywords:
-- Face recognition
-- Biometrics
+  - Face recognition
+  - Biometrics
 
 sources:
   - https://github.com/innovatrics/sf-helm
@@ -33,9 +33,9 @@ sources:
 home: https://www.innovatrics.com/face-recognition-solutions/
 
 maintainers:
-- name: Innovatrics
-  url: https://www.innovatrics.com/
+  - name: Innovatrics
+    url: https://www.innovatrics.com/
 
-version: 0.8.8
+version: 0.8.9
 
 appVersion: "v5_4.29.0"
