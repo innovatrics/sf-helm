@@ -1,6 +1,8 @@
 # smartface
 
-![Version: 0.8.8](https://img.shields.io/badge/Version-0.8.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.29.0](https://img.shields.io/badge/AppVersion-v5_4.29.0-informational?style=flat-square)
+
+
+![Version: 0.8.8](https://img.shields.io/badge/Version-0.8.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.29.0](https://img.shields.io/badge/AppVersion-v5_4.29.0-informational?style=flat-square) 
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -589,7 +591,7 @@ metadata:
 | palmDetector.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | palmDetector.image.repository | string | `"innovatrics/smartface/sf-palm-detector"` | Docker image repository |
 | palmDetector.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
-| palmDetector.name | string | `"palmDetector"` |  |
+| palmDetector.name | string | `"palm-detector"` |  |
 | palmDetector.nodeSelector | object | `{}` |  |
 | palmDetector.pdb.create | bool | `false` | create PodDisruptionBudget for detector component |
 | palmDetector.pdb.maxUnavailable | string | `""` |  |
@@ -608,7 +610,7 @@ metadata:
 | palmExtractor.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | palmExtractor.image.repository | string | `"innovatrics/smartface/sf-palm-extractor"` | Docker image repository |
 | palmExtractor.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
-| palmExtractor.name | string | `"palmExtractor"` |  |
+| palmExtractor.name | string | `"palm-extractor"` |  |
 | palmExtractor.nodeSelector | object | `{}` |  |
 | palmExtractor.pdb.create | bool | `false` | create PodDisruptionBudget for extractor component |
 | palmExtractor.pdb.maxUnavailable | string | `""` |  |

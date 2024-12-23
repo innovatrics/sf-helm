@@ -1,5 +1,16 @@
 # Changelog
 
+## [v0.8.9]
+
+### Added
+
+- Added palm feature
+
+### Changed
+
+- Version of SmartFace Platform to 4.29.0
+- Version of SmartFace Station to 1.29
+
 ## [v0.8.8]
 
 ### Changed

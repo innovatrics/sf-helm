@@ -5,7 +5,7 @@ apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
   name: {{ $name | quote }}
-  labels: 
+  labels:
       {{ include "smartface.palmDetector.labels" . | nindent 4 }}
   annotations:
       {{- with .Values.annotations }}
@@ -24,7 +24,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-    {{- $selectorLabels | nindent 6 }}  
+    {{- $selectorLabels | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -76,4 +76,3 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
 {{- end }}
-

@@ -5,7 +5,7 @@ apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
   name: {{ $name | quote }}
-  labels: 
+  labels:
     {{ include "smartface.palmExtractor.labels" . | nindent 4 }}
   annotations:
     {{- with .Values.annotations }}
