@@ -1,6 +1,8 @@
 # smartface
 
-![Version: 0.8.9](https://img.shields.io/badge/Version-0.8.9-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.29.0](https://img.shields.io/badge/AppVersion-v5_4.29.0-informational?style=flat-square)
+
+
+![Version: 0.8.9](https://img.shields.io/badge/Version-0.8.9-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.29.0](https://img.shields.io/badge/AppVersion-v5_4.29.0-informational?style=flat-square) 
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -583,7 +585,7 @@ metadata:
 | objectDetector.resources.requests.cpu | string | `"750m"` |  |
 | objectDetector.resources.requests.memory | string | `"600M"` |  |
 | objectDetector.tolerations | list | `[]` |  |
-| palmDetector.annotations | object | `{}` | Annotations for detector deployment |
+| palmDetector.annotations | object | `{}` | Annotations for palm-detector deployment |
 | palmDetector.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | palmDetector.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | palmDetector.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
@@ -591,18 +593,18 @@ metadata:
 | palmDetector.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | palmDetector.name | string | `"palm-detector"` |  |
 | palmDetector.nodeSelector | object | `{}` |  |
-| palmDetector.pdb.create | bool | `false` | create PodDisruptionBudget for detector component |
+| palmDetector.pdb.create | bool | `false` | create PodDisruptionBudget for palm-detector component |
 | palmDetector.pdb.maxUnavailable | string | `""` |  |
 | palmDetector.pdb.minAvailable | int | `1` |  |
-| palmDetector.podAnnotations | object | `{}` | Annotations for detector pods |
-| palmDetector.podLabels | object | `{}` | Additional labels for each detector pod |
+| palmDetector.podAnnotations | object | `{}` | Annotations for palm-detector pods |
+| palmDetector.podLabels | object | `{}` | Additional labels for each palm-detector pod |
 | palmDetector.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
 | palmDetector.resources.limits.memory | string | `"1500M"` |  |
 | palmDetector.resources.requests.cpu | string | `"750m"` |  |
 | palmDetector.resources.requests.memory | string | `"600M"` |  |
 | palmDetector.tolerations | list | `[]` |  |
 | palmDetector.warmupDetectionAlgorithms | list | `["balanced_mask"]` | Determines which face detection models are loaded at startup. You can specify one or more detection modes. |
-| palmExtractor.annotations | object | `{}` | Annotations for extractor deployment |
+| palmExtractor.annotations | object | `{}` | Annotations for palm-extractor deployment |
 | palmExtractor.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | palmExtractor.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | palmExtractor.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
@@ -610,11 +612,11 @@ metadata:
 | palmExtractor.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | palmExtractor.name | string | `"palm-extractor"` |  |
 | palmExtractor.nodeSelector | object | `{}` |  |
-| palmExtractor.pdb.create | bool | `false` | create PodDisruptionBudget for extractor component |
+| palmExtractor.pdb.create | bool | `false` | create PodDisruptionBudget for palm-extractor component |
 | palmExtractor.pdb.maxUnavailable | string | `""` |  |
 | palmExtractor.pdb.minAvailable | int | `1` |  |
-| palmExtractor.podAnnotations | object | `{}` | Annotations for extractor pods |
-| palmExtractor.podLabels | object | `{}` | Additional labels for each extractor pod |
+| palmExtractor.podAnnotations | object | `{}` | Annotations for palm-extractor pods |
+| palmExtractor.podLabels | object | `{}` | Additional labels for each palm-extractor pod |
 | palmExtractor.replicas | int | `1` | number of replicas to use when autoscaling is not enabled for this component |
 | palmExtractor.resources.limits.memory | string | `"1G"` |  |
 | palmExtractor.resources.requests.cpu | string | `"750m"` |  |

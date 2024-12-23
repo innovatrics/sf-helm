@@ -67,7 +67,8 @@ configurations:
     configName: "station-auth-config"
     secretName: "station-client-id"
   # -- array of pre-defined watchlist member labels
-  watchlistMemberLabels: []
+  watchlistMemberLabels:
+    []
     # - label: "employeeNumber"
     #   displayName: "Employee Number"
     # - label: "registrationPlate"
@@ -477,14 +478,14 @@ objectDetector:
 
 palmDetector:
   name: "palm-detector"
-  # -- Annotations for detector deployment
+  # -- Annotations for palm-detector deployment
   annotations: {}
-  # -- Annotations for detector pods
+  # -- Annotations for palm-detector pods
   podAnnotations: {}
-  # -- Additional labels for each detector pod
+  # -- Additional labels for each palm-detector pod
   podLabels: {}
   pdb:
-    # -- create PodDisruptionBudget for detector component
+    # -- create PodDisruptionBudget for palm-detector component
     create: false
     minAvailable: 1
     maxUnavailable: ""
@@ -565,14 +566,14 @@ extractor:
 
 palmExtractor:
   name: "palm-extractor"
-  # -- Annotations for extractor deployment
+  # -- Annotations for palm-extractor deployment
   annotations: {}
-  # -- Annotations for extractor pods
+  # -- Annotations for palm-extractor pods
   podAnnotations: {}
-  # -- Additional labels for each extractor pod
+  # -- Additional labels for each palm-extractor pod
   podLabels: {}
   pdb:
-    # -- create PodDisruptionBudget for extractor component
+    # -- create PodDisruptionBudget for palm-extractor component
     create: false
     minAvailable: 1
     maxUnavailable: ""
