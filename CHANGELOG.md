@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Changed
+
+- Fixed an issue that prevented the palm feature from being disabled when features.palms.enabled was set to false
+
 ## [v0.8.9]
 
 ### Added

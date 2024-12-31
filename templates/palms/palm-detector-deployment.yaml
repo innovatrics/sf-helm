@@ -1,4 +1,4 @@
-{{- if .Values.features.palms }}
+{{- if .Values.features.palms.enabled }}
 {{- $name := include "smartface.palmDetector.name" . -}}
 {{- $selectorLabels := include "smartface.palmDetector.selectorLabels" . -}}
 apiVersion: "apps/v1"
