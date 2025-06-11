@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.8.10](https://img.shields.io/badge/Version-0.8.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.29.0](https://img.shields.io/badge/AppVersion-v5_4.29.0-informational?style=flat-square)
+![Version: 0.8.10](https://img.shields.io/badge/Version-0.8.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.31.0](https://img.shields.io/badge/AppVersion-v5_4.31.0-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -511,8 +511,6 @@ metadata:
 | ingress.class | string | `""` | set ingress class |
 | ingress.enabled | bool | `true` | enable creation of ingress object |
 | ingress.includeAlbAnnotations | bool | `false` | if enabled then the ingress will include default ALB annotations |
-| jaegerTracing.enabled | bool | `true` |  |
-| jaegerTracing.hostname | string | `"grafana-agent.monitoring.svc.cluster.local"` |  |
 | liveness.annotations | object | `{}` | Annotations for liveness deployment |
 | liveness.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | liveness.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
@@ -583,8 +581,13 @@ metadata:
 | objectDetector.resources.requests.cpu | string | `"750m"` |  |
 | objectDetector.resources.requests.memory | string | `"600M"` |  |
 | objectDetector.tolerations | list | `[]` |  |
+| openTelemetryTracing.configurationEnv.OTEL_EXPORTER_OTLP_ENDPOINT | string | `"http://grafana-agent.monitoring.svc.cluster.local:4317"` |  |
+| openTelemetryTracing.configurationEnv.OTEL_TRACES_SAMPLER | string | `"parentbased_traceidratio"` |  |
+| openTelemetryTracing.configurationEnv.OTEL_TRACES_SAMPLER_ARG | float | `1` |  |
+| openTelemetryTracing.enabled | bool | `true` |  |
 | palmDetector.annotations | object | `{}` | Annotations for palm-detector deployment |
 | palmDetector.image.digest | string | `nil` | Overrides the image tag with an image digest |
+| palmDetector.image.livenessWarmup.enabled | bool | `true` |  |
 | palmDetector.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | palmDetector.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | palmDetector.image.repository | string | `"innovatrics/smartface/sf-palm-detector"` | Docker image repository |
@@ -601,7 +604,6 @@ metadata:
 | palmDetector.resources.requests.cpu | string | `"750m"` |  |
 | palmDetector.resources.requests.memory | string | `"600M"` |  |
 | palmDetector.tolerations | list | `[]` |  |
-| palmDetector.warmupDetectionAlgorithms | list | `["balanced_mask"]` | Determines which face detection models are loaded at startup. You can specify one or more detection modes. |
 | palmExtractor.annotations | object | `{}` | Annotations for palm-extractor deployment |
 | palmExtractor.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | palmExtractor.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
@@ -692,7 +694,7 @@ metadata:
 | station.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | station.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | station.image.repository | string | `"innovatrics/smartface/sf-station"` | Docker image repository |
-| station.image.tag | string | `"v5_1.29.0"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
+| station.image.tag | string | `"v5_1.30.0"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
 | station.name | string | `"station"` |  |
 | station.nodeSelector | object | `{}` |  |
 | station.podAnnotations | object | `{}` | Annotations for station pods |

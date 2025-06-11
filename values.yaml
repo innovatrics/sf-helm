@@ -510,12 +510,8 @@ palmDetector:
     digest: null
     # -- Docker image pull policy
     pullPolicy: IfNotPresent
-  # -- Determines which face detection models are loaded at startup. You can specify one or more detection modes.
-  warmupDetectionAlgorithms:
-    - balanced_mask
-    #- fast
-    #- accurate_mask
-    #- balanced_experimental
+    livenessWarmup:
+      enabled: true
   # --  Additional environment variables for the detector component
   # extraVars:
   #  - name: EXTRA_VAR1
@@ -977,7 +973,7 @@ station:
     # -- Docker image repository
     repository: innovatrics/smartface/sf-station
     # -- Smartface Station follows different versioning, so the chart app needs to be overridden
-    tag: "v5_1.29.0"
+    tag: "v5_1.30.0"
     # -- Overrides the image tag with an image digest
     digest: null
     # -- Docker image pull policy
@@ -1150,9 +1146,12 @@ VideoReader:
   #  - name: EXTRA_VAR2
   #    value: "value2"
 
-jaegerTracing:
+openTelemetryTracing:
   enabled: true
-  hostname: grafana-agent.monitoring.svc.cluster.local
+  configurationEnv:
+    OTEL_TRACES_SAMPLER: parentbased_traceidratio
+    OTEL_TRACES_SAMPLER_ARG: 1.0
+    OTEL_EXPORTER_OTLP_ENDPOINT: "http://grafana-agent.monitoring.svc.cluster.local:4317"
 
 migration:
   enabled: true

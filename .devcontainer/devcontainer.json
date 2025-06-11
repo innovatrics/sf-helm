@@ -12,7 +12,7 @@
             "kubectl": "latest",
             "helm": "latest"
         },
-        "ghcr.io/devcontainers-contrib/features/pre-commit:2": {},
+        "ghcr.io/devcontainers-extra/features/pre-commit:2": {},
         "ghcr.io/dirsigler/devcontainer-features/helm-docs:1": { }
     },
     "customizations": {
@@ -29,6 +29,6 @@
             }
         }
     },
-    "postCreateCommand": "helm version && kubectl version --client && git --version && pre-commit --version",
+    "postCreateCommand": "helm version && kubectl version --client && git --version && pre-commit --version && echo 'alias k=kubectl' >> ~/.bashrc && echo 'complete -o default -F __start_kubectl k' >> ~/.bashrc",
     "remoteUser": "vscode"
 }

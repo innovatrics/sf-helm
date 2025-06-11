@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.8.11]
+
+### Changed
+
+- Version of SmartFace Platform to 4.31.0
+- Version of SmartFace Station to 1.30
+- Tracing configuration changed, now following OpenTelemetry standard
+- Added support for enabling palm liveness warmup
+
 ## [v0.8.10]
 
 ### Changed
