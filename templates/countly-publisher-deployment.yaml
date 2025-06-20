@@ -53,7 +53,7 @@ spec:
       {{- end }}
       containers:
       - name: {{ $name | quote }}
-        image: {{ include "smartface.image" (dict "local" .Values.countlyPublisher.image "global" .Values.global.image "defaultVersion" .Chart.AppVersion) }}
+        image: {{ include "smartface.image.noDefault" (dict "local" .Values.countlyPublisher.image "global" .Values.global.image) }}
         imagePullPolicy: {{ .Values.countlyPublisher.image.pullPolicy }}
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
