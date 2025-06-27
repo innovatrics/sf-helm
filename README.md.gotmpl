@@ -137,6 +137,9 @@ metadata:
 
 ## Breaking changes
 
+### [v0.8.10]
+- tracing configuration changed to OpenTelemetry standard, see `openTelemetryTracing` in `values.yaml`
+
 ### [v0.8.0]
 - Changed default behavior for creating Authentication configuration. If you like to continue managing the previously created Authentication config map please use the `configurations.apiAuth.existingConfigMapName` field. Otherwise the ConfigMap will be managed by the helm chart using the values provided in `configurations.apiAuth`
   - This change also includes renaming previous field `configurations.apiAuth.configName` -> `configurations.apiAuth.existingConfigMapName`

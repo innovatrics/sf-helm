@@ -128,7 +128,7 @@ spec:
             secretKeyRef:
               name: {{ .Values.configurations.stationAuth.secretName | quote }}
               key: "client_id"
-        
+
         - name: "LICENSE_FILE_PATH"
           value: {{ .Values.configurations.license.mountPath | quote }}
 
