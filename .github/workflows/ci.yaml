@@ -73,7 +73,91 @@ jobs:
           TENANT_2_SECRET: ${{ secrets.TENANT_2_SECRET }}
         run: |
           helm install smartface . -f ci/test-values.yaml --set tests.authentication.tenant1.clientSecret="$TENANT_1_SECRET" --set tests.authentication.tenant2.clientSecret="$TENANT_2_SECRET" -f ci/${{ matrix.variant }}-values.yaml
-          kubectl rollout status deployment sf-auth-api --timeout=600s
+
+      
+      - name: Debug pod state before rollout
+        run: |
+          echo "=== Pods ==="
+          kubectl get pods -A -o wide
+          echo "=== Describe pods with label app=sf-auth-api ==="
+          kubectl describe pods -l app=sf-auth-api || true
+          echo "=== Deployment YAML ==="
+          kubectl get deployment sf-auth-api -o yaml || true
+          echo "=== Events ==="
+          kubectl get events --sort-by=.metadata.creationTimestamp || true
+
+      - name: Helm timeout debug 1
+        run: |
+          kubectl rollout status deployment sf-auth-api --timeout=100s
+        continue-on-error: true
+      - name: Dump logs after timeout or failure 1
+        if: always()
+        run: |
+          echo "=== Pods ==="
+          kubectl get pods -l app=sf-auth-api -o name | while read pod; do
+            echo "### Describing $pod"
+            kubectl describe "$pod" || true
+            echo "### Logs for $pod"
+            kubectl logs "$pod" --all-containers=true || true
+          done
+          echo "=== Final events ==="
+          kubectl get events --sort-by=.metadata.creationTimestamp || true
+
+      - name: Helm timeout debug 2
+        run: |
+          kubectl rollout status deployment sf-auth-api --timeout=100s
+        continue-on-error: true
+      - name: Dump logs after timeout or failure 2
+        if: always()
+        run: |
+          echo "=== Pods ==="
+          kubectl get pods -l app=sf-auth-api -o name | while read pod; do
+            echo "### Describing $pod"
+            kubectl describe "$pod" || true
+            echo "### Logs for $pod"
+            kubectl logs "$pod" --all-containers=true || true
+          done
+          echo "=== Final events ==="
+          kubectl get events --sort-by=.metadata.creationTimestamp || true
+      
+      - name: Helm timeout debug 3
+        run: |
+          kubectl rollout status deployment sf-auth-api --timeout=100s
+        continue-on-error: true
+      - name: Dump logs after timeout or failure 3
+        if: always()
+        run: |
+          echo "=== Pods ==="
+          kubectl get pods -l app=sf-auth-api -o name | while read pod; do
+            echo "### Describing $pod"
+            kubectl describe "$pod" || true
+            echo "### Logs for $pod"
+            kubectl logs "$pod" --all-containers=true || true
+          done
+          echo "=== Final events ==="
+          kubectl get events --sort-by=.metadata.creationTimestamp || true
+      
+      - name: Helm timeout debug 4
+        run: |
+          kubectl rollout status deployment sf-auth-api --timeout=100s
+        continue-on-error: true
+      - name: Dump logs after timeout or failure 4
+        if: always()
+        run: |
+          echo "=== Pods ==="
+          kubectl get pods -l app=sf-auth-api -o name | while read pod; do
+            echo "### Describing $pod"
+            kubectl describe "$pod" || true
+            echo "### Logs for $pod"
+            kubectl logs "$pod" --all-containers=true || true
+          done
+          echo "=== Final events ==="
+          kubectl get events --sort-by=.metadata.creationTimestamp || true
+      
+      - name: Helm install timeout
+        run: |
+          kubectl rollout status deployment sf-auth-api --timeout=300s
+
       - name: Apply tenant manifests
         run: |
           kubectl apply -f ci/${{ matrix.variant }}-tenants.yaml
