@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.8.10](https://img.shields.io/badge/Version-0.8.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.31.0](https://img.shields.io/badge/AppVersion-v5_4.31.0-informational?style=flat-square)
+![Version: 0.8.11](https://img.shields.io/badge/Version-0.8.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.31.0](https://img.shields.io/badge/AppVersion-v5_4.31.0-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -760,6 +760,9 @@ metadata:
 * <https://github.com/innovatrics/smartface>
 
 ## Breaking changes
+
+### [v0.8.10]
+- tracing configuration changed to OpenTelemetry standard, see `openTelemetryTracing` in `values.yaml`
 
 ### [v0.8.0]
 - Changed default behavior for creating Authentication configuration. If you like to continue managing the previously created Authentication config map please use the `configurations.apiAuth.existingConfigMapName` field. Otherwise the ConfigMap will be managed by the helm chart using the values provided in `configurations.apiAuth`
