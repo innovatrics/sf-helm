@@ -34,9 +34,9 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Template used for resolving SF images using global/local overrides
 */}}
 {{- define "smartface.image" }}
-{{- $registry := .global.registry | default .local.registry | default "" -}}
+{{- $registry := .local.registry | default .global.registry | default "" -}}
 {{- $repository := .local.repository | default "" -}}
-{{- $tag := .local.tag | default "" -}}
+{{- $tag := .local.tag | default .defaultVersion | default "" -}}
 {{- $ref := "" -}}
 {{- if .local.digest -}}
   {{- $ref = printf "@%s" .local.digest -}}
@@ -54,9 +54,9 @@ Template used for resolving SF images using global/local overrides
 Template used for resolving SF images without default version fallback
 */}}
 {{- define "smartface.image.noDefault" }}
-{{- $registry := .global.registry | default .local.registry | default "" -}}
+{{- $registry := .local.registry | default .global.registry | default "" -}}
 {{- $repository := .local.repository | default "" -}}
-{{- $tag := .local.tag | default "" -}}
+{{- $tag := .local.tag | default .defaultVersion -}}
 {{- $ref := "" -}}
 {{- if .local.digest -}}
   {{- $ref = printf "@%s" .local.digest -}}
