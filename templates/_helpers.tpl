@@ -56,7 +56,7 @@ Template used for resolving SF images without default version fallback
 {{- define "smartface.image.noDefault" }}
 {{- $registry := .local.registry | default .global.registry | default "" -}}
 {{- $repository := .local.repository | default "" -}}
-{{- $tag := .local.tag | default .defaultVersion -}}
+{{- $tag := .local.tag | default "" -}}
 {{- $ref := "" -}}
 {{- if .local.digest -}}
   {{- $ref = printf "@%s" .local.digest -}}
