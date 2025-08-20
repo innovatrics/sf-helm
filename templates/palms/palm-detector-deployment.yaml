@@ -58,6 +58,8 @@ spec:
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
+        - name: "Warmup__LivenessEnabled"
+          value: {{ .Values.palmDetector.image.livenessWarmup.enabled | quote }}
         {{- with .Values.palmDetector.extraVars }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

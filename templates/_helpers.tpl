@@ -34,9 +34,35 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Template used for resolving SF images using global/local overrides
 */}}
 {{- define "smartface.image" }}
-{{- $registry := .global.registry | default .local.registry | default "" -}}
+{{- $registry := .local.registry | default .global.registry | default "" -}}
 {{- $repository := .local.repository | default "" -}}
-{{- $ref := ternary (printf ":%s" (.local.tag | default .defaultVersion | toString)) (printf "@%s" .local.digest) (empty .local.digest) -}}
+{{- $tag := .local.tag | default .defaultVersion | default "" -}}
+{{- $ref := "" -}}
+{{- if .local.digest -}}
+  {{- $ref = printf "@%s" .local.digest -}}
+{{- else if $tag -}}
+  {{- $ref = printf ":%s" $tag -}}
+{{- end -}}
+{{- if and $registry $repository -}}
+  {{- printf "%s/%s%s" $registry $repository $ref -}}
+{{- else -}}
+  {{- printf "%s%s%s" $registry $repository $ref -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Template used for resolving SF images without default version fallback
+*/}}
+{{- define "smartface.image.noDefault" }}
+{{- $registry := .local.registry | default .global.registry | default "" -}}
+{{- $repository := .local.repository | default "" -}}
+{{- $tag := .local.tag | default "" -}}
+{{- $ref := "" -}}
+{{- if .local.digest -}}
+  {{- $ref = printf "@%s" .local.digest -}}
+{{- else if $tag -}}
+  {{- $ref = printf ":%s" $tag -}}
+{{- end -}}
 {{- if and $registry $repository -}}
   {{- printf "%s/%s%s" $registry $repository $ref -}}
 {{- else -}}

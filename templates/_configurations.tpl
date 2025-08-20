@@ -2,7 +2,7 @@
 Template used for adding database configuration to containers
 */}}
 {{- define "smartface.dbConfig" -}}
-{{- if .Values.postgresql.enabled }}
+{{- if .Values.postgresql.enabled -}}
 - name: "DB_HOST"
   value: "{{ .Release.Name }}-postgresql.{{ .Release.Namespace }}.svc.cluster.local"
 - name: "DB_USER"
@@ -236,15 +236,19 @@ Template used for common environment variables definition
   value: "false"
 - name: "AppSettings__Log_JsonConsole_Enabled"
   value: "true"
-- name: "AppSettings__USE_JAEGER_APP_SETTINGS"
-  value: {{ .Values.jaegerTracing.enabled | quote }}
-- name: "JAEGER_AGENT_HOST"
-  value: {{ .Values.jaegerTracing.hostname | quote }}
 - name: "Metrics__PROMETHEUS_METRIC_SERVER_HOSTNAME"
   value: "*"
 - name: "S3ClientLifetime__S3ClientLifetime"
   value: "Singleton"
-{{- end }}
+- name: "Tracing__Enabled"
+  value: {{ .Values.openTelemetryTracing.enabled | quote }}
+{{- if .Values.openTelemetryTracing.enabled }}
+{{- range $key, $value := .Values.openTelemetryTracing.configurationEnv }}
+- name: {{ $key | quote }}
+  value: {{ $value | quote }}
+{{- end -}}
+{{- end -}}
+{{- end -}}
 
 {{/*
 Enabling statistics pulishing for countly sender

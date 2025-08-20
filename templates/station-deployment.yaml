@@ -83,7 +83,8 @@ spec:
           value: "true"
         - name: "IDENTIFICATION_ENABLED"
           value: "true"
-
+        - name: "PALMS_ENABLED"
+          value: {{ .Values.features.palms.enabled | quote }}
         - name: "QR_CODE_ENABLED"
           value: {{ .Values.experimentalFeatures.qr.enabled | quote }}
         - name: "QR_CODE_REFRESH_INTERVAL"
@@ -127,6 +128,9 @@ spec:
             secretKeyRef:
               name: {{ .Values.configurations.stationAuth.secretName | quote }}
               key: "client_id"
+
+        - name: "LICENSE_FILE_PATH"
+          value: {{ .Values.configurations.license.mountPath | quote }}
 
         {{- range $index, $label := .Values.configurations.watchlistMemberLabels }}
         - name: WATCHLIST_MEMBER_KEY_{{ $index }}
