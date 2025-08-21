@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.8.12]
+
+### Added
+
+- Added a new FrameProcessed notification to GraphQL subscriptions.
+
+### Changed
+
+- Version of SmartFace Platform to 4.32.0
+
 ## [v0.8.11]
 
 ### Changed
