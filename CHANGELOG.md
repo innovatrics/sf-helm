@@ -1,5 +1,16 @@
 # Changelog
 
+## [v0.8.13]
+
+### Added
+
+- EdgeStreamProcessor now accepts detected pedestrians detected in FrameData proto message.
+- New request property `PalmValidationMode` was added to endpoints accepting palms.
+
+### Changed
+
+- Version of SmartFace Platform to 4.33.0
+
 ## [v0.8.12]
 
 ### Added
