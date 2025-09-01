@@ -1,5 +1,18 @@
 # Changelog
 
+## [v0.8.14]
+
+### Added
+- A new property, `faceSelector`, has been added to the `image` object in the following API endpoints:
+  - `api/v1/WatchlistMembers/Register`
+  - `api/v1/WatchlistMembers/Register/{id}/AddNewFace`
+- More OTEL metrics and updated configurtion
+- `SFEdgeStreamProcessor` now supports incoming palms even without `FullFrame` image data. It will use a cropped image of the palm for detection instead.
+
+### Changed
+
+- Version of SmartFace Platform to 4.34.0
+
 ## [v0.8.13]
 
 ### Added
