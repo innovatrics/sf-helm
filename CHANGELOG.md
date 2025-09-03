@@ -2,7 +2,7 @@
 
 ## [v0.8.14]
 
-### Added
+### Added (SmartFace Platform changelog overview)
 - A new property, `faceSelector`, has been added to the `image` object in the following API endpoints:
   - `api/v1/WatchlistMembers/Register`
   - `api/v1/WatchlistMembers/Register/{id}/AddNewFace`
@@ -11,6 +11,9 @@
 
 ### Changed
 
+- Previous configuration for metrics section was changed from `metrics` to `metrics.monitoring` to be less ambiguous.
+- New configuration section `metrics.enabled` now controls whether metric endpoints should be enabled for services. Default set to `true` to match previous behavior.
+- New `metrics.configurationEnv` section controls metrics env variables that will be applied if `metrics.enabled` is true.
 - Version of SmartFace Platform to 4.34.0
 
 ## [v0.8.13]
