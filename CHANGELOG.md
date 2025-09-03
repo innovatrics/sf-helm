@@ -6,7 +6,7 @@
 - A new property, `faceSelector`, has been added to the `image` object in the following API endpoints:
   - `api/v1/WatchlistMembers/Register`
   - `api/v1/WatchlistMembers/Register/{id}/AddNewFace`
-- More OTEL metrics and updated configurtion
+- More OTEL metrics and updated configuration
 - `SFEdgeStreamProcessor` now supports incoming palms even without `FullFrame` image data. It will use a cropped image of the palm for detection instead.
 
 ### Changed
