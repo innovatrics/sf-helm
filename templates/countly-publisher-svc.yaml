@@ -11,7 +11,7 @@ metadata:
     {{- with .Values.countlyPublisher.service.labels }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
-    {{- with .Values.metrics.serviceDiscoveryLabels }}
+    {{- with .Values.metrics.monitoring.serviceDiscoveryLabels }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
   annotations:
@@ -25,7 +25,7 @@ spec:
   selector:
     {{- include "smartface.countlyPublisher.selectorLabels" . | nindent 4 }}
   ports:
-    - name: {{ .Values.metrics.portName | quote }}
-      port: {{ .Values.metrics.port }}
+    - name: {{ .Values.metrics.monitoring.portName | quote }}
+      port: {{ .Values.metrics.monitoring.port }}
   type: "ClusterIP"
 {{- end }}

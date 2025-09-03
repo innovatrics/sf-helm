@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.8.13](https://img.shields.io/badge/Version-0.8.13-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.33.0](https://img.shields.io/badge/AppVersion-v5_4.33.0-informational?style=flat-square)
+![Version: 0.8.14](https://img.shields.io/badge/Version-0.8.14-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.34.0](https://img.shields.io/badge/AppVersion-v5_4.34.0-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -545,12 +545,16 @@ metadata:
 | matcher.resources.requests.cpu | string | `"750m"` |  |
 | matcher.resources.requests.memory | string | `"200M"` |  |
 | matcher.tolerations | list | `[]` |  |
-| metrics.enabled | bool | `false` |  |
-| metrics.monitorDiscoveryLabel.instance | string | `"primary"` |  |
-| metrics.port | int | `4318` |  |
-| metrics.portName | string | `"metrics"` |  |
-| metrics.publishAllMetrics | bool | `true` |  |
-| metrics.serviceDiscoveryLabels.sf-metrics | string | `"true"` |  |
+| metrics.configurationEnv.OTEL_EXPORTER_PROMETHEUS_HOST | string | `"*"` |  |
+| metrics.configurationEnv.OTEL_EXPORTER_PROMETHEUS_PORT | int | `4318` |  |
+| metrics.configurationEnv.OTEL_METRICS_EXPORTER | string | `"prometheus"` |  |
+| metrics.enabled | bool | `true` | Controls whether application metrics should be exposed by application |
+| metrics.monitoring.enabled | bool | `false` |  |
+| metrics.monitoring.monitorDiscoveryLabel.instance | string | `"primary"` |  |
+| metrics.monitoring.port | int | `4318` |  |
+| metrics.monitoring.portName | string | `"metrics"` |  |
+| metrics.monitoring.publishAllMetrics | bool | `true` |  |
+| metrics.monitoring.serviceDiscoveryLabels.sf-metrics | string | `"true"` |  |
 | migration.enabled | bool | `true` |  |
 | migration.initContainer.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | migration.initContainer.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |

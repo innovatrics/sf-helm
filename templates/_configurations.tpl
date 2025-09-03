@@ -236,8 +236,6 @@ Template used for common environment variables definition
   value: "false"
 - name: "AppSettings__Log_JsonConsole_Enabled"
   value: "true"
-- name: "Metrics__PROMETHEUS_METRIC_SERVER_HOSTNAME"
-  value: "*"
 - name: "S3ClientLifetime__S3ClientLifetime"
   value: "Singleton"
 - name: "Tracing__Enabled"
@@ -287,4 +285,19 @@ Template used for setting up authentication data for test pods
     configMapKeyRef:
       name: {{ $configName }}
       key: "oauth_token_url"
+{{- end }}
+
+{{/*
+Template used for adding metrics configuration to containers
+Supports .Values.metrics.enabled and .Values.metrics.configurationEnv
+*/}}
+{{- define "smartface.metricsConfig" -}}
+{{- if .Values.metrics.enabled }}
+{{- if .Values.metrics.configurationEnv }}
+{{- range $key, $value := .Values.metrics.configurationEnv }}
+- name: {{ $key | quote }}
+  value: {{ $value | quote }}
+{{- end }}
+{{- end }}
+{{- end }}
 {{- end }}

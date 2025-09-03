@@ -57,6 +57,7 @@ spec:
         imagePullPolicy: {{ .Values.VideoReader.image.pullPolicy }}
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.metricsConfig" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
         {{- include "smartface.s3Config" . | nindent 8 }}
         {{- with .Values.VideoReader.extraVars }}

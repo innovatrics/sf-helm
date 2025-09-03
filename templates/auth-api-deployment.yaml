@@ -60,11 +60,12 @@ spec:
         ports:
         - name: "http"
           containerPort: {{ .Values.authApi.containerPort }}
-        - name: {{ .Values.metrics.portName | quote }}
-          containerPort: {{ .Values.metrics.port }}
+        - name: {{ .Values.metrics.monitoring.portName | quote }}
+          containerPort: {{ .Values.metrics.monitoring.port }}
         env:
         {{- include "smartface.authenticationConfig" . | nindent 8 }}
         {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.metricsConfig" . | nindent 8 }}
         {{- include "smartface.dbConfig" . | nindent 8 }}
         {{- include "smartface.s3Config" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}

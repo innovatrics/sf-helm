@@ -57,6 +57,7 @@ spec:
         imagePullPolicy: {{ .Values.accessController.image.pullPolicy }}
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.metricsConfig" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
         {{- include "smartface.mqttConfig" . | nindent 8 }}
         {{- include "smartface.authenticationConfig" . | nindent 8 }}
