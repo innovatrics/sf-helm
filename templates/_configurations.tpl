@@ -248,12 +248,6 @@ Template used for common environment variables definition
   value: {{ $value | quote }}
 {{- end -}}
 {{- end -}}
-{{- if .Values.openTelemetryMetrics.enabled }}
-{{- range $key, $value := .Values.openTelemetryMetrics.configurationEnv }}
-- name: {{ $key | quote }}
-  value: {{ $value | quote }}
-{{- end -}}
-{{- end -}}
 {{- end -}}
 
 {{/*
