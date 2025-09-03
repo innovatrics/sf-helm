@@ -57,6 +57,7 @@ spec:
         imagePullPolicy: {{ .Values.palmDetector.image.pullPolicy }}
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.metricsConfig" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
         - name: "Warmup__LivenessEnabled"
           value: {{ .Values.palmDetector.image.livenessWarmup.enabled | quote }}

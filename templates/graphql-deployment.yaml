@@ -62,6 +62,7 @@ spec:
         {{- include "smartface.authenticationConfig" . | nindent 8 }}
         {{- end }}
         {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.metricsConfig" . | nindent 8 }}
         {{- include "smartface.dbConfig" . | nindent 8 }}
         {{- include "smartface.s3Config" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}

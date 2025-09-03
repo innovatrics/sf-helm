@@ -58,6 +58,7 @@ spec:
         imagePullPolicy: {{ .Values.extractor.image.pullPolicy }}
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.metricsConfig" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
         {{- if .Values.configurations.faceTemplate.extractionAlgorithm  }}
         - name: Extraction__Algorithm

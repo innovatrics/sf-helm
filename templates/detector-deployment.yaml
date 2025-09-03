@@ -58,6 +58,7 @@ spec:
         imagePullPolicy: {{ .Values.detector.image.pullPolicy }}
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.metricsConfig" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
         - name: Warmup__DetectionAlgorithms
           value: {{ .Values.detector.warmupDetectionAlgorithms | join "," | quote }}

@@ -61,6 +61,7 @@ spec:
         imagePullPolicy: {{ .Values.matcher.image.pullPolicy }}
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
+        {{- include "smartface.metricsConfig" . | nindent 8 }}
         {{- include "smartface.rmqConfig" . | nindent 8 }}
         {{- include "smartface.dbConfig" . | nindent 8 }}
         {{- if .Values.configurations.faceTemplate.compatibilityVersion  }}
