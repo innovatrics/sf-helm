@@ -73,7 +73,7 @@ spec:
         - name: "CountlyConfiguration__AdditionalSegmentations__0__Value"
           value: {{ .Values.countlyPublisher.clusterName | quote }}
         - name: "PrometheusConfiguration__Endpoints__0"
-          value: "http://+:{{ .Values.metrics.port }}/"
+          value: "http://+:{{ .Values.metrics.monitoring.port }}/"
         resources:
           {{- toYaml .Values.countlyPublisher.resources | nindent 10 }}
       {{- with .Values.countlyPublisher.nodeSelector }}

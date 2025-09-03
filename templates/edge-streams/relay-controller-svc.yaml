@@ -25,7 +25,7 @@ spec:
     - name: "http"
       port: {{ .Values.relayController.servicePort }}
       targetPort: {{ .Values.relayController.containerPort }}
-    - name: {{ .Values.metrics.portName | quote }}
-      port: {{ .Values.metrics.port }}
+    - name: {{ .Values.metrics.monitoring.portName | quote }}
+      port: {{ .Values.metrics.monitoring.port }}
   type: "ClusterIP"
 {{- end }}

@@ -58,8 +58,8 @@ spec:
         ports:
         - name: "http"
           containerPort: {{ .Values.api.containerPort }}
-        - name: {{ .Values.metrics.portName | quote }}
-          containerPort: {{ .Values.metrics.port }}
+        - name: {{ .Values.metrics.monitoring.portName | quote }}
+          containerPort: {{ .Values.metrics.monitoring.port }}
         env:
         {{- include "smartface.commonEnv" . | nindent 8 }}
         {{- include "smartface.dbConfig" . | nindent 8 }}
