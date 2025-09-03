@@ -1153,6 +1153,13 @@ openTelemetryTracing:
     OTEL_TRACES_SAMPLER_ARG: 1.0
     OTEL_EXPORTER_OTLP_ENDPOINT: "http://grafana-agent.monitoring.svc.cluster.local:4317"
 
+openTelemetryMetrics:
+  enabled: true
+  configurationEnv:
+    OTEL_METRICS_EXPORTER: prometheus
+    OTEL_EXPORTER_PROMETHEUS_HOST: *
+    OTEL_EXPORTER_PROMETHEUS_PORT: 4318
+
 migration:
   enabled: true
   skipWlStreamMigration: false
