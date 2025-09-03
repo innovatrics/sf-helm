@@ -1322,10 +1322,10 @@ tests:
 metrics:
   # -- Controls whether application metrics should be exposed by application
   enabled: true
-    configurationEnv:
-      OTEL_METRICS_EXPORTER: prometheus
-      OTEL_EXPORTER_PROMETHEUS_HOST: "*"
-      OTEL_EXPORTER_PROMETHEUS_PORT: 4318
+  configurationEnv:
+    OTEL_METRICS_EXPORTER: prometheus
+    OTEL_EXPORTER_PROMETHEUS_HOST: "*"
+    OTEL_EXPORTER_PROMETHEUS_PORT: 4318
   monitoring:
     enabled: false
     publishAllMetrics: true
