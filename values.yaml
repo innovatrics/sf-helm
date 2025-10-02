@@ -107,6 +107,11 @@ experimentalFeatures:
 rabbitmq:
   # -- configure if rabbitmq subchart should be included
   enabled: true
+  image:
+    repository: "bitnamilegacy/rabbitmq"
+  volumePermissions:
+    image:
+      repository: "bitnamilegacy/bitnami-shell"
   extraPlugins: "rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt"
   # -- service to publicly expose mqtt interface to be used by edge streams. Currently requires ALB controller https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.6/
   mqttPublicService:
@@ -385,6 +390,8 @@ ingress:
   includeAlbAnnotations: false
   # -- only used if includeAlbAnnotations == true
   certificateArn: ""
+  albScheme: "internet-facing"
+  albTargetType: "ip"
 
 detector:
   name: "detector"
