@@ -5,7 +5,7 @@
 ### Changed
 - Made ALB annotations configurable
 - Fixed error in Countly deployment
-- Updated RabbitMQ image to use Bitnami legacy repository
+- Updated bitnami images to use bitnami legacy repository
 
 ## [v0.8.14]
 
