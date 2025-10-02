@@ -3,9 +3,9 @@
 ## [v0.8.15]
 
 ### Changed
-- Made ALB annotations configurable  
-- Fixed error in Countly deployment  
-- Updated RabbitMQ image to use Bitnami legacy repository  
+- Made ALB annotations configurable
+- Fixed error in Countly deployment
+- Updated RabbitMQ image to use Bitnami legacy repository
 
 ## [v0.8.14]
 
