@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.8.14](https://img.shields.io/badge/Version-0.8.14-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.34.0](https://img.shields.io/badge/AppVersion-v5_4.34.0-informational?style=flat-square)
+![Version: 0.8.15](https://img.shields.io/badge/Version-0.8.15-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.34.0](https://img.shields.io/badge/AppVersion-v5_4.34.0-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -506,6 +506,8 @@ metadata:
 | graphqlApi.servicePort | int | `8097` |  |
 | graphqlApi.tolerations | list | `[]` |  |
 | imagePullSecrets | list | `[{"name":"sf-gitlab-registry-creds"}]` | docker secrets used to pull images with |
+| ingress.albScheme | string | `"internet-facing"` |  |
+| ingress.albTargetType | string | `"ip"` |  |
 | ingress.annotations | string | `nil` | supply custom ingress annotation |
 | ingress.certificateArn | string | `""` | only used if includeAlbAnnotations == true |
 | ingress.class | string | `""` | set ingress class |
@@ -629,7 +631,7 @@ metadata:
 | podAnnotations | object | `{}` | Common annotations for all pods |
 | podLabels | object | `{}` | Common labels for all pods |
 | postgresql | object | `{"enabled":true,"primary":{"initdb":{"scripts":{"create-database.sql":"CREATE DATABASE smartface"}}}}` | config for postgresql subchart, see https://github.com/bitnami/charts/tree/main/bitnami/postgresql |
-| rabbitmq | object | `{"auth":{"erlangCookie":"","existingSecretName":"","password":"","secretKey":"rabbitmq-password","username":"smartface"},"enabled":true,"extraPlugins":"rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt","mqttConfiguration":{"existingConfigMapName":"","hostname":"","port":1883,"useSsl":false,"username":""},"mqttPublicService":{"enabled":false,"mqttDnsHost":""},"rmqConfiguration":{"existingConfigMapName":"","hostname":"","port":5672,"streamsPort":5552,"useSsl":false,"username":""},"service":{"extraPorts":[{"name":"mqtt","port":1883,"targetPort":1883},{"name":"rmq-stream","port":5552,"targetPort":5552}]}}` | config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq |
+| rabbitmq | object | `{"auth":{"erlangCookie":"","existingSecretName":"","password":"","secretKey":"rabbitmq-password","username":"smartface"},"enabled":true,"extraPlugins":"rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt","image":{"repository":"bitnamilegacy/rabbitmq"},"mqttConfiguration":{"existingConfigMapName":"","hostname":"","port":1883,"useSsl":false,"username":""},"mqttPublicService":{"enabled":false,"mqttDnsHost":""},"rmqConfiguration":{"existingConfigMapName":"","hostname":"","port":5672,"streamsPort":5552,"useSsl":false,"username":""},"service":{"extraPorts":[{"name":"mqtt","port":1883,"targetPort":1883},{"name":"rmq-stream","port":5552,"targetPort":5552}]},"volumePermissions":{"image":{"repository":"bitnamilegacy/bitnami-shell"}}}` | config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq |
 | rabbitmq.auth.erlangCookie | string | `""` | used by subchart |
 | rabbitmq.auth.existingSecretName | string | `""` | supply to bring you own secret. The secret needs to contain rabbitmq password under the key with name defined in `rabbitmq.auth.secretKey` |
 | rabbitmq.auth.password | string | `""` | used by subchart |
