@@ -167,6 +167,13 @@ rabbitmq:
 minio:
   enabled: true
   defaultBuckets: "smartface"
+  image:
+    repository: bitnamilegacy/minio
+  clientImage:
+    repository: bitnamilegacy/minio-client
+  volumePermissions:
+    image:
+      repository: bitnamilegacy/os-shell
 
 # -- config for postgresql subchart, see https://github.com/bitnami/charts/tree/main/bitnami/postgresql
 postgresql:
@@ -175,6 +182,15 @@ postgresql:
     initdb:
       scripts:
         create-database.sql: "CREATE DATABASE smartface"
+  image:
+    repository: bitnamilegacy/postgresql
+  volumePermissions:
+    image:
+      repository: bitnamilegacy/os-shell
+  metrics:
+    image:
+      repository: bitnamilegacy/postgres-exporter
+
 
 api:
   enabled: true

@@ -565,7 +565,7 @@ metadata:
 | migration.initContainer.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | migration.initContainer.resources | object | `{}` |  |
 | migration.skipWlStreamMigration | bool | `false` |  |
-| minio | object | `{"defaultBuckets":"smartface","enabled":true}` | config for minio subchart, see https://github.com/bitnami/charts/tree/main/bitnami/minio |
+| minio | object | `{"clientImage":{"repository":"bitnamilegacy/minio-client"},"defaultBuckets":"smartface","enabled":true,"image":{"repository":"bitnamilegacy/minio"},"volumePermissions":{"image":{"repository":"bitnamilegacy/os-shell"}}}` | config for minio subchart, see https://github.com/bitnami/charts/tree/main/bitnami/minio |
 | nameOverride | string | `nil` | Overrides the chart's name |
 | objectDetector.annotations | object | `{}` | Annotations for object detector deployment |
 | objectDetector.detectionAlgorithm | string | `"accurate"` |  |
@@ -630,7 +630,7 @@ metadata:
 | palmExtractor.tolerations | list | `[]` |  |
 | podAnnotations | object | `{}` | Common annotations for all pods |
 | podLabels | object | `{}` | Common labels for all pods |
-| postgresql | object | `{"enabled":true,"primary":{"initdb":{"scripts":{"create-database.sql":"CREATE DATABASE smartface"}}}}` | config for postgresql subchart, see https://github.com/bitnami/charts/tree/main/bitnami/postgresql |
+| postgresql | object | `{"enabled":true,"image":{"repository":"bitnamilegacy/postgresql"},"metrics":{"image":{"repository":"bitnamilegacy/postgres-exporter"}},"primary":{"initdb":{"scripts":{"create-database.sql":"CREATE DATABASE smartface"}}},"volumePermissions":{"image":{"repository":"bitnamilegacy/os-shell"}}}` | config for postgresql subchart, see https://github.com/bitnami/charts/tree/main/bitnami/postgresql |
 | rabbitmq | object | `{"auth":{"erlangCookie":"","existingSecretName":"","password":"","secretKey":"rabbitmq-password","username":"smartface"},"enabled":true,"extraPlugins":"rabbitmq_stream rabbitmq_stream_management rabbitmq_mqtt","image":{"repository":"bitnamilegacy/rabbitmq"},"mqttConfiguration":{"existingConfigMapName":"","hostname":"","port":1883,"useSsl":false,"username":""},"mqttPublicService":{"enabled":false,"mqttDnsHost":""},"rmqConfiguration":{"existingConfigMapName":"","hostname":"","port":5672,"streamsPort":5552,"useSsl":false,"username":""},"service":{"extraPorts":[{"name":"mqtt","port":1883,"targetPort":1883},{"name":"rmq-stream","port":5552,"targetPort":5552}]},"volumePermissions":{"image":{"repository":"bitnamilegacy/bitnami-shell"}}}` | config for rabbitmq subchart, see https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq |
 | rabbitmq.auth.erlangCookie | string | `""` | used by subchart |
 | rabbitmq.auth.existingSecretName | string | `""` | supply to bring you own secret. The secret needs to contain rabbitmq password under the key with name defined in `rabbitmq.auth.secretKey` |
