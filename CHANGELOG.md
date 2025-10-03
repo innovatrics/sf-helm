@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.8.15]
+
+### Changed
+- Made ALB annotations configurable
+- Fixed error in Countly deployment
+- Updated bitnami images to use bitnami legacy repository
+
 ## [v0.8.14]
 
 ### Added (SmartFace Platform changelog overview)
