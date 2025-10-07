@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.8.15](https://img.shields.io/badge/Version-0.8.15-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.34.0](https://img.shields.io/badge/AppVersion-v5_4.34.0-informational?style=flat-square)
+![Version: 0.8.16](https://img.shields.io/badge/Version-0.8.16-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.34.0](https://img.shields.io/badge/AppVersion-v5_4.34.0-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -235,6 +235,7 @@ metadata:
 | api.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | api.initMigration | bool | `true` |  |
 | api.name | string | `"api"` |  |
+| api.nodePort | int | `30002` | Only when serviceType: NodePort. |
 | api.nodeSelector | object | `{}` |  |
 | api.pdb.create | bool | `false` | create PodDisruptionBudget for api component |
 | api.pdb.maxUnavailable | string | `""` |  |
@@ -248,6 +249,7 @@ metadata:
 | api.service.annotations | object | `{}` | Annotations for api Service |
 | api.service.labels | object | `{}` | Additional labels for api Service |
 | api.servicePort | int | `80` |  |
+| api.serviceType | string | `"ClusterIP"` |  |
 | api.tolerations | list | `[]` |  |
 | authApi.annotations | object | `{}` | Annotations for authApi deployment |
 | authApi.containerPort | int | `80` |  |
@@ -260,6 +262,7 @@ metadata:
 | authApi.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | authApi.initMigration | bool | `true` |  |
 | authApi.name | string | `"auth-api"` |  |
+| authApi.nodePort | int | `30001` | Only when serviceType: NodePort. |
 | authApi.nodeSelector | object | `{}` |  |
 | authApi.pdb.create | bool | `false` | create PodDisruptionBudget for authApi component |
 | authApi.pdb.maxUnavailable | string | `""` |  |
@@ -273,6 +276,7 @@ metadata:
 | authApi.service.annotations | object | `{}` | Annotations for authApi Service |
 | authApi.service.labels | object | `{}` | Additional labels for authApi Service |
 | authApi.servicePort | int | `8098` |  |
+| authApi.serviceType | string | `"ClusterIP"` |  |
 | authApi.tolerations | list | `[]` |  |
 | autoscaling.api.enabled | bool | `true` | enables ScaledObject for rest API |
 | autoscaling.api.maxReplicas | int | `3` |  |
@@ -491,6 +495,7 @@ metadata:
 | graphqlApi.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | graphqlApi.initMigration | bool | `false` |  |
 | graphqlApi.name | string | `"graphql-api"` |  |
+| graphqlApi.nodePort | int | `30004` | Only when serviceType: NodePort. |
 | graphqlApi.nodeSelector | object | `{}` |  |
 | graphqlApi.pdb.create | bool | `false` | create PodDisruptionBudget for graphqlApi component |
 | graphqlApi.pdb.maxUnavailable | string | `""` |  |
@@ -504,6 +509,7 @@ metadata:
 | graphqlApi.service.annotations | object | `{}` | Annotations for graphqlApi Service |
 | graphqlApi.service.labels | object | `{}` | Additional labels for graphqlApi Service |
 | graphqlApi.servicePort | int | `8097` |  |
+| graphqlApi.serviceType | string | `"ClusterIP"` |  |
 | graphqlApi.tolerations | list | `[]` |  |
 | imagePullSecrets | list | `[{"name":"sf-gitlab-registry-creds"}]` | docker secrets used to pull images with |
 | ingress.albScheme | string | `"internet-facing"` |  |
@@ -702,6 +708,7 @@ metadata:
 | station.image.repository | string | `"innovatrics/smartface/sf-station"` | Docker image repository |
 | station.image.tag | string | `"v5_1.30.0"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
 | station.name | string | `"station"` |  |
+| station.nodePort | int | `30003` | Only when serviceType: NodePort. |
 | station.nodeSelector | object | `{}` |  |
 | station.podAnnotations | object | `{}` | Annotations for station pods |
 | station.podLabels | object | `{}` | Additional labels for each station pod |
@@ -710,6 +717,7 @@ metadata:
 | station.service.annotations | object | `{}` | Annotations for station Service |
 | station.service.labels | object | `{}` | Additional labels for station Service |
 | station.servicePort | int | `8000` |  |
+| station.serviceType | string | `"ClusterIP"` |  |
 | station.tolerations | list | `[]` |  |
 | streamDataDbWorker.annotations | object | `{}` | Annotations for streamDataDbWorker deployment |
 | streamDataDbWorker.image.digest | string | `nil` | Overrides the image tag with an image digest |
