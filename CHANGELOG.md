@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.8.16]
+
+### Changed
+- Updated `auth-api`, `api`, `station`, and `graphql` services to support configuration with **NodePort**.
+
 ## [v0.8.15]
 
 ### Changed

@@ -24,6 +24,9 @@ spec:
   ports:
     - port: {{ .Values.graphqlApi.servicePort }}
       targetPort: {{ .Values.graphqlApi.containerPort }}
+      {{- if eq .Values.graphqlApi.serviceType "NodePort" }}
+      nodePort: {{ .Values.graphqlApi.nodePort }}
+      {{- end }}
       protocol: "TCP"
-  type: "ClusterIP"
+  type: {{ .Values.graphqlApi.serviceType }}
 {{- end }}

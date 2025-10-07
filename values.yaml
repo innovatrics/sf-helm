@@ -195,8 +195,11 @@ postgresql:
 api:
   enabled: true
   name: "api"
+  serviceType: "ClusterIP"
   servicePort: 80
   containerPort: 80
+  # -- Only when serviceType: NodePort.
+  nodePort: 30002
   dnsHost: ""
   initMigration: true
   # -- Annotations for api deployment
@@ -245,8 +248,11 @@ api:
 authApi:
   enabled: false
   name: "auth-api"
+  serviceType: "ClusterIP"
   servicePort: 8098
   containerPort: 80
+  # -- Only when serviceType: NodePort.
+  nodePort: 30001
   dnsHost: ""
   initMigration: true
   # -- Annotations for authApi deployment
@@ -347,8 +353,11 @@ dbSynchronizationLeader:
 graphqlApi:
   enabled: true
   name: "graphql-api"
+  serviceType: "ClusterIP"
   servicePort: 8097
   containerPort: 80
+  # -- Only when serviceType: NodePort.
+  nodePort: 30004
   dnsHost: ""
   enableAuth: false
   initMigration: false
@@ -970,8 +979,11 @@ accessController:
 station:
   enabled: false
   name: "station"
+  serviceType: "ClusterIP"
   servicePort: 8000
   containerPort: 80
+  # -- Only when serviceType: NodePort.
+  nodePort: 30003
   dnsHost: ""
   # -- Annotations for station deployment
   annotations: {}

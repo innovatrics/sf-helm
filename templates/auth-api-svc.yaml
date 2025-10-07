@@ -28,7 +28,10 @@ spec:
     - name: "http"
       port: {{ .Values.authApi.servicePort }}
       targetPort: {{ .Values.authApi.containerPort }}
+      {{- if eq .Values.authApi.serviceType "NodePort" }}
+      nodePort: {{ .Values.authApi.nodePort }}
+      {{- end }}
     - name: {{ .Values.metrics.monitoring.portName | quote }}
       port: {{ .Values.metrics.monitoring.port }}
-  type: "ClusterIP"
+  type: {{ .Values.authApi.serviceType }}
 {{- end }}
