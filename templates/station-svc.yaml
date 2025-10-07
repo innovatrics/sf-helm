@@ -24,6 +24,9 @@ spec:
   ports:
     - port: {{ .Values.station.servicePort }}
       targetPort: {{ .Values.station.containerPort }}
+      {{- if eq .Values.station.serviceType "NodePort" }}
+      nodePort: {{ .Values.station.nodePort }}
+      {{- end }}
       protocol: "TCP"
-  type: "ClusterIP"
+  type: {{ .Values.station.serviceType }}
 {{- end }}

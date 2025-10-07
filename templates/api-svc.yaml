@@ -28,7 +28,10 @@ spec:
     - name: "http"
       port: {{ .Values.api.servicePort }}
       targetPort: {{ .Values.api.containerPort }}
+      {{- if eq .Values.api.serviceType "NodePort" }}
+      nodePort: {{ .Values.api.nodePort }}
+      {{- end }}
     - name: {{ .Values.metrics.monitoring.portName | quote }}
       port: {{ .Values.metrics.monitoring.port }}
-  type: "ClusterIP"
+  type: {{ .Values.api.serviceType }}
 {{- end }}
