@@ -2,6 +2,10 @@
 
 ## [v0.8.17]
 
+### Added
+- New `transactionCounting` configuration section supporting both CrmToken and OAuth authentication methods for Statistics/Transaction Counting System
+- New `smartface.statisticsConfig` template for flexible configuration of transaction counting authentication
+
 ### Changed
 
 
