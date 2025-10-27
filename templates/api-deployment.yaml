@@ -70,7 +70,7 @@ spec:
         {{- include "smartface.mqttConfig" . | nindent 8 }}
         {{- end }}
         {{- include "smartface.apiFeaturesConfig" . | nindent 8 }}
-        {{- include "smartface.statisticsPublish" . | nindent 8 }}
+        {{- include "smartface.statisticsConfig" . | nindent 8 }}
         {{- with .Values.api.extraVars }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
