@@ -689,7 +689,7 @@ metadata:
 | station.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | station.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | station.image.repository | string | `"innovatrics/smartface/sf-station"` | Docker image repository |
-| station.image.tag | string | `"v5_1.30.0"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
+| station.image.tag | string | `"v5_1.31.1"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
 | station.name | string | `"station"` |  |
 | station.nodePort | int | `30003` | Only when serviceType: NodePort. |
 | station.nodeSelector | object | `{}` |  |
@@ -734,6 +734,21 @@ metadata:
 | tests.podAnnotations | object | `{}` | Annotations for test pods |
 | tests.podLabels | object | `{}` | Additional labels for test pods |
 | tests.tolerations | list | `[]` |  |
+| transactionCounting | object | `{"authentication":{"crmToken":{"existingSecretName":"","secretKey":"token","token":""},"oauth":{"audience":"","clientId":"","clientSecret":"","existingConfigMapName":"","existingSecretName":"","tokenEndpoint":""}},"enabled":false,"existingConfigMapName":"","url":""}` | configuration for transaction counting system / statistics publishing |
+| transactionCounting.authentication.crmToken | object | `{"existingSecretName":"","secretKey":"token","token":""}` | CRM Token authentication method |
+| transactionCounting.authentication.crmToken.existingSecretName | string | `""` | supply to bring your own secret for CRM token. The secret needs the key: `token` |
+| transactionCounting.authentication.crmToken.secretKey | string | `"token"` | key within the existing secret which contains the CRM token |
+| transactionCounting.authentication.crmToken.token | string | `""` | CRM token value. If not provided, will use secret |
+| transactionCounting.authentication.oauth | object | `{"audience":"","clientId":"","clientSecret":"","existingConfigMapName":"","existingSecretName":"","tokenEndpoint":""}` | OAuth authentication method |
+| transactionCounting.authentication.oauth.audience | string | `""` | OAuth audience. If not provided, will use configmap |
+| transactionCounting.authentication.oauth.clientId | string | `""` | OAuth client ID. If not provided, will use secret |
+| transactionCounting.authentication.oauth.clientSecret | string | `""` | OAuth client secret. If not provided, will use secret |
+| transactionCounting.authentication.oauth.existingConfigMapName | string | `""` | supply to bring your own configmap for OAuth non-sensitive values. The configmap needs keys: `tokenEndpoint`, `audience` |
+| transactionCounting.authentication.oauth.existingSecretName | string | `""` | supply to bring your own secret for OAuth sensitive values. The secret needs keys: `clientId`, `clientSecret` |
+| transactionCounting.authentication.oauth.tokenEndpoint | string | `""` | OAuth token endpoint. If not provided, will use configmap |
+| transactionCounting.enabled | bool | `false` | enable statistics publishing and transaction counting |
+| transactionCounting.existingConfigMapName | string | `""` | supply to bring your own configmap for URL. The configmap needs the key: `url` |
+| transactionCounting.url | string | `""` | URL of the transaction counting system. If not provided, will use configmap |
 | updateStrategy | object | `{}` | Common updateStrategy for all deployments |
 | wlStreamPopulationJob.enabled | bool | `false` |  |
 | wlStreamPopulationJob.image.digest | string | `nil` | Overrides the image tag with an image digest |
