@@ -249,14 +249,6 @@ Template used for common environment variables definition
 {{- end -}}
 
 {{/*
-Enabling statistics pulishing for countly sender
-*/}}
-{{- define "smartface.statisticsPublish" -}}
-- name: "Statistics__SendStatisticsData"
-  value: {{ .Values.countlyPublisher.enabled | quote }}
-{{- end }}
-
-{{/*
 Template used for setting up authentication data for test pods
 */}}
 {{- define "smartface.testsAuthConfig" -}}

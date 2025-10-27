@@ -629,34 +629,6 @@ app.kubernetes.io/component: "palmExtractor"
 {{- end -}}
 
 {{/*
-countlyPublisher
-*/}}
-{{/*
-Template used for resolving SF countlyPublisher name
-*/}}
-{{- define "smartface.countlyPublisher.name" }}
-{{- $prefix := include "smartface.name" . -}}
-{{- $suffix := .Values.countlyPublisher.name -}}
-{{- printf "%s-%s" $prefix $suffix -}}
-{{- end -}}
-
-{{/*
-Template used for resolving labels for countlyPublisher component
-*/}}
-{{- define "smartface.countlyPublisher.labels" }}
-{{- include "smartface.labels" . }}
-app.kubernetes.io/component: "countlyPublisher"
-{{- end -}}
-
-{{/*
-Template used for resolving selector labels for countlyPublisher component
-*/}}
-{{- define "smartface.countlyPublisher.selectorLabels" }}
-{{- include "smartface.selectorLabels" . }}
-app.kubernetes.io/component: "countlyPublisher"
-{{- end -}}
-
-{{/*
 RabbitMq
 */}}
 

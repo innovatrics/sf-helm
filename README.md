@@ -350,23 +350,6 @@ metadata:
 | configurations.stationAuth.configName | string | `"station-auth-config"` | config containing authorization configuration for SF Station used when authentication is enabled for SF Station |
 | configurations.stationAuth.secretName | string | `"station-client-id"` |  |
 | configurations.watchlistMemberLabels | list | `[]` | array of pre-defined watchlist member labels |
-| countlyPublisher.annotations | object | `{}` | Annotations for countlyPublisher deployment |
-| countlyPublisher.clusterName | string | `""` |  |
-| countlyPublisher.enabled | bool | `false` |  |
-| countlyPublisher.image.digest | string | `nil` | Overrides the image tag with an image digest |
-| countlyPublisher.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| countlyPublisher.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| countlyPublisher.image.repository | string | `"innovatrics/smartface/sf-countly-publisher"` | Docker image repository |
-| countlyPublisher.image.tag | string | `"45"` | Countly publisher follows different versioning, so the chart app needs to be overridden |
-| countlyPublisher.name | string | `"countly-publisher"` |  |
-| countlyPublisher.nodeSelector | object | `{}` |  |
-| countlyPublisher.podAnnotations | object | `{}` | Annotations for countlyPublisher pods |
-| countlyPublisher.podLabels | object | `{}` | Additional labels for each countlyPublisher pod |
-| countlyPublisher.resources.requests.cpu | string | `"100m"` |  |
-| countlyPublisher.resources.requests.memory | string | `"100M"` |  |
-| countlyPublisher.service.annotations | object | `{}` | Annotations for countlyPublisher Service |
-| countlyPublisher.service.labels | object | `{}` | Additional labels for countlyPublisher Service |
-| countlyPublisher.tolerations | list | `[]` |  |
 | dbSynchronizationLeader.annotations | object | `{}` | Annotations for dbSynchronizationLeader deployment |
 | dbSynchronizationLeader.containerPort | int | `80` |  |
 | dbSynchronizationLeader.dnsHost | string | `""` |  |

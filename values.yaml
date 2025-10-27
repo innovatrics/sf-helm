@@ -1293,39 +1293,6 @@ sf-tenant-management:
     name: "sf-tenant-api"
     servicePort: 80
 
-countlyPublisher:
-  enabled: false
-  name: "countly-publisher"
-  clusterName: ""
-  # -- Annotations for countlyPublisher deployment
-  annotations: {}
-  # -- Annotations for countlyPublisher pods
-  podAnnotations: {}
-  # -- Additional labels for each countlyPublisher pod
-  podLabels: {}
-  service:
-    # -- Annotations for countlyPublisher Service
-    annotations: {}
-    # -- Additional labels for countlyPublisher Service
-    labels: {}
-  resources:
-    requests:
-      memory: "100M"
-      cpu: "100m"
-  nodeSelector: {}
-  tolerations: []
-  image:
-    # -- The Docker registry, overrides `global.image.registry`
-    registry: null
-    # -- Docker image repository
-    repository: innovatrics/smartface/sf-countly-publisher
-    # -- Countly publisher follows different versioning, so the chart app needs to be overridden
-    tag: "45"
-    # -- Overrides the image tag with an image digest
-    digest: null
-    # -- Docker image pull policy
-    pullPolicy: IfNotPresent
-
 tests:
   authentication:
     tenant1:
