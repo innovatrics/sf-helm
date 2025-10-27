@@ -249,6 +249,74 @@ Template used for common environment variables definition
 {{- end -}}
 
 {{/*
+Template used for adding Statistics/Transaction Counting System configuration to containers
+Supports both CrmToken and OAuth authentication methods
+*/}}
+{{- define "smartface.statisticsConfig" -}}
+{{- if .Values.transactionCounting.enabled }}
+- name: "Statistics__TransactionCountingSystemUrl"
+  {{- if .Values.transactionCounting.url }}
+  value: {{ .Values.transactionCounting.url | quote }}
+  {{- else }}
+  valueFrom:
+    configMapKeyRef:
+      name: {{ .Values.transactionCounting.existingConfigMapName | default (printf "%s-statistics-config" .Release.Name) | quote }}
+      key: "url"
+  {{- end }}
+{{- if .Values.transactionCounting.authentication.crmToken }}
+{{- if .Values.transactionCounting.authentication.crmToken.token }}
+- name: "Statistics__Authentication__CrmToken"
+  value: {{ .Values.transactionCounting.authentication.crmToken.token | quote }}
+{{- else }}
+- name: "Statistics__Authentication__CrmToken"
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.transactionCounting.authentication.crmToken.existingSecretName | default (printf "%s-statistics-crm-secret" .Release.Name) | quote }}
+      key: {{ .Values.transactionCounting.authentication.crmToken.secretKey | default "token" | quote }}
+{{- end }}
+{{- end }}
+{{- if .Values.transactionCounting.authentication.oauth }}
+- name: "Statistics__Authentication__OAuth__TokenEndpoint"
+  {{- if .Values.transactionCounting.authentication.oauth.tokenEndpoint }}
+  value: {{ .Values.transactionCounting.authentication.oauth.tokenEndpoint | quote }}
+  {{- else }}
+  valueFrom:
+    configMapKeyRef:
+      name: {{ .Values.transactionCounting.authentication.oauth.existingConfigMapName | default (printf "%s-statistics-oauth-config" .Release.Name) | quote }}
+      key: "tokenEndpoint"
+  {{- end }}
+- name: "Statistics__Authentication__OAuth__Audience"
+  {{- if .Values.transactionCounting.authentication.oauth.audience }}
+  value: {{ .Values.transactionCounting.authentication.oauth.audience | quote }}
+  {{- else }}
+  valueFrom:
+    configMapKeyRef:
+      name: {{ .Values.transactionCounting.authentication.oauth.existingConfigMapName | default (printf "%s-statistics-oauth-config" .Release.Name) | quote }}
+      key: "audience"
+  {{- end }}
+- name: "Statistics__Authentication__OAuth__ClientId"
+  {{- if .Values.transactionCounting.authentication.oauth.clientId }}
+  value: {{ .Values.transactionCounting.authentication.oauth.clientId | quote }}
+  {{- else }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.transactionCounting.authentication.oauth.existingSecretName | default (printf "%s-statistics-oauth-secret" .Release.Name) | quote }}
+      key: "clientId"
+  {{- end }}
+- name: "Statistics__Authentication__OAuth__ClientSecret"
+  {{- if .Values.transactionCounting.authentication.oauth.clientSecret }}
+  value: {{ .Values.transactionCounting.authentication.oauth.clientSecret | quote }}
+  {{- else }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.transactionCounting.authentication.oauth.existingSecretName | default (printf "%s-statistics-oauth-secret" .Release.Name) | quote }}
+      key: "clientSecret"
+  {{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
 Template used for setting up authentication data for test pods
 */}}
 {{- define "smartface.testsAuthConfig" -}}
