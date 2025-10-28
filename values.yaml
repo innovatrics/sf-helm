@@ -82,6 +82,38 @@ configurations:
     # Example of possible values: balanced, accurate_mask
     extractionAlgorithm: null
 
+# -- configuration for transaction counting system / statistics publishing
+transactionCounting:
+  # -- enable statistics publishing and transaction counting
+  enabled: false
+  # -- URL of the transaction counting system. If not provided, will use configmap
+  url: ""
+  # -- supply to bring your own configmap for URL. The configmap needs the key: `url`
+  existingConfigMapName: ""
+  authentication:
+    # -- CRM Token authentication method
+    crmToken:
+      # -- CRM token value. If not provided, will use secret
+      token: ""
+      # -- supply to bring your own secret for CRM token. The secret needs the key: `token`
+      existingSecretName: ""
+      # -- key within the existing secret which contains the CRM token
+      secretKey: "token"
+    # -- OAuth authentication method
+    oauth:
+      # -- OAuth token endpoint. If not provided, will use configmap
+      tokenEndpoint: ""
+      # -- OAuth audience. If not provided, will use configmap
+      audience: ""
+      # -- OAuth client ID. If not provided, will use secret
+      clientId: ""
+      # -- OAuth client secret. If not provided, will use secret
+      clientSecret: ""
+      # -- supply to bring your own configmap for OAuth non-sensitive values. The configmap needs keys: `tokenEndpoint`, `audience`
+      existingConfigMapName: ""
+      # -- supply to bring your own secret for OAuth sensitive values. The secret needs keys: `clientId`, `clientSecret`
+      existingSecretName: ""
+
 features:
   multitenancy:
     # -- enabled for multitenant deployment
@@ -1008,7 +1040,7 @@ station:
     # -- Docker image repository
     repository: innovatrics/smartface/sf-station
     # -- Smartface Station follows different versioning, so the chart app needs to be overridden
-    tag: "v5_1.30.0"
+    tag: "v5_1.31.1"
     # -- Overrides the image tag with an image digest
     digest: null
     # -- Docker image pull policy
@@ -1292,39 +1324,6 @@ sf-tenant-management:
     enabled: false
     name: "sf-tenant-api"
     servicePort: 80
-
-countlyPublisher:
-  enabled: false
-  name: "countly-publisher"
-  clusterName: ""
-  # -- Annotations for countlyPublisher deployment
-  annotations: {}
-  # -- Annotations for countlyPublisher pods
-  podAnnotations: {}
-  # -- Additional labels for each countlyPublisher pod
-  podLabels: {}
-  service:
-    # -- Annotations for countlyPublisher Service
-    annotations: {}
-    # -- Additional labels for countlyPublisher Service
-    labels: {}
-  resources:
-    requests:
-      memory: "100M"
-      cpu: "100m"
-  nodeSelector: {}
-  tolerations: []
-  image:
-    # -- The Docker registry, overrides `global.image.registry`
-    registry: null
-    # -- Docker image repository
-    repository: innovatrics/smartface/sf-countly-publisher
-    # -- Countly publisher follows different versioning, so the chart app needs to be overridden
-    tag: "45"
-    # -- Overrides the image tag with an image digest
-    digest: null
-    # -- Docker image pull policy
-    pullPolicy: IfNotPresent
 
 tests:
   authentication:

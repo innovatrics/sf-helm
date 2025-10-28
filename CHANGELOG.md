@@ -1,5 +1,16 @@
 # Changelog
 
+## [v0.8.17]
+
+### Added
+- New `transactionCounting` configuration section supporting both CrmToken and OAuth authentication methods for Statistics/Transaction Counting System
+- New `smartface.statisticsConfig` template for flexible configuration of transaction counting authentication
+
+### Changed
+- Previous Countly support was removed and replaced with new transaction counting system.
+- Version of SmartFace Platform bumped to 4.35.0 (this version of platform requires palm migration and wl stream repopulation if upgrading from previous versions)
+- Version of SmartFace Station bumped to 1.31.1
+
 ## [v0.8.16]
 
 ### Changed

@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.8.16](https://img.shields.io/badge/Version-0.8.16-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.34.0](https://img.shields.io/badge/AppVersion-v5_4.34.0-informational?style=flat-square)
+![Version: 0.8.17](https://img.shields.io/badge/Version-0.8.17-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.35.0](https://img.shields.io/badge/AppVersion-v5_4.35.0-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -350,23 +350,6 @@ metadata:
 | configurations.stationAuth.configName | string | `"station-auth-config"` | config containing authorization configuration for SF Station used when authentication is enabled for SF Station |
 | configurations.stationAuth.secretName | string | `"station-client-id"` |  |
 | configurations.watchlistMemberLabels | list | `[]` | array of pre-defined watchlist member labels |
-| countlyPublisher.annotations | object | `{}` | Annotations for countlyPublisher deployment |
-| countlyPublisher.clusterName | string | `""` |  |
-| countlyPublisher.enabled | bool | `false` |  |
-| countlyPublisher.image.digest | string | `nil` | Overrides the image tag with an image digest |
-| countlyPublisher.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| countlyPublisher.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| countlyPublisher.image.repository | string | `"innovatrics/smartface/sf-countly-publisher"` | Docker image repository |
-| countlyPublisher.image.tag | string | `"45"` | Countly publisher follows different versioning, so the chart app needs to be overridden |
-| countlyPublisher.name | string | `"countly-publisher"` |  |
-| countlyPublisher.nodeSelector | object | `{}` |  |
-| countlyPublisher.podAnnotations | object | `{}` | Annotations for countlyPublisher pods |
-| countlyPublisher.podLabels | object | `{}` | Additional labels for each countlyPublisher pod |
-| countlyPublisher.resources.requests.cpu | string | `"100m"` |  |
-| countlyPublisher.resources.requests.memory | string | `"100M"` |  |
-| countlyPublisher.service.annotations | object | `{}` | Annotations for countlyPublisher Service |
-| countlyPublisher.service.labels | object | `{}` | Additional labels for countlyPublisher Service |
-| countlyPublisher.tolerations | list | `[]` |  |
 | dbSynchronizationLeader.annotations | object | `{}` | Annotations for dbSynchronizationLeader deployment |
 | dbSynchronizationLeader.containerPort | int | `80` |  |
 | dbSynchronizationLeader.dnsHost | string | `""` |  |
@@ -706,7 +689,7 @@ metadata:
 | station.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | station.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | station.image.repository | string | `"innovatrics/smartface/sf-station"` | Docker image repository |
-| station.image.tag | string | `"v5_1.30.0"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
+| station.image.tag | string | `"v5_1.31.1"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
 | station.name | string | `"station"` |  |
 | station.nodePort | int | `30003` | Only when serviceType: NodePort. |
 | station.nodeSelector | object | `{}` |  |
@@ -751,6 +734,21 @@ metadata:
 | tests.podAnnotations | object | `{}` | Annotations for test pods |
 | tests.podLabels | object | `{}` | Additional labels for test pods |
 | tests.tolerations | list | `[]` |  |
+| transactionCounting | object | `{"authentication":{"crmToken":{"existingSecretName":"","secretKey":"token","token":""},"oauth":{"audience":"","clientId":"","clientSecret":"","existingConfigMapName":"","existingSecretName":"","tokenEndpoint":""}},"enabled":false,"existingConfigMapName":"","url":""}` | configuration for transaction counting system / statistics publishing |
+| transactionCounting.authentication.crmToken | object | `{"existingSecretName":"","secretKey":"token","token":""}` | CRM Token authentication method |
+| transactionCounting.authentication.crmToken.existingSecretName | string | `""` | supply to bring your own secret for CRM token. The secret needs the key: `token` |
+| transactionCounting.authentication.crmToken.secretKey | string | `"token"` | key within the existing secret which contains the CRM token |
+| transactionCounting.authentication.crmToken.token | string | `""` | CRM token value. If not provided, will use secret |
+| transactionCounting.authentication.oauth | object | `{"audience":"","clientId":"","clientSecret":"","existingConfigMapName":"","existingSecretName":"","tokenEndpoint":""}` | OAuth authentication method |
+| transactionCounting.authentication.oauth.audience | string | `""` | OAuth audience. If not provided, will use configmap |
+| transactionCounting.authentication.oauth.clientId | string | `""` | OAuth client ID. If not provided, will use secret |
+| transactionCounting.authentication.oauth.clientSecret | string | `""` | OAuth client secret. If not provided, will use secret |
+| transactionCounting.authentication.oauth.existingConfigMapName | string | `""` | supply to bring your own configmap for OAuth non-sensitive values. The configmap needs keys: `tokenEndpoint`, `audience` |
+| transactionCounting.authentication.oauth.existingSecretName | string | `""` | supply to bring your own secret for OAuth sensitive values. The secret needs keys: `clientId`, `clientSecret` |
+| transactionCounting.authentication.oauth.tokenEndpoint | string | `""` | OAuth token endpoint. If not provided, will use configmap |
+| transactionCounting.enabled | bool | `false` | enable statistics publishing and transaction counting |
+| transactionCounting.existingConfigMapName | string | `""` | supply to bring your own configmap for URL. The configmap needs the key: `url` |
+| transactionCounting.url | string | `""` | URL of the transaction counting system. If not provided, will use configmap |
 | updateStrategy | object | `{}` | Common updateStrategy for all deployments |
 | wlStreamPopulationJob.enabled | bool | `false` |  |
 | wlStreamPopulationJob.image.digest | string | `nil` | Overrides the image tag with an image digest |
