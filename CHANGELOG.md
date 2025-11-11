@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.8.18]
+
+### Added (SmartFace Platform changelog overview)
+- Added possibility to set `Privacy` object property for `WatchlistMember`.
+- Added support for Static QR Code matching.
+
+### Changed
+- If service fails to start because of any telemetry error or misconfiguration, it will no longer cause service to stop. Now it only logs error.
+- Version of SmartFace Platform bumped to 4.36.0 (this version of platform requires wl stream repopulation if upgrading from previous versions)
+
 ## [v0.8.17]
 
 ### Added
