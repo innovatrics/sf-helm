@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.8.19](https://img.shields.io/badge/Version-0.8.19-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.36.1](https://img.shields.io/badge/AppVersion-v5_4.36.1-informational?style=flat-square)
+![Version: 0.8.20](https://img.shields.io/badge/Version-0.8.20-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.37.0](https://img.shields.io/badge/AppVersion-v5_4.37.0-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 

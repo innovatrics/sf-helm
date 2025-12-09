@@ -36,6 +36,6 @@ maintainers:
   - name: Innovatrics
     url: https://www.innovatrics.com/
 
-version: 0.8.19
+version: 0.8.20
 
-appVersion: "v5_4.36.1"
+appVersion: "v5_4.37.0"
