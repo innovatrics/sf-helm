@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.8.21]
+
+### Changed
+- Version of SmartFace Platform bumped to 4.38.0
+
 ## [v0.8.20]
 
 ### Changed
