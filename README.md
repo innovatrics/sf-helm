@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.8.20](https://img.shields.io/badge/Version-0.8.20-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.37.0](https://img.shields.io/badge/AppVersion-v5_4.37.0-informational?style=flat-square)
+![Version: 0.8.21](https://img.shields.io/badge/Version-0.8.21-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.38.0](https://img.shields.io/badge/AppVersion-v5_4.38.0-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -689,7 +689,7 @@ metadata:
 | station.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | station.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
 | station.image.repository | string | `"innovatrics/smartface/sf-station"` | Docker image repository |
-| station.image.tag | string | `"v5_1.31.1"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
+| station.image.tag | string | `"v5_1.32.0"` | Smartface Station follows different versioning, so the chart app needs to be overridden |
 | station.name | string | `"station"` |  |
 | station.nodePort | int | `30003` | Only when serviceType: NodePort. |
 | station.nodeSelector | object | `{}` |  |

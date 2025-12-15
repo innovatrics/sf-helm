@@ -1040,7 +1040,7 @@ station:
     # -- Docker image repository
     repository: innovatrics/smartface/sf-station
     # -- Smartface Station follows different versioning, so the chart app needs to be overridden
-    tag: "v5_1.31.1"
+    tag: "v5_1.32.0"
     # -- Overrides the image tag with an image digest
     digest: null
     # -- Docker image pull policy

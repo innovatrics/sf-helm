@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.8.21]
+
+### Changed
+- Version of SmartFace Platform bumped to 4.38.0
+- Station bumped to 1.32.0
+
 ## [v0.8.20]
 
 ### Changed
