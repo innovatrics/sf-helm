@@ -9,7 +9,6 @@ jobs:
   package-lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       # Free space to avoid runner disk exhaustion
       - name: Maximize disk space
         uses: easimon/maximize-build-space@v10
@@ -19,6 +18,7 @@ jobs:
           remove-haskell: true
           remove-codeql: true
           remove-docker-images: true
+      - uses: actions/checkout@v4
       - name: Setup helm CLI
         uses: azure/setup-helm@v3
         with:
@@ -47,7 +47,6 @@ jobs:
           'edge'
         ]
     steps:
-      - uses: actions/checkout@v4
       # Free space to avoid runner disk exhaustion
       - name: Maximize disk space
         uses: easimon/maximize-build-space@v10
@@ -57,6 +56,7 @@ jobs:
           remove-haskell: true
           remove-codeql: true
           remove-docker-images: true
+      - uses: actions/checkout@v4
       - name: Install yq
         run: |
           sudo snap install yq
