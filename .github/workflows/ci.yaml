@@ -10,6 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # Free space to avoid runner disk exhaustion
+      - name: Maximize disk space
+        uses: easimon/maximize-build-space@v10
+        with:
+          remove-dotnet: true
+          remove-android: true
+          remove-haskell: true
+          remove-codeql: true
+          remove-docker-images: true
       - name: Setup helm CLI
         uses: azure/setup-helm@v3
         with:
@@ -39,6 +48,15 @@ jobs:
         ]
     steps:
       - uses: actions/checkout@v4
+      # Free space to avoid runner disk exhaustion
+      - name: Maximize disk space
+        uses: easimon/maximize-build-space@v10
+        with:
+          remove-dotnet: true
+          remove-android: true
+          remove-haskell: true
+          remove-codeql: true
+          remove-docker-images: true
       - name: Install yq
         run: |
           sudo snap install yq
