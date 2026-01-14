@@ -73,13 +73,12 @@ configurations:
     #   displayName: "Employee Number"
     # - label: "registrationPlate"
     #   displayName: "Registration Plate"
-  # If the compatibilityVersion or extractionAlgorithm value is null, the default value is used.
-  # It is specifically intended for use during the process of migrating templates
+  # If extractionAlgorithm value is null, the default value is used.
+  # It specifies the extraction algorithm to use by Extraction services.
   # Use this setting with caution, because it can break functionality
   faceTemplate:
-    # Example of possible values: 1.40, 1.39
-    compatibilityVersion: null
-    # Example of possible values: balanced, accurate_mask
+    # Example of possible values: fast, balanced, accurate, accurate_server, accurate_server_nist, accurate_server_nist_p1, accurate_server_visa, accurate_server_wild, frte_1N_014, accurate_mask
+    # We recommend most users to pick one from: fast, balanced, accurate, accurate_server
     extractionAlgorithm: null
 
 # -- configuration for transaction counting system / statistics publishing
@@ -488,8 +487,8 @@ detector:
   warmupDetectionAlgorithms:
     - balanced_mask
     #- fast
+    #- balanced_mask
     #- accurate_mask
-    #- balanced_experimental
   # --  Additional environment variables for the detector component
   # extraVars:
   #  - name: EXTRA_VAR1

@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.8.23]
+
+### Changed
+- Version of SmartFace Platform bumped to 4.40.0
+
+### Removed
+- configurations.faceTemplate.compatibilityVersion setting was removed. It was passed to Matcher and Camera services, which checked that all FaceTemplates in the DB had modelVersion specified by that setting. If there were any Face Templates with a different modelVersion, these services would fail at startup. These services no longer accept this setting, as the new extraction models recommended for use are mutually compatible and thus it is okay to have Face Templates in the DB extracted with different extraction models. 
+
 ## [v0.8.22]
 
 ### Changed
