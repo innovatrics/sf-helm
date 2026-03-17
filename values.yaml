@@ -194,6 +194,14 @@ rabbitmq:
         port: 5552
         targetPort: 5552
 
+seaweedfs:
+  enabled: true
+  filer:
+    s3:
+      enabled: true
+      createBuckets:
+        - name: smartface
+
 # -- config for minio subchart, see https://github.com/bitnami/charts/tree/main/bitnami/minio
 minio:
   enabled: true
