@@ -50,7 +50,7 @@ During the tests some data (Watchlists / EdgeStreams) will be created in the dep
 | Repository | Name | Version |
 |------------|------|---------|
 | oci://ghcr.io/innovatrics/sf-helm | sf-tenant-management | 0.4.4 |
-| oci://registry-1.docker.io/bitnamicharts | minio | 12.8.15 |
+| oci://registry-1.docker.io/bitnamicharts | seaweedfs | 4.16.0 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 13.2.1 |
 | oci://registry-1.docker.io/bitnamicharts | rabbitmq | 12.0.4 |
 
@@ -92,7 +92,7 @@ stringData:
 
 ### S3
 To use S3 bucket managed by AWS:
-- set `minio.enabled=false`
+- set `seaweedfs.enabled=false`
 - provide s3 configuration via:
   - supplying values to `configurations.s3` object
   - or creating ConfigMap and setting `configurations.s3.existingConfigMapName`

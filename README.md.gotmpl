@@ -86,7 +86,7 @@ stringData:
 
 ### S3
 To use S3 bucket managed by AWS:
-- set `minio.enabled=false`
+- set `seaweedfs.enabled=false`
 - provide s3 configuration via:
   - supplying values to `configurations.s3` object
   - or creating ConfigMap and setting `configurations.s3.existingConfigMapName`
@@ -151,7 +151,7 @@ metadata:
   - This change also includes renaming previous field `configurations.apiAuth.configName` -> `configurations.apiAuth.existingConfigMapName`
 
 ### [v0.5.0]
-- MinIO subchart is enabled and used by default. To keep using S3 bucket managed outside of this helm chart please set the `minio.enabled` value to `false` and provide configuration details via `configurations.s3`
+- SeaweedFS subchart is enabled and used by default. To keep using S3 bucket managed outside of this helm chart please set the `seaweedfs.enabled` value to `false` and provide configuration details via `configurations.s3`
 - Postgresql subchart is enabled and used by default. To keep using PgSQL instance managed outside of this helm chart please set the `postgresql.enabled` value to `false` and provide configuration details via `configurations.database`
 
 ### [v0.4.0]
