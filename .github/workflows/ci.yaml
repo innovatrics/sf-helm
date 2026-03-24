@@ -18,6 +18,7 @@ jobs:
         uses: azure/setup-kubectl@v3
       - name: Build helm dependencies
         run: |
+          helm repo add seaweedfs https://seaweedfs.github.io/seaweedfs/helm
           helm dependency build .
       - name: Lint helm
         run: |
