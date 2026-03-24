@@ -1,6 +1,6 @@
 # smartface
 
-![Version: 0.8.24](https://img.shields.io/badge/Version-0.8.24-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.40.1](https://img.shields.io/badge/AppVersion-v5_4.40.1-informational?style=flat-square)
+![Version: 0.9.24](https://img.shields.io/badge/Version-0.9.24-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.40.1](https://img.shields.io/badge/AppVersion-v5_4.40.1-informational?style=flat-square)
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -49,8 +49,8 @@ During the tests some data (Watchlists / EdgeStreams) will be created in the dep
 
 | Repository | Name | Version |
 |------------|------|---------|
+| https://seaweedfs.github.io/seaweedfs/helm | seaweedfs | 4.16 |
 | oci://ghcr.io/innovatrics/sf-helm | sf-tenant-management | 0.4.4 |
-| oci://registry-1.docker.io/bitnamicharts | minio | 12.8.15 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 13.2.1 |
 | oci://registry-1.docker.io/bitnamicharts | rabbitmq | 12.0.4 |
 
@@ -553,7 +553,6 @@ metadata:
 | migration.initContainer.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | migration.initContainer.resources | object | `{}` |  |
 | migration.skipWlStreamMigration | bool | `false` |  |
-| minio | object | `{"clientImage":{"repository":"bitnamilegacy/minio-client"},"defaultBuckets":"smartface","enabled":true,"image":{"repository":"bitnamilegacy/minio"},"volumePermissions":{"image":{"repository":"bitnamilegacy/os-shell"}}}` | config for minio subchart, see https://github.com/bitnami/charts/tree/main/bitnami/minio |
 | nameOverride | string | `nil` | Overrides the chart's name |
 | objectDetector.annotations | object | `{}` | Annotations for object detector deployment |
 | objectDetector.detectionAlgorithm | string | `"accurate"` |  |
@@ -669,6 +668,23 @@ metadata:
 | relayController.servicePort | int | `8080` |  |
 | relayController.tolerations | list | `[]` |  |
 | revisionHistoryLimit | string | `nil` | Common revisionHistoryLimit for all deployments |
+| seaweedfs.admin.enabled | bool | `true` |  |
+| seaweedfs.enabled | bool | `true` |  |
+| seaweedfs.filer.s3.createBuckets[0].name | string | `"smartface"` |  |
+| seaweedfs.filer.s3.defaultReplication | string | `"000"` |  |
+| seaweedfs.filer.s3.enableAuth | bool | `true` |  |
+| seaweedfs.filer.s3.enabled | bool | `true` |  |
+| seaweedfs.filer.s3.existingConfigSecret | string | `"smartface-seaweedfs-s3-secret"` |  |
+| seaweedfs.master.data.size | string | `"1Gi"` |  |
+| seaweedfs.master.data.type | string | `"persistentVolumeClaim"` |  |
+| seaweedfs.master.defaultReplication | string | `"000"` |  |
+| seaweedfs.master.extraEnvironmentVars.WEED_MASTER_VOLUME_GROWTH_COPY_1 | string | `"1"` |  |
+| seaweedfs.master.volumeSizeLimitMB | int | `1000` |  |
+| seaweedfs.volume.dataDirs[0].maxVolumes | int | `8` |  |
+| seaweedfs.volume.dataDirs[0].name | string | `"data"` |  |
+| seaweedfs.volume.dataDirs[0].size | string | `"8Gi"` |  |
+| seaweedfs.volume.dataDirs[0].type | string | `"persistentVolumeClaim"` |  |
+| seaweedfs.worker.enabled | bool | `true` |  |
 | serviceAccount.annotations | object | `{}` | Annotations for the service account |
 | serviceAccount.automountServiceAccountToken | bool | `true` | Set this toggle to false to opt out of automounting API credentials for the service account |
 | serviceAccount.create | bool | `true` | Specifies whether a ServiceAccount should be created |

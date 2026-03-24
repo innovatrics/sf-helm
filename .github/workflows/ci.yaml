@@ -18,6 +18,7 @@ jobs:
         uses: azure/setup-kubectl@v3
       - name: Build helm dependencies
         run: |
+          helm repo add seaweedfs https://seaweedfs.github.io/seaweedfs/helm
           helm dependency build .
       - name: Lint helm
         run: |
@@ -66,6 +67,7 @@ jobs:
         uses: azure/setup-kubectl@v3
       - name: Build helm dependencies
         run: |
+          helm repo add seaweedfs https://seaweedfs.github.io/seaweedfs/helm
           helm dependency build .
       - name: Create kind cluster
         uses: helm/kind-action@v1.8.0
@@ -83,6 +85,7 @@ jobs:
             --from-file=iengine.lic -o yaml > lic-secret.yaml
           kubectl apply -f docker-secret.yaml
           kubectl apply -f lic-secret.yaml
+          kubectl apply -f s3-config.yaml
       - name: Install helm chart
         env:
           TENANT_1_SECRET: ${{ secrets.TENANT_1_SECRET }}

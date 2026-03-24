@@ -5,11 +5,11 @@ dependencies:
 - name: rabbitmq
   repository: oci://registry-1.docker.io/bitnamicharts
   version: 12.0.4
-- name: minio
-  repository: oci://registry-1.docker.io/bitnamicharts
-  version: 12.8.15
+- name: seaweedfs
+  repository: https://seaweedfs.github.io/seaweedfs/helm
+  version: 4.16.0
 - name: postgresql
   repository: oci://registry-1.docker.io/bitnamicharts
   version: 13.2.1
-digest: sha256:42080dffbfe3f21485c2b3a07cf446acca5c1cf70722f4880a010660a10db90b
-generated: "2024-04-26T16:11:08.525004+02:00"
+digest: sha256:3dc48cefe8a47361dff2ccde031a67926d5eaffea897cbc8a1166cccef53bc3d
+generated: "2026-03-24T09:53:20.384877071+01:00"

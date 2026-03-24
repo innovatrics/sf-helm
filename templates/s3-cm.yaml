@@ -1,13 +1,13 @@
-{{- if or .Values.minio.enabled (not .Values.configurations.s3.existingConfigMapName) }}
+{{- if or .Values.seaweedfs.enabled (not .Values.configurations.s3.existingConfigMapName) }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "smartface.s3.name" . | quote }}
 data:
-  {{- if .Values.minio.enabled }}
-  {{/* If we deploy minio, then values in cofig need to match the deployed minio, thus are not configurable */}}
+  {{- if .Values.seaweedfs.enabled }}
+  {{/* If we deploy seaweedfs, then values in config need to match the deployed seaweedfs, thus are not configurable */}}
   name: "smartface"
-  endpoint: "http://{{ .Release.Name }}-minio.{{ .Release.Namespace }}.svc.cluster.local:9000"
+  endpoint: "http://{{ .Release.Name }}-seaweedfs-s3.{{ .Release.Namespace }}.svc.cluster.local:8333"
   authType: "AccessKeyAndSecret"
   useBucketRegion: "false"
   {{- else }}
