@@ -12,7 +12,7 @@ dependencies:
     repository: "oci://registry-1.docker.io/bitnamicharts"
     condition: rabbitmq.enabled
   - name: seaweedfs
-    version: "4.16.0"
+    version: "4.16"
     repository: "https://seaweedfs.github.io/seaweedfs/helm"
     condition: seaweedfs.enabled
   - name: postgresql
@@ -36,6 +36,6 @@ maintainers:
   - name: Innovatrics
     url: https://www.innovatrics.com/
 
-version: 0.8.24
+version: 0.9.24
 
 appVersion: "v5_4.40.1"

@@ -196,23 +196,43 @@ rabbitmq:
 
 seaweedfs:
   enabled: true
+  master:
+    defaultReplication: "000"
+    volumeSizeLimitMB: 1000
+    extraEnvironmentVars:
+      WEED_MASTER_VOLUME_GROWTH_COPY_1: "1"
+    data:
+      type: "persistentVolumeClaim"
+      size: 1Gi
+  volume:
+    dataDirs:
+      - name: data
+        type: "persistentVolumeClaim"
+        size: 8Gi
+        maxVolumes: 8 # per volume node (max cap. per node = maxVolumes * volumeSizeLimitMB)
   filer:
     s3:
       enabled: true
+      defaultReplication: "000"
+      enableAuth: true
+      # create existing secret with following structure:
+      # YAML
+      # apiVersion: v1
+      # kind: Secret
+      # metadata:
+      #   name: smartface-seaweedfs-s3-secret
+      #   namespace: smartface
+      # stringData:
+      #   seaweedfs_s3_config: {"identities": [{"name": "admin", "credentials": [{"accessKey": "admin", "secretKey": "admin123"}], "actions": ["Admin", "Read", "Write"]}]}
+      #   root-user: admin
+      #   root-password: admin123
+      existingConfigSecret: smartface-seaweedfs-s3-secret
       createBuckets:
         - name: smartface
-
-# -- config for minio subchart, see https://github.com/bitnami/charts/tree/main/bitnami/minio
-minio:
-  enabled: true
-  defaultBuckets: "smartface"
-  image:
-    repository: bitnamilegacy/minio
-  clientImage:
-    repository: bitnamilegacy/minio-client
-  volumePermissions:
-    image:
-      repository: bitnamilegacy/os-shell
+  admin:
+    enabled: true
+  worker:
+    enabled: true
 
 # -- config for postgresql subchart, see https://github.com/bitnami/charts/tree/main/bitnami/postgresql
 postgresql:
