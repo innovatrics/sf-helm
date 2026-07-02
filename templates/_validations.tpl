@@ -77,6 +77,11 @@ Validate that the S3 config map exists with correct keys
 {{- if $existingConfigMap }}
 Cannot deploy seaweedfs and use existing ConfigMap. Either disable seaweedfs deployment by setting `seaweedfs.enabled` to `false` or don't provide value for `configurations.s3.existingConfigMapName`
 {{- end }}
+{{- with .Values.seaweedfs.filer.s3.existingConfigSecret }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" $.Release.Namespace "Name" . "Key" "seaweedfs_s3_config") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" $.Release.Namespace "Name" . "Key" "root-user") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" $.Release.Namespace "Name" . "Key" "root-password") }}
+{{- end }}
 {{- else}}
 {{- if $existingConfigMap -}}
 {{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "ConfigMap" "Namespace" .Release.Namespace "Name" $existingConfigMap "Key" "name") }}

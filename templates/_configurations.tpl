@@ -60,7 +60,15 @@ Template used for adding S3 configuration to containers
       name: {{ $configName | quote }}
       key: "useBucketRegion"
 {{- if .Values.seaweedfs.enabled }}
-{{- $secretName := ( .Values.seaweedfs.filer.s3.existingConfigSecret | default (include "smartface.s3.name" . )) }}
+{{/* Without an explicit secret the seaweedfs subchart generates one with its own key names */}}
+{{- $secretName := printf "%s-seaweedfs-s3-secret" .Release.Name }}
+{{- $accessKeyKey := "admin_access_key_id" }}
+{{- $secretKeyKey := "admin_secret_access_key" }}
+{{- with .Values.seaweedfs.filer.s3.existingConfigSecret }}
+{{- $secretName = . }}
+{{- $accessKeyKey = "root-user" }}
+{{- $secretKeyKey = "root-password" }}
+{{- end }}
 - name: "S3Bucket__Endpoint"
   valueFrom:
     configMapKeyRef:
@@ -70,12 +78,12 @@ Template used for adding S3 configuration to containers
   valueFrom:
     secretKeyRef:
       name: {{ $secretName | quote }}
-      key: "root-user"
+      key: {{ $accessKeyKey | quote }}
 - name: "S3Bucket__SecretKey"
   valueFrom:
     secretKeyRef:
       name: {{ $secretName | quote }}
-      key: "root-password"
+      key: {{ $secretKeyKey | quote }}
 {{- end }}
 {{- end }}
 
