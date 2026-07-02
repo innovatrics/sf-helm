@@ -1,4 +1,18 @@
-# supply license secret
+# supply registry credentials secret for the platform registry hosting SmartFace images
+# kubectl create secret docker-registry --dry-run=client sf-harbor-registry-creds \
+#   --docker-server=registry.platform-staging.innovatrics.com \
+#   --docker-username='<robot-account>' \
+#   --docker-password=<robot-token> -o yaml > harbor-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sf-harbor-registry-creds
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: c21hcnRmYWNlCg==
+---
+# supply registry credentials secret for the legacy registry hosting Station, Access Controller,
+# Relay Controller and tenant management images
 # kubectl create secret docker-registry --dry-run=client sf-gitlab-registry-creds \
 #   --docker-server=registry.gitlab.com \
 #   --docker-username=sf-distribution \

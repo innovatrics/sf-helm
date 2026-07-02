@@ -74,16 +74,23 @@ jobs:
       - name: Install chart prerequisites
         env:
           REGISTRY_PASS: ${{ secrets.REGISTRY_PASS }}
+          HARBOR_REGISTRY_USER: ${{ secrets.HARBOR_REGISTRY_USER }}
+          HARBOR_REGISTRY_PASSWORD: ${{ secrets.HARBOR_REGISTRY_PASSWORD }}
           LICENSE_BASE64: ${{ secrets.LICENSE_BASE64 }}
         run: |
           kubectl create secret docker-registry --dry-run=client sf-gitlab-registry-creds \
             --docker-server=registry.gitlab.com \
             --docker-username=sf-distribution \
             --docker-password=${REGISTRY_PASS} -o yaml > docker-secret.yaml
+          kubectl create secret docker-registry --dry-run=client sf-harbor-registry-creds \
+            --docker-server=registry.platform-staging.innovatrics.com \
+            --docker-username="${HARBOR_REGISTRY_USER}" \
+            --docker-password="${HARBOR_REGISTRY_PASSWORD}" -o yaml > harbor-secret.yaml
           echo ${LICENSE_BASE64} | base64 -d > iengine.lic
           kubectl create secret generic --dry-run=client iface-lic \
             --from-file=iengine.lic -o yaml > lic-secret.yaml
           kubectl apply -f docker-secret.yaml
+          kubectl apply -f harbor-secret.yaml
           kubectl apply -f lic-secret.yaml
           kubectl apply -f s3-config.yaml
       - name: Install helm chart

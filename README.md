@@ -159,8 +159,8 @@ metadata:
 | VideoAggregator.annotations | object | `{}` | Annotations for VideoAggregator deployment |
 | VideoAggregator.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | VideoAggregator.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| VideoAggregator.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| VideoAggregator.image.repository | string | `"innovatrics/smartface/sf-video-aggregator"` | Docker image repository |
+| VideoAggregator.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| VideoAggregator.image.repository | string | `"vpp/docker/video-aggregator"` | Docker image repository |
 | VideoAggregator.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | VideoAggregator.name | string | `"video-aggregator"` |  |
 | VideoAggregator.nodeSelector | object | `{}` |  |
@@ -177,8 +177,8 @@ metadata:
 | VideoCollector.annotations | object | `{}` | Annotations for VideoCollector deployment |
 | VideoCollector.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | VideoCollector.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| VideoCollector.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| VideoCollector.image.repository | string | `"innovatrics/smartface/sf-video-collector"` | Docker image repository |
+| VideoCollector.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| VideoCollector.image.repository | string | `"vpp/docker/video-collector"` | Docker image repository |
 | VideoCollector.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | VideoCollector.name | string | `"video-collector"` |  |
 | VideoCollector.nodeSelector | object | `{}` |  |
@@ -195,8 +195,8 @@ metadata:
 | VideoReader.annotations | object | `{}` | Annotations for VideoReader deployment |
 | VideoReader.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | VideoReader.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| VideoReader.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| VideoReader.image.repository | string | `"innovatrics/smartface/sf-video-reader"` | Docker image repository |
+| VideoReader.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| VideoReader.image.repository | string | `"vpp/docker/video-reader"` | Docker image repository |
 | VideoReader.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | VideoReader.name | string | `"video-reader"` |  |
 | VideoReader.nodeSelector | object | `{}` |  |
@@ -247,8 +247,8 @@ metadata:
 | api.enabled | bool | `true` |  |
 | api.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | api.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| api.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| api.image.repository | string | `"innovatrics/smartface/sf-api"` | Docker image repository |
+| api.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| api.image.repository | string | `"vpp/docker/api"` | Docker image repository |
 | api.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | api.initMigration | bool | `true` |  |
 | api.name | string | `"api"` |  |
@@ -274,8 +274,8 @@ metadata:
 | authApi.enabled | bool | `false` |  |
 | authApi.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | authApi.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| authApi.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| authApi.image.repository | string | `"innovatrics/smartface/sf-api"` | Docker image repository |
+| authApi.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| authApi.image.repository | string | `"vpp/docker/api"` | Docker image repository |
 | authApi.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | authApi.initMigration | bool | `true` |  |
 | authApi.name | string | `"auth-api"` |  |
@@ -332,8 +332,8 @@ metadata:
 | base.annotations | object | `{}` | Annotations for base deployment |
 | base.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | base.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| base.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| base.image.repository | string | `"innovatrics/smartface/sf-base"` | Docker image repository |
+| base.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| base.image.repository | string | `"vpp/docker/base"` | Docker image repository |
 | base.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | base.name | string | `"base"` |  |
 | base.nodeSelector | object | `{}` |  |
@@ -373,8 +373,8 @@ metadata:
 | dbSynchronizationLeader.enabled | bool | `false` | features.multitenancy needs to be enabled since tenant operator is responsible for populating wlStream |
 | dbSynchronizationLeader.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | dbSynchronizationLeader.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| dbSynchronizationLeader.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| dbSynchronizationLeader.image.repository | string | `"innovatrics/smartface/sf-db-synchronization-leader"` | Docker image repository |
+| dbSynchronizationLeader.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| dbSynchronizationLeader.image.repository | string | `"vpp/docker/db-synchronization-leader"` | Docker image repository |
 | dbSynchronizationLeader.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | dbSynchronizationLeader.name | string | `"db-synchronization-leader"` |  |
 | dbSynchronizationLeader.nodeSelector | object | `{}` |  |
@@ -394,8 +394,8 @@ metadata:
 | detector.annotations | object | `{}` | Annotations for detector deployment |
 | detector.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | detector.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| detector.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| detector.image.repository | string | `"innovatrics/smartface/sf-detector"` | Docker image repository |
+| detector.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| detector.image.repository | string | `"vpp/docker/detector"` | Docker image repository |
 | detector.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | detector.name | string | `"detector"` |  |
 | detector.nodeSelector | object | `{}` |  |
@@ -413,8 +413,8 @@ metadata:
 | edgeStreamProcessor.annotations | object | `{}` | Annotations for edgeStreamProcessor deployment |
 | edgeStreamProcessor.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | edgeStreamProcessor.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| edgeStreamProcessor.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| edgeStreamProcessor.image.repository | string | `"innovatrics/smartface/sf-edge-stream-processor"` | Docker image repository |
+| edgeStreamProcessor.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| edgeStreamProcessor.image.repository | string | `"vpp/docker/edge-stream-processor"` | Docker image repository |
 | edgeStreamProcessor.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | edgeStreamProcessor.name | string | `"edge-stream-processor"` |  |
 | edgeStreamProcessor.nodeSelector | object | `{}` |  |
@@ -430,8 +430,8 @@ metadata:
 | edgeStreamsStateSync.annotations | object | `{}` | Annotations for edgeStreamsStateSync deployment |
 | edgeStreamsStateSync.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | edgeStreamsStateSync.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| edgeStreamsStateSync.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| edgeStreamsStateSync.image.repository | string | `"innovatrics/smartface/sf-edge-streams-state-synchronizer"` | Docker image repository |
+| edgeStreamsStateSync.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| edgeStreamsStateSync.image.repository | string | `"vpp/docker/edge-streams-state-synchronizer"` | Docker image repository |
 | edgeStreamsStateSync.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | edgeStreamsStateSync.name | string | `"edge-streams-state-synchronizer"` |  |
 | edgeStreamsStateSync.nodeSelector | object | `{}` |  |
@@ -444,8 +444,8 @@ metadata:
 | extractor.annotations | object | `{}` | Annotations for extractor deployment |
 | extractor.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | extractor.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| extractor.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| extractor.image.repository | string | `"innovatrics/smartface/sf-extractor"` | Docker image repository |
+| extractor.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| extractor.image.repository | string | `"vpp/docker/extractor"` | Docker image repository |
 | extractor.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | extractor.name | string | `"extractor"` |  |
 | extractor.nodeSelector | object | `{}` |  |
@@ -462,8 +462,8 @@ metadata:
 | faceMatcher.annotations | object | `{}` | Annotations for faceMatcher deployment |
 | faceMatcher.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | faceMatcher.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| faceMatcher.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| faceMatcher.image.repository | string | `"innovatrics/smartface/sf-face-matcher"` | Docker image repository |
+| faceMatcher.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| faceMatcher.image.repository | string | `"vpp/docker/face-matcher"` | Docker image repository |
 | faceMatcher.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | faceMatcher.name | string | `"face-matcher"` |  |
 | faceMatcher.nodeSelector | object | `{}` |  |
@@ -481,7 +481,7 @@ metadata:
 | features.objectDetection.enabled | bool | `false` | enable object detector, which can detect objects and pedestrian |
 | features.offlineVideoProcessing.enabled | bool | `false` | enable offline video processing services |
 | features.palms.enabled | bool | `false` | enable palm detector and palm extractor, which can work with palms |
-| global.image.registry | string | `"registry.gitlab.com"` | Overrides the Docker registry globally for all images |
+| global.image.registry | string | `"registry.gitlab.com"` | Overrides the Docker registry globally for all images. SmartFace platform images pin `registry.platform-staging.innovatrics.com` per component instead, because this global default has to stay on the legacy registry for Station, Access Controller, Relay Controller and tenant management images |
 | graphqlApi.annotations | object | `{}` | Annotations for graphqlApi deployment |
 | graphqlApi.containerPort | int | `80` |  |
 | graphqlApi.dnsHost | string | `""` |  |
@@ -489,8 +489,8 @@ metadata:
 | graphqlApi.enabled | bool | `true` |  |
 | graphqlApi.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | graphqlApi.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| graphqlApi.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| graphqlApi.image.repository | string | `"innovatrics/smartface/sf-graphql-api"` | Docker image repository |
+| graphqlApi.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| graphqlApi.image.repository | string | `"vpp/docker/graphql-api"` | Docker image repository |
 | graphqlApi.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | graphqlApi.initMigration | bool | `false` |  |
 | graphqlApi.name | string | `"graphql-api"` |  |
@@ -510,7 +510,7 @@ metadata:
 | graphqlApi.servicePort | int | `8097` |  |
 | graphqlApi.serviceType | string | `"ClusterIP"` |  |
 | graphqlApi.tolerations | list | `[]` |  |
-| imagePullSecrets | list | `[{"name":"sf-gitlab-registry-creds"}]` | docker secrets used to pull images with |
+| imagePullSecrets | list | `[{"name":"sf-harbor-registry-creds"},{"name":"sf-gitlab-registry-creds"}]` | docker secrets used to pull images with |
 | ingress.albScheme | string | `"internet-facing"` |  |
 | ingress.albTargetType | string | `"ip"` |  |
 | ingress.annotations | string | `nil` | supply custom ingress annotation |
@@ -521,8 +521,8 @@ metadata:
 | liveness.annotations | object | `{}` | Annotations for liveness deployment |
 | liveness.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | liveness.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| liveness.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| liveness.image.repository | string | `"innovatrics/smartface/sf-liveness"` | Docker image repository |
+| liveness.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| liveness.image.repository | string | `"vpp/docker/liveness"` | Docker image repository |
 | liveness.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | liveness.name | string | `"liveness"` |  |
 | liveness.nodeSelector | object | `{}` |  |
@@ -538,8 +538,8 @@ metadata:
 | matcher.annotations | object | `{}` | Annotations for matcher deployment |
 | matcher.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | matcher.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| matcher.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| matcher.image.repository | string | `"innovatrics/smartface/sf-matcher"` | Docker image repository |
+| matcher.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| matcher.image.repository | string | `"vpp/docker/matcher"` | Docker image repository |
 | matcher.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | matcher.name | string | `"matcher"` |  |
 | matcher.nodeSelector | object | `{}` |  |
@@ -565,8 +565,8 @@ metadata:
 | migration.enabled | bool | `true` |  |
 | migration.initContainer.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | migration.initContainer.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| migration.initContainer.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| migration.initContainer.image.repository | string | `"innovatrics/smartface/sf-admin"` | Docker image repository |
+| migration.initContainer.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| migration.initContainer.image.repository | string | `"vpp/docker/admin"` | Docker image repository |
 | migration.initContainer.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | migration.initContainer.resources | object | `{}` |  |
 | migration.skipWlStreamMigration | bool | `false` |  |
@@ -576,8 +576,8 @@ metadata:
 | objectDetector.enabled | bool | `false` |  |
 | objectDetector.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | objectDetector.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| objectDetector.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| objectDetector.image.repository | string | `"innovatrics/smartface/sf-object-detector"` | Docker image repository |
+| objectDetector.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| objectDetector.image.repository | string | `"vpp/docker/object-detector"` | Docker image repository |
 | objectDetector.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | objectDetector.name | string | `"object-detector"` |  |
 | objectDetector.nodeSelector | object | `{}` |  |
@@ -599,8 +599,8 @@ metadata:
 | palmDetector.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | palmDetector.image.livenessWarmup.enabled | bool | `true` |  |
 | palmDetector.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| palmDetector.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| palmDetector.image.repository | string | `"innovatrics/smartface/sf-palm-detector"` | Docker image repository |
+| palmDetector.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| palmDetector.image.repository | string | `"vpp/docker/palm-detector"` | Docker image repository |
 | palmDetector.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | palmDetector.name | string | `"palm-detector"` |  |
 | palmDetector.nodeSelector | object | `{}` |  |
@@ -617,8 +617,8 @@ metadata:
 | palmExtractor.annotations | object | `{}` | Annotations for palm-extractor deployment |
 | palmExtractor.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | palmExtractor.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| palmExtractor.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| palmExtractor.image.repository | string | `"innovatrics/smartface/sf-palm-extractor"` | Docker image repository |
+| palmExtractor.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| palmExtractor.image.repository | string | `"vpp/docker/palm-extractor"` | Docker image repository |
 | palmExtractor.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | palmExtractor.name | string | `"palm-extractor"` |  |
 | palmExtractor.nodeSelector | object | `{}` |  |
@@ -721,8 +721,8 @@ metadata:
 | streamDataDbWorker.annotations | object | `{}` | Annotations for streamDataDbWorker deployment |
 | streamDataDbWorker.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | streamDataDbWorker.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| streamDataDbWorker.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| streamDataDbWorker.image.repository | string | `"innovatrics/smartface/sf-streamdatadbworker"` | Docker image repository |
+| streamDataDbWorker.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| streamDataDbWorker.image.repository | string | `"vpp/docker/streamdatadbworker"` | Docker image repository |
 | streamDataDbWorker.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | streamDataDbWorker.name | string | `"stream-data-db-worker"` |  |
 | streamDataDbWorker.nodeSelector | object | `{}` |  |
@@ -743,8 +743,8 @@ metadata:
 | tests.authentication.tenant2.name | string | `""` |  |
 | tests.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | tests.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| tests.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| tests.image.repository | string | `"innovatrics/smartface/sf-cloud-func-tests"` | Docker image repository |
+| tests.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| tests.image.repository | string | `"vpp/docker/cloud-func-tests"` | Docker image repository |
 | tests.image.tag | string | `nil` | Countly publisher follows different versioning, so the chart app needs to be overridden |
 | tests.nodeSelector | object | `{}` |  |
 | tests.podAnnotations | object | `{}` | Annotations for test pods |
@@ -769,8 +769,8 @@ metadata:
 | wlStreamPopulationJob.enabled | bool | `false` |  |
 | wlStreamPopulationJob.image.digest | string | `nil` | Overrides the image tag with an image digest |
 | wlStreamPopulationJob.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| wlStreamPopulationJob.image.registry | string | `nil` | The Docker registry, overrides `global.image.registry` |
-| wlStreamPopulationJob.image.repository | string | `"innovatrics/smartface/sf-admin"` | Docker image repository |
+| wlStreamPopulationJob.image.registry | string | `"registry.platform-staging.innovatrics.com"` | The Docker registry, overrides `global.image.registry` |
+| wlStreamPopulationJob.image.repository | string | `"vpp/docker/admin"` | Docker image repository |
 | wlStreamPopulationJob.image.tag | string | `nil` | Overrides the image tag whose default is the chart's appVersion |
 | wlStreamPopulationJob.nodeSelector | object | `{}` |  |
 | wlStreamPopulationJob.resources | object | `{}` |  |
@@ -790,6 +790,9 @@ metadata:
 ## Breaking changes
 
 ### [v0.9.0]
+- SmartFace images moved from `registry.gitlab.com/innovatrics/smartface/sf-*` to the platform registry `registry.platform-staging.innovatrics.com/vpp/docker/*` (without the `sf-` prefix)
+  - an additional image pull secret for the platform registry is required, `sf-harbor-registry-creds` by default - see `external-config.yaml` for an example
+  - Station, Access Controller, Relay Controller and tenant management images are still distributed via the legacy registry, so the legacy pull secret remains required
 - The MinIO subchart was replaced by [SeaweedFS](https://github.com/seaweedfs/seaweedfs) as the chart-managed S3 storage
   - `minio.*` values are no longer honored, configure the storage via the `seaweedfs.*` values instead
   - blob data stored in MinIO is not migrated by the upgrade. To keep existing data either copy the bucket contents to seaweedfs with an S3 sync tool (e.g. `mc mirror` or `rclone`), or keep the data in storage managed outside of this helm chart (`seaweedfs.enabled=false` plus `configurations.s3`)
