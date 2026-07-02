@@ -6,9 +6,18 @@ postgresql:
   primary:
     persistence:
       enabled: false
-minio:
-  persistence:
-    enabled: false
+seaweedfs:
+  master:
+    data:
+      type: "emptyDir"
+  volume:
+    dataDirs:
+      - name: data
+        type: "emptyDir"
+        maxVolumes: 8
+  filer:
+    data:
+      type: "emptyDir"
 
 configurations:
   apiAuth:
