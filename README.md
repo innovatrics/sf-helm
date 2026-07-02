@@ -1,6 +1,8 @@
 # smartface
 
-![Version: 0.9.0](https://img.shields.io/badge/Version-0.9.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.41.0](https://img.shields.io/badge/AppVersion-v5_4.41.0-informational?style=flat-square)
+
+
+![Version: 0.9.0](https://img.shields.io/badge/Version-0.9.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5_4.41.0](https://img.shields.io/badge/AppVersion-v5_4.41.0-informational?style=flat-square) 
 
 SmartFace is a Scalable Facial Recognition Server Platform Able to Process Multiple Real-Time Video Streams. Currently the helm chart supports edge stream and Lightweight Face Identification System (LFIS) deployments
 
@@ -49,7 +51,7 @@ During the tests some data (Watchlists / EdgeStreams) will be created in the dep
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://seaweedfs.github.io/seaweedfs/helm | seaweedfs | 4.16 |
+| https://seaweedfs.github.io/seaweedfs/helm | seaweedfs | 4.16.0 |
 | oci://ghcr.io/innovatrics/sf-helm | sf-tenant-management | 0.4.4 |
 | oci://registry-1.docker.io/bitnamicharts | postgresql | 13.2.1 |
 | oci://registry-1.docker.io/bitnamicharts | rabbitmq | 12.0.4 |
@@ -91,8 +93,12 @@ stringData:
 ```
 
 ### S3
+By default the chart deploys [SeaweedFS](https://github.com/seaweedfs/seaweedfs) as the S3 compatible blob storage. Credentials are read from a Secret:
+- create a Secret with the name configured in `seaweedfs.filer.s3.existingConfigSecret` before installing the chart - see Sample objects for the expected keys
+- or unset `seaweedfs.filer.s3.existingConfigSecret` to let the seaweedfs subchart generate a Secret with random credentials
+
 To use S3 bucket managed by AWS:
-- set `minio.enabled=false`
+- set `seaweedfs.enabled=false`
 - provide s3 configuration via:
   - supplying values to `configurations.s3` object
   - or creating ConfigMap and setting `configurations.s3.existingConfigMapName`
@@ -102,6 +108,19 @@ To use S3 bucket managed by AWS:
   - to authenticate using AssumedRole set `configurations.s3.authType` to `AssumedRole` (useful for example when using [EKS IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html))
 
 #### Sample objects
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: "smartface-seaweedfs-s3-secret"
+stringData:
+  # identities config consumed by the seaweedfs S3 gateway
+  seaweedfs_s3_config: '{"identities": [{"name": "admin", "credentials": [{"accessKey": "<access-key>", "secretKey": "<secret-key>"}], "actions": ["Admin", "Read", "Write"]}]}'
+  # the same credentials in flat form consumed by the SmartFace services
+  root-user: "<access-key>"
+  root-password: "<secret-key>"
+```
+
 ```
 apiVersion: v1
 kind: ConfigMap
@@ -668,23 +687,7 @@ metadata:
 | relayController.servicePort | int | `8080` |  |
 | relayController.tolerations | list | `[]` |  |
 | revisionHistoryLimit | string | `nil` | Common revisionHistoryLimit for all deployments |
-| seaweedfs.admin.enabled | bool | `true` |  |
-| seaweedfs.enabled | bool | `true` |  |
-| seaweedfs.filer.s3.createBuckets[0].name | string | `"smartface"` |  |
-| seaweedfs.filer.s3.defaultReplication | string | `"000"` |  |
-| seaweedfs.filer.s3.enableAuth | bool | `true` |  |
-| seaweedfs.filer.s3.enabled | bool | `true` |  |
-| seaweedfs.filer.s3.existingConfigSecret | string | `"smartface-seaweedfs-s3-secret"` |  |
-| seaweedfs.master.data.size | string | `"1Gi"` |  |
-| seaweedfs.master.data.type | string | `"persistentVolumeClaim"` |  |
-| seaweedfs.master.defaultReplication | string | `"000"` |  |
-| seaweedfs.master.extraEnvironmentVars.WEED_MASTER_VOLUME_GROWTH_COPY_1 | string | `"1"` |  |
-| seaweedfs.master.volumeSizeLimitMB | int | `1000` |  |
-| seaweedfs.volume.dataDirs[0].maxVolumes | int | `8` |  |
-| seaweedfs.volume.dataDirs[0].name | string | `"data"` |  |
-| seaweedfs.volume.dataDirs[0].size | string | `"8Gi"` |  |
-| seaweedfs.volume.dataDirs[0].type | string | `"persistentVolumeClaim"` |  |
-| seaweedfs.worker.enabled | bool | `true` |  |
+| seaweedfs | object | `{"admin":{"enabled":true},"enabled":true,"filer":{"data":{"size":"1Gi","type":"persistentVolumeClaim"},"s3":{"createBuckets":[{"name":"smartface"}],"defaultReplication":"000","enableAuth":true,"enabled":true,"existingConfigSecret":"smartface-seaweedfs-s3-secret"}},"master":{"data":{"size":"1Gi","type":"persistentVolumeClaim"},"defaultReplication":"000","extraEnvironmentVars":{"WEED_MASTER_VOLUME_GROWTH_COPY_1":"1"},"volumeSizeLimitMB":1000},"volume":{"dataDirs":[{"maxVolumes":8,"name":"data","size":"8Gi","type":"persistentVolumeClaim"}]},"worker":{"enabled":true}}` | config for seaweedfs subchart, see https://github.com/seaweedfs/seaweedfs/tree/master/k8s/charts/seaweedfs |
 | serviceAccount.annotations | object | `{}` | Annotations for the service account |
 | serviceAccount.automountServiceAccountToken | bool | `true` | Set this toggle to false to opt out of automounting API credentials for the service account |
 | serviceAccount.create | bool | `true` | Specifies whether a ServiceAccount should be created |
@@ -787,6 +790,12 @@ metadata:
 * <https://github.com/innovatrics/smartface>
 
 ## Breaking changes
+
+### [v0.9.0]
+- The MinIO subchart was replaced by [SeaweedFS](https://github.com/seaweedfs/seaweedfs) as the chart-managed S3 storage
+  - `minio.*` values are no longer honored, configure the storage via the `seaweedfs.*` values instead
+  - blob data stored in MinIO is not migrated by the upgrade. To keep existing data either copy the bucket contents to seaweedfs with an S3 sync tool (e.g. `mc mirror` or `rclone`), or keep the data in storage managed outside of this helm chart (`seaweedfs.enabled=false` plus `configurations.s3`)
+  - the SmartFace services no longer read S3 credentials from the minio-generated Secret. Create the Secret referenced by `seaweedfs.filer.s3.existingConfigSecret` before upgrading - see the S3 section
 
 ### [v0.8.10]
 - tracing configuration changed to OpenTelemetry standard, see `openTelemetryTracing` in `values.yaml`

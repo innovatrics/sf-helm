@@ -194,6 +194,7 @@ rabbitmq:
         port: 5552
         targetPort: 5552
 
+# -- config for seaweedfs subchart, see https://github.com/seaweedfs/seaweedfs/tree/master/k8s/charts/seaweedfs
 seaweedfs:
   enabled: true
   master:
@@ -220,17 +221,10 @@ seaweedfs:
       enabled: true
       defaultReplication: "000"
       enableAuth: true
-      # create existing secret with following structure:
-      # YAML
-      # apiVersion: v1
-      # kind: Secret
-      # metadata:
-      #   name: smartface-seaweedfs-s3-secret
-      #   namespace: smartface
-      # stringData:
-      #   seaweedfs_s3_config: {"identities": [{"name": "admin", "credentials": [{"accessKey": "admin", "secretKey": "admin123"}], "actions": ["Admin", "Read", "Write"]}]}
-      #   root-user: admin
-      #   root-password: admin123
+      # secret holding the S3 credentials for both seaweedfs and the SmartFace
+      # services, create it before installing the chart - see the S3 section in
+      # README for the expected keys; when unset the seaweedfs subchart
+      # generates one with random credentials
       existingConfigSecret: smartface-seaweedfs-s3-secret
       createBuckets:
         - name: smartface

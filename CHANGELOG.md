@@ -4,6 +4,10 @@
 
 ### Changed
 - Version of SmartFace Platform bumped to 4.41.0
+- **Breaking**: MinIO subchart was replaced by [SeaweedFS](https://github.com/seaweedfs/seaweedfs) as the chart-managed S3 storage
+  - `minio.*` values are no longer honored, configure the storage via the `seaweedfs.*` values instead
+  - blob data stored in MinIO is not migrated by the upgrade, see the Breaking changes section in README for options
+  - S3 credentials are read from the Secret referenced by `seaweedfs.filer.s3.existingConfigSecret`, which must be created before installing the chart - see the S3 section in README
 
 ## [v0.8.24]
 
