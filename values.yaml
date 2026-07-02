@@ -211,6 +211,11 @@ seaweedfs:
         size: 8Gi
         maxVolumes: 8 # per volume node (max cap. per node = maxVolumes * volumeSizeLimitMB)
   filer:
+    # the filer keeps the S3 object metadata in leveldb, with the subchart's
+    # default hostPath storage that metadata would be lost on pod rescheduling
+    data:
+      type: "persistentVolumeClaim"
+      size: 1Gi
     s3:
       enabled: true
       defaultReplication: "000"
