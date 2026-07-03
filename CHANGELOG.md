@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.8.25]
+
+### Changed
+- Version of SmartFace Platform bumped to 4.41.0
+- **Breaking**: SmartFace platform images moved from `registry.gitlab.com/innovatrics/smartface/sf-*` to the platform registry `registry.platform-staging.innovatrics.com/vpp/docker/*` (without the `sf-` prefix)
+  - an additional image pull secret for the platform registry is required, `sf-harbor-registry-creds` by default - see `external-config.yaml` for an example
+  - Station, Access Controller, Relay Controller and tenant management images are still distributed via the legacy registry, so the legacy pull secret remains required
+
 ## [v0.8.24]
 
 ### Changed

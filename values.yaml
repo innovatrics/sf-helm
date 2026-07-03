@@ -4,7 +4,7 @@
 
 global:
   image:
-    # -- Overrides the Docker registry globally for all images
+    # -- Overrides the Docker registry globally for all images. SmartFace platform images pin `registry.platform-staging.innovatrics.com` per component instead, because this global default has to stay on the legacy registry for Station, Access Controller, Relay Controller and tenant management images
     registry: "registry.gitlab.com"
 
 # -- Overrides the chart's name
@@ -26,6 +26,7 @@ updateStrategy: {}
 
 # -- docker secrets used to pull images with
 imagePullSecrets:
+  - name: "sf-harbor-registry-creds"
   - name: "sf-gitlab-registry-creds"
 
 configurations:
@@ -260,9 +261,9 @@ api:
   replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-api
+    repository: vpp/docker/api
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -314,9 +315,9 @@ authApi:
   replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-api
+    repository: vpp/docker/api
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -365,9 +366,9 @@ dbSynchronizationLeader:
   replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-db-synchronization-leader
+    repository: vpp/docker/db-synchronization-leader
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -419,9 +420,9 @@ graphqlApi:
   replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-graphql-api
+    repository: vpp/docker/graphql-api
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -474,9 +475,9 @@ detector:
   replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-detector
+    repository: vpp/docker/detector
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -523,9 +524,9 @@ objectDetector:
   replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-object-detector
+    repository: vpp/docker/object-detector
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -564,9 +565,9 @@ palmDetector:
   replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-palm-detector
+    repository: vpp/docker/palm-detector
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -607,9 +608,9 @@ extractor:
   replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-extractor
+    repository: vpp/docker/extractor
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -648,9 +649,9 @@ palmExtractor:
   replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-palm-extractor
+    repository: vpp/docker/palm-extractor
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -686,9 +687,9 @@ matcher:
   replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-matcher
+    repository: vpp/docker/matcher
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -724,9 +725,9 @@ liveness:
   replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-liveness
+    repository: vpp/docker/liveness
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -808,9 +809,9 @@ edgeStreamProcessor:
   replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-edge-stream-processor
+    repository: vpp/docker/edge-stream-processor
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -840,9 +841,9 @@ edgeStreamsStateSync:
   tolerations: []
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-edge-streams-state-synchronizer
+    repository: vpp/docker/edge-streams-state-synchronizer
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -863,9 +864,9 @@ wlStreamPopulationJob:
   tolerations: []
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-admin
+    repository: vpp/docker/admin
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -896,9 +897,9 @@ base:
   tolerations: []
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-base
+    repository: vpp/docker/base
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -934,9 +935,9 @@ faceMatcher:
   replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-face-matcher
+    repository: vpp/docker/face-matcher
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -1073,9 +1074,9 @@ streamDataDbWorker:
   replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-streamdatadbworker
+    repository: vpp/docker/streamdatadbworker
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -1114,9 +1115,9 @@ VideoAggregator:
   replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-video-aggregator
+    repository: vpp/docker/video-aggregator
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -1155,9 +1156,9 @@ VideoCollector:
   replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-video-collector
+    repository: vpp/docker/video-collector
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -1196,9 +1197,9 @@ VideoReader:
   replicas: 1
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-video-reader
+    repository: vpp/docker/video-reader
     # -- Overrides the image tag whose default is the chart's appVersion
     tag: null
     # -- Overrides the image tag with an image digest
@@ -1226,9 +1227,9 @@ migration:
     resources: {}
     image:
       # -- The Docker registry, overrides `global.image.registry`
-      registry: null
+      registry: "registry.platform-staging.innovatrics.com"
       # -- Docker image repository
-      repository: innovatrics/smartface/sf-admin
+      repository: vpp/docker/admin
       # -- Overrides the image tag whose default is the chart's appVersion
       tag: null
       # -- Overrides the image tag with an image digest
@@ -1342,9 +1343,9 @@ tests:
   tolerations: []
   image:
     # -- The Docker registry, overrides `global.image.registry`
-    registry: null
+    registry: "registry.platform-staging.innovatrics.com"
     # -- Docker image repository
-    repository: innovatrics/smartface/sf-cloud-func-tests
+    repository: vpp/docker/cloud-func-tests
     # -- Countly publisher follows different versioning, so the chart app needs to be overridden
     tag: null
     # -- Overrides the image tag with an image digest
