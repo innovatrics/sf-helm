@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: smartface-seaweedfs-s3-secret
+stringData:
+  seaweedfs_s3_config: '{"identities": [{"name": "admin", "credentials": [{"accessKey": "admin", "secretKey": "admin123"}], "actions": ["Admin", "Read", "Write"]}]}'
+  root-password: admin123
+  root-user: admin

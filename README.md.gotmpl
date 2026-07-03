@@ -85,8 +85,12 @@ stringData:
 ```
 
 ### S3
+By default the chart deploys [SeaweedFS](https://github.com/seaweedfs/seaweedfs) as the S3 compatible blob storage. Credentials are read from a Secret:
+- create a Secret with the name configured in `seaweedfs.filer.s3.existingConfigSecret` before installing the chart - see Sample objects for the expected keys
+- or unset `seaweedfs.filer.s3.existingConfigSecret` to let the seaweedfs subchart generate a Secret with random credentials
+
 To use S3 bucket managed by AWS:
-- set `minio.enabled=false`
+- set `seaweedfs.enabled=false`
 - provide s3 configuration via:
   - supplying values to `configurations.s3` object
   - or creating ConfigMap and setting `configurations.s3.existingConfigMapName`
@@ -96,6 +100,19 @@ To use S3 bucket managed by AWS:
   - to authenticate using AssumedRole set `configurations.s3.authType` to `AssumedRole` (useful for example when using [EKS IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html))
 
 #### Sample objects
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: "smartface-seaweedfs-s3-secret"
+stringData:
+  # identities config consumed by the seaweedfs S3 gateway
+  seaweedfs_s3_config: '{"identities": [{"name": "admin", "credentials": [{"accessKey": "<access-key>", "secretKey": "<secret-key>"}], "actions": ["Admin", "Read", "Write"]}]}'
+  # the same credentials in flat form consumed by the SmartFace services
+  root-user: "<access-key>"
+  root-password: "<secret-key>"
+```
+
 ```
 apiVersion: v1
 kind: ConfigMap
@@ -136,6 +153,15 @@ metadata:
 {{ template "chart.sourcesSection" . }}
 
 ## Breaking changes
+
+### [v0.9.0]
+- SmartFace images moved from `registry.gitlab.com/innovatrics/smartface/sf-*` to the platform registry `registry.platform-staging.innovatrics.com/vpp/docker/*` (without the `sf-` prefix)
+  - an additional image pull secret for the platform registry is required, `sf-harbor-registry-creds` by default - see `external-config.yaml` for an example
+  - Station, Access Controller, Relay Controller and tenant management images are still distributed via the legacy registry, so the legacy pull secret remains required
+- The MinIO subchart was replaced by [SeaweedFS](https://github.com/seaweedfs/seaweedfs) as the chart-managed S3 storage
+  - `minio.*` values are no longer honored, configure the storage via the `seaweedfs.*` values instead
+  - blob data stored in MinIO is not migrated by the upgrade. To keep existing data either copy the bucket contents to seaweedfs with an S3 sync tool (e.g. `mc mirror` or `rclone`), or keep the data in storage managed outside of this helm chart (`seaweedfs.enabled=false` plus `configurations.s3`)
+  - the SmartFace services no longer read S3 credentials from the minio-generated Secret. Create the Secret referenced by `seaweedfs.filer.s3.existingConfigSecret` before upgrading - see the S3 section
 
 ### [v0.8.10]
 - tracing configuration changed to OpenTelemetry standard, see `openTelemetryTracing` in `values.yaml`

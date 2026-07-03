@@ -73,9 +73,14 @@ Validate that the S3 config map exists with correct keys
 */}}
 {{- define "smartface.validate.s3Config" -}}
 {{- $existingConfigMap := .Values.configurations.s3.existingConfigMapName -}}
-{{- if .Values.minio.enabled -}}
+{{- if .Values.seaweedfs.enabled -}}
 {{- if $existingConfigMap }}
-Cannot deploy minio and use existing ConfigMap. Either disable minio deployment by setting `minio.enabled` to `false` or don't provide value for `configurations.s3.existingConfigMapName`
+Cannot deploy seaweedfs and use existing ConfigMap. Either disable seaweedfs deployment by setting `seaweedfs.enabled` to `false` or don't provide value for `configurations.s3.existingConfigMapName`
+{{- end }}
+{{- with .Values.seaweedfs.filer.s3.existingConfigSecret }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" $.Release.Namespace "Name" . "Key" "seaweedfs_s3_config") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" $.Release.Namespace "Name" . "Key" "root-user") }}
+{{ include "smartface.validate.genericResourceWithKey" (dict "Version" "v1" "Type" "Secret" "Namespace" $.Release.Namespace "Name" . "Key" "root-password") }}
 {{- end }}
 {{- else}}
 {{- if $existingConfigMap -}}

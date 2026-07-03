@@ -6,9 +6,18 @@ postgresql:
   primary:
     persistence:
       enabled: false
-minio:
-  persistence:
-    enabled: false
+seaweedfs:
+  master:
+    data:
+      type: "emptyDir"
+  volume:
+    dataDirs:
+      - name: data
+        type: "emptyDir"
+        maxVolumes: 8
+  filer:
+    data:
+      type: "emptyDir"
 
 configurations:
   apiAuth:
@@ -16,6 +25,10 @@ configurations:
     audience: "https://api.ghaction.smartfacecloud.com"
     oauthTokenUrl: "https://smartface-test.eu.auth0.com/oauth/token"
 tests:
+  image:
+    # the v5_4.41.0 cloud-func-tests image crashes on a null RabbitMqLogReceiver;
+    # drop this override once the fixed build is re-aliased to v5_4.41.0
+    tag: "v5_4.41.0.10018-dev"
   authentication:
     tenant1:
       name: "tenant-1"

@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.9.0]
+
+### Changed
+- Version of SmartFace Platform bumped to 4.41.0
+- **Breaking**: SmartFace images moved from `registry.gitlab.com/innovatrics/smartface/sf-*` to the platform registry `registry.platform-staging.innovatrics.com/vpp/docker/*` (without the `sf-` prefix)
+  - an additional image pull secret for the platform registry is required, `sf-harbor-registry-creds` by default - see `external-config.yaml` for an example
+  - Station, Access Controller, Relay Controller and tenant management images are still distributed via the legacy registry, so the legacy pull secret remains required
+- **Breaking**: MinIO subchart was replaced by [SeaweedFS](https://github.com/seaweedfs/seaweedfs) as the chart-managed S3 storage
+  - `minio.*` values are no longer honored, configure the storage via the `seaweedfs.*` values instead
+  - blob data stored in MinIO is not migrated by the upgrade, see the Breaking changes section in README for options
+  - S3 credentials are read from the Secret referenced by `seaweedfs.filer.s3.existingConfigSecret`, which must be created before installing the chart - see the S3 section in README
+
 ## [v0.8.24]
 
 ### Changed

@@ -59,7 +59,16 @@ Template used for adding S3 configuration to containers
     configMapKeyRef:
       name: {{ $configName | quote }}
       key: "useBucketRegion"
-{{- if .Values.minio.enabled }}
+{{- if .Values.seaweedfs.enabled }}
+{{/* Without an explicit secret the seaweedfs subchart generates one with its own key names */}}
+{{- $secretName := printf "%s-seaweedfs-s3-secret" .Release.Name }}
+{{- $accessKeyKey := "admin_access_key_id" }}
+{{- $secretKeyKey := "admin_secret_access_key" }}
+{{- with .Values.seaweedfs.filer.s3.existingConfigSecret }}
+{{- $secretName = . }}
+{{- $accessKeyKey = "root-user" }}
+{{- $secretKeyKey = "root-password" }}
+{{- end }}
 - name: "S3Bucket__Endpoint"
   valueFrom:
     configMapKeyRef:
@@ -68,13 +77,13 @@ Template used for adding S3 configuration to containers
 - name: "S3Bucket__AccessKey"
   valueFrom:
     secretKeyRef:
-      name: "{{ .Release.Name }}-minio"
-      key: "root-user"
+      name: {{ $secretName | quote }}
+      key: {{ $accessKeyKey | quote }}
 - name: "S3Bucket__SecretKey"
   valueFrom:
     secretKeyRef:
-      name: "{{ .Release.Name }}-minio"
-      key: "root-password"
+      name: {{ $secretName | quote }}
+      key: {{ $secretKeyKey | quote }}
 {{- end }}
 {{- end }}
 

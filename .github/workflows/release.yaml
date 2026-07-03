@@ -36,6 +36,7 @@ jobs:
           echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ghcr.io --username ${{ github.repository_owner }} --password-stdin
       - name: Build helm dependencies
         run: |
+          helm repo add seaweedfs https://seaweedfs.github.io/seaweedfs/helm
           helm dependency build .
       - name: Lint helm
         run: |
