@@ -95,7 +95,7 @@ jobs:
           TENANT_1_SECRET: ${{ secrets.TENANT_1_SECRET }}
           TENANT_2_SECRET: ${{ secrets.TENANT_2_SECRET }}
         run: |
-          helm install smartface . -f ci/test-values.yaml --set tests.authentication.tenant1.clientSecret="$TENANT_1_SECRET" --set tests.authentication.tenant2.clientSecret="$TENANT_2_SECRET" -f ci/${{ matrix.variant }}-values.yaml -f ci/values-4.41-config-only.yaml
+          helm install smartface . -f ci/test-values.yaml --set tests.authentication.tenant1.clientSecret="$TENANT_1_SECRET" --set tests.authentication.tenant2.clientSecret="$TENANT_2_SECRET" -f ci/${{ matrix.variant }}-values.yaml
           kubectl rollout status deployment sf-auth-api --timeout=300s
 
       - name: Apply tenant manifests
